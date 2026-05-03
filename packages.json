@@ -1,0 +1,18 @@
+[
+  {
+    "id": "module_redis",
+    "name": "Redis Cache Manager",
+    "description": "Visual dashboard to view keys, monitor memory, and restart local Redis instance.",
+    "version": "1.0.0",
+    "icon": "Database",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_redis.zip"
+  },
+  {
+    "id": "module_cron",
+    "name": "Cloud Backup Extension",
+    "description": "Premium scheduled cron backup and cloud uploader.",
+    "version": "1.0.1",
+    "icon": "Cloud",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_cron.zip"
+  }
+]
