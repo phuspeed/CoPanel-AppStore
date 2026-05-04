@@ -111,4 +111,8 @@
     "version": "1.0.4",
     "icon": "ShoppingBag",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.4.zip",
-    "is_core": tru
+    "is_core": true,
+    "changelog_en": "Added Community catalogs support, uncached fetching, explicit version tracking, and version title badges.",
+    "changelog_vi": "Hỗ trợ AppStore cộng đồng, tải danh mục tránh cache, quản lý phiên bản tin cậy và thẻ phiên bản ở tiêu đề."
+  }
+]
