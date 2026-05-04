@@ -14,5 +14,13 @@
     "version": "1.0.1",
     "icon": "Cloud",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_cron.zip"
+  },
+  {
+    "id": "module_ping_pro",
+    "name": "Ping Pro Diagnostic Tool",
+    "description": "Advanced network diagnostics and connection testing.",
+    "version": "1.0.0",
+    "icon": "Zap",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_ping_pro.zip"
   }
 ]
