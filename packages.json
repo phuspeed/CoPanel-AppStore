@@ -98,10 +98,10 @@
   {
     "id": "package_manager",
     "name": "Package Manager",
-    "description": "Check and resolve system health and package installations.",
-    "version": "1.0.0",
+    "description": "Comprehensive Software Center for installing Runtimes, Utilities, and System Packages.",
+    "version": "1.0.1",
     "icon": "Package",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/package_manager.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/package_manager.v1.0.1.zip",
     "is_core": true
   },
   {
