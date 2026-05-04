@@ -15,7 +15,8 @@
     "version": "1.0.0",
     "icon": "Globe",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.zip",
-    "is_core": true
+    "is_core": true,
+    "system_packages": ["nginx"]
   },
   {
     "id": "database_manager",
@@ -24,7 +25,8 @@
     "version": "1.0.0",
     "icon": "Database",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.zip",
-    "is_core": true
+    "is_core": true,
+    "system_packages": ["mariadb"]
   },
   {
     "id": "docker_manager",
