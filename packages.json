@@ -104,9 +104,9 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.3.zip",
     "is_core": true
   },
   {
