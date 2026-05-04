@@ -4,8 +4,10 @@ import zipfile
 from pathlib import Path
 
 def create_versioned_zip(mod_name, version):
-    base_dir = Path(r"e:\16. PHUTV\Code Python\CoPanel")
-    appstore_packages_dir = Path(r"e:\16. PHUTV\Code Python\CoPanel-Appstore-New\packages")
+    # Dynamically derive sibling directory CoPanel and the current packages folder
+    script_dir = Path(__file__).resolve().parent
+    base_dir = script_dir.parent.parent / "CoPanel"
+    appstore_packages_dir = script_dir.parent / "packages"
     appstore_packages_dir.mkdir(parents=True, exist_ok=True)
     
     backend_src = base_dir / "backend" / "modules" / mod_name
