@@ -11,10 +11,10 @@
   {
     "id": "web_manager",
     "name": "Web Manager",
-    "description": "Premium domain mapping and web services management.",
-    "version": "1.0.0",
+    "description": "Premium Web Stack Wizard and Smart DB Admin Panel.",
+    "version": "1.0.1",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.0.1.zip",
     "is_core": true,
     "system_packages": ["nginx"]
   },
@@ -67,10 +67,10 @@
   {
     "id": "backup_manager",
     "name": "Backup Manager",
-    "description": "Schedule backups and restore system snapshots.",
-    "version": "1.0.2",
+    "description": "Zero-CLI Backup Manager with Cloud Sync & Native Profiles.",
+    "version": "1.0.3",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.0.3.zip",
     "is_core": true
   },
   {
@@ -108,31 +108,4 @@
     "icon": "ShoppingBag",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "Added Community catalogs support, uncached fetching, explicit version tracking, and version title badges.",
-    "changelog_vi": "Hỗ trợ AppStore cộng đồng, tải danh mục tránh cache, quản lý phiên bản tin cậy và thẻ phiên bản ở tiêu đề."
-  },
-  {
-    "id": "module_redis",
-    "name": "Redis Cache Manager",
-    "description": "Visual dashboard to view keys, monitor memory, and restart local Redis instance.",
-    "version": "1.0.0",
-    "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_redis.zip"
-  },
-  {
-    "id": "module_cron",
-    "name": "Cloud Backup Extension",
-    "description": "Premium scheduled cron backup and cloud uploader.",
-    "version": "1.0.1",
-    "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_cron.zip"
-  },
-  {
-    "id": "module_ping_pro",
-    "name": "Ping Pro Diagnostic Tool",
-    "description": "Advanced network diagnostics and connection testing.",
-    "version": "1.0.0",
-    "icon": "Zap",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_ping_pro.zip"
-  }
-]
+    "changelog_en": "Added Commun
