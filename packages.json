@@ -120,6 +120,17 @@
     "changelog_vi": "v1.0.1: Tang do on dinh bang ID zone/record chong trung va bo sung xu ly loi tren frontend khi xoa zone/record."
   },
   {
+    "id": "cron_manager",
+    "name": "Cron Manager",
+    "description": "Manage recurring task schedules with visual cron builder and command execution.",
+    "version": "1.0.1",
+    "icon": "Clock",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: Upgrade frontend UX with a visual schedule builder (daily/weekly/monthly presets, time pickers, cron preview) while keeping command input for power users.",
+    "changelog_vi": "v1.0.1: Nang cap UX frontend voi bo tao lich truc quan (preset daily/weekly/monthly, chon gio-phut, preview cron) va van giu o nhap command cho nguoi dung ky thuat."
+  },
+  {
     "id": "package_manager",
     "name": "Package Manager",
     "description": "Comprehensive Software Center for installing Runtimes, Utilities, and System Packages.",
