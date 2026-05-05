@@ -108,11 +108,11 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.6.zip",
     "is_core": true,
-    "changelog_en": "Robust local ZIP validation and extraction.",
-    "changelog_vi": "Giải nén và nhận diện cấu hình ZIP cục bộ tin cậy."
+    "changelog_en": "Semver-aware catalog vs installed version compare (packaging), update_status labels, changelog panel for upgrades (v installed → v catalog), header shows live module version; ZIP install persists version.txt.",
+    "changelog_vi": "So sánh phiên bản catalog và VPS theo semver (packaging), nhãn trạng thái cập nhật, khối changelog khi có bản mới (v đang cài → v trên kho), tiêu đề hiển thị phiên bản module; cài ZIP ghi nhận version.txt."
   }
 ]

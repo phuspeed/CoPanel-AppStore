@@ -4,9 +4,17 @@ import zipfile
 from pathlib import Path
 
 def create_versioned_zip(mod_name, version):
-    # Dynamically derive sibling directory CoPanel and the current packages folder
+    # Sibling CoPanel repo (same parent folder as CoPanel-AppStore); accept common folder names
     script_dir = Path(__file__).resolve().parent
-    base_dir = script_dir.parent.parent / "CoPanel"
+    workspace_parent = script_dir.parent.parent
+    base_dir = None
+    for name in ("CoPanel", "copanel"):
+        cand = workspace_parent / name
+        if cand.is_dir():
+            base_dir = cand
+            break
+    if base_dir is None:
+        base_dir = workspace_parent / "CoPanel"
     appstore_packages_dir = script_dir.parent / "packages"
     appstore_packages_dir.mkdir(parents=True, exist_ok=True)
     
