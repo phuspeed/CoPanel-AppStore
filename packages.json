@@ -12,10 +12,12 @@
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Premium Web Stack Wizard and Smart DB Admin Panel.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.0.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.0.2.zip",
     "is_core": true,
+    "changelog_en": "v1.0.2: Refactor internals by consolidating repeated helper imports and filename sanitization for clearer, lower-maintenance site management routes.",
+    "changelog_vi": "v1.0.2: Refactor noi bo bang cach gom import helper lap lai va thong nhat ham sanitize ten file de route quan ly site ro rang, de bao tri hon.",
     "system_packages": [
       "nginx"
     ]
