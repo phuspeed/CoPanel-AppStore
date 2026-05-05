@@ -123,6 +123,17 @@
     "changelog_vi": "v1.0.1: Toi uu runtime UI platform bang cach bo qua cap nhat store khong doi du lieu va tu dong dong ket noi SSE khi khong con listener."
   },
   {
+    "id": "auth",
+    "name": "Authentication",
+    "description": "JWT authentication and user/permission management APIs for CoPanel.",
+    "version": "1.0.1",
+    "icon": "UserCog",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/auth.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: Refactor auth router internals to reuse a single user serializer and remove repeated inline imports without changing API behavior.",
+    "changelog_vi": "v1.0.1: Refactor noi bo auth router de dung chung ham serialize user va bo import lap lai trong ham, khong thay doi hanh vi API."
+  },
+  {
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
