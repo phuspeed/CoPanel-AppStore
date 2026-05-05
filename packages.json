@@ -101,12 +101,12 @@
     "id": "firewall",
     "name": "Firewall",
     "description": "Visual dashboard for UFW firewall rules and Fail2Ban IDS with correct jail / banned-IP display.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Lock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.3: Fix Fail2Ban tab crash — API returns jails as string[] and banned as {ip,jail}[]; frontend now normalizes to JailItem with banned_ips. Prevents TypeError on banned_ips.length.",
-    "changelog_vi": "v1.0.3: Sửa lỗi tab Fail2Ban — API trả jails dạng chuỗi và banned dạng {ip,jail}; frontend chuẩn hóa thành JailItem có banned_ips. Tránh lỗi TypeError khi đọc .length."
+    "changelog_en": "v1.0.4: Improve firewall/fail2ban command execution by adding non-interactive sudo fallback and clearer permission/error diagnostics, fixing environments where UFW is installed but direct command calls fail.",
+    "changelog_vi": "v1.0.4: Cai thien thuc thi lenh firewall/fail2ban bang fallback sudo non-interactive va thong bao loi/quyen chi tiet hon, khac phuc truong hop UFW da cai nhung goi lenh truc tiep bi that bai."
   },
   {
     "id": "dns_manager",
