@@ -108,11 +108,11 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.8.zip",
     "is_core": true,
-    "changelog_en": "Fix community AppStore URLs: single config path under /opt/copanel/config, merge on save, migrate legacy backend/config file. ZIP upload: async read, correct HTTP errors, /upload_zip alias, safer pkg id from filename. Nginx: proxy_intercept_errors off for /api/.",
-    "changelog_vi": "Sửa lưu URL AppStore cộng đồng: một file config tại config/, merge khi lưu, tự copy từ backend/config cũ. Upload ZIP: đọc async, lỗi HTTP đúng, thêm /upload_zip, tên module an toàn hơn. Nginx: tắt intercept lỗi cho /api/."
+    "changelog_en": "Redesigned storefront UI: colored icon cards (resolves icons from packages.json), Install / Update / Reinstall / Uninstall buttons clearly separated, version pills, collapsible changelog per card, hero header with Refresh & Import ZIP actions.",
+    "changelog_vi": "Thiết kế lại giao diện theo kiểu storefront: thẻ icon màu sắc (hiển thị đúng icon trong packages.json), nút Cài đặt / Cập nhật / Cài lại / Gỡ bỏ rõ ràng, badge phiên bản, changelog thu gọn trên mỗi thẻ, header mới với nút Làm mới & Nhập ZIP."
   }
 ]
