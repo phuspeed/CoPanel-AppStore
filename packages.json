@@ -11,13 +11,13 @@
   {
     "id": "web_manager",
     "name": "Web Manager",
-    "description": "Premium Web Stack Wizard and Smart DB Admin Panel.",
-    "version": "1.0.5",
+    "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP-FPM overview, and smart DB admin tools.",
+    "version": "1.1.0",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.0.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.1.0.zip",
     "is_core": true,
-    "changelog_en": "v1.0.5: Improve DB admin tool reliability by detecting package-manager installs for phpMyAdmin/Adminer, harden MySQL install fallback mappings, and expose Adminer via stable public path handling.",
-    "changelog_vi": "v1.0.5: Tang do on dinh cong cu DB admin voi phat hien cai dat tu package manager cho phpMyAdmin/Adminer, bo sung fallback map cai MySQL ben vung hon, va xuat Adminer qua duong dan public on dinh.",
+    "changelog_en": "v1.1.0: Add Apache vhosts (Debian/RHEL) alongside Nginx; unified site list with engine field; GET /stack and POST /stack/bootstrap (LEMP/LAMP presets); PHP-FPM socket auto-detection; httpd service support; Adminer nginx config uses detected PHP socket; new logic.py helpers.",
+    "changelog_vi": "v1.1.0: Ho tro vhost Apache (Debian/RHEL) song song Nginx; danh sach site thong nhat voi truong engine; GET /stack va POST /stack/bootstrap (preset LEMP/LAMP); tu phat hien socket PHP-FPM; ho tro dich vu httpd; cau hinh Adminer dung socket PHP dong; tach logic.py.",
     "system_packages": [
       "nginx"
     ]
