@@ -123,12 +123,12 @@
     "id": "cron_manager",
     "name": "Cron Manager",
     "description": "Manage recurring task schedules with visual cron builder and command execution.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "Clock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.2.zip",
     "is_core": true,
-    "changelog_en": "v1.0.1: Upgrade frontend UX with a visual schedule builder (daily/weekly/monthly presets, time pickers, cron preview) while keeping command input for power users.",
-    "changelog_vi": "v1.0.1: Nang cap UX frontend voi bo tao lich truc quan (preset daily/weekly/monthly, chon gio-phut, preview cron) va van giu o nhap command cho nguoi dung ky thuat."
+    "changelog_en": "v1.0.2: Add advanced scheduler presets (quick 5/10/15/30-minute buttons, weekdays/weekends modes) and next-run time preview for clearer execution visibility.",
+    "changelog_vi": "v1.0.2: Bo sung preset nang cao (nut nhanh 5/10/15/30 phut, che do ngay trong tuan/cuoi tuan) va preview thoi diem chay tiep theo de de theo doi hon."
   },
   {
     "id": "package_manager",
