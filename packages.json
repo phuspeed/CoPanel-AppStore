@@ -26,10 +26,12 @@
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.1.zip",
     "is_core": true,
+    "changelog_en": "v1.0.1: Refactor router response handling by centralizing error-unwrapping logic across database and user operations to reduce duplicated branch code.",
+    "changelog_vi": "v1.0.1: Refactor xu ly response trong router bang cach gom logic unwrap loi cho cac thao tac database va user, giam code lap dieu kien.",
     "system_packages": [
       "mariadb"
     ]
