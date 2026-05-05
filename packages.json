@@ -71,11 +71,14 @@
   {
     "id": "backup_manager",
     "name": "Backup Manager",
-    "description": "Schedule backups and restore system snapshots.",
-    "version": "1.0.4",
+    "description": "Zero-CLI cloud backup manager powered by rclone. Auto-detect remotes, cron scheduling, real-time sync watchdog, and live progress streaming.",
+    "version": "1.1.0",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.0.4.zip",
-    "is_core": true
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.1.0.zip",
+    "is_core": true,
+    "system_packages": ["rclone"],
+    "changelog_en": "v1.1.0: Fix rclone remote detection — always pass --config to every rclone invocation so configured remotes are recognized. Auto-detect rclone config path via 'rclone config file'. Remote list now returns type info (Google Drive, S3, Dropbox…) displayed in UI. Wizard step validation, better SSE progress with byte stats, auto-dismiss toasts.",
+    "changelog_vi": "v1.1.0: Sửa lỗi không nhận diện rclone remote — truyền --config vào mọi lệnh rclone để dùng đúng file cấu hình. Tự động phát hiện đường dẫn config qua 'rclone config file'. Danh sách remote giờ trả về type (Google Drive, S3, Dropbox…) hiển thị trực quan. Thêm validation wizard, thanh tiến trình SSE chính xác với byte stats, toast tự ẩn."
   },
   {
     "id": "system_monitor",
