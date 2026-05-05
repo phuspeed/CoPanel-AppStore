@@ -123,12 +123,12 @@
     "id": "cron_manager",
     "name": "Cron Manager",
     "description": "Manage recurring task schedules with visual cron builder and command execution.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Clock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.3: Persist CoPanel-managed cron jobs in /opt/copanel/config/cron_manager.db as the single source of truth, sync managed block to system crontab on Linux, and show storage location in UI.",
-    "changelog_vi": "v1.0.3: Luu job cron do CoPanel quan ly vao /opt/copanel/config/cron_manager.db lam nguon du lieu trung tam, dong bo block managed ra system crontab tren Linux, va hien thi vi tri luu trong giao dien."
+    "changelog_en": "v1.0.4: Add pause/start controls for managed cron jobs with DB-backed is_active state and crontab sync that only deploys active jobs.",
+    "changelog_vi": "v1.0.4: Bo sung nut pause/start cho cron job managed voi trang thai is_active luu trong DB va dong bo crontab chi trien khai job dang active."
   },
   {
     "id": "package_manager",
