@@ -36,10 +36,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.zip",
-    "is_core": true
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: Major Docker Manager upgrade with service-based architecture, full Docker ops APIs (containers/images/networks/volumes), complete compose lifecycle endpoints, hybrid auto-scan plus managed stacks, and stronger validation/timeouts.",
+    "changelog_vi": "v1.0.1: Nang cap lon Docker Manager voi kien truc tach service, day du API van hanh Docker (containers/images/networks/volumes), endpoint compose lifecycle hoan chinh, mo hinh hybrid auto-scan ket hop managed stacks, cung co validate va timeout."
   },
   {
     "id": "ssl_manager",
@@ -71,14 +73,14 @@
   {
     "id": "backup_manager",
     "name": "Backup Manager",
-    "description": "Zero-CLI cloud backup manager powered by rclone. Auto-detect remotes, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.1.0",
+    "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
+    "version": "1.2.0",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.0.zip",
     "is_core": true,
     "system_packages": ["rclone"],
-    "changelog_en": "v1.1.0: Fix rclone remote detection — always pass --config to every rclone invocation so configured remotes are recognized. Auto-detect rclone config path via 'rclone config file'. Remote list now returns type info (Google Drive, S3, Dropbox…) displayed in UI. Wizard step validation, better SSE progress with byte stats, auto-dismiss toasts.",
-    "changelog_vi": "v1.1.0: Sửa lỗi không nhận diện rclone remote — truyền --config vào mọi lệnh rclone để dùng đúng file cấu hình. Tự động phát hiện đường dẫn config qua 'rclone config file'. Danh sách remote giờ trả về type (Google Drive, S3, Dropbox…) hiển thị trực quan. Thêm validation wizard, thanh tiến trình SSE chính xác với byte stats, toast tự ẩn."
+    "changelog_en": "v1.2.0: Introduce Zero-CLI Google OAuth setup in Backup Manager. Users can create Google Drive remotes from the UI (OAuth start/callback/status), store OAuth tokens in hybrid DB storage, auto-sync remote tokens into rclone.conf, and monitor token expiry status with visual warnings.",
+    "changelog_vi": "v1.2.0: Them luong Zero-CLI Google OAuth trong Backup Manager. Nguoi dung tao Google Drive remote truc tiep tren giao dien (OAuth start/callback/status), luu token theo mo hinh hybrid trong DB, tu dong dong bo token vao rclone.conf, va theo doi han token bang canh bao truc quan."
   },
   {
     "id": "system_monitor",
