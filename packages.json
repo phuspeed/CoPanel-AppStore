@@ -108,11 +108,11 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.6.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.7.zip",
     "is_core": true,
-    "changelog_en": "Semver-aware catalog vs installed version compare (packaging), update_status labels, changelog panel for upgrades (v installed → v catalog), header shows live module version; ZIP install persists version.txt.",
-    "changelog_vi": "So sánh phiên bản catalog và VPS theo semver (packaging), nhãn trạng thái cập nhật, khối changelog khi có bản mới (v đang cài → v trên kho), tiêu đề hiển thị phiên bản module; cài ZIP ghi nhận version.txt."
+    "changelog_en": "Fix community AppStore URLs: single config path under /opt/copanel/config, merge on save, migrate legacy backend/config file. ZIP upload: async read, correct HTTP errors, /upload_zip alias, safer pkg id from filename. Nginx: proxy_intercept_errors off for /api/.",
+    "changelog_vi": "Sửa lưu URL AppStore cộng đồng: một file config tại config/, merge khi lưu, tự copy từ backend/config cũ. Upload ZIP: đọc async, lỗi HTTP đúng, thêm /upload_zip, tên module an toàn hơn. Nginx: tắt intercept lỗi cho /api/."
   }
 ]
