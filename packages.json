@@ -134,7 +134,7 @@
     "id": "package_manager",
     "name": "Package Manager",
     "description": "Comprehensive Software Center for installing Runtimes, Utilities, and System Packages.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "Package",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/package_manager.v1.0.2.zip",
     "is_core": true,
