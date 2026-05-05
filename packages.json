@@ -74,13 +74,13 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.1.zip",
     "is_core": true,
     "system_packages": ["rclone"],
-    "changelog_en": "v1.2.0: Introduce Zero-CLI Google OAuth setup in Backup Manager. Users can create Google Drive remotes from the UI (OAuth start/callback/status), store OAuth tokens in hybrid DB storage, auto-sync remote tokens into rclone.conf, and monitor token expiry status with visual warnings.",
-    "changelog_vi": "v1.2.0: Them luong Zero-CLI Google OAuth trong Backup Manager. Nguoi dung tao Google Drive remote truc tiep tren giao dien (OAuth start/callback/status), luu token theo mo hinh hybrid trong DB, tu dong dong bo token vao rclone.conf, va theo doi han token bang canh bao truc quan."
+    "changelog_en": "v1.2.1: Fix OAuth completion detection in frontend by keeping popup opener messaging and adding status polling fallback, so Google login reliably updates OAuth status and remote readiness.",
+    "changelog_vi": "v1.2.1: Fix luong nhan ket qua OAuth tren frontend bang cach giu opener postMessage va bo sung polling fallback, giup trang thai OAuth va remote duoc cap nhat on dinh sau khi login Google."
   },
   {
     "id": "system_monitor",
