@@ -165,11 +165,11 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.11",
+    "version": "1.0.13",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.11.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.13.zip",
     "is_core": true,
-    "changelog_en": "v1.0.11: Enforce required system_packages installation with parallel workers and completion checks; module install now fails clearly when OS dependencies are missing instead of finishing with broken runtime.",
-    "changelog_vi": "v1.0.11: Bat buoc cai dat system_packages voi worker song song va co kiem tra hoan tat; qua trinh cai module se bao loi ro rang neu thieu dependency he thong thay vi cai xong nhung khong chay."
+    "changelog_en": "v1.0.13: Keep no-restart install flow to avoid logout while restoring automatic page refresh after successful build so newly installed modules appear immediately.",
+    "changelog_vi": "v1.0.13: Giu co che cai dat khong restart de tranh dang xuat, dong thoi khoi phuc tu dong refresh trang sau build thanh cong de module moi hien ngay."
   }
 ]
