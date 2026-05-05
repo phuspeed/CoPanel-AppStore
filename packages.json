@@ -12,12 +12,12 @@
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Premium Web Stack Wizard and Smart DB Admin Panel.",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.0.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.0.5.zip",
     "is_core": true,
-    "changelog_en": "v1.0.4: Fix JSX structure regression in the database tab, keep authenticated API calls stable, and ensure the refreshed DB admin install/open flow works without frontend render errors.",
-    "changelog_vi": "v1.0.4: Sua loi cau truc JSX o tab database, giu on dinh cac API co xac thuc, va dam bao luong cai/mo DB admin moi hoat dong khong con loi render frontend.",
+    "changelog_en": "v1.0.5: Improve DB admin tool reliability by detecting package-manager installs for phpMyAdmin/Adminer, harden MySQL install fallback mappings, and expose Adminer via stable public path handling.",
+    "changelog_vi": "v1.0.5: Tang do on dinh cong cu DB admin voi phat hien cai dat tu package manager cho phpMyAdmin/Adminer, bo sung fallback map cai MySQL ben vung hon, va xuat Adminer qua duong dan public on dinh.",
     "system_packages": [
       "nginx"
     ]
