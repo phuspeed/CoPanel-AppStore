@@ -165,11 +165,11 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.11.zip",
     "is_core": true,
-    "changelog_en": "Fix critical bug: inner 'import subprocess/shutil/platform/threading' inside conditional blocks caused UnboundLocalError on install/update when no system deps are present. All stdlib imports moved to module level.",
-    "changelog_vi": "Sửa lỗi nghiêm trọng: khai báo 'import subprocess/shutil/platform/threading' bên trong khối if/for khiến Python coi chúng là biến local chưa gán → lỗi UnboundLocalError khi cài/cập nhật module không có system deps. Chuyển toàn bộ imports lên module level."
+    "changelog_en": "v1.0.11: Enforce required system_packages installation with parallel workers and completion checks; module install now fails clearly when OS dependencies are missing instead of finishing with broken runtime.",
+    "changelog_vi": "v1.0.11: Bat buoc cai dat system_packages voi worker song song va co kiem tra hoan tat; qua trinh cai module se bao loi ro rang neu thieu dependency he thong thay vi cai xong nhung khong chay."
   }
 ]
