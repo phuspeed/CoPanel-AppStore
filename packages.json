@@ -80,13 +80,13 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.2.zip",
     "is_core": true,
     "system_packages": ["rclone"],
-    "changelog_en": "v1.2.1: Fix OAuth completion detection in frontend by keeping popup opener messaging and adding status polling fallback, so Google login reliably updates OAuth status and remote readiness.",
-    "changelog_vi": "v1.2.1: Fix luong nhan ket qua OAuth tren frontend bang cach giu opener postMessage va bo sung polling fallback, giup trang thai OAuth va remote duoc cap nhat on dinh sau khi login Google."
+    "changelog_en": "v1.2.2: Harden Google OAuth token flow by validating callback inputs, normalizing remote names for rclone compatibility, deriving token expiry from expires_in, and improving frontend popup/token handling.",
+    "changelog_vi": "v1.2.2: Tang do on dinh luong token Google OAuth bang cach validate callback, chuan hoa remote name de tuong thich rclone, suy ra expiry tu expires_in, va cai thien xu ly popup/token tren frontend."
   },
   {
     "id": "system_monitor",
