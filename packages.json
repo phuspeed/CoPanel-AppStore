@@ -109,6 +109,17 @@
     "changelog_vi": "v1.0.3: Sửa lỗi tab Fail2Ban — API trả jails dạng chuỗi và banned dạng {ip,jail}; frontend chuẩn hóa thành JailItem có banned_ips. Tránh lỗi TypeError khi đọc .length."
   },
   {
+    "id": "dns_manager",
+    "name": "DNS Manager",
+    "description": "Manage DNS zones and records using local storage or BIND backend.",
+    "version": "1.0.1",
+    "icon": "Network",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/dns_manager.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: Improve reliability by using collision-resistant zone/record IDs and add frontend error handling for delete zone/record actions.",
+    "changelog_vi": "v1.0.1: Tang do on dinh bang ID zone/record chong trung va bo sung xu ly loi tren frontend khi xoa zone/record."
+  },
+  {
     "id": "package_manager",
     "name": "Package Manager",
     "description": "Comprehensive Software Center for installing Runtimes, Utilities, and System Packages.",
