@@ -40,7 +40,7 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.2",
+    "version": "1.0.1",
     "icon": "Layers",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.1.zip",
     "is_core": true,
@@ -80,13 +80,13 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.3.zip",
     "is_core": true,
     "system_packages": ["rclone"],
-    "changelog_en": "v1.2.2: Harden Google OAuth token flow by validating callback inputs, normalizing remote names for rclone compatibility, deriving token expiry from expires_in, and improving frontend popup/token handling.",
-    "changelog_vi": "v1.2.2: Tang do on dinh luong token Google OAuth bang cach validate callback, chuan hoa remote name de tuong thich rclone, suy ra expiry tu expires_in, va cai thien xu ly popup/token tren frontend."
+    "changelog_en": "v1.2.3: Improve Google OAuth reliability by avoiding premature state invalidation, extending consent timeout, and adding localized error guidance for state expiry, token exchange failures, and redirect URI mismatch.",
+    "changelog_vi": "v1.2.3: Tang do on dinh Google OAuth bang cach tranh vo hieu hoa state qua som, tang thoi gian timeout khi consent, va bo sung thong diep loi da ngon ngu cho state het han, token exchange that bai, va redirect URI khong khop."
   },
   {
     "id": "system_monitor",
