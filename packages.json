@@ -92,10 +92,12 @@
     "id": "system_monitor",
     "name": "System Monitor",
     "description": "Real-time visibility into CPU, memory, and disk usage.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Activity",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.zip",
-    "is_core": true
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: Improve monitoring quality with corrected uptime calculation, richer process-state stats, stronger typed frontend data models, and clearer dashboard cards for network/disk/process visibility.",
+    "changelog_vi": "v1.0.1: Nang cap chat luong monitoring voi uptime tinh dung, thong ke trang thai process day du hon, model du lieu frontend typed ro rang, va dashboard truc quan hon cho network/disk/process."
   },
   {
     "id": "firewall",
