@@ -26,7 +26,7 @@
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.0.2",
+    "version": "1.0.1",
     "icon": "Database",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.2.zip",
     "is_core": true,
@@ -103,12 +103,12 @@
     "id": "firewall",
     "name": "Firewall",
     "description": "Visual dashboard for UFW firewall rules and Fail2Ban IDS with correct jail / banned-IP display.",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "icon": "Lock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.5.zip",
     "is_core": true,
-    "changelog_en": "v1.0.4: Improve firewall/fail2ban command execution by adding non-interactive sudo fallback and clearer permission/error diagnostics, fixing environments where UFW is installed but direct command calls fail.",
-    "changelog_vi": "v1.0.4: Cai thien thuc thi lenh firewall/fail2ban bang fallback sudo non-interactive va thong bao loi/quyen chi tiet hon, khac phuc truong hop UFW da cai nhung goi lenh truc tiep bi that bai."
+    "changelog_en": "v1.0.5: Fix Fail2Ban active-state detection with robust service/client fallbacks and add one-click enable action from the Firewall UI when Fail2Ban is installed but inactive.",
+    "changelog_vi": "v1.0.5: Sua nhan dien trang thai hoat dong Fail2Ban on dinh hon (fallback service/client) va bo sung nut bat nhanh trong giao dien Firewall khi Fail2Ban da cai nhung dang inactive."
   },
   {
     "id": "dns_manager",
