@@ -97,6 +97,18 @@
     "changelog_vi": "v1.0.3: Tu dong luu snippet khi them/xoa; them nhieu lenh co san (daemon-reload, nginx, UFW, Fail2Ban). v1.0.2: API snippet JSON."
   },
   {
+    "id": "rsync_manager",
+    "name": "Rsync Manager",
+    "description": "SSH compatibility checks and rsync sync to a new VPS (CoPanel/web files). Optional; not core. SQL and Docker are manual.",
+    "version": "1.0.0",
+    "icon": "RefreshCw",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.0.0.zip",
+    "is_core": false,
+    "system_packages": ["rsync", "openssh-client"],
+    "changelog_en": "v1.0.0: Initial AppStore module — POST /compatibility (arch, OS, rsync, optional disk vs estimate), POST /sync (dry-run or real), presets for CoPanel tree excludes.",
+    "changelog_vi": "v1.0.0: Phien ban dau — API kiem tra tuong thich SSH, sync rsync (dry-run hoac that), preset loai tru cho cay CoPanel."
+  },
+  {
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
