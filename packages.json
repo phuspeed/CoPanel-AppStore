@@ -112,12 +112,12 @@
     "id": "system_monitor",
     "name": "System Monitor",
     "description": "Real-time visibility into CPU, memory, and disk usage.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "icon": "Activity",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.2.zip",
     "is_core": true,
-    "changelog_en": "v1.1.1: Harden GET /process/{pid} with per-field psutil fallbacks and safe net_connections handling; frontend detail drawer parses FastAPI errors, removes token-only fetch skip, uses AbortController, and shows list snapshot when full detail fails.",
-    "changelog_vi": "v1.1.1: Cung co API chi tiet PID (xu ly psutil/net_connections tung buoc); drawer chi tiet doc loi FastAPI, bo chan fetch khi token, dung AbortController, hien snapshot tu bang khi khong tai duoc day du."
+    "changelog_en": "v1.1.2: Richer system header — CPU model (Linux /proc/cpuinfo, macOS sysctl), architecture, total RAM, aggregated disk totals by device (tmpfs etc. excluded); UI shows capacity breakdown. v1.1.1: process detail hardening.",
+    "changelog_vi": "v1.1.2: Thong tin hero day hon — ten CPU, kien truc, tong RAM, tong dung luong o dia (gop theo thiet bi, bo qua tmpfs); hien chi tiet dung luong. v1.1.1: cung co chi tiet PID."
   },
   {
     "id": "firewall",
