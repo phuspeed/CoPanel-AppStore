@@ -201,11 +201,11 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.13.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.14.zip",
     "is_core": true,
-    "changelog_en": "v1.0.13: Keep no-restart install flow to avoid logout while restoring automatic page refresh after successful build so newly installed modules appear immediately.",
-    "changelog_vi": "v1.0.13: Giu co che cai dat khong restart de tranh dang xuat, dong thoi khoi phuc tu dong refresh trang sau build thanh cong de module moi hien ngay."
+    "changelog_en": "v1.0.14: Uninstall now deletes backend and frontend module folders, removes stale installed_packages.json entries, runs npm build synchronously (partial status if rebuild fails), validates package ids, blocks uninstalling core modules, and reloads the UI after uninstall.",
+    "changelog_vi": "v1.0.14: Go cai dat xoa thu muc module backend/frontend, xoa ban ghi installed_packages.json, chay npm build dong bo (trang thai partial neu build loi), kiem tra id hop le, chan go module core, va reload giao dien sau khi go."
   }
 ]
