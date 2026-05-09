@@ -100,13 +100,13 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.6.zip",
     "is_core": true,
     "system_packages": ["rclone"],
-    "changelog_en": "v1.2.5: Add manual Google token import flow with inline rclone authorize command copy support, so users can complete setup from PC even when callback flow is unreliable.",
-    "changelog_vi": "v1.2.5: Bo sung luong nhap token Google thu cong kem nut copy lenh rclone authorize, giup hoan tat setup tu PC khi callback OAuth khong on dinh."
+    "changelog_en": "v1.2.6: Fix MySQL/MariaDB profile backups: mysqldump now uses sudo -u root with the same flags as Database Manager (--single-transaction, routines/events/triggers), validates DB names, surfaces stderr in the SSE stream, and uses safe dump filenames; empty dumps are rejected.",
+    "changelog_vi": "v1.2.6: Sua backup profile MySQL/MariaDB: mysqldump dung sudo -u root va cung tham so nhu Database Manager, kiem tra ten CSDL, hien loi chi tiet trong SSE, ten file dump an toan; tu choi file dump rong."
   },
   {
     "id": "system_monitor",
