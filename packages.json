@@ -42,12 +42,12 @@
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.3: Improve database size reporting and support compressed SQL dump downloads (.sql.gz) where applicable.",
-    "changelog_vi": "v1.0.3: Cai thien hien thi dung luong database va ho tro tai ban dump SQL nen (.sql.gz) khi co.",
+    "changelog_en": "v1.0.4: Restore MySQL/MariaDB list action to download gzip dumps (.sql.gz) via GET /dump-gzip (button was missing in 1.0.3 frontend). v1.0.3: size reporting and backend dump-gzip.",
+    "changelog_vi": "v1.0.4: Khoi phuc nut tai ban dump .sql.gz tren danh sach MySQL/MariaDB (frontend 1.0.3 thieu). v1.0.3: hien thi dung luong va API dump-gzip phia backend.",
     "system_packages": [
       "mariadb"
     ]
