@@ -112,12 +112,12 @@
     "id": "system_monitor",
     "name": "System Monitor",
     "description": "Real-time visibility into CPU, memory, and disk usage.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "Activity",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.1.zip",
     "is_core": true,
-    "changelog_en": "v1.1.0: Richer process list (RSS, status, cmdline preview) and GET /process/{pid} detail; superadmin-only SIGTERM/SIGKILL with protected PIDs and audit log; module routes require auth; mobile-first light/dark UI with process drawer and confirm modals.",
-    "changelog_vi": "v1.1.0: Danh sach tien trinh day du hon (RSS, trang thai, cmdline) va API chi tiet PID; superadmin gui SIGTERM/SIGKILL co PID bao ve va audit; API can dang nhap; giao dien mobile-first sang/toi voi drawer va modal xac nhan."
+    "changelog_en": "v1.1.1: Harden GET /process/{pid} with per-field psutil fallbacks and safe net_connections handling; frontend detail drawer parses FastAPI errors, removes token-only fetch skip, uses AbortController, and shows list snapshot when full detail fails.",
+    "changelog_vi": "v1.1.1: Cung co API chi tiet PID (xu ly psutil/net_connections tung buoc); drawer chi tiet doc loi FastAPI, bo chan fetch khi token, dung AbortController, hien snapshot tu bang khi khong tai duoc day du."
   },
   {
     "id": "firewall",
