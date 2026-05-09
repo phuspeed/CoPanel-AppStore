@@ -78,12 +78,12 @@
     "id": "php_manager",
     "name": "PHP Manager",
     "description": "Control local PHP versions and php.ini configurations.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Code",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/php_manager.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/php_manager.v1.0.3.zip",
     "is_core": true,
-    "changelog_en": "v1.0.2: Fix false \"all PHP installed\" when none detected; apt uninstall removes real dpkg phpX.Y packages (no broken glob); extensions list uses phpX.Y -m, mods-enabled name parsing, and Zend OPcache mapping; verify toggle vs loaded modules with warning when unload impossible; add PHP 8.4 to supported list; UI refresh after install/uninstall, extension guard when version not installed, uninstall for active version, and clearer API error/warning toasts.",
-    "changelog_vi": "v1.0.2: Sua nham hien thi tat ca phien ban PHP da cai khi he thong khong co; go cai apt dung danh sach goi dpkg phpX.Y; danh sach extension dung phpX.Y -m va ten file mods-enabled; anh xa Zend OPcache; kiem tra bat/tat voi canh bao neu khong go duoc; bo sung PHP 8.4; giao dien lam moi sau cai/go, chan extension khi chua cai phien ban, go ca phien ban dang active, thong bao loi/canh bao ro hon."
+    "changelog_en": "v1.0.3: Detect installed PHP streams via dpkg Status (install ok installed) instead of orphan /etc/php/*/php.ini after remove; purge APT packages with config (deinstall ok config-files), second-pass grep purge for phpX.Y* and libapache2-mod-phpX.Y, post-check dpkg/binary before success; fixes false \"still installed\" after uninstall.",
+    "changelog_vi": "v1.0.3: Nhan dien phien ban PHP qua trang thai dpkg (install ok installed), khong con dua vao file php.ini sot sau remove; purge goi APT kem cau hinh (deinstall ok config-files), vong hai purge theo ten phpX.Y* va libapache2-mod-phpX.Y, kiem tra lai dpkg/binary truoc khi bao thanh cong; sua loi van hien thi da cai sau khi go."
   },
   {
     "id": "terminal",
