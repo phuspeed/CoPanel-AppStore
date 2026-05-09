@@ -100,13 +100,13 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.2.7",
+    "version": "1.2.8",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.8.zip",
     "is_core": true,
     "system_packages": ["rclone"],
-    "changelog_en": "v1.2.7: MySQL/MariaDB profile backups pipe mysqldump through gzip to a .sql.gz file before rclone (less disk and bandwidth than raw .sql), matching Database Manager; requires gzip on PATH.",
-    "changelog_vi": "v1.2.7: Backup profile MySQL/MariaDB nen bang gzip thanh file .sql.gz truoc khi rclone (tiet kiem dia va bang thong hon .sql thuan), dong bo voi Database Manager; can co lenh gzip trong PATH."
+    "changelog_en": "v1.2.8: MySQL uploads now target remote_path/<dump>.sql.gz so a configured path ending in .sql no longer renames the object to .sql; gzip binary resolved via PATH or /usr/bin/gzip. v1.2.7: gzip dump before rclone.",
+    "changelog_vi": "v1.2.8: Upload MySQL dat dich den remote_path/<file>.sql.gz — neu truoc day cau hinh ket thuc bang .sql thi rclone khong con doi ten thanh .sql nua; tim gzip qua PATH hoac /usr/bin/gzip. v1.2.7: nen gzip truoc khi rclone."
   },
   {
     "id": "system_monitor",
