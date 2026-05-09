@@ -3,21 +3,37 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.zip",
-    "is_core": true
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: First versioned AppStore build; mobile-friendly layout and file operations (rename, cut, copy) aligned with current CoPanel.",
+    "changelog_vi": "v1.0.1: Ban dong goi AppStore co phien ban; giao dien mobile va thao tac file (doi ten, cat, copy) dong bo ma nguon CoPanel hien tai."
   },
   {
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP-FPM overview, and smart DB admin tools.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.1.1.zip",
     "is_core": true,
-    "changelog_en": "v1.1.0: Add Apache vhosts (Debian/RHEL) alongside Nginx; unified site list with engine field; GET /stack and POST /stack/bootstrap (LEMP/LAMP presets); PHP-FPM socket auto-detection; httpd service support; Adminer nginx config uses detected PHP socket; new logic.py helpers.",
-    "changelog_vi": "v1.1.0: Ho tro vhost Apache (Debian/RHEL) song song Nginx; danh sach site thong nhat voi truong engine; GET /stack va POST /stack/bootstrap (preset LEMP/LAMP); tu phat hien socket PHP-FPM; ho tro dich vu httpd; cau hinh Adminer dung socket PHP dong; tach logic.py.",
+    "changelog_en": "v1.1.1: Remove the per-site PHP configuration tab from Web Manager; PHP tuning remains in PHP Manager. Other stack and vhost behavior unchanged.",
+    "changelog_vi": "v1.1.1: Go tab cau hinh PHP theo tung site trong Web Manager; dieu chinh PHP tap trung o PHP Manager. Hanh vi vhost/stack khac giu nguyen.",
+    "system_packages": [
+      "nginx"
+    ]
+  },
+  {
+    "id": "site_wizard",
+    "name": "Site Wizard",
+    "description": "Provision a complete website (Nginx + DB + SSL) end-to-end in one flow.",
+    "version": "1.0.0",
+    "icon": "Wand2",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.0.0.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.0: First AppStore release of the Site Wizard module (guided stack + vhost + database + SSL provisioning).",
+    "changelog_vi": "v1.0.0: Phat hanh AppStore lan dau cho module Site Wizard (luong huong dan stack + vhost + database + SSL).",
     "system_packages": [
       "nginx"
     ]
@@ -26,12 +42,12 @@
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.3.zip",
     "is_core": true,
-    "changelog_en": "v1.0.2: Introduce dedicated Database Manager frontend module with multi-engine panels, add backend overview/password tooling, and support engine-level user delete/password rotation endpoints.",
-    "changelog_vi": "v1.0.2: Bo sung frontend module Database Manager rieng cho da engine, nang cap backend voi overview/password tooling, va ho tro endpoint xoa user/doi mat khau theo tung engine.",
+    "changelog_en": "v1.0.3: Improve database size reporting and support compressed SQL dump downloads (.sql.gz) where applicable.",
+    "changelog_vi": "v1.0.3: Cai thien hien thi dung luong database va ho tro tai ban dump SQL nen (.sql.gz) khi co.",
     "system_packages": [
       "mariadb"
     ]
@@ -62,19 +78,23 @@
     "id": "php_manager",
     "name": "PHP Manager",
     "description": "Control local PHP versions and php.ini configurations.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Code",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/php_manager.zip",
-    "is_core": true
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/php_manager.v1.0.1.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.1: First versioned AppStore build aligned with current PHP Manager module.",
+    "changelog_vi": "v1.0.1: Ban dong goi AppStore co phien ban, dong bo module PHP Manager hien tai."
   },
   {
     "id": "terminal",
     "name": "Terminal",
     "description": "Execute system commands securely in the browser.",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "icon": "Terminal",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.zip",
-    "is_core": true
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.2.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.2: Add persisted command snippets (JSON-backed API) for quick reuse in the Terminal UI.",
+    "changelog_vi": "v1.0.2: Bo sung snippet lenh luu lai (API JSON) de dung lai nhanh trong giao dien Terminal."
   },
   {
     "id": "backup_manager",
