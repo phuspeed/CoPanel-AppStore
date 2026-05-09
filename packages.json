@@ -89,12 +89,12 @@
     "id": "terminal",
     "name": "Terminal",
     "description": "Execute system commands securely in the browser.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Terminal",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.3.zip",
     "is_core": true,
-    "changelog_en": "v1.0.2: Add persisted command snippets (JSON-backed API) for quick reuse in the Terminal UI.",
-    "changelog_vi": "v1.0.2: Bo sung snippet lenh luu lai (API JSON) de dung lai nhanh trong giao dien Terminal."
+    "changelog_en": "v1.0.3: Auto-save custom snippets on add/remove (PUT /snippets); more built-ins (daemon-reload, nginx, UFW, Fail2Ban). v1.0.2: JSON snippet API.",
+    "changelog_vi": "v1.0.3: Tu dong luu snippet khi them/xoa; them nhieu lenh co san (daemon-reload, nginx, UFW, Fail2Ban). v1.0.2: API snippet JSON."
   },
   {
     "id": "backup_manager",
