@@ -3,12 +3,12 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.3.zip",
     "is_core": true,
-    "changelog_en": "v1.0.2: Bookmarks for frequent paths—stored server-side per user in JSON (bookmarks_store); toolbar and row actions to add/remove; optional bookmark selection batch.",
-    "changelog_vi": "v1.0.2: Bookmark duong dan hay dung—luu JSON tren server theo tung user (bookmarks_store); thanh cong cu va tren tung dong de them/xoa; co the bookmark hang loat muc da chon."
+    "changelog_en": "v1.0.3: When bookmark APIs are missing on the server (older backend), UI hides bookmark controls and shows an upgrade hint instead of a raw Not Found alert. v1.0.2: per-user JSON bookmarks (bookmarks_store).",
+    "changelog_vi": "v1.0.3: Neu backend cu chua co API bookmark, giao dien an nut bookmark va hien huong dan cap nhat thay vi alert Not Found. v1.0.2: bookmark JSON theo user (bookmarks_store)."
   },
   {
     "id": "web_manager",
