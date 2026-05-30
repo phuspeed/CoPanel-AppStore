@@ -207,5 +207,16 @@
     "is_core": true,
     "changelog_en": "v1.0.14: Uninstall now deletes backend and frontend module folders, removes stale installed_packages.json entries, runs npm build synchronously (partial status if rebuild fails), validates package ids, blocks uninstalling core modules, and reloads the UI after uninstall.",
     "changelog_vi": "v1.0.14: Go cai dat xoa thu muc module backend/frontend, xoa ban ghi installed_packages.json, chay npm build dong bo (trang thai partial neu build loi), kiem tra id hop le, chan go module core, va reload giao dien sau khi go."
+  },
+  {
+    "id": "system_cleaner",
+    "name": "System Cleaner",
+    "description": "System Junk cleaner and Disk Analyzer (TreeSize clone) for optimizing storage.",
+    "version": "1.0.0",
+    "icon": "Trash2",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_cleaner.v1.0.0.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.0: Initial release of System Cleaner. Includes APT/Journal/Log cleaning and high-performance Disk Analyzer.",
+    "changelog_vi": "v1.0.0: Phát hành System Cleaner. Tích hợp dọn rác hệ thống (APT/Journal/Logs) và Phân tích ổ đĩa (Disk Analyzer) siêu tốc."
   }
 ]
