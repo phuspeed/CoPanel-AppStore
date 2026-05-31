@@ -3,12 +3,12 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.3: When bookmark APIs are missing on the server (older backend), UI hides bookmark controls and shows an upgrade hint instead of a raw Not Found alert. v1.0.2: per-user JSON bookmarks (bookmarks_store).",
-    "changelog_vi": "v1.0.3: Neu backend cu chua co API bookmark, giao dien an nut bookmark va hien huong dan cap nhat thay vi alert Not Found. v1.0.2: bookmark JSON theo user (bookmarks_store)."
+    "changelog_en": "v1.0.4: Sortable column headers (Name/Size/Date) in file table — click to sort asc, click again to toggle desc; folders always grouped above files. v1.0.3: When bookmark APIs are missing on the server (older backend), UI hides bookmark controls and shows an upgrade hint instead of a raw Not Found alert. v1.0.2: per-user JSON bookmarks (bookmarks_store).",
+    "changelog_vi": "v1.0.4: Header cot co the sap xep (Ten/Kich thuoc/Ngay) — click de tang dan, click lai de giam dan; thu muc luon xep tren file. v1.0.3: Neu backend cu chua co API bookmark, giao dien an nut bookmark va hien huong dan cap nhat thay vi alert Not Found. v1.0.2: bookmark JSON theo user (bookmarks_store)."
   },
   {
     "id": "web_manager",
