@@ -212,11 +212,11 @@
     "id": "system_cleaner",
     "name": "System Cleaner",
     "description": "System Junk cleaner and Disk Analyzer (TreeSize clone) for optimizing storage.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Trash2",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_cleaner.v1.0.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_cleaner.v1.0.1.zip",
     "is_core": true,
-    "changelog_en": "v1.0.0: Initial release of System Cleaner. Includes APT/Journal/Log cleaning and high-performance Disk Analyzer.",
-    "changelog_vi": "v1.0.0: Phát hành System Cleaner. Tích hợp dọn rác hệ thống (APT/Journal/Logs) và Phân tích ổ đĩa (Disk Analyzer) siêu tốc."
+    "changelog_en": "v1.0.1: Fix white screen on first visit to /system-cleaner (remove React.lazy; eager module load like other modules). Sidebar Trash2 icon.",
+    "changelog_vi": "v1.0.1: Sửa lỗi trang trắng lần đầu vào /system-cleaner (bỏ React.lazy, load module đồng bộ). Icon Trash2 trên sidebar."
   }
 ]
