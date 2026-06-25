@@ -177,13 +177,12 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.1.zip",
     "is_core": false,
-    "system_packages": ["cloudflared"],
-    "changelog_en": "v1.0.0: Initial AppStore release — Cloudflare API token config, DDNS profiles with cron sync (public/interface/custom IP), zone DNS record CRUD, tunnel create/ingress config and systemd install.",
-    "changelog_vi": "v1.0.0: Phat hanh AppStore lan dau — cau hinh API token Cloudflare, profile DDNS dong bo cron (IP public/interface/URL), quan ly ban ghi DNS theo zone, tao tunnel + ingress va cai systemd cloudflared."
+    "changelog_en": "v1.0.1: Remove cloudflared from required system_packages — it is not in default apt repos and blocked install; DDNS/DNS work without it; install cloudflared manually for Tunnel. v1.0.0: Initial release.",
+    "changelog_vi": "v1.0.1: Bo cloudflared khoi system_packages bat buoc — goi khong co tren apt mac dinh nen lam install that bai; DDNS/DNS van chay khong can cloudflared; cai cloudflared thu cong neu dung Tunnel. v1.0.0: Phat hanh dau."
   },
   {
     "id": "cron_manager",
