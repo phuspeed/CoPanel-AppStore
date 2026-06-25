@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.3: View Logs modal shows newest log lines at the top. v1.0.2: View Logs modal shows per-line timestamps (docker logs --timestamps), local time formatting, and loading state.",
-    "changelog_vi": "v1.0.3: Modal xem log hien thi dong log moi nhat o dau danh sach. v1.0.2: Modal xem log hien thi thoi gian tung dong (docker logs --timestamps), dinh dang gio dia phuong, va trang thai dang tai."
+    "changelog_en": "v1.0.4: Compose scan results use a compact scrollable list with show/hide toggle. v1.0.3: View Logs modal shows newest log lines at the top.",
+    "changelog_vi": "v1.0.4: Ket qua quet Compose hien dang bang danh sach gon, co cuon va nut an/hien. v1.0.3: Modal xem log hien thi dong log moi nhat o dau danh sach."
   },
   {
     "id": "ssl_manager",
