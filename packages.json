@@ -174,6 +174,18 @@
     "changelog_vi": "v1.0.1: Tang do on dinh bang ID zone/record chong trung va bo sung xu ly loi tren frontend khi xoa zone/record."
   },
   {
+    "id": "cloudflare_ddns",
+    "name": "Cloudflare DDNS",
+    "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
+    "version": "1.0.0",
+    "icon": "Cloud",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.0.zip",
+    "is_core": false,
+    "system_packages": ["cloudflared"],
+    "changelog_en": "v1.0.0: Initial AppStore release — Cloudflare API token config, DDNS profiles with cron sync (public/interface/custom IP), zone DNS record CRUD, tunnel create/ingress config and systemd install.",
+    "changelog_vi": "v1.0.0: Phat hanh AppStore lan dau — cau hinh API token Cloudflare, profile DDNS dong bo cron (IP public/interface/URL), quan ly ban ghi DNS theo zone, tao tunnel + ingress va cai systemd cloudflared."
+  },
+  {
     "id": "cron_manager",
     "name": "Cron Manager",
     "description": "Manage recurring task schedules with visual cron builder and command execution.",
