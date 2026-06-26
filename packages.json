@@ -67,13 +67,13 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Synology Download Station-style manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.2.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl"],
-    "changelog_en": "v0.2.1: Fix TypeScript build error (comma operator mistaken for tuple in detail tabs). v0.2.0: Initial release.",
-    "changelog_vi": "v0.2.1: Sua loi build TypeScript (comma operator thay vi tuple o tab chi tiet). v0.2.0: Phat hanh dau tien."
+    "changelog_en": "v0.2.2: Remove httpx dependency so backend module loads on servers without test extras; start worker at import. v0.2.1: Fix TS2695 build error. v0.2.0: Initial release.",
+    "changelog_vi": "v0.2.2: Bo phu thuoc httpx de backend load duoc tren server; khoi dong worker khi import module. v0.2.1: Sua loi build TypeScript. v0.2.0: Phat hanh dau."
   },
   {
     "id": "audio_station",
