@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.6",
+    "version": "1.4.7",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.6.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.7.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.6: Fix blank-disk /partitions 500 when hot-reload kept old code in RAM — removed logger call; purge __pycache__ on install.",
-    "changelog_vi": "v1.4.6: Sua loi 500 /partitions tren o trong khi hot-reload giu code cu trong RAM — bo logger; xoa __pycache__ khi cai."
+    "changelog_en": "v1.4.7: Fix partition read/create on disks with existing partitions — lsblk-first detection, parted free-space parsing, frontend merge fallback.",
+    "changelog_vi": "v1.4.7: Sua doc/tao phan vung tren o da co partition — uu tien lsblk, parse vung trong parted, frontend fallback."
   },
   {
     "id": "firewall",
