@@ -67,13 +67,13 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Synology Download Station-style manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.1.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl"],
-    "changelog_en": "v0.2.0: Initial AppStore release — task queue UI, temp/destination folders, file-hosting plugins (curl template + API resolve + accounts), Google Drive/file/folder, Google OAuth, aria2 RPC for torrent/magnet/HTTP, .torrent upload, watched folder auto-import, global speed limits.",
-    "changelog_vi": "v0.2.0: Phat hanh AppStore dau tien — giao dien quan ly tai xuong, thu muc tam/dich, file hosting tuy chinh (curl/API + tai khoan), Google Drive/thu muc, Google OAuth, aria2 RPC cho torrent/magnet/HTTP, upload .torrent, thu muc theo doi tu dong, gioi han toc do."
+    "changelog_en": "v0.2.1: Fix TypeScript build error (comma operator mistaken for tuple in detail tabs). v0.2.0: Initial release.",
+    "changelog_vi": "v0.2.1: Sua loi build TypeScript (comma operator thay vi tuple o tab chi tiet). v0.2.0: Phat hanh dau tien."
   },
   {
     "id": "ssl_manager",
