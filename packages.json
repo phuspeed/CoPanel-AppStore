@@ -66,7 +66,7 @@
   {
     "id": "download_manager",
     "name": "Download Manager",
-    "description": "Synology Download Station-style manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
+    "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
     "version": "0.2.3",
     "icon": "Download",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.3.zip",
@@ -79,12 +79,12 @@
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.2.zip",
     "is_core": false,
-    "changelog_en": "v0.3.1: Rebrand to Audio Player (sidebar/route /audio-player); remove third-party product naming in copy. v0.3.0: Initial release — library scan (mutagen), folder/album/artist/genre views, playlists, cover art, player queue.",
-    "changelog_vi": "v0.3.1: Doi ten thanh Audio Player (sidebar/route /audio-player); bo wording trung ten san pham khac. v0.3.0: Phat hanh dau tien — quet thu vien, playlist, anh bia, trinh phat."
+    "changelog_en": "v0.3.2: Fix AppStore install — add __init__.py, init on import, reliable hot-reload with CoPanel loader fix. If API 404 after install, run systemctl restart copanel. v0.3.1: Rebrand to Audio Player.",
+    "changelog_vi": "v0.3.2: Sua cai AppStore — __init__.py, khoi tao khi import, hot-reload on dinh hon. Neu API 404 sau cai, chay systemctl restart copanel. v0.3.1: Doi ten Audio Player."
   },
   {
     "id": "ssl_manager",
