@@ -135,9 +135,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, manage partitions, LVM pools, RAID, and maintenance scrubs.",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.3.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.3.2.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -146,10 +146,14 @@
       "smartmontools",
       "e2fsprogs",
       "xfsprogs",
-      "btrfs-progs"
+      "btrfs-progs",
+      "exfatprogs",
+      "ntfs-3g",
+      "dosfstools",
+      "hfsprogs"
     ],
-    "changelog_en": "v1.3.1: Fix backend module load (logic.py syntax error caused API 404). Resilient lsblk column fallback, nested LVM partitions, faster overview, clearer API errors in UI.",
-    "changelog_vi": "v1.3.1: Sua loi module backend khong load (loi cú pháp logic.py → API 404). lsblk fallback cot, partition LVM lồng nhau, overview nhanh hon, thong bao loi API ro hon."
+    "changelog_en": "v1.3.2: Full Vietnamese UI. exFAT/FAT32/NTFS/HFS+/APFS detection (blkid), format & mount. Filesystem check/repair (fsck) in Maintenance tab.",
+    "changelog_vi": "v1.3.2: Tieng Viet day du dau. Nhan dien exFAT/FAT32/NTFS/HFS+/APFS (blkid), dinh dang & mount. Kiem tra/sua loi filesystem (fsck) trong tab Bao tri."
   },
   {
     "id": "firewall",
