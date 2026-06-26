@@ -67,13 +67,13 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.5.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl"],
-    "changelog_en": "v0.2.4: Fix NameError temp_path after 100% download (_cleanup_temp restored). v0.2.3: Cross-device shutil.move fix.",
-    "changelog_vi": "v0.2.4: Sua loi temp_path sau khi tai 100% (khoi phuc _cleanup_temp). v0.2.3: Sua Errno 18 shutil.move."
+    "changelog_en": "v0.2.5: Republish — fix temp_path NameError at 100% (_cleanup_temp restored) and cross-device shutil.move. Update if still on 0.2.3.",
+    "changelog_vi": "v0.2.5: Phat hanh lai — sua loi temp_path khi tai 100% va shutil.move cross-device. Cap nhat neu van o 0.2.3."
   },
   {
     "id": "audio_station",
