@@ -64,6 +64,18 @@
     "changelog_vi": "v1.0.4: Ket qua quet Compose hien dang bang danh sach gon, co cuon va nut an/hien. v1.0.3: Modal xem log hien thi dong log moi nhat o dau danh sach."
   },
   {
+    "id": "download_manager",
+    "name": "Download Manager",
+    "description": "Synology Download Station-style manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
+    "version": "0.2.0",
+    "icon": "Download",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.0.zip",
+    "is_core": false,
+    "system_packages": ["aria2", "curl"],
+    "changelog_en": "v0.2.0: Initial AppStore release — task queue UI, temp/destination folders, file-hosting plugins (curl template + API resolve + accounts), Google Drive/file/folder, Google OAuth, aria2 RPC for torrent/magnet/HTTP, .torrent upload, watched folder auto-import, global speed limits.",
+    "changelog_vi": "v0.2.0: Phat hanh AppStore dau tien — giao dien quan ly tai xuong, thu muc tam/dich, file hosting tuy chinh (curl/API + tai khoan), Google Drive/thu muc, Google OAuth, aria2 RPC cho torrent/magnet/HTTP, upload .torrent, thu muc theo doi tu dong, gioi han toc do."
+  },
+  {
     "id": "ssl_manager",
     "name": "SSL Manager",
     "description": "Generate Let's Encrypt certificates automatically.",
