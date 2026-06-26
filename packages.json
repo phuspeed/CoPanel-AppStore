@@ -76,6 +76,17 @@
     "changelog_vi": "v0.2.1: Sua loi build TypeScript (comma operator thay vi tuple o tab chi tiet). v0.2.0: Phat hanh dau tien."
   },
   {
+    "id": "audio_station",
+    "name": "Audio Station",
+    "description": "Synology-style music library: configurable music folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
+    "version": "0.3.0",
+    "icon": "Music",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.0.zip",
+    "is_core": false,
+    "changelog_en": "v0.3.0: Initial release — library scan (mutagen), By Folder/Album/Artist/Genre, Recently Added, Random 100, user playlists, embedded cover art, player with queue. Requires pip package mutagen (in CoPanel requirements.txt).",
+    "changelog_vi": "v0.3.0: Phat hanh dau tien — quet thu vien (mutagen), duyet theo thu muc/album/nghe si/the loai, Moi them, Ngau nhien 100, playlist, anh bia, trinh phat co hang doi. Can pip mutagen (trong requirements.txt CoPanel)."
+  },
+  {
     "id": "ssl_manager",
     "name": "SSL Manager",
     "description": "Generate Let's Encrypt certificates automatically.",
