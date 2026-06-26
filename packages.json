@@ -134,10 +134,10 @@
   {
     "id": "storage_manager",
     "name": "Storage Manager",
-    "description": "Monitor disks and SMART health, manage partitions, LVM pools, RAID, and maintenance scrubs.",
-    "version": "1.3.2",
+    "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
+    "version": "1.4.0",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.3.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.0.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -152,8 +152,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.3.2: Full Vietnamese UI. exFAT/FAT32/NTFS/HFS+/APFS detection (blkid), format & mount. Filesystem check/repair (fsck) in Maintenance tab.",
-    "changelog_vi": "v1.3.2: Tieng Viet day du dau. Nhan dien exFAT/FAT32/NTFS/HFS+/APFS (blkid), dinh dang & mount. Kiem tra/sua loi filesystem (fsck) trong tab Bao tri."
+    "changelog_en": "v1.4.0: MiniTool-style partition wizard (visual disk map, action panel). Delete, resize, label, boot/ESP APIs. SMART health %, power-on hours, host I/O. Disk speed benchmark (seq + 4K random).",
+    "changelog_vi": "v1.4.0: Giao dien phan vung kieu MiniTool (so do o dia, panel thao tac). API xoa, resize, doi nhan, boot/ESP. SMART % suc khoe, gio hoat dong, host I/O. Benchmark toc do o (seq + 4K random)."
   },
   {
     "id": "firewall",
