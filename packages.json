@@ -232,12 +232,12 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.14.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.15.zip",
     "is_core": true,
-    "changelog_en": "v1.0.14: Uninstall now deletes backend and frontend module folders, removes stale installed_packages.json entries, runs npm build synchronously (partial status if rebuild fails), validates package ids, blocks uninstalling core modules, and reloads the UI after uninstall.",
-    "changelog_vi": "v1.0.14: Go cai dat xoa thu muc module backend/frontend, xoa ban ghi installed_packages.json, chay npm build dong bo (trang thai partial neu build loi), kiem tra id hop le, chan go module core, va reload giao dien sau khi go."
+    "changelog_en": "v1.0.15: Batch apt system dependencies into one install with lock retry; install deps before build instead of parallel apt-get (fixes dpkg lock failures on modules like storage_manager).",
+    "changelog_vi": "v1.0.15: Gom cai dat system packages thanh mot lenh apt voi retry lock; cai deps truoc build thay vi apt song song (sua loi dpkg lock khi update module nhu storage_manager)."
   },
   {
     "id": "system_cleaner",
