@@ -77,14 +77,14 @@
   },
   {
     "id": "audio_station",
-    "name": "Audio Station",
-    "description": "Synology-style music library: configurable music folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.0",
+    "name": "Audio Player",
+    "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
+    "version": "0.3.1",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.1.zip",
     "is_core": false,
-    "changelog_en": "v0.3.0: Initial release — library scan (mutagen), By Folder/Album/Artist/Genre, Recently Added, Random 100, user playlists, embedded cover art, player with queue. Requires pip package mutagen (in CoPanel requirements.txt).",
-    "changelog_vi": "v0.3.0: Phat hanh dau tien — quet thu vien (mutagen), duyet theo thu muc/album/nghe si/the loai, Moi them, Ngau nhien 100, playlist, anh bia, trinh phat co hang doi. Can pip mutagen (trong requirements.txt CoPanel)."
+    "changelog_en": "v0.3.1: Rebrand to Audio Player (sidebar/route /audio-player); remove third-party product naming in copy. v0.3.0: Initial release — library scan (mutagen), folder/album/artist/genre views, playlists, cover art, player queue.",
+    "changelog_vi": "v0.3.1: Doi ten thanh Audio Player (sidebar/route /audio-player); bo wording trung ten san pham khac. v0.3.0: Phat hanh dau tien — quet thu vien, playlist, anh bia, trinh phat."
   },
   {
     "id": "ssl_manager",
@@ -259,12 +259,12 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.17.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.18.zip",
     "is_core": true,
-    "changelog_en": "v1.0.17: Hint in build logs when tsc fails on another module file; auto-restart copanel after backend install (1.0.16).",
-    "changelog_vi": "v1.0.17: Goi y trong log build khi tsc loi file module khac; tu restart copanel sau cai backend (1.0.16)."
+    "changelog_en": "v1.0.18: No forced copanel restart on install. Frontend-only → npm build; backend → hot-reload API routes. Skip npm when zip has no frontend. Requires CoPanel core update (module_reload) for hot-reload — one manual restart after pull.",
+    "changelog_vi": "v1.0.18: Khong tu restart copanel khi cai module. Chi frontend → npm build; backend → hot-reload API. Bo qua npm neu zip khong co frontend. Can cap nhat core CoPanel (module_reload) — restart thu cong mot lan sau pull."
   },
   {
     "id": "system_cleaner",
