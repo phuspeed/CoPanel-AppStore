@@ -147,9 +147,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.1.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -164,8 +164,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.0: MiniTool-style partition wizard (visual disk map, action panel). Delete, resize, label, boot/ESP APIs. SMART health %, power-on hours, host I/O. Disk speed benchmark (seq + 4K random).",
-    "changelog_vi": "v1.4.0: Giao dien phan vung kieu MiniTool (so do o dia, panel thao tac). API xoa, resize, doi nhan, boot/ESP. SMART % suc khoe, gio hoat dong, host I/O. Benchmark toc do o (seq + 4K random)."
+    "changelog_en": "v1.4.1: Fallback disk map from /disks when /partitions API not loaded yet (post-AppStore install before restart).",
+    "changelog_vi": "v1.4.1: Fallback so do o dia tu /disks khi API /partitions chua load (sau cai AppStore truoc khi restart)."
   },
   {
     "id": "firewall",
@@ -248,12 +248,12 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.16.zip",
     "is_core": true,
-    "changelog_en": "v1.0.15: Batch apt system dependencies into one install with lock retry; install deps before build instead of parallel apt-get (fixes dpkg lock failures on modules like storage_manager).",
-    "changelog_vi": "v1.0.15: Gom cai dat system packages thanh mot lenh apt voi retry lock; cai deps truoc build thay vi apt song song (sua loi dpkg lock khi update module nhu storage_manager)."
+    "changelog_en": "v1.0.16: Auto-restart copanel after module install when backend files change, so new API routes load without manual systemctl restart.",
+    "changelog_vi": "v1.0.16: Tu dong restart copanel sau khi cai module co backend moi, route API load khong can systemctl restart thu cong."
   },
   {
     "id": "system_cleaner",
