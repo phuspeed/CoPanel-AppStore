@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.9",
+    "version": "1.4.10",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.9.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.10.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.9: GET /version + stale-API banner; clearer 404 hint when backend routes missing after install.",
-    "changelog_vi": "v1.4.9: GET /version + banner API cu; goi y 404 khi thieu route sau cai module."
+    "changelog_en": "v1.4.10: Fix partition creation alignment, improve regex-based partition number detection for deletion, and wipe signatures before initialize/delete to avoid parted conflicts. v1.4.9: GET /version + stale-API banner; clearer 404 hint when backend routes missing after install.",
+    "changelog_vi": "v1.4.10: Sửa lỗi tạo partition (thêm alignment), tối ưu regex lấy số partition khi xóa, tự động wipefs xóa sạch signature trước khi khởi tạo hoặc xóa partition để tránh lỗi xung đột. v1.4.9: GET /version + banner API cu; goi y 404 khi thieu route sau cai module."
   },
   {
     "id": "firewall",
