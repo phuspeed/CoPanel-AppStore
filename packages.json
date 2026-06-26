@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.3.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.2: Fix create partition on blank disks (auto GPT default, disk-name confirm). Use unallocated space for mkpart. Cache /partitions fallback to reduce 404 noise.",
-    "changelog_vi": "v1.4.2: Sua tao phan vung o trong (mac dinh GPT, xac nhan ten o). Dung vung unallocated cho mkpart. Cache fallback /partitions giam 404."
+    "changelog_en": "v1.4.3: Fix 503 on blank disks — lsblk fallback when parted cannot read partition table. Frontend treats 503 like 404 for disk map.",
+    "changelog_vi": "v1.4.3: Sua 503 tren o trong — fallback lsblk khi parted khong doc duoc bang phan vung. Frontend xu ly 503 nhu 404 cho so do o dia."
   },
   {
     "id": "firewall",
