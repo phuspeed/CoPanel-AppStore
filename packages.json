@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.5.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.4: Fix 500 on /partitions (missing logger import in lsblk fallback path).",
-    "changelog_vi": "v1.4.4: Sua loi 500 tren /partitions (thieu import logger trong fallback lsblk)."
+    "changelog_en": "v1.4.5: Republish 1.4.4 with logger import fix — reinstall if /partitions still returns 500 on blank disks.",
+    "changelog_vi": "v1.4.5: Phat hanh lai 1.4.4 co fix import logger — cai lai neu /partitions van loi 500 tren o trong."
   },
   {
     "id": "firewall",
