@@ -67,13 +67,13 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Synology Download Station-style manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.3.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl"],
-    "changelog_en": "v0.2.2: Remove httpx dependency so backend module loads on servers without test extras; start worker at import. v0.2.1: Fix TS2695 build error. v0.2.0: Initial release.",
-    "changelog_vi": "v0.2.2: Bo phu thuoc httpx de backend load duoc tren server; khoi dong worker khi import module. v0.2.1: Sua loi build TypeScript. v0.2.0: Phat hanh dau."
+    "changelog_en": "v0.2.3: Fix TypeScript TS2695 in detail tabs (fixes npm build when installing other AppStore modules).",
+    "changelog_vi": "v0.2.3: Sua loi TypeScript TS2695 tab chi tiet (sua npm build khi cai module AppStore khac)."
   },
   {
     "id": "audio_station",
@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.2.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.1: Fallback disk map from /disks when /partitions API not loaded yet (post-AppStore install before restart).",
-    "changelog_vi": "v1.4.1: Fallback so do o dia tu /disks khi API /partitions chua load (sau cai AppStore truoc khi restart)."
+    "changelog_en": "v1.4.2: Fix create partition on blank disks (auto GPT default, disk-name confirm). Use unallocated space for mkpart. Cache /partitions fallback to reduce 404 noise.",
+    "changelog_vi": "v1.4.2: Sua tao phan vung o trong (mac dinh GPT, xac nhan ten o). Dung vung unallocated cho mkpart. Cache fallback /partitions giam 404."
   },
   {
     "id": "firewall",
@@ -259,12 +259,12 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.16",
+    "version": "1.0.17",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.16.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.17.zip",
     "is_core": true,
-    "changelog_en": "v1.0.16: Auto-restart copanel after module install when backend files change, so new API routes load without manual systemctl restart.",
-    "changelog_vi": "v1.0.16: Tu dong restart copanel sau khi cai module co backend moi, route API load khong can systemctl restart thu cong."
+    "changelog_en": "v1.0.17: Hint in build logs when tsc fails on another module file; auto-restart copanel after backend install (1.0.16).",
+    "changelog_vi": "v1.0.17: Goi y trong log build khi tsc loi file module khac; tu restart copanel sau cai backend (1.0.16)."
   },
   {
     "id": "system_cleaner",
