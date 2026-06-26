@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.3",
+    "version": "1.4.4",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.4.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.3: Fix 503 on blank disks — lsblk fallback when parted cannot read partition table. Frontend treats 503 like 404 for disk map.",
-    "changelog_vi": "v1.4.3: Sua 503 tren o trong — fallback lsblk khi parted khong doc duoc bang phan vung. Frontend xu ly 503 nhu 404 cho so do o dia."
+    "changelog_en": "v1.4.4: Fix 500 on /partitions (missing logger import in lsblk fallback path).",
+    "changelog_vi": "v1.4.4: Sua loi 500 tren /partitions (thieu import logger trong fallback lsblk)."
   },
   {
     "id": "firewall",
@@ -259,12 +259,12 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.18.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.19.zip",
     "is_core": true,
-    "changelog_en": "v1.0.18: No forced copanel restart on install. Frontend-only → npm build; backend → hot-reload API routes. Skip npm when zip has no frontend. Requires CoPanel core update (module_reload) for hot-reload — one manual restart after pull.",
-    "changelog_vi": "v1.0.18: Khong tu restart copanel khi cai module. Chi frontend → npm build; backend → hot-reload API. Bo qua npm neu zip khong co frontend. Can cap nhat core CoPanel (module_reload) — restart thu cong mot lan sau pull."
+    "changelog_en": "v1.0.19: Auto-restart copanel after installing new backend modules (e.g. Audio Player) when hot-reload fails or routes stay missing. Reduces 404 on /api/{module} after AppStore install.",
+    "changelog_vi": "v1.0.19: Tu dong restart copanel sau khi cai module backend moi (vd Audio Player) neu hot-reload that bai hoac route van thieu. Giam loi 404 /api/{module} sau cai AppStore."
   },
   {
     "id": "system_cleaner",
