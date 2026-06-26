@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.8",
+    "version": "1.4.9",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.9.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.8: Disk-level wizard for raw disks — initialize GPT/MBR (step 1), then create/format partitions; disk_state in API.",
-    "changelog_vi": "v1.4.8: Wizard o raw — khoi tao GPT/MBR (buoc 1), roi tao/dinh dang phan vung; disk_state trong API."
+    "changelog_en": "v1.4.9: GET /version + stale-API banner; clearer 404 hint when backend routes missing after install.",
+    "changelog_vi": "v1.4.9: GET /version + banner API cu; goi y 404 khi thieu route sau cai module."
   },
   {
     "id": "firewall",
@@ -259,13 +259,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.20",
+    "version": "1.0.21",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.20.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.21.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.20: Manual copanel restart after install — banner + Restart CoPanel button (no forced auto-restart). Supports requires_copanel_restart in packages.json.",
-    "changelog_vi": "v1.0.20: Restart copanel thu cong sau cai — banner + nut Restart CoPanel (khong tu dong restart). Ho tro requires_copanel_restart trong packages.json."
+    "changelog_en": "v1.0.21: Verify required API routes after hot-reload; flag restart when routes missing (fixes stale 404 after module update).",
+    "changelog_vi": "v1.0.21: Kiem tra route API sau hot-reload; bao restart neu thieu route (sua 404 sau cap nhat module)."
   },
   {
     "id": "system_cleaner",
