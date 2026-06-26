@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.7",
+    "version": "1.4.8",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.8.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.7: Fix partition read/create on disks with existing partitions — lsblk-first detection, parted free-space parsing, frontend merge fallback.",
-    "changelog_vi": "v1.4.7: Sua doc/tao phan vung tren o da co partition — uu tien lsblk, parse vung trong parted, frontend fallback."
+    "changelog_en": "v1.4.8: Disk-level wizard for raw disks — initialize GPT/MBR (step 1), then create/format partitions; disk_state in API.",
+    "changelog_vi": "v1.4.8: Wizard o raw — khoi tao GPT/MBR (buoc 1), roi tao/dinh dang phan vung; disk_state trong API."
   },
   {
     "id": "firewall",
