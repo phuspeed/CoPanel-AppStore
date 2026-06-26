@@ -72,8 +72,8 @@
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.3.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl"],
-    "changelog_en": "v0.2.3: Fix TypeScript TS2695 in detail tabs (fixes npm build when installing other AppStore modules).",
-    "changelog_vi": "v0.2.3: Sua loi TypeScript TS2695 tab chi tiet (sua npm build khi cai module AppStore khac)."
+    "changelog_en": "v0.2.3: Fix Errno 18 cross-device move when temp (/tmp) and destination are on different disks — shutil.move instead of Path.replace.",
+    "changelog_vi": "v0.2.3: Sua loi Errno 18 khi thu muc tam (/tmp) va dich khac o dia — dung shutil.move thay Path.replace."
   },
   {
     "id": "audio_station",
