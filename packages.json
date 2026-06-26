@@ -259,12 +259,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.19",
+    "version": "1.0.20",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.19.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.20.zip",
     "is_core": true,
-    "changelog_en": "v1.0.19: Auto-restart copanel after installing new backend modules (e.g. Audio Player) when hot-reload fails or routes stay missing. Reduces 404 on /api/{module} after AppStore install.",
-    "changelog_vi": "v1.0.19: Tu dong restart copanel sau khi cai module backend moi (vd Audio Player) neu hot-reload that bai hoac route van thieu. Giam loi 404 /api/{module} sau cai AppStore."
+    "requires_copanel_restart": true,
+    "changelog_en": "v1.0.20: Manual copanel restart after install — banner + Restart CoPanel button (no forced auto-restart). Supports requires_copanel_restart in packages.json.",
+    "changelog_vi": "v1.0.20: Restart copanel thu cong sau cai — banner + nut Restart CoPanel (khong tu dong restart). Ho tro requires_copanel_restart trong packages.json."
   },
   {
     "id": "system_cleaner",
