@@ -176,8 +176,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.15: Fix mount 400 (fstab conflict, NTFS picker), safer hot-reload route registration, wizard shows mount errors. v1.4.13: Windows disk NTFS/exFAT probe, parted delete/resize, mount FS picker.",
-    "changelog_vi": "v1.4.15: Sua mount 400 (fstab trung, chon NTFS), dang ky route an toan hon, wizard hien loi mount. v1.4.13: Do NTFS/exFAT, sua xoa/resize parted, chon FS khi mount."
+    "changelog_en": "v1.4.16: Fix mount blocked on /mnt/* (root / prefix bug). v1.4.15: Mount fstab/NTFS picker fixes.",
+    "changelog_vi": "v1.4.16: Sua mount /mnt/* bi chan (loi check /). v1.4.15: Sua mount fstab/NTFS."
   },
   {
     "id": "firewall",
