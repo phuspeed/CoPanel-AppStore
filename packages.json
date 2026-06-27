@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.15",
+    "version": "1.4.16",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.16.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
