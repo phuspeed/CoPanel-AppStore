@@ -67,14 +67,14 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.10",
+    "version": "0.2.11",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.11.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl", "ffmpeg"],
     "pip_packages": ["yt-dlp"],
-    "changelog_en": "v0.2.10: Fix aria2 start exit code 28. Update yt-dlp unpinned for 403 Forbidden fixes. Add ffmpeg to merge formats.",
-    "changelog_vi": "v0.2.10: Sua loi aria2 exit code 28 khi start. Cap nhat yt-dlp ban moi nhat fix 403 Forbidden. Them ffmpeg de ghep video chat luong cao."
+    "changelog_en": "v0.2.11: Fix aria2 unrecognized option --pid-file error on older distributions. v0.2.10: Fix aria2 start exit code 28. Update yt-dlp unpinned for 403 Forbidden fixes. Add ffmpeg to merge formats.",
+    "changelog_vi": "v0.2.11: Sua loi aria2 khong nhan tham so --pid-file tren he dieu hanh cu. v0.2.10: Sua loi aria2 exit code 28 khi start. Cap nhat yt-dlp ban moi nhat fix 403 Forbidden. Them ffmpeg de ghep video chat luong cao."
   },
   {
     "id": "audio_station",
