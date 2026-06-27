@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.10: Fix partition creation alignment, improve regex-based partition number detection for deletion, and wipe signatures before initialize/delete to avoid parted conflicts. v1.4.9: GET /version + stale-API banner; clearer 404 hint when backend routes missing after install.",
-    "changelog_vi": "v1.4.10: Sửa lỗi tạo partition (thêm alignment), tối ưu regex lấy số partition khi xóa, tự động wipefs xóa sạch signature trước khi khởi tạo hoặc xóa partition để tránh lỗi xung đột. v1.4.9: GET /version + banner API cu; goi y 404 khi thieu route sau cai module."
+    "changelog_en": "v1.4.10: Partition alignment + wipefs before init/delete; stale-API banner checks /api/modules routes; clearer mount error when partition unformatted.",
+    "changelog_vi": "v1.4.10: Can chinh partition + wipefs truoc init/delete; banner API cu kiem tra route /api/modules; loi mount ro hon khi chua format."
   },
   {
     "id": "firewall",
@@ -259,13 +259,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.21.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.22.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.21: Verify required API routes after hot-reload; flag restart when routes missing (fixes stale 404 after module update).",
-    "changelog_vi": "v1.0.21: Kiem tra route API sau hot-reload; bao restart neu thieu route (sua 404 sau cap nhat module)."
+    "changelog_en": "v1.0.22: Auto-schedule copanel restart when hot-reload misses routes; Restart CoPanel button shows spinner and polls /health until service is back.",
+    "changelog_vi": "v1.0.22: Tu dong len lich restart copanel khi hot-reload thieu route; nut Restart CoPanel co spinner va doi /health den khi dich vu len lai."
   },
   {
     "id": "system_cleaner",
