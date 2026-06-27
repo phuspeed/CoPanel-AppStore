@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.11",
+    "version": "1.4.12",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.11.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.12.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.11: Fix false stale-API banner when /api/modules route list was empty; only warn when routes are explicitly missing.",
-    "changelog_vi": "v1.4.11: Sua banner API cu sai khi /api/modules tra route rong; chi canh bao khi thieu route that."
+    "changelog_en": "v1.4.12: Fix TypeScript build (route_count type on /api/modules response).",
+    "changelog_vi": "v1.4.12: Sua loi build TypeScript (kieu route_count trong /api/modules)."
   },
   {
     "id": "firewall",
