@@ -213,6 +213,18 @@
     "changelog_vi": "v1.0.1: Bo cloudflared khoi system_packages bat buoc — goi khong co tren apt mac dinh nen lam install that bai; DDNS/DNS van chay khong can cloudflared; cai cloudflared thu cong neu dung Tunnel. v1.0.0: Phat hanh dau."
   },
   {
+    "id": "webdav",
+    "name": "WebDAV SMB",
+    "description": "WebDAV and SMB file sharing on server IP:port. Login with the same username/password as the panel root (superadmin) account.",
+    "version": "1.0.0",
+    "icon": "FolderSync",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.0.zip",
+    "is_core": false,
+    "system_packages": ["samba"],
+    "changelog_en": "v1.0.0: Initial release — embedded WebDAV server (requires pip: wsgidav cheroot), SMB share via Samba, configurable bind address/ports and share path; authentication uses CoPanel superadmin credentials.",
+    "changelog_vi": "v1.0.0: Phat hanh dau — WebDAV noi bo (can pip: wsgidav cheroot), SMB qua Samba, cau hinh dia chi IP/cong/thu muc chia se; dang nhap bang tai khoan root panel (superadmin)."
+  },
+  {
     "id": "cron_manager",
     "name": "Cron Manager",
     "description": "Manage recurring task schedules with visual cron builder and command execution.",
