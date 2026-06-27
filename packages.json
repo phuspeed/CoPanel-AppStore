@@ -66,14 +66,15 @@
   {
     "id": "download_manager",
     "name": "Download Manager",
-    "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth.",
-    "version": "0.2.8",
+    "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
+    "version": "0.2.9",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.9.zip",
     "is_core": false,
     "system_packages": ["aria2", "curl"],
-    "changelog_en": "v0.2.8: Fix aria2 auto-start (managed process, session file, log tail in UI error). Restart copanel after update.",
-    "changelog_vi": "v0.2.8: Sua auto-start aria2 (process quan ly, session file, hien log loi). Restart copanel sau update."
+    "pip_packages": ["yt-dlp==2024.5.27"],
+    "changelog_en": "v0.2.9: Added support for downloading media from YouTube, TikTok, Facebook, Twitter, and Instagram using yt-dlp. v0.2.8: Fix aria2 auto-start.",
+    "changelog_vi": "v0.2.9: Ho tro tai video tu YouTube, TikTok, Facebook, Twitter, Instagram thong qua yt-dlp. v0.2.8: Sua loi auto-start aria2."
   },
   {
     "id": "audio_station",
