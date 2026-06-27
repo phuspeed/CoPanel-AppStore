@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.18",
+    "version": "1.4.19",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.18.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.19.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -176,8 +176,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.18: Delete partition — size-based parted match, layout partition number hint, live findmnt mount check, error in modal.",
-    "changelog_vi": "v1.4.18: Xoa phan vung — map parted theo dung luong, gui so partition tu wizard, check mount bang findmnt, hien loi trong modal."
+    "changelog_en": "v1.4.19: Delete/boot partition — parted text parse, kernel sdbN fallback, sgdisk delete; GPT boot flag rules for exFAT/NTFS.",
+    "changelog_vi": "v1.4.19: Xoa/boot phan vung — parse parted text, fallback sdbN, sgdisk; quy tac boot GPT cho exFAT/NTFS."
   },
   {
     "id": "firewall",
