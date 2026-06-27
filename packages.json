@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.16",
+    "version": "1.4.17",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.16.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.17.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -176,8 +176,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.16: Fix mount blocked on /mnt/* (root / prefix bug). v1.4.15: Mount fstab/NTFS picker fixes.",
-    "changelog_vi": "v1.4.16: Sua mount /mnt/* bi chan (loi check /). v1.4.15: Sua mount fstab/NTFS."
+    "changelog_en": "v1.4.17: Fix delete partition (parted number resolution + 400 not route-404). v1.4.16: Fix /mnt mount protected false positive.",
+    "changelog_vi": "v1.4.17: Sua xoa phan vung (map so parted + loi 400 ro hon). v1.4.16: Sua mount /mnt bi chan."
   },
   {
     "id": "firewall",
