@@ -158,10 +158,11 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.13",
+    "version": "1.4.15",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.13.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.15.zip",
     "is_core": false,
+    "requires_copanel_restart": true,
     "system_packages": [
       "lvm2",
       "mdadm",
@@ -175,8 +176,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.13: Windows disk support — NTFS/exFAT probe (blkid/file/ntfs-3g), fix parted partition delete/resize, mount FS picker in wizard.",
-    "changelog_vi": "v1.4.13: Ho tro o Windows — do NTFS/exFAT tot hon, sua xoa/resize parted, chon FS khi mount trong wizard."
+    "changelog_en": "v1.4.15: Fix mount 400 (fstab conflict, NTFS picker), safer hot-reload route registration, wizard shows mount errors. v1.4.13: Windows disk NTFS/exFAT probe, parted delete/resize, mount FS picker.",
+    "changelog_vi": "v1.4.15: Sua mount 400 (fstab trung, chon NTFS), dang ky route an toan hon, wizard hien loi mount. v1.4.13: Do NTFS/exFAT, sua xoa/resize parted, chon FS khi mount."
   },
   {
     "id": "firewall",
