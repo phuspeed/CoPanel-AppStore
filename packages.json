@@ -158,9 +158,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.10",
+    "version": "1.4.11",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.11.zip",
     "is_core": false,
     "system_packages": [
       "lvm2",
@@ -175,8 +175,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.10: Partition alignment + wipefs before init/delete; stale-API banner checks /api/modules routes; clearer mount error when partition unformatted.",
-    "changelog_vi": "v1.4.10: Can chinh partition + wipefs truoc init/delete; banner API cu kiem tra route /api/modules; loi mount ro hon khi chua format."
+    "changelog_en": "v1.4.11: Fix false stale-API banner when /api/modules route list was empty; only warn when routes are explicitly missing.",
+    "changelog_vi": "v1.4.11: Sua banner API cu sai khi /api/modules tra route rong; chi canh bao khi thieu route that."
   },
   {
     "id": "firewall",
@@ -259,13 +259,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.22",
+    "version": "1.0.23",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.22.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.23.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.22: Auto-schedule copanel restart when hot-reload misses routes; Restart CoPanel button shows spinner and polls /health until service is back.",
-    "changelog_vi": "v1.0.22: Tu dong len lich restart copanel khi hot-reload thieu route; nut Restart CoPanel co spinner va doi /health den khi dich vu len lai."
+    "changelog_en": "v1.0.23: Fix route probe for FastAPI _IncludedRouter mounts; hot-reload unregister works correctly.",
+    "changelog_vi": "v1.0.23: Sua kiem tra route voi _IncludedRouter; hot-reload go route module dung."
   },
   {
     "id": "system_cleaner",
