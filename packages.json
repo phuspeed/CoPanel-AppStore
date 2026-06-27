@@ -216,13 +216,14 @@
     "id": "webdav",
     "name": "WebDAV SMB",
     "description": "WebDAV and SMB file sharing on server IP:port. Login with the same username/password as the panel root (superadmin) account.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "FolderSync",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.1.zip",
     "is_core": false,
     "system_packages": ["samba"],
-    "changelog_en": "v1.0.0: Initial release — embedded WebDAV server (requires pip: wsgidav cheroot), SMB share via Samba, configurable bind address/ports and share path; authentication uses CoPanel superadmin credentials.",
-    "changelog_vi": "v1.0.0: Phat hanh dau — WebDAV noi bo (can pip: wsgidav cheroot), SMB qua Samba, cau hinh dia chi IP/cong/thu muc chia se; dang nhap bang tai khoan root panel (superadmin)."
+    "pip_packages": ["wsgidav==4.3.3", "cheroot==10.0.5"],
+    "changelog_en": "v1.0.1: Fix wsgidav 4.x provider config (FilesystemProvider); AppStore auto-installs wsgidav and cheroot via pip. v1.0.0: Initial release.",
+    "changelog_vi": "v1.0.1: Sua cau hinh provider wsgidav 4.x; AppStore tu cai wsgidav va cheroot qua pip. v1.0.0: Phat hanh dau."
   },
   {
     "id": "cron_manager",
@@ -272,13 +273,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.24",
+    "version": "1.0.25",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.24.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.25.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.24: Graceful fallback when core/module_reload missing; safer restart logging; new-backend installs always schedule restart.",
-    "changelog_vi": "v1.0.24: Xu ly khi thieu core/module_reload; log restart ro hon; module backend moi luon schedule restart."
+    "changelog_en": "v1.0.25: Auto-install pip_packages from catalog during module install (e.g. webdav wsgidav cheroot). v1.0.24: Graceful fallback when core/module_reload missing.",
+    "changelog_vi": "v1.0.25: Tu dong cai pip_packages tu catalog khi cai module (vd webdav wsgidav cheroot). v1.0.24: Xu ly khi thieu core/module_reload."
   },
   {
     "id": "system_cleaner",
