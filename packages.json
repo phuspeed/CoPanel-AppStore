@@ -241,13 +241,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.25",
+    "version": "1.0.26",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.25.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.26.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.25: Auto-install pip_packages from catalog during module install (e.g. webdav wsgidav cheroot). v1.0.24: Graceful fallback when core/module_reload missing.",
-    "changelog_vi": "v1.0.25: Tu dong cai pip_packages tu catalog khi cai module (vd webdav wsgidav cheroot). v1.0.24: Xu ly khi thieu core/module_reload."
+    "changelog_en": "v1.0.26: Automatically run apt-get update when apt-get install fails with 404 Not Found to prevent stale package index errors. v1.0.25: Auto-install pip_packages.",
+    "changelog_vi": "v1.0.26: Tu dong chay apt-get update khi apt-get install gap loi 404 de khac phuc tinh trang package list bi cu. v1.0.25: Tu dong cai pip_packages."
   },
   {
     "id": "system_cleaner",
