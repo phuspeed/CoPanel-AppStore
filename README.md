@@ -32,21 +32,19 @@ Example catalog item:
 
 ## Build packages with Versioning
 
-We provide a specialized tool `build_versioned_zip.py` inside the `scripts/` folder to build versioned ZIP files for any module directly from the main CoPanel source directory.
-
-### Usage:
-
-To bundle a versioned package into the `packages/` directory, use the following syntax:
+`build_versioned_zip.py` reads **`packages_src/<module_id>/`** first (AppStore-only modules), then falls back to the sibling **CoPanel** tree for core modules.
 
 ```bash
-python scripts/build_versioned_zip.py <module_id> <version>
+cd scripts
+python build_versioned_zip.py <module_id> <version>
 ```
 
-### Example:
-
-To build version `1.0.1` for the `ssl_manager` module:
+Example — `storage_manager` from `packages_src/`:
 
 ```bash
-python scripts/build_versioned_zip.py ssl_manager 1.0.1
+python build_versioned_zip.py storage_manager 1.4.20
 ```
-This will automatically generate a new ZIP file named `ssl_manager.v1.0.1.zip` in the `packages/` folder.
+
+Produces `packages/storage_manager.v1.4.20.zip`.
+
+AppStore-only sources live under `packages_src/` (see `packages_src/README.md`). They are **not** bundled in `CoPanel/scripts/install.sh`.

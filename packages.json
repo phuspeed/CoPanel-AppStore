@@ -210,6 +210,7 @@
     "icon": "Cloud",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.1.zip",
     "is_core": false,
+    "pip_packages": ["httpx==0.27.0"],
     "changelog_en": "v1.0.1: Remove cloudflared from required system_packages — it is not in default apt repos and blocked install; DDNS/DNS work without it; install cloudflared manually for Tunnel. v1.0.0: Initial release.",
     "changelog_vi": "v1.0.1: Bo cloudflared khoi system_packages bat buoc — goi khong co tren apt mac dinh nen lam install that bai; DDNS/DNS van chay khong can cloudflared; cai cloudflared thu cong neu dung Tunnel. v1.0.0: Phat hanh dau."
   },
@@ -222,7 +223,7 @@
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.5.zip",
     "is_core": false,
     "system_packages": ["samba"],
-    "pip_packages": ["wsgidav==4.3.3", "cheroot==10.0.5"],
+    "pip_packages": ["wsgidav==4.3.3", "cheroot==10.0.1"],
     "changelog_en": "v1.0.5: Fix SMB share detection (testparm exit 1 warnings), share-only smb.conf.d, inject fallback into smb.conf, explicit include path.",
     "changelog_vi": "v1.0.5: Sua nhan dien share SMB (testparm canh bao), chi share trong smb.conf.d, fallback inject smb.conf, include duong dan tuyet doi."
   },
