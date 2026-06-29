@@ -30,6 +30,7 @@ Update `packages.json` (`version`, `download_url`, changelogs) and commit the ne
 | `download_manager` | aria2, yt-dlp, Google Drive |
 | `storage_manager` | disks, LVM, RAID, partitions |
 | `webdav` | WebDAV + SMB sharing |
+| `audio_station` | music library, playlists, streaming |
 
 ## Local dev (optional)
 

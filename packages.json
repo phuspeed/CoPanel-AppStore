@@ -84,6 +84,7 @@
     "icon": "Music",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.2.zip",
     "is_core": false,
+    "pip_packages": ["mutagen==1.47.0"],
     "changelog_en": "v0.3.2: Fix AppStore install — add __init__.py, init on import, reliable hot-reload with CoPanel loader fix. If API 404 after install, run systemctl restart copanel. v0.3.1: Rebrand to Audio Player.",
     "changelog_vi": "v0.3.2: Sua cai AppStore — __init__.py, khoi tao khi import, hot-reload on dinh hon. Neu API 404 sau cai, chay systemctl restart copanel. v0.3.1: Doi ten Audio Player."
   },
