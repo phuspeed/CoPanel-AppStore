@@ -179,7 +179,7 @@ export default function CloudflareDdns() {
       setConfig(cfg);
       setTokenInput('');
       setError(null);
-      const verify = await api('/api/cloudflare_ddns/config/verify');
+      const verify = await api('/api/cloudflare_ddns/config/verify', { method: 'POST' });
       setVerifyInfo(verify);
       await loadZones();
     } catch (err: any) {
@@ -192,7 +192,7 @@ export default function CloudflareDdns() {
   async function verifyToken() {
     setBusy(true);
     try {
-      const verify = await api('/api/cloudflare_ddns/config/verify');
+      const verify = await api('/api/cloudflare_ddns/config/verify', { method: 'POST' });
       setVerifyInfo(verify);
       setError(null);
     } catch (err: any) {
