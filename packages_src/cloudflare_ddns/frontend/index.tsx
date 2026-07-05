@@ -106,6 +106,7 @@ export default function CloudflareDdns() {
   const [recordDraft, setRecordDraft] = useState({ type: 'A', name: '@', content: '', ttl: 1, proxied: false });
 
   const [profiles, setProfiles] = useState<DdnsProfile[]>([]);
+  const [cronStatus, setCronStatus] = useState<any>(null);
   const [ddnsDraft, setDdnsDraft] = useState<Partial<DdnsProfile>>(EMPTY_DDNS);
   const [ddnsZone, setDdnsZone] = useState<Zone | null>(null);
 
@@ -132,6 +133,11 @@ export default function CloudflareDdns() {
     setProfiles(list || []);
   }, []);
 
+  const loadCronStatus = useCallback(async () => {
+    const status = await api('/api/cloudflare_ddns/ddns/cron-status');
+    setCronStatus(status);
+  }, []);
+
   const loadTunnels = useCallback(async () => {
     const [list, status] = await Promise.all([
       api<Tunnel[]>('/api/cloudflare_ddns/tunnels'),
@@ -144,30 +150,38 @@ export default function CloudflareDdns() {
   const refresh = useCallback(async () => {
     try {
       setError(null);
-      await loadConfig();
-      if (config?.api_token_set || tab !== 'settings') {
+      const cfg = await api<Config>('/api/cloudflare_ddns/config');
+      setConfig(cfg);
+      setAccountId(cfg.account_id || '');
+      if (cfg.api_token_set) {
         try {
           await loadZones();
-        } catch {
-          /* token may be missing */
+        } catch (err: any) {
+          setError(err?.message || 'Failed to load zones');
         }
+      } else {
+        setZones([]);
       }
       await loadProfiles();
-      if (tab === 'tunnels') await loadTunnels();
+      await loadCronStatus();
+      if (tab === 'tunnels' && cfg.api_token_set) await loadTunnels();
     } catch (err: any) {
       setError(err?.message || 'Load failed');
     }
-  }, [config?.api_token_set, loadConfig, loadProfiles, loadTunnels, loadZones, tab]);
+  }, [loadCronStatus, loadProfiles, loadTunnels, loadZones, tab]);
 
   useEffect(() => {
     refresh();
   }, []);
 
   useEffect(() => {
-    if (tab === 'tunnels' && config?.api_token_set) {
-      loadTunnels().catch((e) => setError(e?.message));
+    if ((tab === 'ddns' || tab === 'records') && config?.api_token_set) {
+      loadZones().catch((err: any) => setError(err?.message || 'Failed to load zones'));
     }
-  }, [tab, config?.api_token_set, loadTunnels]);
+    if (tab === 'ddns') {
+      loadCronStatus().catch(() => undefined);
+    }
+  }, [tab, config?.api_token_set, loadCronStatus, loadZones]);
 
   async function saveToken() {
     setBusy(true);
@@ -182,6 +196,7 @@ export default function CloudflareDdns() {
       const verify = await api('/api/cloudflare_ddns/config/verify', { method: 'POST' });
       setVerifyInfo(verify);
       await loadZones();
+      await loadCronStatus();
     } catch (err: any) {
       setError(err?.message || 'Save failed');
     } finally {
@@ -250,6 +265,7 @@ export default function CloudflareDdns() {
       });
       setDdnsDraft(EMPTY_DDNS);
       await loadProfiles();
+      await loadCronStatus();
     } catch (err: any) {
       setError(err?.message || 'Create DDNS failed');
     }
@@ -271,6 +287,7 @@ export default function CloudflareDdns() {
         body: { enabled: !p.enabled },
       });
       await loadProfiles();
+      await loadCronStatus();
     } catch (err: any) {
       setError(err?.message || 'Update failed');
     }
@@ -281,6 +298,7 @@ export default function CloudflareDdns() {
     try {
       await api(`/api/cloudflare_ddns/ddns/${id}`, { method: 'DELETE' });
       await loadProfiles();
+      await loadCronStatus();
     } catch (err: any) {
       setError(err?.message || 'Delete failed');
     }
@@ -460,6 +478,45 @@ export default function CloudflareDdns() {
 
       {tab === 'ddns' && (
         <div className="space-y-4">
+          {cronStatus && (
+            <section className={`rounded-2xl border p-4 text-xs ${
+              cronStatus.sync_ok
+                ? 'border-emerald-200 bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30'
+                : 'border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30'
+            }`}>
+              <h2 className="text-sm font-bold mb-2">Cron DDNS</h2>
+              {!cronStatus.supported && <p>{cronStatus.message}</p>}
+              {cronStatus.supported && (
+                <>
+                  <p>
+                    Trạng thái:{' '}
+                    <strong>{cronStatus.sync_ok ? 'OK — crontab đã sync' : 'Cần kiểm tra'}</strong>
+                    {' · '}{cronStatus.enabled_profiles} profile bật · {cronStatus.intervals_minutes?.length || 0} interval
+                  </p>
+                  {(cronStatus.cron_entries || []).length > 0 ? (
+                    <ul className="mt-2 font-mono space-y-1 text-[11px]">
+                      {cronStatus.cron_entries.map((line: string, i: number) => (
+                        <li key={i} className="break-all">{line}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-1 text-slate-500">Chưa có dòng cron (profile disabled hoặc chưa sync).</p>
+                  )}
+                  {!cronStatus.run_script_exists && (
+                    <p className="mt-1 text-red-600">Thiếu run_update.py — cập nhật module lên bản mới.</p>
+                  )}
+                  {(cronStatus.log_files || []).map((lf: any) => (
+                    lf.tail?.length > 0 && (
+                      <details key={lf.path} className="mt-2">
+                        <summary className="cursor-pointer">Log {lf.interval_minutes}p — {lf.path}</summary>
+                        <pre className="mt-1 whitespace-pre-wrap text-[10px] opacity-80">{lf.tail.join('\n')}</pre>
+                      </details>
+                    )
+                  ))}
+                </>
+              )}
+            </section>
+          )}
           <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-3">
             <h2 className="text-sm font-bold">Thêm DDNS profile</h2>
             <div className="grid gap-2 md:grid-cols-4">

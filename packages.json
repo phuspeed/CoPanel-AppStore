@@ -207,13 +207,13 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.3.zip",
     "is_core": false,
     "pip_packages": ["httpx==0.27.0"],
-    "changelog_en": "v1.0.2: Fix token verify — frontend uses POST /config/verify (was GET, caused 405 Method Not Allowed). v1.0.1: Remove cloudflared from required system_packages.",
-    "changelog_vi": "v1.0.2: Sua verify token — frontend goi POST /config/verify (truoc day GET gay 405). v1.0.1: Bo cloudflared khoi system_packages bat buoc."
+    "changelog_en": "v1.0.3: Fix zones not loading after page reload (stale config); load zones on DDNS/Records tab; add Cron DDNS status panel. v1.0.2: POST verify fix.",
+    "changelog_vi": "v1.0.3: Sua zone khong load sau reload; load zone khi vao tab DDNS/Records; them panel trang thai Cron DDNS. v1.0.2: Sua POST verify."
   },
   {
     "id": "webdav",

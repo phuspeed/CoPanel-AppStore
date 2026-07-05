@@ -156,6 +156,11 @@ def delete_record(
 
 # --- DDNS profiles ---
 
+@router.get("/ddns/cron-status")
+def ddns_cron_status(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
+    return ok(logic.get_cron_status())
+
+
 @router.get("/ddns")
 def list_ddns(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
     return ok(logic.list_ddns_profiles())

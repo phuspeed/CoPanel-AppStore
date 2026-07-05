@@ -635,6 +635,66 @@ def sync_crontab() -> None:
         raise RuntimeError((proc.stderr or proc.stdout or "").strip() or "crontab write failed")
 
 
+def get_cron_status() -> Dict[str, Any]:
+    """Report crontab entries and log tails for DDNS scheduler."""
+    profiles = list_ddns_profiles()
+    enabled = [p for p in profiles if p.get("enabled")]
+    intervals = sorted({int(p.get("interval_minutes") or 5) for p in enabled})
+
+    if IS_WINDOWS:
+        return {
+            "supported": False,
+            "enabled_profiles": len(enabled),
+            "intervals_minutes": intervals,
+            "message": "Cron sync is Linux-only.",
+        }
+
+    has_crontab = bool(shutil.which("crontab"))
+    cron_lines: List[str] = []
+    if has_crontab:
+        res = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
+        if res.returncode == 0:
+            in_block = False
+            for line in res.stdout.splitlines():
+                if line.strip() == CRON_TAG_START:
+                    in_block = True
+                    continue
+                if line.strip() == CRON_TAG_END:
+                    in_block = False
+                    continue
+                if in_block and line.strip():
+                    cron_lines.append(line.strip())
+
+    log_files: List[Dict[str, Any]] = []
+    for minutes in intervals:
+        lf = LOG_DIR / f"cloudflare_ddns_{minutes}m.log"
+        entry: Dict[str, Any] = {"interval_minutes": minutes, "path": str(lf), "exists": lf.is_file()}
+        if lf.is_file():
+            try:
+                entry["tail"] = lf.read_text(encoding="utf-8", errors="ignore").splitlines()[-8:]
+            except OSError:
+                entry["tail"] = []
+        log_files.append(entry)
+
+    expected_entries = len(intervals)
+    return {
+        "supported": True,
+        "crontab_available": has_crontab,
+        "run_script": str(RUN_UPDATE_SCRIPT),
+        "run_script_exists": RUN_UPDATE_SCRIPT.is_file(),
+        "python_bin": _resolve_python_bin(),
+        "cron_entries": cron_lines,
+        "intervals_minutes": intervals,
+        "enabled_profiles": len(enabled),
+        "profiles_by_interval": {
+            str(m): [p.get("name") for p in enabled if int(p.get("interval_minutes") or 5) == m]
+            for m in intervals
+        },
+        "log_files": log_files,
+        "sync_ok": (not enabled) or (expected_entries > 0 and len(cron_lines) == expected_entries),
+    }
+
+
 def run_ddns_for_interval(interval_minutes: int) -> None:
     for p in list_ddns_profiles():
         if not p.get("enabled"):
