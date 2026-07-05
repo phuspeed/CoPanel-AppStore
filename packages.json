@@ -207,14 +207,14 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.5.zip",
     "is_core": false,
     "system_packages": ["cron"],
     "pip_packages": ["httpx==0.27.0"],
-    "changelog_en": "v1.0.4: Auto-install cron package when crontab missing; POST /ddns/cron-sync and UI button. v1.0.3: zones reload fix.",
-    "changelog_vi": "v1.0.4: Tu cai goi cron khi thieu crontab; nut Cai cron & sync. v1.0.3: sua load zone."
+    "changelog_en": "v1.0.5: Cron log lines in run_update.py; cd to backend in crontab; surface DDNS errors instead of silent fail. v1.0.4: auto-install cron.",
+    "changelog_vi": "v1.0.5: Ghi log khi cron chay; cd backend trong crontab; hien loi DDNS thay vi nuot im. v1.0.4: tu cai cron."
   },
   {
     "id": "webdav",

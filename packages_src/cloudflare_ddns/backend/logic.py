@@ -677,7 +677,8 @@ def sync_crontab() -> Dict[str, Any]:
     for minutes in intervals:
         log_file = LOG_DIR / f"cloudflare_ddns_{minutes}m.log"
         cmd = (
-            f"*/{minutes} * * * * PATH={DEFAULT_CRON_PATH} "
+            f"*/{minutes} * * * * cd {shlex.quote(str(BACKEND_ROOT))} && "
+            f"PATH={DEFAULT_CRON_PATH} "
             f"{shlex.quote(python_bin)} {shlex.quote(run_script)} --interval {minutes} "
             f">> {shlex.quote(str(log_file))} 2>&1"
         )
@@ -774,16 +775,21 @@ def get_cron_status() -> Dict[str, Any]:
     }
 
 
-def run_ddns_for_interval(interval_minutes: int) -> None:
+def run_ddns_for_interval(interval_minutes: int) -> List[Dict[str, Any]]:
+    results: List[Dict[str, Any]] = []
     for p in list_ddns_profiles():
         if not p.get("enabled"):
             continue
         if int(p.get("interval_minutes") or 5) != int(interval_minutes):
             continue
+        pid = p.get("id") or ""
+        name = p.get("name") or pid
         try:
-            run_ddns_profile(p["id"])
-        except Exception:
-            pass
+            out = run_ddns_profile(pid)
+            results.append({"ok": True, "id": pid, "name": name, **out})
+        except Exception as exc:
+            results.append({"ok": False, "id": pid, "name": name, "error": str(exc)})
+    return results
 
 
 # --- Cloudflare Tunnel ---
