@@ -183,6 +183,19 @@ export default function CloudflareDdns() {
     }
   }, [tab, config?.api_token_set, loadCronStatus, loadZones]);
 
+  async function syncCron() {
+    setBusy(true);
+    try {
+      await api('/api/cloudflare_ddns/ddns/cron-sync', { method: 'POST' });
+      setError(null);
+      await loadCronStatus();
+    } catch (err: any) {
+      setError(err?.message || 'Cron sync failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function saveToken() {
     setBusy(true);
     try {
@@ -501,6 +514,22 @@ export default function CloudflareDdns() {
                     </ul>
                   ) : (
                     <p className="mt-1 text-slate-500">Chưa có dòng cron (profile disabled hoặc chưa sync).</p>
+                  )}
+                  {!cronStatus.crontab_available && cronStatus.install_hint && (
+                    <p className="mt-2 text-amber-800 dark:text-amber-200">{cronStatus.install_hint}</p>
+                  )}
+                  {!cronStatus.sync_ok && (
+                    <button
+                      type="button"
+                      onClick={syncCron}
+                      disabled={busy}
+                      className="mt-3 px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold disabled:opacity-50"
+                    >
+                      Cài cron &amp; sync
+                    </button>
+                  )}
+                  {cronStatus.scheduler_sync?.message && (
+                    <p className="mt-2 text-slate-500">{cronStatus.scheduler_sync.message}</p>
                   )}
                   {!cronStatus.run_script_exists && (
                     <p className="mt-1 text-red-600">Thiếu run_update.py — cập nhật module lên bản mới.</p>

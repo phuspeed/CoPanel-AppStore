@@ -7,6 +7,7 @@ jobs to system crontab (Linux only).
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import shlex
@@ -40,6 +41,8 @@ CRON_TAG_START = "# BEGIN COPANEL CLOUDFLARE DDNS"
 CRON_TAG_END = "# END COPANEL CLOUDFLARE DDNS"
 DDNS_CRON_MARKER = "modules.cloudflare_ddns.run_update"
 DEFAULT_CRON_PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+logger = logging.getLogger(__name__)
 
 CF_API = "https://api.cloudflare.com/client/v4"
 PUBLIC_IP_URLS = (
@@ -584,9 +587,64 @@ def run_all_ddns() -> List[Dict[str, Any]]:
     return results
 
 
-def sync_crontab() -> None:
-    if IS_WINDOWS or not shutil.which("crontab"):
-        return
+def _persist_scheduler_sync(status: Dict[str, Any]) -> None:
+    store = _load_store()
+    store["scheduler_sync"] = {**status, "at": time.time()}
+    _save_store(store)
+
+
+def _ensure_cron_service() -> None:
+    for svc in ("cron", "crond"):
+        probe = subprocess.run(["systemctl", "status", svc], capture_output=True, text=True)
+        if probe.returncode in (0, 3):
+            subprocess.run(["systemctl", "enable", "--now", svc], capture_output=True, text=True)
+            return
+
+
+def _ensure_crontab() -> Tuple[bool, str]:
+    """Install cron package when crontab binary is missing."""
+    if shutil.which("crontab"):
+        _ensure_cron_service()
+        return True, ""
+    if IS_WINDOWS:
+        return False, "Windows has no crontab."
+    if shutil.which("apt-get"):
+        env = {**os.environ, "DEBIAN_FRONTEND": "noninteractive"}
+        if os.geteuid() == 0:
+            cmd = ["apt-get", "install", "-y", "cron"]
+        else:
+            cmd = ["sudo", "-n", "DEBIAN_FRONTEND=noninteractive", "apt-get", "install", "-y", "cron"]
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600, env=env)
+        if proc.returncode != 0:
+            err = (proc.stderr or proc.stdout or "").strip()
+            return False, f"apt install cron failed: {err or proc.returncode}"
+        _ensure_cron_service()
+        if shutil.which("crontab"):
+            return True, "Installed cron package."
+        return False, "cron package installed but crontab still missing."
+    return False, "Install cron: apt install cron && systemctl enable --now cron"
+
+
+def sync_crontab() -> Dict[str, Any]:
+    """Write DDNS jobs to user crontab. Installs cron package on Debian if needed."""
+    profiles = list_ddns_profiles()
+    enabled = [p for p in profiles if p.get("enabled")]
+    result: Dict[str, Any] = {"ok": False, "entries": 0, "message": "", "installed_cron": False}
+
+    if IS_WINDOWS:
+        result["message"] = "Cron not available on Windows."
+        _persist_scheduler_sync(result)
+        return result
+
+    ok_crontab, install_msg = _ensure_crontab()
+    if not ok_crontab:
+        result["message"] = install_msg
+        _persist_scheduler_sync(result)
+        logger.warning("Cloudflare DDNS cron sync skipped: %s", install_msg)
+        return result
+    if install_msg:
+        result["installed_cron"] = True
+
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     python_bin = _resolve_python_bin()
     run_script = str(RUN_UPDATE_SCRIPT)
@@ -613,8 +671,7 @@ def sync_crontab() -> None:
     intervals = sorted(
         {
             int(p.get("interval_minutes") or 5)
-            for p in list_ddns_profiles()
-            if p.get("enabled")
+            for p in enabled
         }
     )
     for minutes in intervals:
@@ -632,7 +689,21 @@ def sync_crontab() -> None:
 
     proc = subprocess.run(["crontab", "-"], input="\n".join(clean).rstrip() + "\n", text=True, capture_output=True)
     if proc.returncode != 0:
-        raise RuntimeError((proc.stderr or proc.stdout or "").strip() or "crontab write failed")
+        err = (proc.stderr or proc.stdout or "").strip() or "crontab write failed"
+        result["message"] = err
+        _persist_scheduler_sync(result)
+        raise RuntimeError(err)
+
+    result["ok"] = True
+    result["entries"] = len(intervals)
+    result["message"] = (
+        f"Synced {len(intervals)} cron interval(s)."
+        if intervals
+        else "No enabled profiles — cron block cleared."
+    )
+    _persist_scheduler_sync(result)
+    logger.info("Cloudflare DDNS cron sync: %s", result["message"])
+    return result
 
 
 def get_cron_status() -> Dict[str, Any]:
@@ -677,9 +748,17 @@ def get_cron_status() -> Dict[str, Any]:
         log_files.append(entry)
 
     expected_entries = len(intervals)
+    store = _load_store()
+    scheduler_sync = store.get("scheduler_sync") or {}
+    install_hint = ""
+    if not has_crontab:
+        install_hint = "Chạy: apt install cron && systemctl enable --now cron — hoặc bấm «Cài cron & sync» trên panel."
+
     return {
         "supported": True,
         "crontab_available": has_crontab,
+        "install_hint": install_hint,
+        "scheduler_sync": scheduler_sync,
         "run_script": str(RUN_UPDATE_SCRIPT),
         "run_script_exists": RUN_UPDATE_SCRIPT.is_file(),
         "python_bin": _resolve_python_bin(),
@@ -691,7 +770,7 @@ def get_cron_status() -> Dict[str, Any]:
             for m in intervals
         },
         "log_files": log_files,
-        "sync_ok": (not enabled) or (expected_entries > 0 and len(cron_lines) == expected_entries),
+        "sync_ok": has_crontab and ((not enabled) or (expected_entries > 0 and len(cron_lines) == expected_entries)),
     }
 
 

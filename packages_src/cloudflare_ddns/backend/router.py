@@ -27,8 +27,9 @@ router = APIRouter()
 async def on_startup() -> None:
     try:
         logic.sync_crontab()
-    except Exception:
-        pass
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("Cloudflare DDNS cron startup sync failed: %s", exc)
 
 
 # --- Config ---
@@ -155,6 +156,23 @@ def delete_record(
 
 
 # --- DDNS profiles ---
+
+@router.post("/ddns/cron-sync")
+def ddns_cron_sync(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
+    try:
+        result = logic.sync_crontab()
+    except RuntimeError as exc:
+        raise ApiError("SERVICE_ERROR", str(exc), http_status=503)
+    record_audit(
+        "cloudflare.ddns.cron_sync",
+        module="cloudflare_ddns",
+        target="cron",
+        actor=user.get("username"),
+        actor_id=user.get("id"),
+        meta={"ok": result.get("ok")},
+    )
+    return ok(result)
+
 
 @router.get("/ddns/cron-status")
 def ddns_cron_status(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
