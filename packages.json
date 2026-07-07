@@ -182,6 +182,22 @@
     "changelog_vi": "v1.4.20: Sua Initialize o — nhan dien GPT/MBR sau mklabel, bo chan o trong, hien loi init trong modal."
   },
   {
+    "id": "clamav",
+    "name": "ClamAV",
+    "description": "Antivirus dashboard for signature updates, targeted malware scans, detections, and quarantine workflow.",
+    "version": "1.0.0",
+    "icon": "ShieldAlert",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.0.zip",
+    "is_core": false,
+    "requires_copanel_restart": true,
+    "system_packages": [
+      "clamav",
+      "clamav-daemon"
+    ],
+    "changelog_en": "v1.0.0: Initial AppStore release with engine overview, signature updates, on-demand scans, detections list, and quarantine actions.",
+    "changelog_vi": "v1.0.0: Ban phat hanh dau tien cho AppStore voi tong quan engine, cap nhat chu ky, quet theo yeu cau, danh sach phat hien va thao tac cach ly."
+  },
+  {
     "id": "firewall",
     "name": "Firewall",
     "description": "Visual dashboard for UFW firewall rules and Fail2Ban IDS with correct jail / banned-IP display.",

@@ -1,0 +1,1 @@
+"""ClamAV AppStore module."""
