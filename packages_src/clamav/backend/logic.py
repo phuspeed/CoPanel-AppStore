@@ -6,6 +6,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import threading
 import time
@@ -151,6 +152,15 @@ def _run(cmd: List[str], *, timeout: int = 120) -> subprocess.CompletedProcess:
 def _terminate_subprocess(proc: subprocess.Popen) -> None:
     if proc.poll() is not None:
         return
+    try:
+        proc.send_signal(signal.SIGINT)
+    except (ProcessLookupError, OSError):
+        return
+    try:
+        proc.wait(timeout=5)
+        return
+    except subprocess.TimeoutExpired:
+        pass
     proc.terminate()
     try:
         proc.wait(timeout=8)
@@ -159,15 +169,52 @@ def _terminate_subprocess(proc: subprocess.Popen) -> None:
         proc.wait(timeout=5)
 
 
-def _build_freshclam_command() -> List[str]:
+def _stream_command_output(job: Any, cmd: List[str]) -> Tuple[List[str], int]:
+    job.log(" ".join(cmd))
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    lines: List[str] = []
+    try:
+        while True:
+            if job.cancel_requested():
+                _terminate_subprocess(proc)
+                job.update(message="Operation cancelled")
+                raise JobCancelled()
+            line = proc.stdout.readline() if proc.stdout else ""
+            if not line:
+                if proc.poll() is not None:
+                    break
+                time.sleep(0.1)
+                continue
+            clean = line.rstrip()
+            lines.append(clean)
+            if clean:
+                job.log(clean)
+    finally:
+        if proc.stdout:
+            proc.stdout.close()
+    return lines, proc.wait(timeout=10)
+
+
+def _freshclam_standalone_cmd() -> List[str]:
     freshclam = _which("freshclam")
     if not freshclam:
         raise RuntimeError("freshclam not installed.")
-    _ensure_storage()
-    log_file = CONFIG_DIR / "freshclam-update.log"
-    service = _systemctl_status(FRESHCLAM_SERVICE_NAMES)
-    cmd = [freshclam, f"--log={log_file}"]
-    return cmd
+    return [freshclam, "--stdout"]
+
+
+def _systemctl_action(action: str, service_name: str, *, timeout: int = 120) -> subprocess.CompletedProcess:
+    return _run(["systemctl", action, service_name], timeout=timeout)
+
+
+def _exit_code_detail(code: int, lines: List[str]) -> str:
+    tail = "\n".join(lines[-8:]).strip()
+    detail = f" Exit output: {tail}" if tail else ""
+    if code < 0:
+        sig = -code
+        if sig == signal.SIGSEGV:
+            return f" Process crashed (segmentation fault).{detail}"
+        return f" Process terminated by signal {sig}.{detail}"
+    return detail
 
 
 def _which(*candidates: str) -> Optional[str]:
@@ -621,7 +668,7 @@ def _run_scan_job_sync(job: Any, scan_id: str) -> Dict[str, Any]:
     )
 
     if code not in (0, 1):
-        raise RuntimeError(f"ClamAV scan failed with exit code {code}.")
+        raise RuntimeError(f"ClamAV scan failed with exit code {code}.{_exit_code_detail(code, lines)}")
 
     if scan.get("auto_quarantine"):
         for detection in detections:
@@ -670,41 +717,38 @@ async def run_signature_update_job(job: Any) -> Dict[str, Any]:
 
 
 def _run_signature_update_job_sync(job: Any) -> Dict[str, Any]:
-    cmd = _build_freshclam_command()
     service = _systemctl_status(FRESHCLAM_SERVICE_NAMES)
-    if service.get("status") == "active":
-        job.log(
-            "clamav-freshclam service is active; using panel log file to avoid /var/log/clamav lock.",
-            level="info",
-        )
-    job.update(progress=10, message="Updating ClamAV signatures")
-    job.log(" ".join(cmd))
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    service_name = service.get("service")
+    service_active = not IS_WINDOWS and service.get("status") == "active" and service_name
+    stopped_service = False
     lines: List[str] = []
+    code = 0
+
     try:
-        while True:
-            if job.cancel_requested():
-                _terminate_subprocess(proc)
-                job.update(message="Signature update cancelled")
-                raise JobCancelled()
-            line = proc.stdout.readline() if proc.stdout else ""
-            if not line:
-                if proc.poll() is not None:
-                    break
-                time.sleep(0.1)
-                continue
-            clean = line.rstrip()
-            lines.append(clean)
-            if clean:
-                job.log(clean)
+        if service_active:
+            job.log(
+                f"{service_name} is active; stopping service before update to avoid database/log lock.",
+                level="info",
+            )
+            job.update(progress=15, message="Stopping freshclam service")
+            stop = _systemctl_action("stop", service_name, timeout=90)
+            if stop.returncode != 0:
+                err = (stop.stderr or stop.stdout or "").strip()
+                raise RuntimeError(f"Failed to stop {service_name}: {err or stop.returncode}")
+            stopped_service = True
+
+        job.update(progress=25, message="Updating ClamAV signatures")
+        lines, code = _stream_command_output(job, _freshclam_standalone_cmd())
     finally:
-        if proc.stdout:
-            proc.stdout.close()
-    code = proc.wait(timeout=10)
+        if stopped_service and service_name:
+            job.update(progress=90, message="Restarting freshclam service")
+            start = _systemctl_action("start", service_name, timeout=90)
+            if start.returncode != 0:
+                err = (start.stderr or start.stdout or "").strip()
+                job.log(f"Failed to restart {service_name}: {err or start.returncode}", level="error")
+
     if code != 0:
-        tail = "\n".join(lines[-8:]).strip()
-        detail = f" Exit output: {tail}" if tail else ""
-        raise RuntimeError(f"freshclam failed with exit code {code}.{detail}")
+        raise RuntimeError(f"freshclam failed with exit code {code}.{_exit_code_detail(code, lines)}")
     job.update(progress=100, message="Signatures updated")
     clamscan_bin = _which("clamscan")
     parsed = _parse_version_line((_run([clamscan_bin, "--version"], timeout=20).stdout if clamscan_bin else ""))

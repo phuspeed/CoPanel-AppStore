@@ -185,17 +185,17 @@
     "id": "clamav",
     "name": "ClamAV",
     "description": "Antivirus dashboard for signature updates, targeted malware scans, detections, and quarantine workflow.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "ShieldAlert",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.2.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
       "clamav",
       "clamav-daemon"
     ],
-    "changelog_en": "v1.0.1: Add Stop scan/update buttons, fix cooperative cancel (no false failed state), improve long-scan progress, use dedicated freshclam log path to avoid lock conflict with clamav-freshclam service.",
-    "changelog_vi": "v1.0.1: Them nut Dung quet/cap nhat, sua huy job khong con bao failed sai, tien do quet thu muc lon ro hon, freshclam dung log rieng tranh xung dot lock voi dich vu clamav-freshclam."
+    "changelog_en": "v1.0.2: Fix signature update segfault — stop clamav-freshclam before manual freshclam, use --stdout only, restart service after; gentler SIGINT on scan cancel.",
+    "changelog_vi": "v1.0.2: Sua segfault cap nhat chu ky — stop clamav-freshclam truoc khi chay freshclam, dung --stdout, start lai service; huy quet bang SIGINT nhe hon."
   },
   {
     "id": "firewall",
