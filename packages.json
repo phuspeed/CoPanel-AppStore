@@ -283,15 +283,15 @@
     "id": "web_browser",
     "name": "Web Browser",
     "description": "Remote headless Chromium on the VPS to browse LAN-only services (router UI, internal webapps) from the panel. Superadmin only.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.2.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "pip_packages": [
       "playwright==1.49.1"
     ],
-    "changelog_en": "v1.0.1: Fix Install Chromium failing at 18% (apt exit 100). Download browser binary first, then install system libs best-effort so an apt error no longer aborts the whole install. v1.0.0: First release — Playwright headless Chromium with JPEG screencast over WebSocket, superadmin-only shared session for LAN/router access.",
-    "changelog_vi": "v1.0.1: Sua loi Install Chromium fail o 18% (apt exit 100). Tai binary trinh duyet truoc, cai thu vien he thong sau (best-effort) de loi apt khong lam hong toan bo qua trinh cai. v1.0.0: Phat hanh dau — Chromium headless Playwright, stream JPEG qua WebSocket, chi superadmin, mot phien dung chung de truy cap LAN/router."
+    "changelog_en": "v1.0.2: Fix false 'Chromium not installed' — detect the browser on disk (ms-playwright cache) instead of the sync API, which misreported a present binary as missing. v1.0.1: Download browser binary before apt system deps so apt exit 100 no longer aborts the install. v1.0.0: First release — Playwright headless Chromium with JPEG screencast over WebSocket.",
+    "changelog_vi": "v1.0.2: Sua loi bao sai 'Chromium chua cai' — nhan dien binary tren o dia (cache ms-playwright) thay vi dung sync API vốn bao nham la thieu. v1.0.1: Tai binary trinh duyet truoc khi cai deps apt de apt exit 100 khong lam hong qua trinh cai. v1.0.0: Phat hanh dau — Chromium headless Playwright, stream JPEG qua WebSocket."
   }
 ]

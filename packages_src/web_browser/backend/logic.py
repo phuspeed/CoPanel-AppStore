@@ -37,17 +37,50 @@ def is_playwright_installed() -> bool:
         return False
 
 
-def is_chromium_installed() -> bool:
-    if not is_playwright_installed():
-        return False
-    try:
-        from playwright.sync_api import sync_playwright
+def _playwright_browser_dirs() -> list:
+    """Candidate ms-playwright cache dirs, honoring PLAYWRIGHT_BROWSERS_PATH."""
+    dirs: list = []
+    env = os.environ.get("PLAYWRIGHT_BROWSERS_PATH")
+    if env and env not in ("0", "1"):
+        dirs.append(Path(env))
+    dirs.append(Path(os.path.expanduser("~")) / ".cache" / "ms-playwright")
+    if not IS_WINDOWS:
+        # copanel systemd service runs as root; binary lands in /root cache.
+        dirs.append(Path("/root/.cache/ms-playwright"))
+    else:
+        local = os.environ.get("LOCALAPPDATA")
+        if local:
+            dirs.append(Path(local) / "ms-playwright")
+    seen: set = set()
+    unique: list = []
+    for d in dirs:
+        key = str(d)
+        if key not in seen:
+            seen.add(key)
+            unique.append(d)
+    return unique
 
-        with sync_playwright() as pw:
-            exe = pw.chromium.executable_path
-            return bool(exe and Path(exe).is_file())
-    except Exception:
-        return False
+
+def is_chromium_installed() -> bool:
+    """Detect a downloaded Chromium (or headless shell) on disk.
+
+    Filesystem check instead of ``sync_playwright()`` — the sync API can raise
+    inside the running server and misreport a present binary as missing.
+    """
+    patterns = (
+        "chromium-*/chrome-linux/chrome",
+        "chromium_headless_shell-*/chrome-linux/headless_shell",
+        "chromium-*/chrome-win/chrome.exe",
+        "chromium-*/chrome-mac/Chromium.app/Contents/MacOS/Chromium",
+    )
+    for base in _playwright_browser_dirs():
+        if not base.is_dir():
+            continue
+        for pat in patterns:
+            for exe in base.glob(pat):
+                if exe.is_file():
+                    return True
+    return False
 
 
 def get_status() -> Dict[str, Any]:
