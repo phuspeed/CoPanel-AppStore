@@ -18,6 +18,8 @@ interface Config {
   samba_installed: boolean;
   wsgidav_available: boolean;
   admin_password_file_present?: boolean;
+  module_version?: string;
+  supports_root_mount?: boolean;
   updated_at?: number;
 }
 
@@ -58,7 +60,8 @@ export default function WebdavDashboard() {
   const [webdavRootMount, setWebdavRootMount] = useState(false);
   const [webdavEnabled, setWebdavEnabled] = useState(false);
   const [smbEnabled, setSmbEnabled] = useState(false);
-  const [smbPassword, setSmbPassword] = useState('');
+  const [moduleVersion, setModuleVersion] = useState<string | null>(null);
+  const [supportsRootMount, setSupportsRootMount] = useState(true);
 
   const t = {
     en: {
@@ -102,6 +105,9 @@ export default function WebdavDashboard() {
       smbPassword: 'Panel password (for SMB sync)',
       smbPasswordHint: 'Required once if the server has no stored admin password file. Must match your CoPanel login password.',
       smbPasswordRequired: 'Enter your panel superadmin password to enable or sync SMB.',
+      backendTooOld:
+        'Backend module is too old to save root mount (need webdav >= 1.0.6). Upgrade from AppStore or copy backend via SSH, then restart copanel.',
+      moduleVersion: 'Module version',
     },
     vi: {
       title: 'WebDAV & SMB',
@@ -144,8 +150,23 @@ export default function WebdavDashboard() {
       smbPassword: 'Mật khẩu panel (đồng bộ SMB)',
       smbPasswordHint: 'Nhập một lần nếu server chưa có file mật khẩu admin. Phải trùng mật khẩu đăng nhập CoPanel.',
       smbPasswordRequired: 'Nhập mật khẩu superadmin panel để bật hoặc đồng bộ SMB.',
+      backendTooOld:
+        'Backend module quá cũ, không lưu được root mount (cần webdav >= 1.0.6). Nâng cấp AppStore hoặc copy backend qua SSH, rồi restart copanel.',
+      moduleVersion: 'Phiên bản module',
     },
   }[language];
+
+  const parseVer = (v: string) => v.split('.').map((n) => parseInt(n, 10) || 0);
+
+  const verLt = (a: string, b: string) => {
+    const pa = parseVer(a);
+    const pb = parseVer(b);
+    for (let i = 0; i < 3; i += 1) {
+      if ((pa[i] || 0) < (pb[i] || 0)) return true;
+      if ((pa[i] || 0) > (pb[i] || 0)) return false;
+    }
+    return false;
+  };
 
   const load = useCallback(async () => {
     const [cfg, st] = await Promise.all([
@@ -159,9 +180,11 @@ export default function WebdavDashboard() {
     setSmbPort(cfg.smb_port);
     setSharePath(cfg.share_path);
     setShareName(cfg.share_name);
-    setWebdavRootMount(cfg.webdav_root_mount);
+    setWebdavRootMount(Boolean(cfg.webdav_root_mount));
     setWebdavEnabled(cfg.webdav_enabled);
     setSmbEnabled(cfg.smb_enabled);
+    setModuleVersion(cfg.module_version || null);
+    setSupportsRootMount(cfg.supports_root_mount !== false && !verLt(cfg.module_version || '0.0.0', '1.0.6'));
   }, []);
 
   useEffect(() => {
@@ -169,6 +192,10 @@ export default function WebdavDashboard() {
   }, [load]);
 
   const save = async () => {
+    if (!supportsRootMount && webdavRootMount) {
+      setError(t.backendTooOld);
+      return;
+    }
     if (smbEnabled && !config?.admin_password_file_present && !smbPassword.trim()) {
       setError(t.smbPasswordRequired);
       return;
@@ -194,6 +221,9 @@ export default function WebdavDashboard() {
       setMsg(t.saved);
       setSmbPassword('');
       await load();
+      if (webdavRootMount && !supportsRootMount) {
+        setError(t.backendTooOld);
+      }
     } catch (e: any) {
       setError(e.message || 'Save failed');
     } finally {
@@ -312,6 +342,12 @@ export default function WebdavDashboard() {
           {msg}
         </div>
       )}
+      {!supportsRootMount && (
+        <div className="rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-500/10 dark:border-amber-500/30 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+          {t.backendTooOld}
+          {moduleVersion ? ` (${t.moduleVersion}: ${moduleVersion})` : ''}
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-2 gap-6">
         <div className={card}>
@@ -356,6 +392,7 @@ export default function WebdavDashboard() {
               <input
                 type="checkbox"
                 checked={webdavRootMount}
+                disabled={!supportsRootMount}
                 onChange={(e) => setWebdavRootMount(e.target.checked)}
               />
               {t.webdavRootMount}
@@ -477,6 +514,10 @@ export default function WebdavDashboard() {
               <Icons.AlertCircle className="w-4 h-4 text-amber-500" />
             )}
             {config.wsgidav_available ? t.wsgidavOk : t.wsgidavMissing}
+          </li>
+          <li className="flex items-center gap-2">
+            <Icons.Info className="w-4 h-4 text-blue-500" />
+            {t.moduleVersion}: <code className="font-mono">{moduleVersion || 'unknown'}</code>
           </li>
           <li className="flex items-center gap-2">
             {config.samba_installed ? (

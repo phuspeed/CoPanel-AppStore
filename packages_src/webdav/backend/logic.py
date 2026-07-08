@@ -421,6 +421,7 @@ def get_module_version() -> Dict[str, str]:
 def get_public_config() -> Dict[str, Any]:
     cfg = _load_store()
     admin = _get_superadmin()
+    mod_ver = get_module_version().get("version", "0.0.0")
     return {
         "bind_address": cfg["bind_address"],
         "webdav_port": cfg["webdav_port"],
@@ -431,6 +432,8 @@ def get_public_config() -> Dict[str, Any]:
         "webdav_enabled": bool(cfg.get("webdav_enabled")),
         "smb_enabled": bool(cfg.get("smb_enabled")),
         "updated_at": cfg.get("updated_at", 0),
+        "module_version": mod_ver,
+        "supports_root_mount": True,
         "admin_username": admin["username"] if admin else "admin",
         "local_ips": _local_ips(),
         "is_linux": not IS_WINDOWS,
@@ -462,7 +465,7 @@ def save_config(updates: Dict[str, Any]) -> Dict[str, Any]:
         cfg["share_path"] = _validate_share_path(updates["share_path"])
     if updates.get("share_name") is not None:
         cfg["share_name"] = _validate_share_name(updates["share_name"])
-    if updates.get("webdav_root_mount") is not None:
+    if "webdav_root_mount" in updates:
         cfg["webdav_root_mount"] = bool(updates["webdav_root_mount"])
     if updates.get("webdav_enabled") is not None:
         cfg["webdav_enabled"] = bool(updates["webdav_enabled"])

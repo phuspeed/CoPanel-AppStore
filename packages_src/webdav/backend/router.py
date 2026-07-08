@@ -36,7 +36,7 @@ def save_config(
     user: Dict[str, Any] = Depends(require_admin),
 ) -> Dict[str, Any]:
     try:
-        cfg = logic.save_config(req.model_dump(exclude_unset=True))
+        cfg = logic.save_config(req.model_dump(exclude_unset=True, mode="json"))
     except ValueError as exc:
         raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     except RuntimeError as exc:
