@@ -45,6 +45,8 @@ export default function WebBrowser() {
   const wsRef = useRef<WebSocket | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  // Live server-side viewport (drives click/scroll coordinate scaling).
+  const serverViewportRef = useRef<{ width: number; height: number }>({ width: 1280, height: 720 });
 
   const tr = {
     en: {
@@ -180,8 +182,9 @@ export default function WebBrowser() {
   const sendResize = useCallback(() => {
     const el = viewportRef.current;
     if (!el) return;
-    const w = Math.max(320, Math.min(el.clientWidth, 1920));
-    const h = Math.max(240, Math.min(el.clientHeight, 1080));
+    const w = Math.max(320, Math.min(Math.round(el.clientWidth), 1920));
+    const h = Math.max(240, Math.min(Math.round(el.clientHeight), 1080));
+    serverViewportRef.current = { width: w, height: h };
     sendWs({ type: 'resize', width: w, height: h });
   }, []);
 
@@ -208,8 +211,12 @@ export default function WebBrowser() {
           setUrlInput(msg.url);
         } else if (msg.type === 'error') {
           setMessage(msg.message || 'Stream error');
-        } else if (msg.type === 'ready' && msg.url) {
-          setUrlInput(msg.url);
+        } else if (msg.type === 'ready') {
+          if (msg.url) setUrlInput(msg.url);
+          if (msg.viewport?.width && msg.viewport?.height) {
+            serverViewportRef.current = { width: msg.viewport.width, height: msg.viewport.height };
+          }
+          sendResize();
         }
       } catch {
         /* ignore */
@@ -240,11 +247,14 @@ export default function WebBrowser() {
     const img = imgRef.current;
     if (!img) return { x: 0, y: 0 };
     const rect = img.getBoundingClientRect();
-    const vw = status?.viewport?.width || 1280;
-    const vh = status?.viewport?.height || 720;
+    if (rect.width === 0 || rect.height === 0) return { x: 0, y: 0 };
+    const { width: vw, height: vh } = serverViewportRef.current;
     const x = ((clientX - rect.left) / rect.width) * vw;
     const y = ((clientY - rect.top) / rect.height) * vh;
-    return { x: Math.max(0, x), y: Math.max(0, y) };
+    return {
+      x: Math.max(0, Math.min(x, vw - 1)),
+      y: Math.max(0, Math.min(y, vh - 1)),
+    };
   };
 
   const onNavigate = () => {
@@ -366,9 +376,11 @@ export default function WebBrowser() {
             className={`relative w-full rounded-xl border overflow-hidden min-h-[420px] h-[calc(100vh-280px)] flex items-center justify-center ${isDark ? 'border-slate-700 bg-black' : 'border-slate-300 bg-slate-100'}`}
             onMouseDown={(e) => {
               if (wsState !== 'open') return;
+              viewportRef.current?.focus();
               const { x, y } = scaleCoords(e.clientX, e.clientY);
               sendWs({ type: 'click', x, y, button: e.button === 2 ? 'right' : 'left' });
             }}
+            onContextMenu={(e) => e.preventDefault()}
             onMouseMove={(e) => {
               if (wsState !== 'open' || e.buttons === 0) return;
               const { x, y } = scaleCoords(e.clientX, e.clientY);
@@ -383,7 +395,13 @@ export default function WebBrowser() {
             onKeyDown={(e) => {
               if (wsState !== 'open') return;
               e.preventDefault();
-              sendWs({ type: 'key', key: e.key });
+              // Single printable character → insert as text; everything else
+              // (Enter, Backspace, Tab, arrows, shortcuts) → key press.
+              if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                sendWs({ type: 'type', text: e.key });
+              } else {
+                sendWs({ type: 'key', key: e.key });
+              }
             }}
           >
             {frameSrc ? (

@@ -283,15 +283,15 @@
     "id": "web_browser",
     "name": "Web Browser",
     "description": "Remote headless Chromium on the VPS to browse LAN-only services (router UI, internal webapps) from the panel. Superadmin only.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.3.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "pip_packages": [
       "playwright==1.49.1"
     ],
-    "changelog_en": "v1.0.2: Fix false 'Chromium not installed' — detect the browser on disk (ms-playwright cache) instead of the sync API, which misreported a present binary as missing. v1.0.1: Download browser binary before apt system deps so apt exit 100 no longer aborts the install. v1.0.0: First release — Playwright headless Chromium with JPEG screencast over WebSocket.",
-    "changelog_vi": "v1.0.2: Sua loi bao sai 'Chromium chua cai' — nhan dien binary tren o dia (cache ms-playwright) thay vi dung sync API vốn bao nham la thieu. v1.0.1: Tai binary trinh duyet truoc khi cai deps apt de apt exit 100 khong lam hong qua trinh cai. v1.0.0: Phat hanh dau — Chromium headless Playwright, stream JPEG qua WebSocket."
+    "changelog_en": "v1.0.3: Fix click and keyboard not working — scale pointer coordinates against the live server viewport (not a stale value), focus the viewport on click, and insert printable characters as text. v1.0.2: Detect the browser on disk instead of the sync API. v1.0.1: Download browser binary before apt system deps. v1.0.0: First release.",
+    "changelog_vi": "v1.0.3: Sua loi khong click/go phim duoc — tinh toa do con tro theo viewport thuc te cua server (khong dung gia tri cu), focus vung xem khi click, va nhap ky tu in duoc dang text. v1.0.2: Nhan dien binary tren o dia thay vi sync API. v1.0.1: Tai binary truoc khi cai deps apt. v1.0.0: Phat hanh dau."
   }
 ]
