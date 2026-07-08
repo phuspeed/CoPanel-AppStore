@@ -260,13 +260,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.28",
+    "version": "1.0.29",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.28.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.29.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.28: Fix low-memory build heap (2048MB + chunk split, not 512MB). v1.0.27: AppStore install build retry on exit 139.",
-    "changelog_vi": "v1.0.28: Sua heap build low-RAM (2048MB + tach chunk, khong dung 512MB). v1.0.27: Retry build khi exit 139."
+    "changelog_en": "v1.0.29: Detect no-AVX CPUs — serial Vite build from first attempt; fix misleading exit-139 low-RAM message; separate OOM vs Rollup segfault hints.",
+    "changelog_vi": "v1.0.29: Nhan dien CPU khong AVX — build serial ngay lan dau; sua thong bao sai exit 139; tach goi y OOM va Rollup segfault."
   },
   {
     "id": "system_cleaner",
