@@ -278,5 +278,20 @@
     "is_core": true,
     "changelog_en": "v1.0.1: Fix white screen on first visit to /system-cleaner (remove React.lazy; eager module load like other modules). Sidebar Trash2 icon.",
     "changelog_vi": "v1.0.1: Sửa lỗi trang trắng lần đầu vào /system-cleaner (bỏ React.lazy, load module đồng bộ). Icon Trash2 trên sidebar."
+  },
+  {
+    "id": "web_browser",
+    "name": "Web Browser",
+    "description": "Remote headless Chromium on the VPS to browse LAN-only services (router UI, internal webapps) from the panel. Superadmin only.",
+    "version": "1.0.0",
+    "icon": "Globe",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.0.zip",
+    "is_core": false,
+    "requires_copanel_restart": true,
+    "pip_packages": [
+      "playwright==1.49.1"
+    ],
+    "changelog_en": "v1.0.0: First release — Playwright headless Chromium with JPEG screencast over WebSocket, superadmin-only shared session for LAN/router access.",
+    "changelog_vi": "v1.0.0: Phat hanh dau — Chromium headless Playwright, stream JPEG qua WebSocket, chi superadmin, mot phien dung chung de truy cap LAN/router."
   }
 ]
