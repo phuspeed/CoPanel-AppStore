@@ -283,15 +283,15 @@
     "id": "web_browser",
     "name": "Web Browser",
     "description": "Remote headless Chromium on the VPS to browse LAN-only services (router UI, internal webapps) from the panel. Superadmin only.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.4.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "pip_packages": [
       "playwright==1.49.1"
     ],
-    "changelog_en": "v1.0.3: Fix click and keyboard not working — scale pointer coordinates against the live server viewport (not a stale value), focus the viewport on click, and insert printable characters as text. v1.0.2: Detect the browser on disk instead of the sync API. v1.0.1: Download browser binary before apt system deps. v1.0.0: First release.",
-    "changelog_vi": "v1.0.3: Sua loi khong click/go phim duoc — tinh toa do con tro theo viewport thuc te cua server (khong dung gia tri cu), focus vung xem khi click, va nhap ky tu in duoc dang text. v1.0.2: Nhan dien binary tren o dia thay vi sync API. v1.0.1: Tai binary truoc khi cai deps apt. v1.0.0: Phat hanh dau."
+    "changelog_en": "v1.0.4: Support native <select> dropdowns — their popup is drawn at OS level and never appears in the screencast, so clicking a select now shows a custom in-panel option list and applies the choice via change event. v1.0.3: Fix click and keyboard input scaling/focus. v1.0.2: Detect the browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
+    "changelog_vi": "v1.0.4: Ho tro dropdown <select> — popup cua select ve o tang OS nen khong hien trong screencast; nay click select se hien danh sach lua chon tuy bien trong panel va ap dung qua su kien change. v1.0.3: Sua scale/focus khi click va go phim. v1.0.2: Nhan dien binary tren o dia. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau."
   }
 ]

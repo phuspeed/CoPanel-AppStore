@@ -42,11 +42,22 @@ export default function WebBrowser() {
   const [installJob, setInstallJob] = useState<InstallJob | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const [selectMenu, setSelectMenu] = useState<{
+    x: number;
+    y: number;
+    left: number;
+    top: number;
+    selectedIndex: number;
+    options: Array<{ text: string; disabled?: boolean }>;
+  } | null>(null);
+
   const wsRef = useRef<WebSocket | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   // Live server-side viewport (drives click/scroll coordinate scaling).
   const serverViewportRef = useRef<{ width: number; height: number }>({ width: 1280, height: 720 });
+  // Last left-click: server coords (x,y) + display coords within container (left,top).
+  const lastClickRef = useRef<{ x: number; y: number; left: number; top: number }>({ x: 0, y: 0, left: 0, top: 0 });
 
   const tr = {
     en: {
@@ -209,6 +220,16 @@ export default function WebBrowser() {
           setFrameSrc(`data:image/jpeg;base64,${msg.data}`);
         } else if (msg.type === 'url' && msg.url) {
           setUrlInput(msg.url);
+        } else if (msg.type === 'select') {
+          const lc = lastClickRef.current;
+          setSelectMenu({
+            x: msg.x ?? lc.x,
+            y: msg.y ?? lc.y,
+            left: lc.left,
+            top: lc.top,
+            selectedIndex: msg.selectedIndex ?? -1,
+            options: Array.isArray(msg.options) ? msg.options : [],
+          });
         } else if (msg.type === 'error') {
           setMessage(msg.message || 'Stream error');
         } else if (msg.type === 'ready') {
@@ -228,6 +249,7 @@ export default function WebBrowser() {
     wsRef.current?.close();
     wsRef.current = null;
     setWsState('idle');
+    setSelectMenu(null);
   };
 
   useEffect(() => {
@@ -377,7 +399,15 @@ export default function WebBrowser() {
             onMouseDown={(e) => {
               if (wsState !== 'open') return;
               viewportRef.current?.focus();
+              if (selectMenu) setSelectMenu(null);
               const { x, y } = scaleCoords(e.clientX, e.clientY);
+              const contRect = viewportRef.current?.getBoundingClientRect();
+              lastClickRef.current = {
+                x,
+                y,
+                left: contRect ? e.clientX - contRect.left : 0,
+                top: contRect ? e.clientY - contRect.top : 0,
+              };
               sendWs({ type: 'click', x, y, button: e.button === 2 ? 'right' : 'left' });
             }}
             onContextMenu={(e) => e.preventDefault()}
@@ -394,6 +424,11 @@ export default function WebBrowser() {
             }}
             onKeyDown={(e) => {
               if (wsState !== 'open') return;
+              if (selectMenu) {
+                e.preventDefault();
+                if (e.key === 'Escape') setSelectMenu(null);
+                return;
+              }
               e.preventDefault();
               // Single printable character → insert as text; everything else
               // (Enter, Backspace, Tab, arrows, shortcuts) → key press.
@@ -409,6 +444,35 @@ export default function WebBrowser() {
             ) : (
               <div className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
                 {status.running ? 'Connect stream to view' : 'Start browser first'}
+              </div>
+            )}
+
+            {selectMenu && (
+              <div
+                className={`absolute z-20 max-h-64 overflow-auto rounded-md border shadow-xl text-sm ${isDark ? 'bg-slate-900 border-slate-600' : 'bg-white border-slate-300'}`}
+                style={{ left: selectMenu.left, top: selectMenu.top, minWidth: 160 }}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                {selectMenu.options.map((opt, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={opt.disabled}
+                    onClick={() => {
+                      sendWs({ type: 'select_option', x: selectMenu.x, y: selectMenu.y, index: idx });
+                      setSelectMenu(null);
+                    }}
+                    className={`block w-full text-left px-3 py-1.5 whitespace-nowrap disabled:opacity-40 ${
+                      idx === selectMenu.selectedIndex
+                        ? 'bg-blue-600 text-white'
+                        : isDark
+                        ? 'hover:bg-slate-700 text-slate-200'
+                        : 'hover:bg-slate-100 text-slate-800'
+                    }`}
+                  >
+                    {opt.text || '\u00A0'}
+                  </button>
+                ))}
               </div>
             )}
           </div>

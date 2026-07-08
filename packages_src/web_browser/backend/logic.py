@@ -290,11 +290,64 @@ class BrowserSession:
         self._touch_activity()
         return self._page.url
 
+    _SELECT_PROBE_JS = """([x, y]) => {
+        const el = document.elementFromPoint(x, y);
+        if (el && el.tagName === 'SELECT' && !el.multiple && el.size <= 1) {
+            return {
+                isSelect: true,
+                selectedIndex: el.selectedIndex,
+                options: Array.from(el.options).map((o) => ({ text: o.text, disabled: o.disabled })),
+            };
+        }
+        return { isSelect: false };
+    }"""
+
+    _SELECT_APPLY_JS = """([x, y, idx]) => {
+        const el = document.elementFromPoint(x, y);
+        if (el && el.tagName === 'SELECT' && idx >= 0 && idx < el.options.length) {
+            el.selectedIndex = idx;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            return true;
+        }
+        return false;
+    }"""
+
     async def click(self, x: float, y: float, button: str = "left") -> None:
         if not self._page:
             return
         btn = button if button in ("left", "right", "middle") else "left"
+        # Native <select> popups render at OS level and never appear in the
+        # screencast. Detect one under the cursor and hand a custom picker to
+        # the client instead of firing the invisible native dropdown.
+        if btn == "left":
+            try:
+                probe = await self._page.evaluate(self._SELECT_PROBE_JS, [float(x), float(y)])
+            except Exception:
+                probe = {"isSelect": False}
+            if probe.get("isSelect"):
+                if self._frame_callback:
+                    await self._frame_callback(
+                        {
+                            "type": "select",
+                            "x": float(x),
+                            "y": float(y),
+                            "selectedIndex": probe.get("selectedIndex", -1),
+                            "options": probe.get("options", []),
+                        }
+                    )
+                self._touch_activity()
+                return
         await self._page.mouse.click(float(x), float(y), button=btn)
+        self._touch_activity()
+
+    async def select_option_at(self, x: float, y: float, index: int) -> None:
+        if not self._page:
+            return
+        try:
+            await self._page.evaluate(self._SELECT_APPLY_JS, [float(x), float(y), int(index)])
+        except Exception:
+            pass
         self._touch_activity()
 
     async def mouse_move(self, x: float, y: float) -> None:
@@ -343,6 +396,8 @@ class BrowserSession:
             await self.navigate(str(msg.get("url", "")))
         elif t == "click":
             await self.click(msg.get("x", 0), msg.get("y", 0), str(msg.get("button", "left")))
+        elif t == "select_option":
+            await self.select_option_at(msg.get("x", 0), msg.get("y", 0), int(msg.get("index", -1)))
         elif t == "mousemove":
             await self.mouse_move(msg.get("x", 0), msg.get("y", 0))
         elif t == "wheel":
