@@ -14,12 +14,12 @@
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP-FPM overview, and smart DB admin tools.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.1.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.1.2.zip",
     "is_core": true,
-    "changelog_en": "v1.1.1: Remove the per-site PHP configuration tab from Web Manager; PHP tuning remains in PHP Manager. Other stack and vhost behavior unchanged.",
-    "changelog_vi": "v1.1.1: Go tab cau hinh PHP theo tung site trong Web Manager; dieu chinh PHP tap trung o PHP Manager. Hanh vi vhost/stack khac giu nguyen.",
+    "changelog_en": "v1.1.2: HTTP Basic Auth for Nginx reverse proxy sites — toggle in config editor, auto htpasswd + nginx auth_basic injection.",
+    "changelog_vi": "v1.1.2: HTTP Basic Auth cho site Nginx reverse proxy — bat/tat trong modal sua cau hinh, tu tao htpasswd va inject auth_basic.",
     "system_packages": [
       "nginx"
     ]
