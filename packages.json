@@ -185,17 +185,17 @@
     "id": "clamav",
     "name": "ClamAV",
     "description": "Antivirus dashboard for signature updates, targeted malware scans, detections, and quarantine workflow.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "ShieldAlert",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.1.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
       "clamav",
       "clamav-daemon"
     ],
-    "changelog_en": "v1.0.0: Initial AppStore release with engine overview, signature updates, on-demand scans, detections list, and quarantine actions.",
-    "changelog_vi": "v1.0.0: Ban phat hanh dau tien cho AppStore voi tong quan engine, cap nhat chu ky, quet theo yeu cau, danh sach phat hien va thao tac cach ly."
+    "changelog_en": "v1.0.1: Add Stop scan/update buttons, fix cooperative cancel (no false failed state), improve long-scan progress, use dedicated freshclam log path to avoid lock conflict with clamav-freshclam service.",
+    "changelog_vi": "v1.0.1: Them nut Dung quet/cap nhat, sua huy job khong con bao failed sai, tien do quet thu muc lon ro hon, freshclam dung log rieng tranh xung dot lock voi dich vu clamav-freshclam."
   },
   {
     "id": "firewall",

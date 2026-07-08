@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import * as Icons from 'lucide-react';
-import { api } from '../../core/platform';
+import { api, jobsApi } from '../../core/platform';
 
 type TabId = 'overview' | 'scan' | 'detections' | 'quarantine' | 'settings';
 
@@ -149,6 +149,8 @@ export default function ClamAVDashboard() {
       maxFileSize: 'Max file size (MB)',
       autoQuarantine: 'Auto quarantine infected files',
       startScan: 'Start scan',
+      stopScan: 'Stop scan',
+      stopUpdate: 'Stop update',
       currentScan: 'Current scan',
       recentScans: 'Recent scans',
       infected: 'Infected',
@@ -180,6 +182,7 @@ export default function ClamAVDashboard() {
       running: 'Running',
       completed: 'Completed',
       failed: 'Failed',
+      cancelled: 'Cancelled',
       quarantinedState: 'Quarantined',
       restoredState: 'Restored',
       deletedState: 'Deleted',
@@ -211,6 +214,8 @@ export default function ClamAVDashboard() {
       maxFileSize: 'Cỡ file tối đa (MB)',
       autoQuarantine: 'Tự cách ly file nhiễm',
       startScan: 'Bắt đầu quét',
+      stopScan: 'Dừng quét',
+      stopUpdate: 'Dừng cập nhật',
       currentScan: 'Lần quét hiện tại',
       recentScans: 'Lần quét gần đây',
       infected: 'Nhiễm',
@@ -242,6 +247,7 @@ export default function ClamAVDashboard() {
       running: 'Đang chạy',
       completed: 'Hoàn tất',
       failed: 'Thất bại',
+      cancelled: 'Đã hủy',
       quarantinedState: 'Đã cách ly',
       restoredState: 'Đã khôi phục',
       deletedState: 'Đã xóa',
@@ -325,6 +331,7 @@ export default function ClamAVDashboard() {
     if (value === 'active' || value === 'success' || value === 'completed' || value === 'restored') return 'text-emerald-500';
     if (value === 'running' || value === 'queued' || value === 'quarantined') return 'text-blue-500';
     if (value === 'failed' || value === 'deleted' || value === 'quarantine_failed' || value === 'restore_failed') return 'text-red-500';
+    if (value === 'cancelled') return 'text-slate-500';
     if (value === 'detected') return 'text-amber-500';
     return isDark ? 'text-slate-300' : 'text-slate-600';
   };
@@ -338,6 +345,7 @@ export default function ClamAVDashboard() {
       case 'completed':
       case 'success': return t.completed;
       case 'failed': return t.failed;
+      case 'cancelled': return t.cancelled;
       case 'quarantined': return t.quarantinedState;
       case 'restored': return t.restoredState;
       case 'deleted': return t.deletedState;
@@ -408,6 +416,20 @@ export default function ClamAVDashboard() {
     }
   };
 
+  const stopJob = async (jobId?: string | null) => {
+    if (!jobId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await jobsApi.cancel(jobId);
+      setMsg(t.cancelled);
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const actOnDetection = async (endpoint: string, detectionId: string) => {
     setBusy(true);
     setError(null);
@@ -431,6 +453,8 @@ export default function ClamAVDashboard() {
   };
 
   const tabs: TabId[] = ['overview', 'scan', 'detections', 'quarantine', 'settings'];
+  const scanJobActive = !!(currentScan?.job && ['queued', 'running'].includes(currentScan.job.status));
+  const updateJobActive = !!(updateJob && ['queued', 'running'].includes(updateJob.status));
   const currentScanLogs = useMemo(() => currentScan?.job?.logs || [], [currentScan?.job?.logs]);
 
   return (
@@ -455,7 +479,7 @@ export default function ClamAVDashboard() {
             type="button"
             className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50"
             onClick={startUpdate}
-            disabled={busy || !!(updateJob && ['queued', 'running'].includes(updateJob.status))}
+            disabled={busy || updateJobActive}
           >
             {t.updateDb}
           </button>
@@ -592,7 +616,7 @@ export default function ClamAVDashboard() {
               </div>
             </div>
 
-            <button type="button" className="mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50" disabled={busy || !scanPath.trim()} onClick={() => startScan()}>
+            <button type="button" className="mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50" disabled={busy || scanJobActive || !scanPath.trim()} onClick={() => startScan()}>
               {t.startScan}
             </button>
           </div>
@@ -601,9 +625,21 @@ export default function ClamAVDashboard() {
             <div className={card}>
               <div className="flex items-center justify-between gap-3 mb-3">
                 <h2 className="font-semibold">{t.currentScan}</h2>
-                <span className={`text-sm font-medium ${statusTone(currentScan.job?.status || currentScan.status)}`}>
-                  {humanStatus(currentScan.job?.status || currentScan.status)}
-                </span>
+                <div className="flex items-center gap-2">
+                  {scanJobActive && (
+                    <button
+                      type="button"
+                      className="px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-medium disabled:opacity-50"
+                      disabled={busy}
+                      onClick={() => stopJob(currentScan.job?.id)}
+                    >
+                      {t.stopScan}
+                    </button>
+                  )}
+                  <span className={`text-sm font-medium ${statusTone(currentScan.job?.status || currentScan.status)}`}>
+                    {humanStatus(currentScan.job?.status || currentScan.status)}
+                  </span>
+                </div>
               </div>
               <p className="text-sm break-all">{currentScan.path}</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 text-sm">
@@ -625,7 +661,19 @@ export default function ClamAVDashboard() {
 
           {updateJob && (
             <div className={card}>
-              <h2 className="font-semibold mb-3">{t.lastUpdateJob}</h2>
+              <div className="flex items-center justify-between gap-3 mb-3">
+                <h2 className="font-semibold">{t.lastUpdateJob}</h2>
+                {updateJobActive && (
+                  <button
+                    type="button"
+                    className="px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-medium disabled:opacity-50"
+                    disabled={busy}
+                    onClick={() => stopJob(updateJob.id)}
+                  >
+                    {t.stopUpdate}
+                  </button>
+                )}
+              </div>
               <div className="flex items-center justify-between gap-3 text-sm">
                 <span>{humanStatus(updateJob.status)}</span>
                 <span>{updateJob.progress || 0}%</span>

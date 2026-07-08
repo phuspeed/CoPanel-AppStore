@@ -13,7 +13,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from core.jobs import jobs
+from core.jobs import JobCancelled, jobs
 
 IS_WINDOWS = os.name == "nt"
 CONFIG_DIR = Path("./test_nginx/clamav") if IS_WINDOWS else Path("/opt/copanel/config/clamav")
@@ -146,6 +146,28 @@ def get_module_version() -> Dict[str, str]:
 
 def _run(cmd: List[str], *, timeout: int = 120) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=False)
+
+
+def _terminate_subprocess(proc: subprocess.Popen) -> None:
+    if proc.poll() is not None:
+        return
+    proc.terminate()
+    try:
+        proc.wait(timeout=8)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        proc.wait(timeout=5)
+
+
+def _build_freshclam_command() -> List[str]:
+    freshclam = _which("freshclam")
+    if not freshclam:
+        raise RuntimeError("freshclam not installed.")
+    _ensure_storage()
+    log_file = CONFIG_DIR / "freshclam-update.log"
+    service = _systemctl_status(FRESHCLAM_SERVICE_NAMES)
+    cmd = [freshclam, f"--log={log_file}"]
+    return cmd
 
 
 def _which(*candidates: str) -> Optional[str]:
@@ -525,15 +547,35 @@ def _run_scan_job_sync(job: Any, scan_id: str) -> Dict[str, Any]:
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     lines: List[str] = []
     detections: List[Dict[str, Any]] = []
+    last_progress_at = started_at
     try:
         while True:
             if job.cancel_requested():
-                proc.terminate()
-                raise RuntimeError("Scan cancelled.")
+                _terminate_subprocess(proc)
+                _update_scan(
+                    scan_id,
+                    lambda row: {
+                        **row,
+                        "status": "cancelled",
+                        "finished_at": time.time(),
+                        "summary": _parse_summary(lines) if lines else row.get("summary", {}),
+                        "detections": detections,
+                    },
+                )
+                job.update(message="Scan cancelled")
+                raise JobCancelled()
             line = proc.stdout.readline() if proc.stdout else ""
             if not line:
                 if proc.poll() is not None:
                     break
+                now = time.time()
+                if now - last_progress_at >= 10:
+                    elapsed = int(now - started_at)
+                    job.update(
+                        progress=min(90, 5 + elapsed // 20),
+                        message=f"Scanning… {elapsed}s elapsed",
+                    )
+                    last_progress_at = now
                 time.sleep(0.1)
                 continue
             clean = line.rstrip()
@@ -555,6 +597,7 @@ def _run_scan_job_sync(job: Any, scan_id: str) -> Dict[str, Any]:
                     }
                 )
                 job.update(progress=min(95, 10 + len(detections) * 5), message=f"Detected {signature}")
+                last_progress_at = time.time()
         code = proc.wait(timeout=10)
     finally:
         if proc.stdout:
@@ -627,17 +670,23 @@ async def run_signature_update_job(job: Any) -> Dict[str, Any]:
 
 
 def _run_signature_update_job_sync(job: Any) -> Dict[str, Any]:
-    freshclam = _which("freshclam")
-    if not freshclam:
-        raise RuntimeError("freshclam not installed.")
+    cmd = _build_freshclam_command()
+    service = _systemctl_status(FRESHCLAM_SERVICE_NAMES)
+    if service.get("status") == "active":
+        job.log(
+            "clamav-freshclam service is active; using panel log file to avoid /var/log/clamav lock.",
+            level="info",
+        )
     job.update(progress=10, message="Updating ClamAV signatures")
-    proc = subprocess.Popen([freshclam], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    job.log(" ".join(cmd))
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     lines: List[str] = []
     try:
         while True:
             if job.cancel_requested():
-                proc.terminate()
-                raise RuntimeError("Signature update cancelled.")
+                _terminate_subprocess(proc)
+                job.update(message="Signature update cancelled")
+                raise JobCancelled()
             line = proc.stdout.readline() if proc.stdout else ""
             if not line:
                 if proc.poll() is not None:
@@ -653,7 +702,9 @@ def _run_signature_update_job_sync(job: Any) -> Dict[str, Any]:
             proc.stdout.close()
     code = proc.wait(timeout=10)
     if code != 0:
-        raise RuntimeError(f"freshclam failed with exit code {code}.")
+        tail = "\n".join(lines[-8:]).strip()
+        detail = f" Exit output: {tail}" if tail else ""
+        raise RuntimeError(f"freshclam failed with exit code {code}.{detail}")
     job.update(progress=100, message="Signatures updated")
     clamscan_bin = _which("clamscan")
     parsed = _parse_version_line((_run([clamscan_bin, "--version"], timeout=20).stdout if clamscan_bin else ""))
