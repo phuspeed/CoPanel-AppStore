@@ -62,6 +62,7 @@ export default function WebdavDashboard() {
   const [smbEnabled, setSmbEnabled] = useState(false);
   const [moduleVersion, setModuleVersion] = useState<string | null>(null);
   const [supportsRootMount, setSupportsRootMount] = useState(true);
+  const [smbPassword, setSmbPassword] = useState('');
 
   const t = {
     en: {

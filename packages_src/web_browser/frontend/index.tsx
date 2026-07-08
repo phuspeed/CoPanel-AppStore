@@ -287,8 +287,8 @@ export default function WebBrowser() {
     }
   };
 
-  const needsPlaywright = status && !status.playwright_installed;
-  const needsChromium = status && status.playwright_installed && !status.chromium_installed;
+  const needsPlaywright = Boolean(status && !status.playwright_installed);
+  const needsChromium = Boolean(status && status.playwright_installed && !status.chromium_installed);
 
   return (
     <div className={`p-4 md:p-6 space-y-4 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
