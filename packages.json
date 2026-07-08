@@ -260,13 +260,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.27",
+    "version": "1.0.28",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.27.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.28.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.27: Low-memory frontend build for AppStore installs (build:appstore, retry on exit 139, vite RAM tweaks). v1.0.26: apt-get update on 404.",
-    "changelog_vi": "v1.0.27: Build frontend tiet kiem RAM khi cai module (build:appstore, retry exit 139). v1.0.26: apt-get update khi 404."
+    "changelog_en": "v1.0.28: Fix low-memory build heap (2048MB + chunk split, not 512MB). v1.0.27: AppStore install build retry on exit 139.",
+    "changelog_vi": "v1.0.28: Sua heap build low-RAM (2048MB + tach chunk, khong dung 512MB). v1.0.27: Retry build khi exit 139."
   },
   {
     "id": "system_cleaner",
