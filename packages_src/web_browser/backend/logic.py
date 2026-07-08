@@ -333,15 +333,9 @@ class BrowserSession:
 session = BrowserSession()
 
 
-async def install_chromium(job) -> Dict[str, Any]:
-    """Background job: download Chromium + system deps via Playwright."""
-    if IS_WINDOWS:
-        job.log("Windows dev: skipping --with-deps; running playwright install chromium")
-        cmd = [sys.executable, "-m", "playwright", "install", "chromium"]
-    else:
-        cmd = [sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"]
-
-    job.update(progress=5, message="Starting Chromium install…")
+async def _run_and_log(job, cmd, base_progress: int, span: int) -> int:
+    """Stream a subprocess to the job log; returns exit code."""
+    job.log("$ " + " ".join(cmd))
     proc = await asyncio.create_subprocess_exec(
         *cmd,
         stdout=asyncio.subprocess.PIPE,
@@ -354,19 +348,58 @@ async def install_chromium(job) -> Dict[str, Any]:
         if line:
             job.log(line)
             line_no += 1
-            job.update(progress=min(95, 5 + line_no), message=line[:120])
-    code = await proc.wait()
+            job.update(progress=min(base_progress + span, base_progress + line_no), message=line[:120])
+    return await proc.wait()
+
+
+async def install_chromium(job) -> Dict[str, Any]:
+    """Background job: download Chromium browser binary, then best-effort system deps.
+
+    ``playwright install --with-deps`` runs apt first and aborts the whole run
+    (apt exit 100) before the browser is fetched. Split the phases so the binary
+    download — the part we actually need — is never blocked by an apt failure.
+    """
+    # Phase 1: download the browser binary (must succeed).
+    job.update(progress=5, message="Downloading Chromium binary…")
+    code = await _run_and_log(
+        job,
+        [sys.executable, "-m", "playwright", "install", "chromium"],
+        base_progress=5,
+        span=70,
+    )
     if code != 0:
-        raise RuntimeError(f"playwright install exited with code {code}")
-    job.update(progress=100, message="Chromium installed")
-    return {"installed": is_chromium_installed()}
+        raise RuntimeError(f"playwright install chromium exited with code {code}")
+
+    if IS_WINDOWS:
+        job.update(progress=100, message="Chromium installed")
+        return {"installed": is_chromium_installed(), "deps_ok": True}
+
+    # Phase 2: system libraries via apt (best-effort). Chromium needs these to
+    # launch, but an apt hiccup should not discard the downloaded binary.
+    job.update(progress=80, message="Installing system libraries (apt)…")
+    deps_ok = True
+    dep_code = await _run_and_log(
+        job,
+        [sys.executable, "-m", "playwright", "install-deps", "chromium"],
+        base_progress=80,
+        span=18,
+    )
+    if dep_code != 0:
+        deps_ok = False
+        job.log(
+            "WARNING: system dependency install failed (apt exit != 0). "
+            "Browser binary is present but Chromium may fail to launch. "
+            "Fix apt (apt-get update, free the dpkg lock, or a broken PPA) and retry, "
+            "or run manually: python -m playwright install-deps chromium",
+            level="error",
+        )
+
+    job.update(progress=100, message="Chromium installed" if deps_ok else "Chromium binary installed (deps failed)")
+    return {"installed": is_chromium_installed(), "deps_ok": deps_ok}
 
 
 def sync_install_chromium_subprocess() -> subprocess.CompletedProcess:
-    if IS_WINDOWS:
-        cmd = [sys.executable, "-m", "playwright", "install", "chromium"]
-    else:
-        cmd = [sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"]
+    cmd = [sys.executable, "-m", "playwright", "install", "chromium"]
     return subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
 
 
