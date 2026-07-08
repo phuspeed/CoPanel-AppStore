@@ -62,14 +62,14 @@ class CoPanelDomainController:
         return None
 
 
-def _build_wsgidav_app(share_path: str, share_name: str) -> Any:
+def _build_wsgidav_app(share_path: str, share_name: str, *, root_mount: bool = False) -> Any:
     from wsgidav.fs_dav_provider import FilesystemProvider
     from wsgidav.wsgidav_app import WsgiDAVApp
 
     root = Path(share_path).resolve()
     root.mkdir(parents=True, exist_ok=True)
 
-    share_mount = f"/{share_name.strip('/')}" if share_name.strip("/") else "/"
+    share_mount = "/" if root_mount else f"/{share_name.strip('/')}"
     provider = FilesystemProvider(str(root), readonly=False)
 
     config = {
@@ -96,7 +96,14 @@ def running_config() -> Optional[Dict[str, Any]]:
         return dict(_running_config) if _running_config else None
 
 
-def start_server(bind_address: str, port: int, share_path: str, share_name: str) -> Dict[str, Any]:
+def start_server(
+    bind_address: str,
+    port: int,
+    share_path: str,
+    share_name: str,
+    *,
+    root_mount: bool = False,
+) -> Dict[str, Any]:
     """Start WebDAV in a background thread. Idempotent if same config."""
     global _server_thread, _server_handle, _running_config
 
@@ -111,6 +118,7 @@ def start_server(bind_address: str, port: int, share_path: str, share_name: str)
         "port": port,
         "share_path": str(Path(share_path).resolve()),
         "share_name": share_name.strip("/") or "copanel",
+        "root_mount": bool(root_mount),
     }
 
     with _server_lock:
@@ -119,7 +127,11 @@ def start_server(bind_address: str, port: int, share_path: str, share_name: str)
 
         stop_server_unlocked()
 
-        app = _build_wsgidav_app(desired["share_path"], desired["share_name"])
+        app = _build_wsgidav_app(
+            desired["share_path"],
+            desired["share_name"],
+            root_mount=desired["root_mount"],
+        )
 
         try:
             from cheroot import wsgi
@@ -169,6 +181,13 @@ def stop_server() -> Dict[str, Any]:
     return {"running": False, "message": "WebDAV stopped." if was_running else "WebDAV was not running."}
 
 
-def restart_server(bind_address: str, port: int, share_path: str, share_name: str) -> Dict[str, Any]:
+def restart_server(
+    bind_address: str,
+    port: int,
+    share_path: str,
+    share_name: str,
+    *,
+    root_mount: bool = False,
+) -> Dict[str, Any]:
     stop_server()
-    return start_server(bind_address, port, share_path, share_name)
+    return start_server(bind_address, port, share_path, share_name, root_mount=root_mount)

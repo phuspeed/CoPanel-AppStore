@@ -9,6 +9,7 @@ interface Config {
   smb_port: number;
   share_path: string;
   share_name: string;
+  webdav_root_mount: boolean;
   webdav_enabled: boolean;
   smb_enabled: boolean;
   admin_username: string;
@@ -54,6 +55,7 @@ export default function WebdavDashboard() {
   const [smbPort, setSmbPort] = useState(445);
   const [sharePath, setSharePath] = useState('/');
   const [shareName, setShareName] = useState('copanel');
+  const [webdavRootMount, setWebdavRootMount] = useState(false);
   const [webdavEnabled, setWebdavEnabled] = useState(false);
   const [smbEnabled, setSmbEnabled] = useState(false);
   const [smbPassword, setSmbPassword] = useState('');
@@ -69,6 +71,8 @@ export default function WebdavDashboard() {
       smbPort: 'SMB port',
       sharePath: 'Share folder',
       shareName: 'Share name',
+      webdavRootMount: 'WebDAV root mount (IP:port only)',
+      webdavRootMountHint: 'Serve files at http://IP:port/ — no /share-name/ in URL. SMB still uses share name below.',
       enableWebdav: 'Enable WebDAV',
       enableSmb: 'Enable SMB',
       save: 'Save & apply',
@@ -109,6 +113,8 @@ export default function WebdavDashboard() {
       smbPort: 'Cổng SMB',
       sharePath: 'Thư mục chia sẻ',
       shareName: 'Tên share',
+      webdavRootMount: 'WebDAV mount tại root (chỉ IP:port)',
+      webdavRootMountHint: 'Truy cập http://IP:port/ — không cần /tên-share/. SMB vẫn dùng tên share bên dưới.',
       enableWebdav: 'Bật WebDAV',
       enableSmb: 'Bật SMB',
       save: 'Lưu & áp dụng',
@@ -153,6 +159,7 @@ export default function WebdavDashboard() {
     setSmbPort(cfg.smb_port);
     setSharePath(cfg.share_path);
     setShareName(cfg.share_name);
+    setWebdavRootMount(cfg.webdav_root_mount);
     setWebdavEnabled(cfg.webdav_enabled);
     setSmbEnabled(cfg.smb_enabled);
   }, []);
@@ -176,6 +183,7 @@ export default function WebdavDashboard() {
         smb_port: smbPort,
         share_path: sharePath,
         share_name: shareName,
+        webdav_root_mount: webdavRootMount,
         webdav_enabled: webdavEnabled,
         smb_enabled: smbEnabled,
       };
@@ -279,7 +287,9 @@ export default function WebdavDashboard() {
   }
 
   const sampleIp = config.local_ips[0] || 'YOUR_SERVER_IP';
-  const webdavUrl = `http://${sampleIp}:${webdavPort}/${shareName}/`;
+  const webdavUrl = webdavRootMount
+    ? `http://${sampleIp}:${webdavPort}/`
+    : `http://${sampleIp}:${webdavPort}/${shareName}/`;
   const smbPath = `\\\\${sampleIp}\\${shareName}`;
 
   return (
@@ -342,6 +352,17 @@ export default function WebdavDashboard() {
               <label className={label}>{t.shareName}</label>
               <input className={input} value={shareName} onChange={(e) => setShareName(e.target.value)} />
             </div>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={webdavRootMount}
+                onChange={(e) => setWebdavRootMount(e.target.checked)}
+              />
+              {t.webdavRootMount}
+            </label>
+            {webdavRootMount && (
+              <p className={`text-xs -mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{t.webdavRootMountHint}</p>
+            )}
             <label className="flex items-center gap-2 text-sm cursor-pointer">
               <input type="checkbox" checked={webdavEnabled} onChange={(e) => setWebdavEnabled(e.target.checked)} />
               {t.enableWebdav}

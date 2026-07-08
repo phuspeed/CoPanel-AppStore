@@ -12,6 +12,7 @@ class SaveConfigRequest(BaseModel):
     smb_port: Optional[int] = Field(None, ge=1, le=65535)
     share_path: Optional[str] = None
     share_name: Optional[str] = None
+    webdav_root_mount: Optional[bool] = None
     webdav_enabled: Optional[bool] = None
     smb_enabled: Optional[bool] = None
     smb_password: Optional[str] = None

@@ -235,15 +235,15 @@
   {
     "id": "webdav",
     "name": "WebDAV SMB",
-    "description": "WebDAV and SMB file sharing on server IP:port. Login with the same username/password as the panel root (superadmin) account.",
-    "version": "1.0.5",
+    "description": "WebDAV and SMB file sharing on server IP:port. Login with the same username/password as the panel root (superadmin) account. Optional WebDAV root mount for http://IP:port/ without share path.",
+    "version": "1.0.6",
     "icon": "FolderSync",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.6.zip",
     "is_core": false,
     "system_packages": ["samba"],
     "pip_packages": ["wsgidav==4.3.3", "cheroot==10.0.1"],
-    "changelog_en": "v1.0.5: Fix SMB share detection (testparm exit 1 warnings), share-only smb.conf.d, inject fallback into smb.conf, explicit include path.",
-    "changelog_vi": "v1.0.5: Sua nhan dien share SMB (testparm canh bao), chi share trong smb.conf.d, fallback inject smb.conf, include duong dan tuyet doi."
+    "changelog_en": "v1.0.6: Optional WebDAV root mount — access files at http://IP:port/ without /share-name/ in the URL. SMB still uses share name.",
+    "changelog_vi": "v1.0.6: Tuy chon WebDAV mount tai root — truy cap http://IP:port/ khong can /ten-share/. SMB van dung ten share."
   },
   {
     "id": "cron_manager",

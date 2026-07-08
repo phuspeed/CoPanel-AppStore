@@ -43,6 +43,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
     "smb_port": 445,
     "share_path": "/",
     "share_name": "copanel",
+    "webdav_root_mount": False,
     "webdav_enabled": False,
     "smb_enabled": False,
     "updated_at": 0.0,
@@ -426,6 +427,7 @@ def get_public_config() -> Dict[str, Any]:
         "smb_port": cfg["smb_port"],
         "share_path": cfg["share_path"],
         "share_name": cfg["share_name"],
+        "webdav_root_mount": bool(cfg.get("webdav_root_mount")),
         "webdav_enabled": bool(cfg.get("webdav_enabled")),
         "smb_enabled": bool(cfg.get("smb_enabled")),
         "updated_at": cfg.get("updated_at", 0),
@@ -460,6 +462,8 @@ def save_config(updates: Dict[str, Any]) -> Dict[str, Any]:
         cfg["share_path"] = _validate_share_path(updates["share_path"])
     if updates.get("share_name") is not None:
         cfg["share_name"] = _validate_share_name(updates["share_name"])
+    if updates.get("webdav_root_mount") is not None:
+        cfg["webdav_root_mount"] = bool(updates["webdav_root_mount"])
     if updates.get("webdav_enabled") is not None:
         cfg["webdav_enabled"] = bool(updates["webdav_enabled"])
     if updates.get("smb_enabled") is not None:
@@ -478,6 +482,7 @@ def _apply_services(cfg: Dict[str, Any], *, smb_password: Optional[str] = None) 
             int(cfg["webdav_port"]),
             cfg["share_path"],
             cfg["share_name"],
+            root_mount=bool(cfg.get("webdav_root_mount")),
         )
     else:
         webdav_server.stop_server()
@@ -494,11 +499,18 @@ def get_status() -> Dict[str, Any]:
     ips = _local_ips()
     host = ips[0] if ips else "127.0.0.1"
     share = cfg["share_name"]
+    root_mount = bool(cfg.get("webdav_root_mount"))
+    webdav_url = (
+        f"http://{host}:{cfg['webdav_port']}/"
+        if root_mount
+        else f"http://{host}:{cfg['webdav_port']}/{share}/"
+    )
     return {
         "webdav": {
             "enabled": bool(cfg.get("webdav_enabled")),
             "running": webdav_running,
-            "url": f"http://{host}:{cfg['webdav_port']}/{share}/",
+            "url": webdav_url,
+            "root_mount": root_mount,
             "bind_address": cfg["bind_address"],
             "port": cfg["webdav_port"],
             "running_config": webdav_cfg,
@@ -515,7 +527,7 @@ def get_status() -> Dict[str, Any]:
         "share_name": cfg["share_name"],
         "admin_username": get_public_config()["admin_username"],
         "connection_hint": (
-            f"WebDAV: http://<IP>:{cfg['webdav_port']}/{share}/ — "
+            f"WebDAV: http://<IP>:{cfg['webdav_port']}{'/' if root_mount else f'/{share}/'} — "
             f"SMB: \\\\<IP>\\{share} — login = panel root user"
         ),
     }
@@ -618,6 +630,7 @@ def webdav_action(action: str) -> Dict[str, Any]:
             int(cfg["webdav_port"]),
             cfg["share_path"],
             cfg["share_name"],
+            root_mount=bool(cfg.get("webdav_root_mount")),
         )
     if action == "restart":
         return webdav_server.restart_server(
@@ -625,6 +638,7 @@ def webdav_action(action: str) -> Dict[str, Any]:
             int(cfg["webdav_port"]),
             cfg["share_path"],
             cfg["share_name"],
+            root_mount=bool(cfg.get("webdav_root_mount")),
         )
     raise ValueError(f"Unknown action: {action}")
 
@@ -657,6 +671,7 @@ def restore_on_startup() -> None:
                 int(cfg["webdav_port"]),
                 cfg["share_path"],
                 cfg["share_name"],
+                root_mount=bool(cfg.get("webdav_root_mount")),
             )
     except Exception:
         pass
