@@ -14,7 +14,13 @@ import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from core.jobs import JobCancelled, jobs
+from core.jobs import jobs
+
+try:
+    from core.jobs import JobCancelled
+except ImportError:
+    class JobCancelled(Exception):
+        """Raised when a job handler stops after cooperative cancel (legacy core fallback)."""
 
 IS_WINDOWS = os.name == "nt"
 CONFIG_DIR = Path("./test_nginx/clamav") if IS_WINDOWS else Path("/opt/copanel/config/clamav")
@@ -716,42 +722,56 @@ async def run_signature_update_job(job: Any) -> Dict[str, Any]:
     return await asyncio.to_thread(_run_signature_update_job_sync, job)
 
 
+def _current_signature_info() -> Dict[str, Any]:
+    clamscan_bin = _which("clamscan")
+    raw = (_run([clamscan_bin, "--version"], timeout=20).stdout if clamscan_bin else "")
+    return _parse_version_line(raw)
+
+
 def _run_signature_update_job_sync(job: Any) -> Dict[str, Any]:
     service = _systemctl_status(FRESHCLAM_SERVICE_NAMES)
     service_name = service.get("service")
     service_active = not IS_WINDOWS and service.get("status") == "active" and service_name
-    stopped_service = False
+    before = _current_signature_info()
     lines: List[str] = []
-    code = 0
 
-    try:
-        if service_active:
-            job.log(
-                f"{service_name} is active; stopping service before update to avoid database/log lock.",
-                level="info",
-            )
-            job.update(progress=15, message="Stopping freshclam service")
-            stop = _systemctl_action("stop", service_name, timeout=90)
-            if stop.returncode != 0:
-                err = (stop.stderr or stop.stdout or "").strip()
-                raise RuntimeError(f"Failed to stop {service_name}: {err or stop.returncode}")
-            stopped_service = True
-
-        job.update(progress=25, message="Updating ClamAV signatures")
+    if service_active:
+        job.log(
+            f"Signatures managed by {service_name}; restarting service only (never run second freshclam).",
+            level="info",
+        )
+        job.update(progress=25, message="Restarting freshclam service")
+        restart = _systemctl_action("restart", service_name, timeout=120)
+        if restart.returncode != 0:
+            err = (restart.stderr or restart.stdout or "").strip()
+            raise RuntimeError(f"Failed to restart {service_name}: {err or restart.returncode}")
+        out = (restart.stdout or restart.stderr or "").strip()
+        if out:
+            job.log(out)
+        job.update(progress=50, message="Waiting for signatures")
+        parsed = before
+        for i in range(36):
+            if job.cancel_requested():
+                raise JobCancelled()
+            time.sleep(5)
+            parsed = _current_signature_info()
+            job.update(progress=min(95, 50 + i), message="Checking signature version")
+            if (
+                parsed.get("signature_version") != before.get("signature_version")
+                or parsed.get("signature_date") != before.get("signature_date")
+            ):
+                job.log("Signature version changed after service restart.")
+                break
+        else:
+            job.log("Service restarted; signature version unchanged (may already be up to date).")
+    else:
+        job.update(progress=15, message="Updating ClamAV signatures")
         lines, code = _stream_command_output(job, _freshclam_standalone_cmd())
-    finally:
-        if stopped_service and service_name:
-            job.update(progress=90, message="Restarting freshclam service")
-            start = _systemctl_action("start", service_name, timeout=90)
-            if start.returncode != 0:
-                err = (start.stderr or start.stdout or "").strip()
-                job.log(f"Failed to restart {service_name}: {err or start.returncode}", level="error")
+        if code != 0:
+            raise RuntimeError(f"freshclam failed with exit code {code}.{_exit_code_detail(code, lines)}")
+        parsed = _current_signature_info()
 
-    if code != 0:
-        raise RuntimeError(f"freshclam failed with exit code {code}.{_exit_code_detail(code, lines)}")
     job.update(progress=100, message="Signatures updated")
-    clamscan_bin = _which("clamscan")
-    parsed = _parse_version_line((_run([clamscan_bin, "--version"], timeout=20).stdout if clamscan_bin else ""))
     return {
         "updated": True,
         "signature_version": parsed.get("signature_version"),
