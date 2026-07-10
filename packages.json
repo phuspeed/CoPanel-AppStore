@@ -67,9 +67,9 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.12",
+    "version": "0.2.13",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.12.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/download_manager.v0.2.13.zip",
     "is_core": false,
     "system_packages": [
       "aria2",
@@ -79,8 +79,8 @@
     "pip_packages": [
       "yt-dlp"
     ],
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v0.2.11: Fix aria2 unrecognized option --pid-file error on older distributions. v0.2.10: Fix aria2 start exit code 28. Update yt-dlp unpinned for 403 Forbidden fixes. Add ffmpeg to merge formats.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v0.2.11: Sua loi aria2 khong nhan tham so --pid-file tren he dieu hanh cu. v0.2.10: Sua loi aria2 exit code 28 khi start. Cap nhat yt-dlp ban moi nhat fix 403 Forbidden. Them ffmpeg de ghep video chat luong cao."
+    "changelog_en": "Fix frontend build: close ModuleViewport in DownloadManager (was misplaced inside Modal helper). v0.2.12: Dual UI ModuleViewport support.",
+    "changelog_vi": "Sua loi build frontend: dong ModuleViewport dung cho trong DownloadManager (truoc do nam sai trong Modal). v0.2.12: Ho tro giao dien song song ModuleViewport."
   },
   {
     "id": "audio_station",

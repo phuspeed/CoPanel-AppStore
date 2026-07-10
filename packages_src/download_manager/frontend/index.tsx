@@ -1152,6 +1152,7 @@ export default function DownloadManager() {
         </Modal>
       )}
     </div>
+    </ModuleViewport>
   );
 }
 
@@ -1204,6 +1205,5 @@ function Modal({
         <div className="p-4">{children}</div>
       </div>
     </div>
-    </ModuleViewport>
   );
 }
