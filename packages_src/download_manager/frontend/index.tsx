@@ -2,7 +2,8 @@
  * Download Manager — task list, filters, settings, file-hosting plugins.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
 
@@ -145,7 +146,7 @@ function StatusIcon({ status }: { status: string }) {
 }
 
 export default function DownloadManager() {
-  const { theme, language } = useOutletContext<{ theme: 'dark' | 'light'; language: 'en' | 'vi' }>();
+  const { theme, language } = useAppShellContext();
   const isDark = theme === 'dark';
 
   const t = useMemo(
@@ -560,6 +561,7 @@ export default function DownloadManager() {
     : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200';
 
   return (
+    <ModuleViewport constrained>
     <div className={`flex flex-col h-[calc(100vh-4rem)] ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
       {/* Header */}
       <div className={`px-4 py-3 border-b flex items-center justify-between ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
@@ -1202,5 +1204,6 @@ function Modal({
         <div className="p-4">{children}</div>
       </div>
     </div>
+    </ModuleViewport>
   );
 }

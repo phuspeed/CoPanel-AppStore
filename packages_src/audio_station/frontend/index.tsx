@@ -2,7 +2,8 @@
  * Audio Player — music library with folder browse and playback.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
 
@@ -168,6 +169,7 @@ function Modal({
   wide?: boolean;
 }) {
   return (
+    <ModuleViewport constrained>
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div
         className={`rounded-lg shadow-xl border max-h-[90vh] overflow-y-auto ${
@@ -187,7 +189,7 @@ function Modal({
 }
 
 export default function AudioStation() {
-  const { theme, language } = useOutletContext<{ theme: 'dark' | 'light'; language: 'en' | 'vi' }>();
+  const { theme, language } = useAppShellContext();
   const isDark = theme === 'dark';
 
   const t = useMemo(
@@ -1399,5 +1401,6 @@ export default function AudioStation() {
         </Modal>
       )}
     </div>
+    </ModuleViewport>
   );
 }

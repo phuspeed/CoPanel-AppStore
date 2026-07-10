@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
 
@@ -43,7 +44,7 @@ interface Status {
 }
 
 export default function WebdavDashboard() {
-  const { theme, language } = useOutletContext<{ theme: 'dark' | 'light'; language: 'en' | 'vi' }>();
+  const { theme, language } = useAppShellContext();
   const isDark = theme === 'dark';
 
   const [config, setConfig] = useState<Config | null>(null);
@@ -324,6 +325,7 @@ export default function WebdavDashboard() {
   const smbPath = `\\\\${sampleIp}\\${shareName}`;
 
   return (
+    <ModuleViewport constrained>
     <div className={`p-4 md:p-6 space-y-6 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
       <div>
         <h1 className="text-2xl font-bold flex items-center gap-2">
@@ -531,5 +533,6 @@ export default function WebdavDashboard() {
         </ul>
       </div>
     </div>
+    </ModuleViewport>
   );
 }

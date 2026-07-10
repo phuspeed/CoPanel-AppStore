@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
 
@@ -383,6 +385,7 @@ export default function CloudflareDdns() {
   ];
 
   return (
+    <ModuleViewport constrained>
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-6">
       <header>
         <p className="text-[11px] uppercase tracking-widest text-orange-500 font-bold">Network</p>
@@ -870,5 +873,6 @@ export default function CloudflareDdns() {
         </div>
       )}
     </div>
+    </ModuleViewport>
   );
 }

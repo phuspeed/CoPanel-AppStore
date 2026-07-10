@@ -67,26 +67,34 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.11",
+    "version": "0.2.12",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.11.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.12.zip",
     "is_core": false,
-    "system_packages": ["aria2", "curl", "ffmpeg"],
-    "pip_packages": ["yt-dlp"],
-    "changelog_en": "v0.2.11: Fix aria2 unrecognized option --pid-file error on older distributions. v0.2.10: Fix aria2 start exit code 28. Update yt-dlp unpinned for 403 Forbidden fixes. Add ffmpeg to merge formats.",
-    "changelog_vi": "v0.2.11: Sua loi aria2 khong nhan tham so --pid-file tren he dieu hanh cu. v0.2.10: Sua loi aria2 exit code 28 khi start. Cap nhat yt-dlp ban moi nhat fix 403 Forbidden. Them ffmpeg de ghep video chat luong cao."
+    "system_packages": [
+      "aria2",
+      "curl",
+      "ffmpeg"
+    ],
+    "pip_packages": [
+      "yt-dlp"
+    ],
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v0.2.11: Fix aria2 unrecognized option --pid-file error on older distributions. v0.2.10: Fix aria2 start exit code 28. Update yt-dlp unpinned for 403 Forbidden fixes. Add ffmpeg to merge formats.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v0.2.11: Sua loi aria2 khong nhan tham so --pid-file tren he dieu hanh cu. v0.2.10: Sua loi aria2 exit code 28 khi start. Cap nhat yt-dlp ban moi nhat fix 403 Forbidden. Them ffmpeg de ghep video chat luong cao."
   },
   {
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.3.zip",
     "is_core": false,
-    "pip_packages": ["mutagen==1.47.0"],
-    "changelog_en": "v0.3.2: Fix AppStore install — add __init__.py, init on import, reliable hot-reload with CoPanel loader fix. If API 404 after install, run systemctl restart copanel. v0.3.1: Rebrand to Audio Player.",
-    "changelog_vi": "v0.3.2: Sua cai AppStore — __init__.py, khoi tao khi import, hot-reload on dinh hon. Neu API 404 sau cai, chay systemctl restart copanel. v0.3.1: Doi ten Audio Player."
+    "pip_packages": [
+      "mutagen==1.47.0"
+    ],
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v0.3.2: Fix AppStore install — add __init__.py, init on import, reliable hot-reload with CoPanel loader fix. If API 404 after install, run systemctl restart copanel. v0.3.1: Rebrand to Audio Player.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v0.3.2: Sua cai AppStore — __init__.py, khoi tao khi import, hot-reload on dinh hon. Neu API 404 sau cai, chay systemctl restart copanel. v0.3.1: Doi ten Audio Player."
   },
   {
     "id": "ssl_manager",
@@ -129,7 +137,10 @@
     "icon": "RefreshCw",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.0.0.zip",
     "is_core": false,
-    "system_packages": ["rsync", "openssh-client"],
+    "system_packages": [
+      "rsync",
+      "openssh-client"
+    ],
     "changelog_en": "v1.0.0: Initial AppStore module — POST /compatibility (arch, OS, rsync, optional disk vs estimate), POST /sync (dry-run or real), presets for CoPanel tree excludes.",
     "changelog_vi": "v1.0.0: Phien ban dau — API kiem tra tuong thich SSH, sync rsync (dry-run hoac that), preset loai tru cho cay CoPanel."
   },
@@ -141,7 +152,9 @@
     "icon": "Cloud",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.9.zip",
     "is_core": true,
-    "system_packages": ["rclone"],
+    "system_packages": [
+      "rclone"
+    ],
     "changelog_en": "v1.2.9: Fix cron execution by migrating from inline python to run_sync.py and setting explicit PATH for tools like mysqldump. v1.2.8: MySQL uploads now target remote_path/<dump>.sql.gz so a configured path ending in .sql no longer renames the object to .sql; gzip binary resolved via PATH or /usr/bin/gzip. v1.2.7: gzip dump before rclone.",
     "changelog_vi": "v1.2.9: Sửa lỗi cron không chạy bằng cách chuyển sang run_sync.py và truyền cứng biến PATH cho các công cụ như mysqldump. v1.2.8: Upload MySQL dat dich den remote_path/<file>.sql.gz — neu truoc day cau hinh ket thuc bang .sql thi rclone khong con doi ten thanh .sql nua; tim gzip qua PATH hoac /usr/bin/gzip. v1.2.7: nen gzip truoc khi rclone."
   },
@@ -160,9 +173,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.20",
+    "version": "1.4.21",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.20.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.21.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -178,24 +191,24 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.4.20: Fix disk Initialize — detect GPT/MBR after mklabel, unblock empty disks, show init errors in modal.",
-    "changelog_vi": "v1.4.20: Sua Initialize o — nhan dien GPT/MBR sau mklabel, bo chan o trong, hien loi init trong modal."
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.4.20: Fix disk Initialize — detect GPT/MBR after mklabel, unblock empty disks, show init errors in modal.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.4.20: Sua Initialize o — nhan dien GPT/MBR sau mklabel, bo chan o trong, hien loi init trong modal."
   },
   {
     "id": "clamav",
     "name": "ClamAV",
     "description": "Antivirus dashboard for signature updates, targeted malware scans, detections, and quarantine workflow.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "ShieldAlert",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/clamav.v1.0.4.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
       "clamav",
       "clamav-daemon"
     ],
-    "changelog_en": "v1.0.3: When clamav-freshclam service is active, restart service only (never spawn a second freshclam). Fallback JobCancelled import for older CoPanel core.",
-    "changelog_vi": "v1.0.3: Khi clamav-freshclam dang chay chi restart service (khong goi freshclam thu hai). Fallback import JobCancelled neu core CoPanel cu."
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.3: When clamav-freshclam service is active, restart service only (never spawn a second freshclam). Fallback JobCancelled import for older CoPanel core.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.3: Khi clamav-freshclam dang chay chi restart service (khong goi freshclam thu hai). Fallback import JobCancelled neu core CoPanel cu."
   },
   {
     "id": "firewall",
@@ -223,27 +236,36 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.6.zip",
     "is_core": false,
-    "system_packages": ["cron"],
-    "pip_packages": ["httpx==0.27.0"],
-    "changelog_en": "v1.0.5: Cron log lines in run_update.py; cd to backend in crontab; surface DDNS errors instead of silent fail. v1.0.4: auto-install cron.",
-    "changelog_vi": "v1.0.5: Ghi log khi cron chay; cd backend trong crontab; hien loi DDNS thay vi nuot im. v1.0.4: tu cai cron."
+    "system_packages": [
+      "cron"
+    ],
+    "pip_packages": [
+      "httpx==0.27.0"
+    ],
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Cron log lines in run_update.py; cd to backend in crontab; surface DDNS errors instead of silent fail. v1.0.4: auto-install cron.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Ghi log khi cron chay; cd backend trong crontab; hien loi DDNS thay vi nuot im. v1.0.4: tu cai cron."
   },
   {
     "id": "webdav",
     "name": "WebDAV SMB",
     "description": "WebDAV and SMB file sharing on server IP:port. Login with the same username/password as the panel root (superadmin) account. Optional WebDAV root mount for http://IP:port/ without share path.",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "icon": "FolderSync",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.9.zip",
     "is_core": false,
-    "system_packages": ["samba"],
-    "pip_packages": ["wsgidav==4.3.3", "cheroot==10.0.1"],
-    "changelog_en": "v1.0.8: Fix frontend build — restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
-    "changelog_vi": "v1.0.8: Sua loi build frontend — khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/."
+    "system_packages": [
+      "samba"
+    ],
+    "pip_packages": [
+      "wsgidav==4.3.3",
+      "cheroot==10.0.1"
+    ],
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.8: Fix frontend build — restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.8: Sua loi build frontend — khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/."
   },
   {
     "id": "cron_manager",
@@ -260,13 +282,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.29",
+    "version": "1.0.30",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.29.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.30.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.29: Detect no-AVX CPUs — serial Vite build from first attempt; fix misleading exit-139 low-RAM message; separate OOM vs Rollup segfault hints.",
-    "changelog_vi": "v1.0.29: Nhan dien CPU khong AVX — build serial ngay lan dau; sua thong bao sai exit 139; tach goi y OOM va Rollup segfault."
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.29: Detect no-AVX CPUs — serial Vite build from first attempt; fix misleading exit-139 low-RAM message; separate OOM vs Rollup segfault hints.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.29: Nhan dien CPU khong AVX — build serial ngay lan dau; sua thong bao sai exit 139; tach goi y OOM va Rollup segfault."
   },
   {
     "id": "system_cleaner",
@@ -283,15 +305,15 @@
     "id": "web_browser",
     "name": "Web Browser",
     "description": "Remote headless Chromium on the VPS to browse LAN-only services (router UI, internal webapps) from the panel. Superadmin only.",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.6.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "pip_packages": [
       "playwright==1.49.1"
     ],
-    "changelog_en": "v1.0.5: Fix TypeScript build (boolean disabled props on toolbar buttons). v1.0.4: Custom native <select> dropdown picker. v1.0.3: Fix click and keyboard input. v1.0.2: Detect browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
-    "changelog_vi": "v1.0.5: Sua loi build TypeScript (thuoc tinh disabled boolean tren nut toolbar). v1.0.4: Menu <select> tuy bien. v1.0.3: Sua click va go phim. v1.0.2: Nhan dien binary. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau."
+    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Fix TypeScript build (boolean disabled props on toolbar buttons). v1.0.4: Custom native <select> dropdown picker. v1.0.3: Fix click and keyboard input. v1.0.2: Detect browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
+    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Sua loi build TypeScript (thuoc tinh disabled boolean tren nut toolbar). v1.0.4: Menu <select> tuy bien. v1.0.3: Sua click va go phim. v1.0.2: Nhan dien binary. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau."
   }
 ]

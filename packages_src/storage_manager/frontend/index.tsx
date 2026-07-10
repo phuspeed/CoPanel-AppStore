@@ -2,7 +2,8 @@
  * Storage Manager — disk health, volumes, and admin storage actions.
  */
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
 import * as Icons from 'lucide-react';
 import PartitionWizard from './PartitionWizard';
 
@@ -306,7 +307,7 @@ function smartBadge(smart: SmartInfo | undefined, isDark: boolean): { label: str
 }
 
 export default function StorageManagerDashboard() {
-  const { theme, language } = useOutletContext<{ theme: 'dark' | 'light'; language: 'en' | 'vi' }>();
+  const { theme, language } = useAppShellContext();
   const isDark = theme === 'dark';
   const token = localStorage.getItem('copanel_token');
 
@@ -952,6 +953,7 @@ export default function StorageManagerDashboard() {
     : [];
 
   return (
+    <ModuleViewport constrained>
     <div className={`p-4 md:p-8 max-w-7xl mx-auto space-y-6 select-none ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
       <div className={`relative overflow-hidden border p-6 rounded-2xl shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-4 ${
         isDark ? 'bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 border-slate-800' : 'bg-gradient-to-br from-white via-slate-50 to-white border-slate-200'
@@ -1806,5 +1808,6 @@ export default function StorageManagerDashboard() {
         </>
       )}
     </div>
+    </ModuleViewport>
   );
 }
