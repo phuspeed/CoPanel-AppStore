@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import * as Icons from 'lucide-react';
+import WindowModal from '../../core/shell/WindowModal';
 
 type FormatFsType = 'ext4' | 'xfs' | 'btrfs' | 'vfat' | 'exfat' | 'ntfs' | 'hfsplus';
 
@@ -404,6 +405,22 @@ export default function PartitionWizard({
 
   const closeModal = () => setModal(null);
 
+  const modalTitle = useMemo(() => {
+    if (!modal) return undefined;
+    const titles: Record<NonNullable<ModalKind>, string> = {
+      initDisk: tr.initializeDiskTitle,
+      create: tr.createPartition,
+      format: tr.formatPartition,
+      delete: tr.deletePartition,
+      resize: tr.resizePartition,
+      label: tr.changeLabel,
+      boot: tr.setBoot,
+      mount: tr.mountVolume,
+      unmount: tr.unmountVolume,
+    };
+    return titles[modal];
+  }, [modal, tr]);
+
   const refreshAfter = async (fn: () => Promise<{ message?: string }>) => {
     const ok = await runAction(async () => {
       const result = await fn();
@@ -723,15 +740,10 @@ export default function PartitionWizard({
       </div>
 
       {/* Modals */}
-      {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={closeModal}>
-          <div
-            className={`w-full max-w-md rounded-2xl border p-5 space-y-4 shadow-2xl ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}
-            onClick={(e) => e.stopPropagation()}
-          >
+      <WindowModal open={!!modal} onClose={closeModal} title={modalTitle} maxWidth="md">
+        <div className="space-y-4 p-5 max-h-[70vh] overflow-y-auto text-sm">
             {modal === 'initDisk' && (
               <>
-                <h3 className="font-bold">{tr.initializeDiskTitle}</h3>
                 <p className="text-[11px] opacity-70">{tr.initializeDiskHint}</p>
                 <p className="text-[11px] font-mono">{diskMeta?.path} · {formatBytes(layout?.size_bytes || 0, language)}</p>
                 <p className="text-[11px] text-red-500">{tr.initWipeWarning}</p>
@@ -1034,9 +1046,8 @@ export default function PartitionWizard({
                 </div>
               </>
             )}
-          </div>
         </div>
-      )}
+      </WindowModal>
     </div>
   );
 }

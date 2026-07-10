@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
 
@@ -562,7 +563,7 @@ export default function DownloadManager() {
 
   return (
     <ModuleViewport constrained>
-    <div className={`flex flex-col h-[calc(100vh-4rem)] ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
+    <div className={`flex flex-col h-full min-h-0 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
       {/* Header */}
       <div className={`px-4 py-3 border-b flex items-center justify-between ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
         <div>
@@ -793,8 +794,8 @@ export default function DownloadManager() {
       </div>
 
       {/* Add URL modal */}
-      {addOpen && (
-        <Modal title={t.addUrl} onClose={() => setAddOpen(false)} isDark={isDark}>
+      <WindowModal open={addOpen} onClose={() => setAddOpen(false)} title={t.addUrl}>
+        <div className="p-4">
           <input
             className={`w-full px-3 py-2 rounded border mb-2 ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-white border-slate-300'}`}
             placeholder={t.urlPlaceholder}
@@ -816,13 +817,13 @@ export default function DownloadManager() {
               {t.add}
             </button>
           </div>
-        </Modal>
-      )}
+        </div>
+      </WindowModal>
 
       {/* Settings modal */}
-      {settingsOpen && settings && (
-        <Modal title={t.settings} onClose={() => setSettingsOpen(false)} isDark={isDark} wide>
-          <div className="flex gap-4 min-h-[360px]">
+      {settings && (
+        <WindowModal open={settingsOpen} onClose={() => setSettingsOpen(false)} title={t.settings} maxWidth="2xl" className="max-w-3xl">
+          <div className="p-4 flex gap-4 min-h-[360px]">
             <div className={`w-44 shrink-0 border-r pr-3 ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
               {(['general', 'location', 'file-hosting', 'google', 'aria2'] as SettingsTab[]).map((tab) => (
                 <button
@@ -1121,12 +1122,21 @@ export default function DownloadManager() {
               </button>
             </div>
           )}
-        </Modal>
+          </div>
+        </WindowModal>
       )}
 
       {/* Folder picker */}
-      {folderBrowse && (
-        <Modal title={t.selectFolder} onClose={() => { setFolderBrowse(null); setFolderTarget(null); }} isDark={isDark}>
+      <WindowModal
+        open={!!folderBrowse}
+        onClose={() => {
+          setFolderBrowse(null);
+          setFolderTarget(null);
+        }}
+        title={t.selectFolder}
+      >
+        {folderBrowse && (
+        <div className="p-4">
           <div className={`text-xs mb-2 font-mono ${muted}`}>{folderBrowse.current}</div>
           {folderBrowse.parent && (
             <button type="button" onClick={() => browseTo(folderBrowse.parent!)} className="text-sm text-blue-500 mb-2 flex items-center gap-1">
@@ -1149,8 +1159,9 @@ export default function DownloadManager() {
           <button type="button" onClick={() => pickFolder(folderBrowse.current)} className="w-full py-2 rounded bg-blue-600 text-white text-sm">
             {t.selectFolder}: {folderBrowse.current}
           </button>
-        </Modal>
-      )}
+        </div>
+        )}
+      </WindowModal>
     </div>
     </ModuleViewport>
   );
@@ -1172,38 +1183,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     <div>
       <div className="text-sm font-medium text-blue-500 mb-1">{label}</div>
       {children}
-    </div>
-  );
-}
-
-function Modal({
-  title,
-  children,
-  onClose,
-  isDark,
-  wide,
-}: {
-  title: string;
-  children: React.ReactNode;
-  onClose: () => void;
-  isDark: boolean;
-  wide?: boolean;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div
-        className={`rounded-lg shadow-xl border max-h-[90vh] overflow-y-auto ${
-          wide ? 'w-full max-w-3xl' : 'w-full max-w-md'
-        } ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}
-      >
-        <div className={`flex items-center justify-between px-4 py-3 border-b ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
-          <h2 className="font-semibold">{title}</h2>
-          <button type="button" onClick={onClose}>
-            <Icons.X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="p-4">{children}</div>
-      </div>
     </div>
   );
 }

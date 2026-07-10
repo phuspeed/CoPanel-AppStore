@@ -7,14 +7,29 @@ GitHub catalog + versioned ZIP distribution for CoPanel modules.
 | Doc | What |
 |-----|------|
 | This file | ZIP layout, build, publish |
+| [MODULE_SOURCES.md](MODULE_SOURCES.md) | **Core vs AppStore-only — where to edit, sync rules** |
+| [packages_src/README.md](packages_src/README.md) | AppStore-only module folder |
 | [CoPanel frontend/DESKTOP_UI.md](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md) | Dual-UI module author guide |
 | [CoPanel README](https://github.com/phuspeed/CoPanel/blob/main/README.md) | Panel install (classic / desktop) |
+
+## Two repos, one module id
+
+| Repo | Role |
+|------|------|
+| **[CoPanel](https://github.com/phuspeed/CoPanel)** | **Canonical source** for `curl install.sh` — `backend/modules/`, `frontend/src/modules/` |
+| **CoPanel-AppStore** (this repo) | Catalog + ZIPs; **`packages_src/`** only for modules **not** in install.sh |
+
+Core modules: edit **CoPanel only** (`is_core: true` in `packages.json`).  
+AppStore-only: edit **`packages_src/<id>/`** (`is_core: false`).  
+Do not duplicate core modules under `packages_src/` — the ZIP builder prefers `packages_src` and would shadow CoPanel.
+
+Detail: **[MODULE_SOURCES.md](MODULE_SOURCES.md)** · check: `python scripts/check_module_sources.py`
 
 ## Structure
 
 - `packages.json` — catalog metadata served by AppStore backend
 - `packages/` — versioned ZIP archives (`<id>.v<semver>.zip`)
-- `packages_src/` — AppStore-only module sources (not in core `install.sh`)
+- `packages_src/` — **AppStore-only** module sources (not in `install.sh`; see [MODULE_SOURCES.md](MODULE_SOURCES.md))
 - `scripts/build_versioned_zip.py` — ZIP builder
 
 ## Package format
@@ -110,8 +125,8 @@ Full checklist: [DESKTOP_UI.md § AppStore ZIP](https://github.com/phuspeed/CoPa
 
 `build_versioned_zip.py` resolves sources in order:
 
-1. `packages_src/<module_id>/` (AppStore-only)
-2. Sibling `copanel/` tree: `backend/modules/<id>/` + `frontend/src/modules/<id>/`
+1. `packages_src/<module_id>/` — **only if** module is AppStore-only (`is_core: false`); must not exist for core modules
+2. Sibling `copanel/` tree: `backend/modules/<id>/` + `frontend/src/modules/<id>/` — **core / built-in modules**
 
 ```bash
 cd scripts
@@ -125,7 +140,13 @@ python build_versioned_zip.py storage_manager 1.4.20
 # → ../packages/storage_manager.v1.4.20.zip
 ```
 
-AppStore-only sources: see `packages_src/README.md`. Not bundled in `CoPanel/scripts/install.sh`.
+AppStore-only sources: see `packages_src/README.md` and [MODULE_SOURCES.md](MODULE_SOURCES.md). Not bundled in `CoPanel/scripts/install.sh`.
+
+Validate layout before release:
+
+```bash
+python scripts/check_module_sources.py
+```
 
 ## Release workflow
 

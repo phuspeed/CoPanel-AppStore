@@ -7,4 +7,7 @@ export default {
   description:
     'Remote headless Chromium on the VPS — browse LAN-only services (router UI, internal webapps) from the panel.',
   component: WebBrowser,
+  windowMode: true,
+  defaultWindowSize: { width: 1280, height: 800 },
+  singleton: true,
 };

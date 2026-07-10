@@ -93,6 +93,8 @@ function statusPill(status?: string) {
 }
 
 export default function CloudflareDdns() {
+  const { theme } = useAppShellContext();
+  const isDark = theme === 'dark';
   const [tab, setTab] = useState<Tab>('settings');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -386,6 +388,7 @@ export default function CloudflareDdns() {
 
   return (
     <ModuleViewport constrained>
+    <div className={`h-full min-h-0 overflow-auto ${isDark ? 'dark' : ''}`}>
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-6">
       <header>
         <p className="text-[11px] uppercase tracking-widest text-orange-500 font-bold">Network</p>
@@ -872,6 +875,7 @@ export default function CloudflareDdns() {
           </section>
         </div>
       )}
+    </div>
     </div>
     </ModuleViewport>
   );

@@ -293,7 +293,7 @@ export default function WebBrowser() {
 
   return (
     <ModuleViewport constrained>
-    <div className={`p-4 md:p-6 space-y-4 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
+    <div className={`flex flex-col h-full min-h-0 p-4 md:p-6 space-y-4 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
       <div>
         <h1 className="text-2xl font-bold flex items-center gap-2">
           <Icons.Globe className="w-7 h-7 text-blue-500" />
@@ -339,7 +339,7 @@ export default function WebBrowser() {
       )}
 
       {status && !needsPlaywright && (
-        <>
+        <div className="flex flex-col flex-1 min-h-0 gap-4">
           <div className={`flex flex-wrap gap-2 items-center rounded-xl border p-3 ${isDark ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'}`}>
             <button type="button" onClick={() => sendWs({ type: 'back' })} className="p-2 rounded-lg hover:bg-slate-800/50" title={tr.back}>
               <Icons.ArrowLeft className="w-4 h-4" />
@@ -397,7 +397,7 @@ export default function WebBrowser() {
           <div
             ref={viewportRef}
             tabIndex={0}
-            className={`relative w-full rounded-xl border overflow-hidden min-h-[420px] h-[calc(100vh-280px)] flex items-center justify-center ${isDark ? 'border-slate-700 bg-black' : 'border-slate-300 bg-slate-100'}`}
+            className={`relative w-full flex-1 min-h-[320px] rounded-xl border overflow-hidden flex items-center justify-center ${isDark ? 'border-slate-700 bg-black' : 'border-slate-300 bg-slate-100'}`}
             onMouseDown={(e) => {
               if (wsState !== 'open') return;
               viewportRef.current?.focus();
@@ -478,7 +478,7 @@ export default function WebBrowser() {
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
     </ModuleViewport>

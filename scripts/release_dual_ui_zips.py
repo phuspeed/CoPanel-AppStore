@@ -12,21 +12,21 @@ SCRIPTS = APPSTORE / "scripts"
 COPANEL = APPSTORE.parent / "copanel"
 
 RELEASES = {
-    "download_manager": "0.2.12",
-    "audio_station": "0.3.3",
-    "storage_manager": "1.4.21",
-    "clamav": "1.0.4",
-    "cloudflare_ddns": "1.0.6",
-    "webdav": "1.0.9",
-    "web_browser": "1.0.6",
-    "appstore_manager": "1.0.30",
+    "download_manager": "0.2.13",
+    "audio_station": "0.3.4",
+    "storage_manager": "1.4.22",
+    "clamav": "1.0.5",
+    "cloudflare_ddns": "1.0.7",
+    "webdav": "1.0.10",
+    "web_browser": "1.0.7",
+    "module_redis": "1.0.1",
 }
 
 CHANGELOG_EN = (
-    "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell."
+    "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP."
 )
 CHANGELOG_VI = (
-    "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop."
+    "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop."
 )
 
 

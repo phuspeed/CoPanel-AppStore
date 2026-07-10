@@ -6,4 +6,7 @@ export default {
   path: '/redis-cache-manager',
   description: 'Monitor Redis cache, memory usage, and connection status.',
   component: RedisCacheDashboard,
+  windowMode: true,
+  defaultWindowSize: { width: 880, height: 520 },
+  singleton: true,
 };

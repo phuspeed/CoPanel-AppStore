@@ -6,4 +6,7 @@ export default {
   path: '/audio-player',
   description: 'Music library — browse folders, play audio, scan metadata.',
   component: AudioStation,
+  windowMode: true,
+  defaultWindowSize: { width: 1200, height: 760 },
+  singleton: true,
 };

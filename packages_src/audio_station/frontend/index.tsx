@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
 
@@ -153,38 +154,6 @@ function CoverThumb({
     );
   }
   return <img src={src} alt="" className={`${className} rounded object-cover shrink-0 bg-slate-200`} />;
-}
-
-function Modal({
-  title,
-  children,
-  onClose,
-  isDark,
-  wide,
-}: {
-  title: string;
-  children: React.ReactNode;
-  onClose: () => void;
-  isDark: boolean;
-  wide?: boolean;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div
-        className={`rounded-lg shadow-xl border max-h-[90vh] overflow-y-auto ${
-          wide ? 'w-full max-w-2xl' : 'w-full max-w-lg'
-        } ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}
-      >
-        <div className={`flex items-center justify-between px-4 py-3 border-b ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
-          <h3 className="font-semibold">{title}</h3>
-          <button type="button" onClick={onClose} className="p-1 rounded hover:bg-black/10">
-            <Icons.X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="p-4">{children}</div>
-      </div>
-    </div>
-  );
 }
 
 export default function AudioStation() {
@@ -747,7 +716,7 @@ export default function AudioStation() {
 
   return (
     <ModuleViewport constrained>
-    <div className={`flex flex-col h-[calc(100vh-4rem)] min-h-[32rem] border rounded-lg overflow-hidden ${panel}`}>
+    <div className={`flex flex-col h-full min-h-[32rem] border rounded-lg overflow-hidden ${panel}`}>
       {/* Top bar */}
       <div className={`flex items-center gap-3 px-4 py-3 border-b shrink-0 ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
         <Icons.Music className="w-6 h-6 text-teal-500" />
@@ -1274,8 +1243,8 @@ export default function AudioStation() {
       </div>
 
       {/* New playlist */}
-      {newPlaylistOpen && (
-        <Modal title={t.newPlaylist} onClose={() => setNewPlaylistOpen(false)} isDark={isDark}>
+      <WindowModal open={newPlaylistOpen} onClose={() => setNewPlaylistOpen(false)} title={t.newPlaylist}>
+          <div className="p-4">
           <input
             value={newPlaylistName}
             onChange={(e) => setNewPlaylistName(e.target.value)}
@@ -1292,13 +1261,11 @@ export default function AudioStation() {
               {t.save}
             </button>
           </div>
-        </Modal>
-      )}
+          </div>
+        </WindowModal>
 
-      {/* Settings */}
-      {settingsOpen && settingsDraft && (
-        <Modal title={t.settings} onClose={() => setSettingsOpen(false)} isDark={isDark} wide>
-          <div className="space-y-4">
+      <WindowModal open={settingsOpen && !!settingsDraft} onClose={() => setSettingsOpen(false)} title={t.settings} maxWidth="2xl" className="max-w-2xl">
+          <div className="p-4 space-y-4">
             <div>
               <label className={`block text-sm font-medium mb-2 ${muted}`}>{t.libraryRoots}</label>
               <div className="space-y-2">
@@ -1359,12 +1326,17 @@ export default function AudioStation() {
               </button>
             </div>
           </div>
-        </Modal>
-      )}
+        </WindowModal>
 
-      {/* Folder picker */}
-      {folderPicker && (
-        <Modal title={t.selectFolder} onClose={() => { setFolderPicker(null); setPickerMode(null); }} isDark={isDark}>
+      <WindowModal
+        open={!!folderPicker}
+        onClose={() => {
+          setFolderPicker(null);
+          setPickerMode(null);
+        }}
+        title={t.selectFolder}
+      >
+          <div className="p-4">
           <div className={`text-xs mb-2 font-mono truncate ${muted}`}>{folderPicker.current}</div>
           <div className="flex flex-wrap gap-1 mb-2">
             {folderPicker.volumes.map((v) => (
@@ -1398,8 +1370,8 @@ export default function AudioStation() {
           >
             {t.useThisFolder}
           </button>
-        </Modal>
-      )}
+          </div>
+        </WindowModal>
     </div>
     </ModuleViewport>
   );
