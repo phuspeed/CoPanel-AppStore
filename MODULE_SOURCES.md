@@ -123,6 +123,20 @@ See full grades in [CoPanel DESKTOP_UI.md](https://github.com/phuspeed/CoPanel/b
 
 **Grade A** = floating window + theme context. **B** = works on Desktop sidebar/full workspace. **C** = needs `useAppShellContext` migration (Wave A).
 
+## Sync AppStore → CoPanel (windowMode workflow)
+
+When Desktop UI is implemented in **`packages_src/<id>/`** first, copy into CoPanel for core bundles or local dev:
+
+```bash
+cd copanel-appstore/scripts
+python sync_packages_src_to_copanel.py <module_id>
+```
+
+Copies `packages_src/<id>/backend` → `copanel/backend/modules/<id>` and `frontend` → `copanel/frontend/src/modules/<id>`.
+
+- **AppStore-only** modules: usually **do not** copy into CoPanel (install via App Store).
+- **Core** modules: edit **CoPanel directly**; use sync only when prototyping in `packages_src` first.
+
 ## Related docs
 
 | File | Audience |
