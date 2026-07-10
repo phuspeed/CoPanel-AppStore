@@ -282,13 +282,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.30",
+    "version": "1.0.32",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.30.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.32.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.29: Detect no-AVX CPUs — serial Vite build from first attempt; fix misleading exit-139 low-RAM message; separate OOM vs Rollup segfault hints.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.29: Nhan dien CPU khong AVX — build serial ngay lan dau; sua thong bao sai exit 139; tach goi y OOM va Rollup segfault."
+    "changelog_en": "v1.0.32: Extension fast-path install (frontend_install=extension), staging dist build, runtime extension registry. v1.0.31: Dist backup on build fail.",
+    "changelog_vi": "v1.0.32: Cai nhanh extension (frontend_install=extension), staging build dist, registry runtime. v1.0.31: Backup dist khi build loi."
   },
   {
     "id": "system_cleaner",
@@ -315,5 +315,20 @@
     ],
     "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Fix TypeScript build (boolean disabled props on toolbar buttons). v1.0.4: Custom native <select> dropdown picker. v1.0.3: Fix click and keyboard input. v1.0.2: Detect browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
     "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Sua loi build TypeScript (thuoc tinh disabled boolean tren nut toolbar). v1.0.4: Menu <select> tuy bien. v1.0.3: Sua click va go phim. v1.0.2: Nhan dien binary. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau."
+  },
+  {
+    "id": "module_redis",
+    "name": "Redis Cache Manager",
+    "description": "Monitor Redis cache, memory usage, and connection status. Pilot: fast extension install (no full panel npm rebuild).",
+    "version": "1.0.0",
+    "icon": "Database",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/module_redis.v1.0.0.zip",
+    "is_core": false,
+    "frontend_install": "extension",
+    "system_packages": [
+      "redis"
+    ],
+    "changelog_en": "v1.0.0: First release. Pre-built extension/ in ZIP — AppStore install skips npm run build when panel has appstore_manager >= 1.0.32.",
+    "changelog_vi": "v1.0.0: Phat hanh dau. ZIP co extension/ san — cai AppStore bo qua npm run build khi panel da co appstore_manager >= 1.0.32."
   }
 ]
