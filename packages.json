@@ -282,13 +282,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.32",
+    "version": "1.0.33",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.32.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.33.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.32: Extension fast-path install (frontend_install=extension), staging dist build, runtime extension registry. v1.0.31: Dist backup on build fail.",
-    "changelog_vi": "v1.0.32: Cai nhanh extension (frontend_install=extension), staging build dist, registry runtime. v1.0.31: Backup dist khi build loi."
+    "changelog_en": "v1.0.33: Smarter post-install restart — extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules. v1.0.32: Extension fast-path install, staging dist build, runtime extension registry.",
+    "changelog_vi": "v1.0.33: Restart sau cai thong minh hon — extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi. v1.0.32: Cai nhanh extension, staging build dist, registry runtime."
   },
   {
     "id": "system_cleaner",
