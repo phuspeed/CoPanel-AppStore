@@ -1265,6 +1265,7 @@ export default function AudioStation() {
         </WindowModal>
 
       <WindowModal open={settingsOpen && !!settingsDraft} onClose={() => setSettingsOpen(false)} title={t.settings} maxWidth="2xl" className="max-w-2xl">
+          {settingsDraft && (
           <div className="p-4 space-y-4">
             <div>
               <label className={`block text-sm font-medium mb-2 ${muted}`}>{t.libraryRoots}</label>
@@ -1298,7 +1299,9 @@ export default function AudioStation() {
               <input
                 type="checkbox"
                 checked={settingsDraft.scan_on_startup}
-                onChange={(e) => setSettingsDraft({ ...settingsDraft, scan_on_startup: e.target.checked })}
+                onChange={(e) =>
+                  setSettingsDraft((prev) => (prev ? { ...prev, scan_on_startup: e.target.checked } : prev))
+                }
               />
               {t.scanOnStartup}
             </label>
@@ -1326,6 +1329,7 @@ export default function AudioStation() {
               </button>
             </div>
           </div>
+          )}
         </WindowModal>
 
       <WindowModal
@@ -1336,6 +1340,7 @@ export default function AudioStation() {
         }}
         title={t.selectFolder}
       >
+          {folderPicker && (
           <div className="p-4">
           <div className={`text-xs mb-2 font-mono truncate ${muted}`}>{folderPicker.current}</div>
           <div className="flex flex-wrap gap-1 mb-2">
@@ -1371,6 +1376,7 @@ export default function AudioStation() {
             {t.useThisFolder}
           </button>
           </div>
+          )}
         </WindowModal>
     </div>
     </ModuleViewport>

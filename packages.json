@@ -86,9 +86,9 @@
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.5.zip",
     "is_core": false,
     "pip_packages": [
       "mutagen==1.47.0"
