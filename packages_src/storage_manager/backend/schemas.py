@@ -10,6 +10,10 @@ class CreatePartitionRequest(BaseModel):
     disk_name: str = Field(..., min_length=1, max_length=32)
     start: str = Field("1MiB", description="parted start, e.g. 1MiB or 50%")
     end: str = Field("100%", description="parted end, e.g. 100% or 100%")
+    partition_type: Literal["linux", "efi", "swap", "ntfs", "lvm", "data"] = Field(
+        "linux",
+        description="Partition role: linux (ext4), efi (FAT32+ESP), swap, ntfs, lvm PV",
+    )
     initialize_gpt: bool = Field(False, description="Legacy: create GPT on empty disks (prefer /disks/{name}/initialize)")
     confirm_token: str = Field(..., min_length=1, max_length=32)
 
@@ -101,6 +105,10 @@ class ResizePartitionRequest(BaseModel):
     device: str
     end: str = Field(..., description="New end position, e.g. 100% or 500GiB")
     grow_filesystem: bool = Field(True, description="Grow filesystem after extending partition")
+    shrink_filesystem: bool = Field(
+        True,
+        description="Shrink ext4/ntfs filesystem before shrinking partition (requires unmount)",
+    )
     confirm_token: str = Field(..., min_length=1, max_length=64)
 
 
@@ -115,3 +123,25 @@ class PartitionBootRequest(BaseModel):
     active: bool = True
     confirm_token: str = Field(..., min_length=1, max_length=64)
     partition_number: Optional[int] = Field(None, ge=1, le=128)
+
+
+class PlannedOperation(BaseModel):
+    """Single queued disk mutation (GParted-style pending operation)."""
+
+    op: Literal[
+        "initialize",
+        "create",
+        "delete",
+        "resize",
+        "format",
+        "label",
+        "set_boot",
+    ]
+    disk_name: Optional[str] = Field(None, max_length=32)
+    device: Optional[str] = Field(None, max_length=64)
+    confirm_token: Optional[str] = Field(None, max_length=64)
+    params: dict = Field(default_factory=dict)
+
+
+class OperationsBatchRequest(BaseModel):
+    operations: list[PlannedOperation] = Field(..., min_length=1, max_length=32)

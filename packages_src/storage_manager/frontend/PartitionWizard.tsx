@@ -4,6 +4,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import * as Icons from 'lucide-react';
 import WindowModal from '../../core/shell/WindowModal';
+import OperationQueuePanel, { type OperationQueueStrings } from './OperationQueuePanel';
+import DiskMapBar from './DiskMapBar';
+import {
+  newPendingId,
+  toApiPayload,
+  type OperationLogEntry,
+  type PendingOperation,
+} from './operationTypes';
+import type { CreatePartitionType, DiskPartitionDetail, WizardPartition } from './partitionTypes';
+
+export type { DiskPartitionDetail, WizardPartition } from './partitionTypes';
 
 type FormatFsType = 'ext4' | 'xfs' | 'btrfs' | 'vfat' | 'exfat' | 'ntfs' | 'hfsplus';
 
@@ -29,38 +40,6 @@ const FS_COLORS: Record<string, string> = {
   lvm2: 'bg-amber-500',
   unknown: 'bg-slate-500',
 };
-
-export interface WizardPartition {
-  number: number;
-  name?: string | null;
-  path?: string | null;
-  start_mib?: number | null;
-  end_mib?: number | null;
-  size_bytes?: number | null;
-  fstype?: string | null;
-  fstype_label?: string | null;
-  mountpoint?: string | null;
-  flags?: string[];
-  is_boot?: boolean;
-  label?: string | null;
-  used_percent?: number | null;
-  used_bytes?: number | null;
-  free_bytes?: number | null;
-  is_mounted?: boolean;
-  mountable?: boolean;
-  parttype_label?: string | null;
-}
-
-export interface DiskPartitionDetail {
-  disk: string;
-  is_system_disk: boolean;
-  size_bytes: number;
-  model?: string;
-  partition_table?: string;
-  disk_state?: 'uninitialized' | 'empty_table' | 'partitioned';
-  partitions: WizardPartition[];
-  unallocated: Array<{ start_mib: number; end_mib: number; size_mib: number }>;
-}
 
 interface DiskPartitionSummary {
   name: string;
@@ -142,7 +121,29 @@ export interface PartitionWizardStrings {
   emptyTableStep: string;
   rawDiskLabel: string;
   initWipeWarning: string;
+  addToQueue: string;
+  partitionType: string;
+  typeLinux: string;
+  typeEfi: string;
+  typeSwap: string;
+  typeNtfs: string;
+  typeLvm: string;
+  dragResizeHint: string;
+  extendPreview: (mib: number) => string;
+  shrinkPreview: (mib: number) => string;
+  shrinkPartition: string;
+  shrinkFilesystem: string;
+  shrinkHint: string;
+  queue: OperationQueueStrings;
 }
+
+const PARTITION_TYPE_OPTIONS: { value: CreatePartitionType; labelKey: 'typeLinux' | 'typeEfi' | 'typeSwap' | 'typeNtfs' | 'typeLvm' }[] = [
+  { value: 'linux', labelKey: 'typeLinux' },
+  { value: 'efi', labelKey: 'typeEfi' },
+  { value: 'swap', labelKey: 'typeSwap' },
+  { value: 'ntfs', labelKey: 'typeNtfs' },
+  { value: 'lvm', labelKey: 'typeLvm' },
+];
 
 interface PartitionWizardProps {
   disks: DiskSummary[];
@@ -258,6 +259,7 @@ export default function PartitionWizard({
 
   const [partStart, setPartStart] = useState('1MiB');
   const [partEnd, setPartEnd] = useState('100%');
+  const [partType, setPartType] = useState<CreatePartitionType>('linux');
   const [initTableType, setInitTableType] = useState<'gpt' | 'msdos'>('gpt');
   const [initConfirm, setInitConfirm] = useState('');
   const [partConfirm, setPartConfirm] = useState('');
@@ -268,6 +270,7 @@ export default function PartitionWizard({
 
   const [resizeEnd, setResizeEnd] = useState('100%');
   const [resizeGrowFs, setResizeGrowFs] = useState(true);
+  const [resizeShrinkFs, setResizeShrinkFs] = useState(true);
   const [resizeConfirm, setResizeConfirm] = useState('');
 
   const [labelText, setLabelText] = useState('');
@@ -280,6 +283,48 @@ export default function PartitionWizard({
   const [mountFs, setMountFs] = useState<FormatFsType>('ntfs');
   const [mountPersist, setMountPersist] = useState(true);
   const partitionsApiAvailable = useRef<boolean | null>(null);
+
+  const [pendingQueue, setPendingQueue] = useState<PendingOperation[]>([]);
+  const [opLog, setOpLog] = useState<OperationLogEntry[]>([]);
+  const [queueBusy, setQueueBusy] = useState(false);
+  const [validationSummary, setValidationSummary] = useState<string | null>(null);
+
+  const enqueue = useCallback((entry: Omit<PendingOperation, 'id'>) => {
+    setPendingQueue((prev) => [...prev, { ...entry, id: newPendingId() }]);
+    setValidationSummary(null);
+    setModal(null);
+  }, []);
+
+  const removeFromQueue = useCallback((id: string) => {
+    setPendingQueue((prev) => prev.filter((item) => item.id !== id));
+    setValidationSummary(null);
+  }, []);
+
+  const clearQueue = useCallback(() => {
+    setPendingQueue([]);
+    setValidationSummary(null);
+  }, []);
+
+  const handleValidateQueue = useCallback(async () => {
+    if (pendingQueue.length === 0) return;
+    setQueueBusy(true);
+    setValidationSummary(null);
+    try {
+      const data = await postJson<{ valid: boolean; summary: string }>(
+        '/api/storage_manager/operations/validate',
+        { operations: pendingQueue.map(toApiPayload) },
+      );
+      setValidationSummary(
+        data.valid
+          ? `${tr.queue.validationOk} — ${data.summary}`
+          : `${tr.queue.validationFailed} — ${data.summary}`,
+      );
+    } catch (err) {
+      setValidationSummary(err instanceof Error ? err.message : String(err));
+    } finally {
+      setQueueBusy(false);
+    }
+  }, [pendingQueue, postJson, tr.queue.validationFailed, tr.queue.validationOk]);
 
   const applyCreateDefaults = useCallback((diskName: string) => {
     setPartConfirm(diskName);
@@ -393,6 +438,7 @@ export default function PartitionWizard({
     }
     if (kind === 'create') {
       applyCreateDefaults(activeDisk);
+      setPartType('linux');
     }
     if (kind === 'mount' && selected) {
       const inferred = (selected.fstype as FormatFsType | null) || 'ntfs';
@@ -404,6 +450,72 @@ export default function PartitionWizard({
   };
 
   const closeModal = () => setModal(null);
+
+  const openCreateFromGap = useCallback((startMib: number, endMib: number) => {
+    if (!canMutate || isUninitialized) return;
+    setPartStart(`${Math.ceil(startMib)}MiB`);
+    setPartEnd(`${Math.floor(endMib)}MiB`);
+    setPartConfirm(activeDisk);
+    setPartType('linux');
+    setModal('create');
+  }, [activeDisk, canMutate, isUninitialized]);
+
+  const handleDragResizeEnd = useCallback((part: WizardPartition, newEndMib: number) => {
+    if (!part.name || !part.path) return;
+    const currentEnd = part.end_mib ?? 0;
+    const shrink = newEndMib < currentEnd - 0.5;
+    enqueue({
+      op: 'resize',
+      device: part.path,
+      confirm_token: part.name,
+      params: {
+        end: `${newEndMib}MiB`,
+        grow_filesystem: !shrink,
+        shrink_filesystem: shrink,
+      },
+      summary: shrink
+        ? `${tr.shrinkPartition}: ${part.name} → ${newEndMib}MiB`
+        : `${tr.resizePartition}: ${part.name} → ${newEndMib}MiB`,
+    });
+    setSelectedPath(part.path);
+  }, [enqueue, tr.resizePartition, tr.shrinkPartition]);
+
+  const handleApplyQueue = useCallback(async () => {
+    if (pendingQueue.length === 0) return;
+    setQueueBusy(true);
+    setValidationSummary(null);
+    try {
+      const data = await postJson<{
+        applied: number;
+        completed: boolean;
+        log: Array<{ index: number; op: string; status: string; preview?: string; message: string }>;
+      }>('/api/storage_manager/operations/apply', {
+        operations: pendingQueue.map(toApiPayload),
+      });
+      setOpLog(
+        (data.log || []).map((entry) => ({
+          index: entry.index,
+          op: entry.op,
+          status: entry.status === 'success' ? 'success' as const : 'failed' as const,
+          preview: entry.preview,
+          message: entry.message,
+        })),
+      );
+      if (data.completed) {
+        setPendingQueue([]);
+        setValidationSummary(tr.queue.validationOk);
+        await loadLayout(activeDisk);
+      } else {
+        setValidationSummary(
+          `${tr.queue.validationFailed} — ${data.applied}/${pendingQueue.length}`,
+        );
+      }
+    } catch (err) {
+      setValidationSummary(err instanceof Error ? err.message : String(err));
+    } finally {
+      setQueueBusy(false);
+    }
+  }, [activeDisk, loadLayout, pendingQueue, postJson, tr.queue.validationFailed, tr.queue.validationOk]);
 
   const modalTitle = useMemo(() => {
     if (!modal) return undefined;
@@ -439,6 +551,7 @@ export default function PartitionWizard({
       start: number;
       widthPct: number;
       part?: WizardPartition;
+      gap?: { start_mib: number; end_mib: number; size_mib: number };
       label: string;
     };
     const raw: Seg[] = [];
@@ -461,6 +574,7 @@ export default function PartitionWizard({
         kind: 'free',
         start: gap.start_mib,
         widthPct: Math.max(0.5, (gapBytes / total) * 100),
+        gap,
         label: isUninitialized ? tr.rawDiskLabel : tr.unallocated,
       });
     }
@@ -590,67 +704,29 @@ export default function PartitionWizard({
               <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{tr.loadingLayout}</p>
             ) : layoutErr ? (
               <p className="text-xs text-red-500">{layoutErr}</p>
-            ) : (
-              <div className={`rounded-xl border p-2 ${isDark ? 'border-slate-700 bg-slate-950' : 'border-slate-300 bg-white'}`}>
-                <div className="flex h-16 gap-0.5 overflow-hidden rounded-lg">
-                  {mapSegments.map((seg) => {
-                    if (seg.kind === 'free') {
-                      return (
-                        <div
-                          key={seg.key}
-                          style={{ width: `${seg.widthPct}%` }}
-                          className={`relative min-w-[2px] h-full flex items-center justify-center text-[9px] font-bold border border-dashed ${
-                            isDark ? 'bg-slate-900 border-slate-600 text-slate-500' : 'bg-slate-100 border-slate-300 text-slate-400'
-                          }`}
-                          title={isUninitialized ? tr.rawDiskLabel : tr.unallocated}
-                        >
-                          <span className="truncate px-0.5 hidden sm:inline">
-                            {isUninitialized ? tr.rawDiskLabel : tr.unallocated}
-                          </span>
-                        </div>
-                      );
-                    }
-                    const part = seg.part!;
-                    const selectedHere = part.path === selectedPath;
-                    const used = part.used_percent ?? 0;
-                    return (
-                      <button
-                        key={seg.key}
-                        type="button"
-                        onClick={() => setSelectedPath(part.path || null)}
-                        style={{ width: `${seg.widthPct}%` }}
-                        className={`relative min-w-[24px] h-full text-left overflow-hidden transition ring-2 ${
-                          selectedHere
-                            ? 'ring-amber-400 z-10'
-                            : 'ring-transparent hover:ring-cyan-500/50'
-                        } ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`}
-                        title={`${displayName(part)} · ${part.fstype_label || part.fstype || '—'}`}
-                      >
-                        <div className={`absolute inset-x-0 bottom-0 h-1.5 ${fsColor(part.fstype)} opacity-80`} />
-                        <div
-                          className="absolute inset-x-0 bottom-1.5 h-2 bg-cyan-500/70"
-                          style={{ width: `${Math.min(100, used)}%` }}
-                        />
-                        <div className="relative p-1 h-full flex flex-col justify-between">
-                          <span className={`text-[9px] font-bold truncate leading-tight ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                            {displayName(part)}
-                          </span>
-                          <span className={`text-[8px] font-mono truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                            {part.fstype_label || part.fstype || '—'}
-                            {part.size_bytes ? ` · ${formatBytes(part.size_bytes, language)}` : ''}
-                          </span>
-                          {part.is_boot && (
-                            <Icons.Flag className="absolute top-1 right-1 w-2.5 h-2.5 text-amber-400" />
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className={`mt-1.5 text-[9px] font-mono ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                  {diskMeta?.path} · {formatBytes(layout?.size_bytes || 0, language)}
-                </div>
-              </div>
+            ) : layout && (
+              <DiskMapBar
+                layout={layout}
+                mapSegments={mapSegments}
+                selectedPath={selectedPath}
+                canMutate={Boolean(canMutate)}
+                canCreatePartition={Boolean(canCreatePartition)}
+                isUninitialized={isUninitialized}
+                isDark={isDark}
+                formatBytes={formatBytes}
+                language={language}
+                diskPath={diskMeta?.path || `/dev/${activeDisk}`}
+                tr={{
+                  unallocated: tr.unallocated,
+                  rawDiskLabel: tr.rawDiskLabel,
+                  dragResizeHint: tr.dragResizeHint,
+                  extendPreview: tr.extendPreview,
+                  shrinkPreview: tr.shrinkPreview,
+                }}
+                onSelectPartition={setSelectedPath}
+                onClickFree={openCreateFromGap}
+                onDragResizeEnd={handleDragResizeEnd}
+              />
             )}
           </div>
 
@@ -737,6 +813,19 @@ export default function PartitionWizard({
             </div>
           )}
         </div>
+
+        <OperationQueuePanel
+          queue={pendingQueue}
+          log={opLog}
+          isDark={isDark}
+          busy={queueBusy || actionLoading}
+          validationSummary={validationSummary}
+          tr={tr.queue}
+          onRemove={removeFromQueue}
+          onClear={clearQueue}
+          onValidate={handleValidateQueue}
+          onApply={handleApplyQueue}
+        />
       </div>
 
       {/* Modals */}
@@ -772,6 +861,20 @@ export default function PartitionWizard({
                   <button
                     type="button"
                     disabled={actionLoading || initConfirm.trim() !== activeDisk}
+                    onClick={() => enqueue({
+                      op: 'initialize',
+                      disk_name: activeDisk,
+                      confirm_token: initConfirm.trim(),
+                      params: { table_type: initTableType },
+                      summary: `${tr.initializeDisk}: ${activeDisk} (${initTableType.toUpperCase()})`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-amber-700 text-amber-300' : 'border-amber-300 text-amber-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || initConfirm.trim() !== activeDisk}
                     onClick={() => refreshAfter(() => postJson(`/api/storage_manager/disks/${encodeURIComponent(activeDisk)}/initialize`, {
                       disk_name: activeDisk,
                       table_type: initTableType,
@@ -798,6 +901,18 @@ export default function PartitionWizard({
                   <input value={partEnd} onChange={(e) => setPartEnd(e.target.value)} className={`w-full rounded-lg border px-3 py-2 text-xs font-mono ${isDark ? 'bg-slate-950 border-slate-700' : 'border-slate-200'}`} />
                 </label>
                 <label className="block text-[11px] space-y-1">
+                  {tr.partitionType}
+                  <select
+                    value={partType}
+                    onChange={(e) => setPartType(e.target.value as CreatePartitionType)}
+                    className={`w-full rounded-lg border px-3 py-2 text-xs ${isDark ? 'bg-slate-950 border-slate-700' : 'border-slate-200'}`}
+                  >
+                    {PARTITION_TYPE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{tr[opt.labelKey]}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block text-[11px] space-y-1">
                   {tr.confirmDiskName}
                   <input value={partConfirm} onChange={(e) => setPartConfirm(e.target.value)} placeholder={activeDisk} className={`w-full rounded-lg border px-3 py-2 text-xs font-mono ${isDark ? 'bg-slate-950 border-slate-700' : 'border-slate-200'}`} />
                 </label>
@@ -806,10 +921,25 @@ export default function PartitionWizard({
                   <button
                     type="button"
                     disabled={actionLoading || partConfirm !== activeDisk}
+                    onClick={() => enqueue({
+                      op: 'create',
+                      disk_name: activeDisk,
+                      confirm_token: partConfirm,
+                      params: { start: partStart, end: partEnd, partition_type: partType },
+                      summary: `${tr.createPartition}: ${activeDisk} ${tr[PARTITION_TYPE_OPTIONS.find((o) => o.value === partType)?.labelKey || 'typeLinux']} (${partStart} → ${partEnd})`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-cyan-700 text-cyan-300' : 'border-cyan-300 text-cyan-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || partConfirm !== activeDisk}
                     onClick={() => refreshAfter(() => postJson('/api/storage_manager/partitions/create', {
                       disk_name: activeDisk,
                       start: partStart,
                       end: partEnd,
+                      partition_type: partType,
                       initialize_gpt: false,
                       confirm_token: partConfirm,
                     }))}
@@ -833,6 +963,20 @@ export default function PartitionWizard({
                 <input value={formatConfirm} onChange={(e) => setFormatConfirm(e.target.value)} placeholder={tr.confirmPartName} className={`w-full rounded-lg border px-3 py-2 text-xs font-mono ${isDark ? 'bg-slate-950 border-slate-700' : 'border-slate-200'}`} />
                 <div className="flex gap-2">
                   <button type="button" onClick={closeModal} className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>{tr.cancel}</button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || formatConfirm !== selected.name}
+                    onClick={() => enqueue({
+                      op: 'format',
+                      device: selected.path,
+                      confirm_token: formatConfirm,
+                      params: { fstype: formatFs, label: formatLabel || undefined },
+                      summary: `${tr.formatPartition}: ${selected.name} → ${formatFs}`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-red-800 text-red-300' : 'border-red-300 text-red-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
                   <button
                     type="button"
                     disabled={actionLoading || formatConfirm !== selected.name}
@@ -869,6 +1013,20 @@ export default function PartitionWizard({
                   <button
                     type="button"
                     disabled={actionLoading || deleteConfirm.trim() !== (selected.name || '')}
+                    onClick={() => enqueue({
+                      op: 'delete',
+                      device: selected.path,
+                      confirm_token: deleteConfirm.trim(),
+                      params: { partition_number: selected.number || null },
+                      summary: `${tr.deletePartition}: ${selected.name}`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-red-800 text-red-300' : 'border-red-300 text-red-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || deleteConfirm.trim() !== (selected.name || '')}
                     onClick={() => refreshAfter(() => postJson('/api/storage_manager/partitions/delete', {
                       device: selected.path,
                       confirm_token: deleteConfirm.trim(),
@@ -895,9 +1053,28 @@ export default function PartitionWizard({
                   <input type="checkbox" checked={resizeGrowFs} onChange={(e) => setResizeGrowFs(e.target.checked)} />
                   {tr.growFilesystem}
                 </label>
+                <label className="flex items-center gap-2 text-[11px]">
+                  <input type="checkbox" checked={resizeShrinkFs} onChange={(e) => setResizeShrinkFs(e.target.checked)} />
+                  {tr.shrinkFilesystem}
+                </label>
+                <p className="text-[10px] opacity-60">{tr.shrinkHint}</p>
                 <input value={resizeConfirm} onChange={(e) => setResizeConfirm(e.target.value)} placeholder={tr.confirmPartName} className={`w-full rounded-lg border px-3 py-2 text-xs font-mono ${isDark ? 'bg-slate-950 border-slate-700' : 'border-slate-200'}`} />
                 <div className="flex gap-2">
                   <button type="button" onClick={closeModal} className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>{tr.cancel}</button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || resizeConfirm !== selected.name}
+                    onClick={() => enqueue({
+                      op: 'resize',
+                      device: selected.path,
+                      confirm_token: resizeConfirm,
+                      params: { end: resizeEnd, grow_filesystem: resizeGrowFs, shrink_filesystem: resizeShrinkFs },
+                      summary: `${tr.resizePartition}: ${selected.name} → ${resizeEnd}`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-cyan-700 text-cyan-300' : 'border-cyan-300 text-cyan-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
                   <button
                     type="button"
                     disabled={actionLoading || resizeConfirm !== selected.name}
@@ -905,6 +1082,7 @@ export default function PartitionWizard({
                       device: selected.path,
                       end: resizeEnd,
                       grow_filesystem: resizeGrowFs,
+                      shrink_filesystem: resizeShrinkFs,
                       confirm_token: resizeConfirm,
                     }))}
                     className="flex-1 py-2 rounded-xl text-xs font-bold bg-cyan-600 text-white disabled:opacity-50"
@@ -923,6 +1101,20 @@ export default function PartitionWizard({
                 <input value={labelConfirm} onChange={(e) => setLabelConfirm(e.target.value)} placeholder={tr.confirmPartName} className={`w-full rounded-lg border px-3 py-2 text-xs font-mono ${isDark ? 'bg-slate-950 border-slate-700' : 'border-slate-200'}`} />
                 <div className="flex gap-2">
                   <button type="button" onClick={closeModal} className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>{tr.cancel}</button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || labelConfirm !== selected.name || !labelText.trim()}
+                    onClick={() => enqueue({
+                      op: 'label',
+                      device: selected.path,
+                      confirm_token: labelConfirm,
+                      params: { label: labelText.trim() },
+                      summary: `${tr.changeLabel}: ${selected.name} → ${labelText.trim()}`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-cyan-700 text-cyan-300' : 'border-cyan-300 text-cyan-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
                   <button
                     type="button"
                     disabled={actionLoading || labelConfirm !== selected.name || !labelText.trim()}
@@ -957,6 +1149,20 @@ export default function PartitionWizard({
                 )}
                 <div className="flex gap-2">
                   <button type="button" onClick={closeModal} className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>{tr.cancel}</button>
+                  <button
+                    type="button"
+                    disabled={actionLoading || bootConfirm.trim() !== (selected.name || '')}
+                    onClick={() => enqueue({
+                      op: 'set_boot',
+                      device: selected.path,
+                      confirm_token: bootConfirm.trim(),
+                      params: { active: true, partition_number: selected.number || null },
+                      summary: `${tr.setBoot}: ${selected.name}`,
+                    })}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border ${isDark ? 'border-cyan-700 text-cyan-300' : 'border-cyan-300 text-cyan-800'}`}
+                  >
+                    {tr.addToQueue}
+                  </button>
                   <button
                     type="button"
                     disabled={actionLoading || bootConfirm.trim() !== (selected.name || '')}

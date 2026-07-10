@@ -11,6 +11,7 @@ from core.audit import record_audit
 from core.auth import require_admin, require_module
 
 from .logic import StorageManagerError, StorageService
+from .operations_planner import apply_operations, validate_operations
 from .schemas import (
     BtrfsScrubRequest,
     InitializeDiskRequest,
@@ -30,6 +31,7 @@ from .schemas import (
     ResizePartitionRequest,
     PartitionLabelRequest,
     PartitionBootRequest,
+    OperationsBatchRequest,
 )
 
 router = APIRouter()
@@ -52,6 +54,7 @@ _BAD_REQUEST_CODES = frozenset({
     "scrub_failed",
     "fsck_failed",
     "partition_not_found",
+    "validation_failed",
 })
 
 
@@ -232,6 +235,7 @@ async def resize_partition(
             body.end,
             body.grow_filesystem,
             body.confirm_token,
+            body.shrink_filesystem,
         )
         record_audit(
             "storage.partition_resize",
@@ -239,7 +243,11 @@ async def resize_partition(
             target=body.device,
             actor=user.get("username"),
             actor_id=user.get("id"),
-            meta={"end": body.end, "grow_filesystem": body.grow_filesystem},
+            meta={
+                "end": body.end,
+                "grow_filesystem": body.grow_filesystem,
+                "shrink_filesystem": body.shrink_filesystem,
+            },
         )
         return {"status": "success", "data": result}
     except StorageManagerError as exc:
@@ -329,6 +337,7 @@ async def create_partition(
             body.end,
             body.confirm_token,
             body.initialize_gpt,
+            body.partition_type,
         )
         record_audit(
             "storage.partition_create",
@@ -336,7 +345,7 @@ async def create_partition(
             target=body.disk_name,
             actor=user.get("username"),
             actor_id=user.get("id"),
-            meta={"start": body.start, "end": body.end, "initialize_gpt": body.initialize_gpt},
+            meta={"start": body.start, "end": body.end, "initialize_gpt": body.initialize_gpt, "partition_type": body.partition_type},
         )
         return {"status": "success", "data": result}
     except StorageManagerError as exc:
@@ -645,6 +654,48 @@ async def run_filesystem_check(
             meta={"repair": body.repair},
         )
         return {"status": "success", "data": result}
+    except StorageManagerError as exc:
+        raise _http_error(exc) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/operations/validate")
+async def validate_storage_operations(
+    body: OperationsBatchRequest,
+    _user: Dict[str, Any] = Depends(require_admin),
+) -> Dict[str, Any]:
+    try:
+        ops = [op.model_dump() for op in body.operations]
+        data = validate_operations(_service, ops)
+        return {"status": "success", "data": data}
+    except StorageManagerError as exc:
+        raise _http_error(exc) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/operations/apply")
+async def apply_storage_operations(
+    body: OperationsBatchRequest,
+    user: Dict[str, Any] = Depends(require_admin),
+) -> Dict[str, Any]:
+    try:
+        ops = [op.model_dump() for op in body.operations]
+        data = apply_operations(_service, ops)
+        record_audit(
+            "storage.operations_apply",
+            module="storage_manager",
+            target=f"batch:{len(ops)}",
+            actor=user.get("username"),
+            actor_id=user.get("id"),
+            meta={
+                "count": len(ops),
+                "applied": data.get("applied"),
+                "completed": data.get("completed"),
+            },
+        )
+        return {"status": "success", "data": data}
     except StorageManagerError as exc:
         raise _http_error(exc) from exc
     except Exception as exc:

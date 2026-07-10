@@ -99,6 +99,10 @@ _PARTTYPE_LABELS: Dict[str, str] = {
 _UNMOUNTABLE_PARTTYPES = frozenset({
     "e3c9e316-0b5c-4db8-817d-f83e04c0cb9d",  # MSR — no filesystem
 })
+_CREATE_PARTITION_TYPES = frozenset({"linux", "data", "efi", "swap", "ntfs", "lvm"})
+_GPT_LVM_GUID = "E6D6D379-F507-44C1-926F-7979214BD12"
+_SHRINKABLE_FSTYPES = frozenset({"ext4", "ext3", "ext2", "ntfs"})
+_MIB_TOKEN_RE = re.compile(r"^([\d.]+)\s*(MiB|GiB|MB|GB|KiB|KB)?$", re.IGNORECASE)
 
 MOCK_DISKS: List[Dict[str, Any]] = [
     {
@@ -1852,12 +1856,91 @@ class StorageService:
         self._partprobe(dev)
         return {"message": f"Deleted partition {device}", "device": device, "partition_number": num}
 
+    def _parse_mib_token(self, token: str) -> Optional[float]:
+        raw = (token or "").strip()
+        if not raw or raw.endswith("%"):
+            return None
+        match = _MIB_TOKEN_RE.match(raw)
+        if not match:
+            return None
+        num = float(match.group(1))
+        unit = (match.group(2) or "MiB").lower()
+        if unit in ("gib", "gb"):
+            return num * 1024.0
+        if unit in ("kib", "kb"):
+            return num / 1024.0
+        return num
+
+    def _mib_to_parted_end(self, mib: float) -> str:
+        return f"{int(round(mib))}MiB"
+
+    def _partition_start_end_mib(self, disk_name: str, part_number: int) -> Tuple[Optional[float], Optional[float]]:
+        for part in self._parted_partitions_list(disk_name):
+            if int(part.get("number") or 0) != part_number:
+                continue
+            start_raw = part.get("start")
+            end_raw = part.get("end")
+            if isinstance(start_raw, (int, float)):
+                start_mib = float(start_raw)
+            else:
+                start_mib = self._parse_mib_token(str(start_raw or ""))
+            if isinstance(end_raw, (int, float)):
+                end_mib = float(end_raw)
+            else:
+                end_mib = self._parse_mib_token(str(end_raw or ""))
+            return start_mib, end_mib
+        return None, None
+
+    def _shrink_filesystem(self, device: str, fstype: str, partition_size_mib: float) -> str:
+        if partition_size_mib < 32:
+            raise StorageManagerError("Target partition too small to shrink.", code="invalid_target")
+        fs_mib = max(32.0, partition_size_mib - 4.0)
+        norm = self._normalize_fstype(fstype) or fstype.lower()
+        if norm in ("ext4", "ext3", "ext2"):
+            self._run_ok(
+                ["e2fsck", "-f", "-p", device],
+                "Filesystem check failed before shrink",
+                code="fsck_failed",
+                timeout=600,
+            )
+            size_k = int(fs_mib * 1024)
+            self._run_ok(
+                ["resize2fs", device, f"{size_k}K"],
+                "Failed to shrink ext filesystem",
+                code="resize_failed",
+                timeout=600,
+            )
+            return f"{norm} shrunk to ~{int(fs_mib)} MiB"
+        if norm == "ntfs":
+            ntfsresize = shutil.which("ntfsresize")
+            if not ntfsresize:
+                raise StorageManagerError("ntfsresize not found (install ntfs-3g).", code="resize_failed")
+            size_bytes = int(fs_mib * 1024 * 1024)
+            self._run_ok(
+                [ntfsresize, "--info", "--force", device],
+                "NTFS resize info failed",
+                code="resize_failed",
+                timeout=120,
+            )
+            self._run_ok(
+                [ntfsresize, "--size", str(size_bytes), "--force", device],
+                "Failed to shrink NTFS filesystem",
+                code="resize_failed",
+                timeout=600,
+            )
+            return f"ntfs shrunk to ~{int(fs_mib)} MiB"
+        raise StorageManagerError(
+            f"Filesystem shrink not supported for {fstype}. Supported: ext4, ntfs.",
+            code="invalid_fstype",
+        )
+
     def resize_partition(
         self,
         device: str,
         end: str,
         grow_filesystem: bool,
         confirm_token: str,
+        shrink_filesystem: bool = True,
     ) -> Dict[str, Any]:
         device, name = self._normalize_device(device)
         if confirm_token != name:
@@ -1879,32 +1962,80 @@ class StorageService:
         parted = self._parted_bin()
         num = self._parted_partition_number(parent, name)
         dev = f"/dev/{parent}"
-        self._run_ok(
-            [parted, "-s", dev, "unit", "MiB", "resizepart", str(num), end],
-            "Failed to resize partition",
-            code="parted_failed",
-            timeout=120,
+        start_mib, current_end_mib = self._partition_start_end_mib(parent, num)
+        target_end_mib = self._parse_mib_token(end.strip())
+        is_shrink = (
+            target_end_mib is not None
+            and current_end_mib is not None
+            and target_end_mib < current_end_mib - 0.5
         )
-        self._partprobe(dev)
-        fs_grown = None
-        if grow_filesystem:
+
+        fs_action: Optional[str] = None
+        parted_end = end.strip()
+
+        if is_shrink:
+            if row.get("mountpoint"):
+                raise StorageManagerError("Unmount partition before shrinking.", code="device_mounted")
+            if start_mib is not None and target_end_mib <= start_mib + 32:
+                raise StorageManagerError(
+                    "New end is too small (minimum ~32 MiB partition).",
+                    code="invalid_target",
+                )
             fstype = self._normalize_fstype(row.get("fstype")) or self._probe_fstype(device) or ""
-            if fstype == "ntfs":
-                ntfsresize = shutil.which("ntfsresize")
-                if ntfsresize:
-                    self._run_ok([ntfsresize, device], "Failed to grow NTFS filesystem", code="resize_failed", timeout=600)
-                    fs_grown = "ntfs grown"
+            if shrink_filesystem and fstype:
+                if fstype == "xfs":
+                    raise StorageManagerError(
+                        "XFS cannot shrink. Backup data, delete partition, recreate smaller.",
+                        code="invalid_fstype",
+                    )
+                if fstype not in _SHRINKABLE_FSTYPES:
+                    raise StorageManagerError(
+                        f"Cannot shrink {fstype} filesystem automatically.",
+                        code="invalid_fstype",
+                    )
+                part_size_mib = target_end_mib - (start_mib or 0)
+                fs_action = self._shrink_filesystem(device, fstype, part_size_mib)
+            elif shrink_filesystem and not fstype:
+                fs_action = "no filesystem — partition shrink only"
+            parted_end = self._mib_to_parted_end(target_end_mib)
+            self._run_ok(
+                [parted, "-s", dev, "unit", "MiB", "resizepart", str(num), parted_end],
+                "Failed to shrink partition",
+                code="parted_failed",
+                timeout=120,
+            )
+        else:
+            self._run_ok(
+                [parted, "-s", dev, "unit", "MiB", "resizepart", str(num), parted_end],
+                "Failed to resize partition",
+                code="parted_failed",
+                timeout=120,
+            )
+            self._partprobe(dev)
+            if grow_filesystem:
+                fstype = self._normalize_fstype(row.get("fstype")) or self._probe_fstype(device) or ""
+                if fstype == "ntfs":
+                    ntfsresize = shutil.which("ntfsresize")
+                    if ntfsresize:
+                        self._run_ok([ntfsresize, device], "Failed to grow NTFS filesystem", code="resize_failed", timeout=600)
+                        fs_action = "ntfs grown"
+                    else:
+                        fs_action = "partition resized; install ntfs-3g (ntfsresize) to grow NTFS"
+                elif fstype == "xfs" and not row.get("mountpoint"):
+                    fs_action = "partition resized; mount XFS before grow (xfs_growfs)"
                 else:
-                    fs_grown = "partition resized; install ntfs-3g (ntfsresize) to grow NTFS"
-            elif fstype == "xfs" and not row.get("mountpoint"):
-                fs_grown = "partition resized; mount XFS before grow (xfs_growfs)"
-            else:
-                fs_grown = self._grow_filesystem(device)
+                    fs_action = self._grow_filesystem(device)
+
+        if is_shrink:
+            self._partprobe(dev)
+
+        direction = "shrunk" if is_shrink else "resized"
         return {
-            "message": f"Resized partition {device} to end {end}",
+            "message": f"Partition {direction} {device} to end {parted_end}",
             "device": device,
-            "end": end,
-            "filesystem_action": fs_grown,
+            "end": parted_end,
+            "direction": "shrink" if is_shrink else "grow",
+            "filesystem_action": fs_action,
         }
 
     def change_partition_label(self, device: str, label: str, confirm_token: str) -> Dict[str, Any]:
@@ -2016,6 +2147,68 @@ class StorageService:
             pass
         return self._parted_free_from_print(disk_name)
 
+    def _normalize_create_partition_type(self, value: Optional[str]) -> str:
+        raw = (value or "linux").strip().lower()
+        if raw == "data":
+            raw = "linux"
+        if raw not in _CREATE_PARTITION_TYPES:
+            raise StorageManagerError(
+                f"Unsupported partition type: {value}",
+                code="invalid_fstype",
+            )
+        return raw
+
+    def _mkpart_filesystem_type(self, partition_type: str) -> Optional[str]:
+        return {
+            "linux": "ext4",
+            "efi": "fat32",
+            "swap": "linux-swap",
+            "ntfs": "ntfs",
+            "lvm": None,
+        }.get(partition_type)
+
+    def _newest_partition_number(self, disk_name: str) -> int:
+        parts = self._parted_partitions_list(disk_name)
+        nums = [int(p["number"]) for p in parts if p.get("number") is not None]
+        if not nums:
+            raise StorageManagerError("Partition not found after create.", code="partition_not_found")
+        return max(nums)
+
+    def _apply_create_partition_type(self, disk_name: str, partition_number: int, partition_type: str) -> None:
+        if partition_type == "linux":
+            return
+        parted = self._parted_bin()
+        dev = f"/dev/{disk_name}"
+        table = (self._partition_table_type(disk_name) or "gpt").lower()
+
+        if partition_type == "efi":
+            self._run_ok(
+                [parted, "-s", dev, "set", str(partition_number), "esp", "on"],
+                "Failed to set EFI System Partition flag",
+                code="parted_failed",
+            )
+            self._run_ok(
+                [parted, "-s", dev, "set", str(partition_number), "boot", "on"],
+                "Failed to set boot flag on ESP",
+                code="parted_failed",
+            )
+            return
+
+        if partition_type == "lvm":
+            sgdisk = shutil.which("sgdisk")
+            if table == "gpt" and sgdisk:
+                self._run_ok(
+                    [sgdisk, "-t", f"{partition_number}:{_GPT_LVM_GUID}", dev],
+                    "Failed to set LVM partition type",
+                    code="parted_failed",
+                )
+            elif table in ("msdos", "mbr"):
+                self._run_ok(
+                    [parted, "-s", dev, "set", str(partition_number), "lvm", "on"],
+                    "Failed to set LVM flag (MBR)",
+                    code="parted_failed",
+                )
+
     def create_partition(
         self,
         disk_name: str,
@@ -2023,9 +2216,11 @@ class StorageService:
         end: str,
         confirm_token: str,
         initialize_gpt: bool = False,
+        partition_type: str = "linux",
     ) -> Dict[str, Any]:
         if confirm_token != disk_name:
             raise StorageManagerError("Confirmation must match disk name exactly.", code="confirm_mismatch")
+        ptype = self._normalize_create_partition_type(partition_type)
         disk = self._disk_record(disk_name)
         if disk.get("is_system_disk"):
             raise StorageManagerError("Cannot partition the system disk.", code="protected_disk")
@@ -2073,21 +2268,32 @@ class StorageService:
                     code="no_free_space",
                 )
 
-        self._run_ok(
-            [parted, "-s", "-a", "optimal", dev, "unit", "MiB", "mkpart", "primary", use_start, use_end],
-            "Failed to create partition",
-            code="parted_failed",
-            timeout=120,
-        )
+        mkpart_fs = self._mkpart_filesystem_type(ptype)
+        if mkpart_fs:
+            mkpart_cmd = [
+                parted, "-s", "-a", "optimal", dev, "unit", "MiB",
+                "mkpart", "primary", mkpart_fs, use_start, use_end,
+            ]
+        else:
+            mkpart_cmd = [
+                parted, "-s", "-a", "optimal", dev, "unit", "MiB",
+                "mkpart", "primary", use_start, use_end,
+            ]
+        self._run_ok(mkpart_cmd, "Failed to create partition", code="parted_failed", timeout=120)
         partprobe = shutil.which("partprobe") or "/sbin/partprobe"
         if os.path.exists(partprobe) or shutil.which("partprobe"):
             self._run([partprobe, dev], timeout=30)
+
+        part_num = self._newest_partition_number(disk_name)
+        self._apply_create_partition_type(disk_name, part_num, ptype)
 
         return {
             "message": f"Partition created on {disk_name}",
             "disk": disk_name,
             "start": use_start,
             "end": use_end,
+            "partition_type": ptype,
+            "partition_number": part_num,
         }
 
     def format_device(self, device: str, fstype: str, label: Optional[str], confirm_token: str) -> Dict[str, Any]:

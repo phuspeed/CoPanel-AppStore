@@ -172,10 +172,10 @@
   {
     "id": "storage_manager",
     "name": "Storage Manager",
-    "description": "Monitor disks and SMART health, MiniTool-style partition wizard, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.4.22",
+    "description": "Monitor disks and SMART health, GParted-style partition wizard with operation queue, drag resize/shrink, LVM pools, RAID, benchmarks, and maintenance.",
+    "version": "1.5.2",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.4.22.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.5.2.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -191,8 +191,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.4.20: Fix disk Initialize — detect GPT/MBR after mklabel, unblock empty disks, show init errors in modal.",
-    "changelog_vi": "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.4.20: Sua Initialize o — nhan dien GPT/MBR sau mklabel, bo chan o trong, hien loi init trong modal."
+    "changelog_en": "v1.5.2: Shrink filesystem + partition (ext4/ntfs) via drag or resize dialog; bidirectional disk-map drag. v1.5.1: Drag extend partition, partition type picker (Linux/EFI/swap/NTFS/LVM). v1.5.0: GParted-style operation queue — validate and apply batch (create/delete/resize/format/label/boot).",
+    "changelog_vi": "v1.5.2: Thu nho filesystem + phan vung (ext4/ntfs) bang keo hoac hop thoai resize; keo ban do o hai chieu. v1.5.1: Keo mo rong phan vung, chon loai phan vung (Linux/EFI/swap/NTFS/LVM). v1.5.0: Hang doi thao tac kieu GParted — kiem tra va ap dung loat (tao/xoa/resize/format/nhan/boot)."
   },
   {
     "id": "clamav",
