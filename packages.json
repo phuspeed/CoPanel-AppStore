@@ -3,12 +3,12 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/file_manager.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/file_manager.v1.0.8.zip",
     "is_core": true,
-    "changelog_en": "Right-click context menus on files/folders and empty folder area (new file/folder, paste, refresh). Drag-and-drop upload into the file pane with multi-file support. v1.0.6: Deepin/Nautilus-style desktop UI with dual Classic + Desktop.",
-    "changelog_vi": "Menu chuot phai tren file/thu muc va vung trong (tao file/thu muc, dan, lam moi). Keo tha file vao cua so de tai len, ho tro nhieu file. v1.0.6: Giao dien Desktop Deepin/Nautilus, song song Classic + Desktop."
+    "changelog_en": "Remove selection action bar (no layout jump on click). Full actions moved to right-click menu including bookmark selection and deselect. v1.0.7: Context menus and drag-and-drop upload.",
+    "changelog_vi": "Bo thanh hanh dong khi chon (khong con nhay layout). Day du thao tac trong menu chuot phai, gom danh dau da chon va bo chon. v1.0.7: Menu chuot phai va keo tha tai len."
   },
   {
     "id": "web_manager",
