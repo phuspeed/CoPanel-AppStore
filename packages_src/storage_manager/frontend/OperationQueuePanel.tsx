@@ -45,7 +45,7 @@ export default function OperationQueuePanel({
   const muted = isDark ? 'text-slate-500' : 'text-slate-400';
 
   return (
-    <aside className={`w-full lg:w-56 xl:w-60 shrink-0 border-t lg:border-t-0 lg:border-l flex flex-col ${border} ${isDark ? 'bg-slate-950/40' : 'bg-slate-50/90'}`}>
+    <aside className={`flex w-full shrink-0 flex-col border-t lg:w-52 lg:border-l lg:border-t-0 xl:w-56 ${border} ${isDark ? 'bg-slate-950/25' : 'bg-[#ececf0]/35'}`}>
       <div className={`p-3 border-b ${border}`}>
         <p className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${muted}`}>{tr.pendingOps}</p>
         {queue.length === 0 ? (

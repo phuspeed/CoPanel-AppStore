@@ -151,7 +151,7 @@ export default function DiskMapBar({
     <div>
       <div
         ref={mapRef}
-        className={`rounded-xl border p-2 ${isDark ? 'border-slate-700 bg-slate-950' : 'border-slate-300 bg-white'}`}
+        className={`rounded-xl border p-2 shadow-inner ${isDark ? 'border-slate-700/80 bg-slate-950' : 'border-slate-200 bg-white'}`}
       >
         <div className="flex h-16 gap-0.5 overflow-hidden rounded-lg relative">
           {mapSegments.map((seg) => {

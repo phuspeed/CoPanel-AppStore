@@ -592,16 +592,16 @@ export default function PartitionWizard({
       type="button"
       disabled={disabled || actionLoading}
       onClick={onClick}
-      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left text-[11px] font-semibold transition border ${
+      className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[11px] font-medium transition ${
         disabled
-          ? isDark ? 'opacity-40 border-slate-800 text-slate-500' : 'opacity-40 border-slate-100 text-slate-400'
+          ? isDark ? 'cursor-not-allowed opacity-40 text-slate-500' : 'cursor-not-allowed opacity-40 text-slate-400'
           : danger
             ? isDark
-              ? 'border-red-900/50 text-red-300 hover:bg-red-950/40'
-              : 'border-red-200 text-red-700 hover:bg-red-50'
+              ? 'text-red-300 hover:bg-red-950/40'
+              : 'text-red-600 hover:bg-red-50'
             : isDark
-              ? 'border-slate-700 text-slate-200 hover:bg-slate-800'
-              : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+              ? 'text-slate-200 hover:bg-slate-800/70'
+              : 'text-slate-700 hover:bg-black/[0.04]'
       }`}
     >
       {icon}
@@ -616,9 +616,10 @@ export default function PartitionWizard({
   }
 
   return (
-    <div className="flex flex-col gap-0">
-      {/* Disk tabs */}
-      <div className={`flex flex-wrap gap-1 p-2 border-b ${isDark ? 'border-slate-800 bg-slate-950/50' : 'border-slate-200 bg-slate-50'}`}>
+    <div className="flex h-full min-h-0 flex-col">
+      {/* Disk selector — macOS segmented control */}
+      <div className={`shrink-0 border-b px-3 py-2 ${isDark ? 'border-slate-800 bg-slate-950/30' : 'border-slate-200/90 bg-[#ececf0]/50'}`}>
+        <div className={`inline-flex max-w-full flex-wrap gap-0.5 rounded-lg p-0.5 ${isDark ? 'bg-slate-900/80' : 'bg-black/[0.06]'}`}>
         {disks.map((disk) => {
           const active = disk.name === activeDisk;
           return (
@@ -626,29 +627,34 @@ export default function PartitionWizard({
               key={disk.name}
               type="button"
               onClick={() => setActiveDisk(disk.name)}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition ${
+              className={`rounded-md px-3 py-1.5 text-[11px] font-medium transition ${
                 active
-                  ? isDark ? 'bg-cyan-600 text-white' : 'bg-cyan-600 text-white'
-                  : isDark ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-white'
+                  ? isDark
+                    ? 'bg-slate-700 text-white shadow-sm'
+                    : 'bg-white text-slate-900 shadow-sm'
+                  : isDark
+                    ? 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <span className="font-mono">{disk.name}</span>
-              <span className="opacity-70 ml-1.5 font-normal">
+              <span className="font-mono font-semibold">{disk.name}</span>
+              <span className="ml-1.5 font-normal opacity-70">
                 {formatBytes(disk.size_bytes, language)}
               </span>
               {disk.is_system_disk && (
-                <span className={`ml-1 text-[9px] px-1 rounded ${active ? 'bg-white/20' : isDark ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>
+                <span className={`ml-1 rounded px-1 text-[9px] ${active ? (isDark ? 'bg-white/15' : 'bg-slate-100') : isDark ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>
                   {tr.systemDisk}
                 </span>
               )}
             </button>
           );
         })}
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row min-h-[420px]">
-        {/* Action panel */}
-        <aside className={`w-full lg:w-52 shrink-0 border-b lg:border-b-0 lg:border-r p-3 space-y-1 ${isDark ? 'border-slate-800 bg-slate-950/30' : 'border-slate-200 bg-slate-50/80'}`}>
+      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
+        {/* Action panel — Deepin sidebar */}
+        <aside className={`w-full shrink-0 space-y-0.5 border-b p-2 lg:w-44 lg:border-b-0 lg:border-r xl:w-48 ${isDark ? 'border-slate-800 bg-slate-950/25' : 'border-slate-200/90 bg-[#ececf0]/40'}`}>
           <p className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
             {tr.diskOperations}
           </p>
@@ -676,9 +682,9 @@ export default function PartitionWizard({
         </aside>
 
         {/* Main: disk map + table */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           {/* Disk map */}
-          <div className={`p-4 border-b ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
+          <div className={`shrink-0 border-b p-3 ${isDark ? 'border-slate-800' : 'border-slate-200/90'}`}>
             <div className="flex items-center justify-between gap-2 mb-3">
               <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
                 {tr.diskMap}
@@ -731,12 +737,12 @@ export default function PartitionWizard({
           </div>
 
           {/* Partition table */}
-          <div className="flex-1 overflow-x-auto">
-            <p className={`px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+          <div className="min-h-0 flex-1 overflow-auto">
+            <p className={`px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
               {tr.partitionList}
             </p>
             <table className="w-full text-left text-xs">
-              <thead className={`uppercase tracking-wider text-[10px] font-bold ${isDark ? 'bg-slate-950/70 text-slate-400' : 'bg-slate-50 text-slate-500'}`}>
+              <thead className={`sticky top-0 z-10 uppercase tracking-wider text-[10px] font-bold ${isDark ? 'bg-slate-900 text-slate-400' : 'bg-[#f5f5f7] text-slate-500'}`}>
                 <tr>
                   <th className="p-2 pl-4">#</th>
                   <th className="p-2">{tr.capacity}</th>
@@ -805,7 +811,7 @@ export default function PartitionWizard({
 
           {/* Properties strip */}
           {selected && (
-            <div className={`px-4 py-3 border-t text-[11px] grid grid-cols-2 md:grid-cols-4 gap-2 ${isDark ? 'border-slate-800 bg-slate-950/40' : 'border-slate-200 bg-slate-50/50'}`}>
+            <div className={`grid shrink-0 grid-cols-2 gap-2 border-t px-3 py-2 text-[11px] md:grid-cols-4 ${isDark ? 'border-slate-800 bg-slate-950/30' : 'border-slate-200/90 bg-[#ececf0]/30'}`}>
               <div><span className="opacity-60">{tr.properties}:</span> <span className="font-mono">{selected.path}</span></div>
               <div><span className="opacity-60">{tr.partitionTable}:</span> {layout?.partition_table || '—'}</div>
               <div><span className="opacity-60">{tr.capacity}:</span> {formatBytes(selected.size_bytes || 0, language)}</div>

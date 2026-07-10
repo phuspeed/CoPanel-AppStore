@@ -10,6 +10,6 @@ export default {
   description: 'Monitor disks, volumes, and drive health',
   component: StorageManagerDashboard,
   windowMode: true,
-  defaultWindowSize: { width: 1280, height: 720 },
+  defaultWindowSize: { width: 1280, height: 760 },
   singleton: true,
 };

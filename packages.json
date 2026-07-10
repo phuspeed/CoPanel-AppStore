@@ -172,10 +172,10 @@
   {
     "id": "storage_manager",
     "name": "Storage Manager",
-    "description": "Monitor disks and SMART health, GParted-style partition wizard with operation queue, drag resize/shrink, LVM pools, RAID, benchmarks, and maintenance.",
-    "version": "1.5.2",
+    "description": "Monitor disks and SMART health — Desktop UI shell with sidebar nav, GParted-style partition wizard, operation queue, drag resize/shrink, LVM, RAID, benchmarks.",
+    "version": "1.6.0",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.5.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.6.0.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -191,8 +191,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.5.2: Shrink filesystem + partition (ext4/ntfs) via drag or resize dialog; bidirectional disk-map drag. v1.5.1: Drag extend partition, partition type picker (Linux/EFI/swap/NTFS/LVM). v1.5.0: GParted-style operation queue — validate and apply batch (create/delete/resize/format/label/boot).",
-    "changelog_vi": "v1.5.2: Thu nho filesystem + phan vung (ext4/ntfs) bang keo hoac hop thoai resize; keo ban do o hai chieu. v1.5.1: Keo mo rong phan vung, chon loai phan vung (Linux/EFI/swap/NTFS/LVM). v1.5.0: Hang doi thao tac kieu GParted — kiem tra va ap dung loat (tao/xoa/resize/format/nhan/boot)."
+    "changelog_en": "v1.6.0: Desktop UI redesign — macOS/Deepin-style app shell with sidebar nav, compact header, full-height partition wizard; default Disks view. v1.5.2: Shrink filesystem + partition (ext4/ntfs); bidirectional disk-map drag. v1.5.0: GParted-style operation queue.",
+    "changelog_vi": "v1.6.0: Thiet ke lai Desktop UI — shell kieu macOS/Deepin voi sidebar, header gon, partition wizard full-height; mac dinh tab O dia. v1.5.2: Thu nho filesystem + phan vung; keo ban do hai chieu. v1.5.0: Hang doi thao tac kieu GParted."
   },
   {
     "id": "clamav",
