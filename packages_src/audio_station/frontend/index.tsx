@@ -169,7 +169,6 @@ function Modal({
   wide?: boolean;
 }) {
   return (
-    <ModuleViewport constrained>
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div
         className={`rounded-lg shadow-xl border max-h-[90vh] overflow-y-auto ${
@@ -747,6 +746,7 @@ export default function AudioStation() {
   }
 
   return (
+    <ModuleViewport constrained>
     <div className={`flex flex-col h-[calc(100vh-4rem)] min-h-[32rem] border rounded-lg overflow-hidden ${panel}`}>
       {/* Top bar */}
       <div className={`flex items-center gap-3 px-4 py-3 border-b shrink-0 ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>

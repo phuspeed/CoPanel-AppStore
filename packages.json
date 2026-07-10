@@ -86,15 +86,15 @@
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/audio_station.v0.3.4.zip",
     "is_core": false,
     "pip_packages": [
       "mutagen==1.47.0"
     ],
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v0.3.2: Fix AppStore install — add __init__.py, init on import, reliable hot-reload with CoPanel loader fix. If API 404 after install, run systemctl restart copanel. v0.3.1: Rebrand to Audio Player.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v0.3.2: Sua cai AppStore — __init__.py, khoi tao khi import, hot-reload on dinh hon. Neu API 404 sau cai, chay systemctl restart copanel. v0.3.1: Doi ten Audio Player."
+    "changelog_en": "Fix frontend build: move ModuleViewport wrapper from Modal helper to AudioStation root (same class of bug as download_manager v0.2.13). v0.3.3: Dual UI ModuleViewport support.",
+    "changelog_vi": "Sua loi build frontend: chuyen ModuleViewport tu Modal len root AudioStation (loi tuong tu download_manager v0.2.13). v0.3.3: Ho tro giao dien song song ModuleViewport."
   },
   {
     "id": "ssl_manager",
