@@ -67,9 +67,9 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.13",
+    "version": "0.2.14",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.13.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.14.zip",
     "is_core": false,
     "system_packages": [
       "aria2",
@@ -79,8 +79,8 @@
     "pip_packages": [
       "yt-dlp"
     ],
-    "changelog_en": "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Fix frontend build: close ModuleViewport in DownloadManager (was misplaced inside Modal helper). v0.2.12: Dual UI ModuleViewport support.",
-    "changelog_vi": "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Sua loi build frontend: dong ModuleViewport dung cho trong DownloadManager (truoc do nam sai trong Modal). v0.2.12: Ho tro giao dien song song ModuleViewport."
+    "changelog_en": "v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
+    "changelog_vi": "v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport."
   },
   {
     "id": "audio_station",

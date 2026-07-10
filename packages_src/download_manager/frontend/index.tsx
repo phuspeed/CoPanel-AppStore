@@ -1122,7 +1122,6 @@ export default function DownloadManager() {
               </button>
             </div>
           )}
-          </div>
         </WindowModal>
       )}
 
