@@ -173,9 +173,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health — Desktop UI shell with sidebar nav, GParted-style partition wizard, operation queue, drag resize/shrink, LVM, RAID, benchmarks.",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.6.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.6.1.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -191,8 +191,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.6.0: Desktop UI redesign — macOS/Deepin-style app shell with sidebar nav, compact header, full-height partition wizard; default Disks view. v1.5.2: Shrink filesystem + partition (ext4/ntfs); bidirectional disk-map drag. v1.5.0: GParted-style operation queue.",
-    "changelog_vi": "v1.6.0: Thiet ke lai Desktop UI — shell kieu macOS/Deepin voi sidebar, header gon, partition wizard full-height; mac dinh tab O dia. v1.5.2: Thu nho filesystem + phan vung; keo ban do hai chieu. v1.5.0: Hang doi thao tac kieu GParted."
+    "changelog_en": "v1.6.1: Fix frontend build — rename storage UI tokens to avoid clash with shell theme. v1.6.0: Desktop UI redesign — macOS/Deepin app shell with sidebar nav.",
+    "changelog_vi": "v1.6.1: Sua loi build frontend — doi ten token UI tranh trung shell theme. v1.6.0: Thiet ke lai Desktop UI — shell macOS/Deepin voi sidebar."
   },
   {
     "id": "clamav",

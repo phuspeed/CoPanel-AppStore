@@ -1011,7 +1011,7 @@ export default function StorageManagerDashboard() {
     : [];
 
   const windowed = useIsWindowedModule();
-  const theme = storageTheme(isDark);
+  const ui = storageTheme(isDark);
 
   return (
     <ModuleViewport
@@ -1019,18 +1019,18 @@ export default function StorageManagerDashboard() {
       className={`h-full min-h-0 ${windowed ? 'p-0' : 'p-3 md:p-4'}`}
     >
       <div
-        className={`flex h-full min-h-0 flex-col overflow-hidden border ${theme.panel} ${
+        className={`flex h-full min-h-0 flex-col overflow-hidden border ${ui.panel} ${
           windowed ? 'rounded-none border-0' : 'rounded-xl shadow-sm'
         }`}
       >
         {/* Title bar — macOS / Deepin app header */}
-        <header className={`flex shrink-0 items-center gap-3 border-b px-4 py-2.5 ${theme.headerBorder}`}>
+        <header className={`flex shrink-0 items-center gap-3 border-b px-4 py-2.5 ${ui.headerBorder}`}>
           <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${isDark ? 'bg-cyan-500/15' : 'bg-cyan-50'}`}>
             <Icons.HardDrive className={`h-5 w-5 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
           </div>
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-sm font-semibold leading-tight">{tr.title}</h1>
-            <p className={`truncate text-[11px] ${theme.muted}`}>{tr.desc}</p>
+            <p className={`truncate text-[11px] ${ui.muted}`}>{tr.desc}</p>
           </div>
           <div className="hidden items-center gap-2 sm:flex">
             <span
@@ -1040,7 +1040,7 @@ export default function StorageManagerDashboard() {
               {healthLabel}
             </span>
             {overview && (
-              <span className={`text-[10px] font-mono ${theme.muted}`}>
+              <span className={`text-[10px] font-mono ${ui.muted}`}>
                 {overview.disk_count} {tr.disks.toLowerCase()} · {overview.volume_count} {tr.volumes.toLowerCase()}
               </span>
             )}
@@ -1049,7 +1049,7 @@ export default function StorageManagerDashboard() {
             type="button"
             onClick={loadAll}
             disabled={loading}
-            className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[11px] font-semibold transition ${theme.btn}`}
+            className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[11px] font-semibold transition ${ui.btn}`}
           >
             <Icons.RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             {tr.refresh}
@@ -1066,7 +1066,7 @@ export default function StorageManagerDashboard() {
           <div className={`mx-3 mt-2 flex shrink-0 items-center gap-2 rounded-lg border px-3 py-2 text-[11px] ${isDark ? 'border-red-800/50 bg-red-950/30 text-red-300' : 'border-red-200 bg-red-50 text-red-700'}`}>
             <Icons.AlertCircle className="h-3.5 w-3.5 shrink-0" />
             <span className="flex-1">{error}</span>
-            <button type="button" onClick={() => setError(null)} className={theme.muted}>
+            <button type="button" onClick={() => setError(null)} className={ui.muted}>
               <Icons.X className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -1074,7 +1074,7 @@ export default function StorageManagerDashboard() {
 
         <div className="flex min-h-0 flex-1">
           {/* Sidebar navigation */}
-          <aside className={`flex w-48 shrink-0 flex-col border-r xl:w-52 ${theme.sidebar}`}>
+          <aside className={`flex w-48 shrink-0 flex-col border-r xl:w-52 ${ui.sidebar}`}>
             <nav className="flex-1 space-y-0.5 overflow-y-auto p-2">
               {tabs.map((item) => {
                 const Icon = item.icon;
@@ -1085,7 +1085,7 @@ export default function StorageManagerDashboard() {
                     type="button"
                     onClick={() => setTab(item.id)}
                     className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[12px] font-medium transition ${
-                      active ? theme.activeNav : `${theme.muted} ${theme.hoverNav}`
+                      active ? ui.activeNav : `${ui.muted} ${ui.hoverNav}`
                     }`}
                   >
                     <Icon className={`h-4 w-4 shrink-0 ${active ? (isDark ? 'text-cyan-400' : 'text-cyan-600') : ''}`} />
@@ -1094,7 +1094,7 @@ export default function StorageManagerDashboard() {
                 );
               })}
             </nav>
-            <div className={`shrink-0 border-t p-2 text-[10px] leading-snug ${theme.headerBorder} ${theme.muted}`}>
+            <div className={`shrink-0 border-t p-2 text-[10px] leading-snug ${ui.headerBorder} ${ui.muted}`}>
               <p>{tr.adminNote}</p>
               {backendVersion && (
                 <p className="mt-1 font-mono opacity-70">{tr.backendVersionLabel(backendVersion)}</p>
@@ -1110,7 +1110,7 @@ export default function StorageManagerDashboard() {
           {/* Main content */}
           <main className="flex min-h-0 min-w-0 flex-1 flex-col">
             {loading && !overview ? (
-              <div className={`flex flex-1 flex-col items-center justify-center ${theme.muted}`}>
+              <div className={`flex flex-1 flex-col items-center justify-center ${ui.muted}`}>
                 <Icons.Loader2 className="mb-2 h-8 w-8 animate-spin text-cyan-500" />
                 <p className="text-xs">{tr.loading}</p>
               </div>
@@ -1118,7 +1118,7 @@ export default function StorageManagerDashboard() {
               <div className={`min-h-0 flex-1 ${tab === 'disks' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto p-3'}`}>
           {tab === 'overview' && overview && (
             <div className="space-y-4">
-              <div className={`rounded-xl border p-4 flex flex-col md:flex-row md:items-center gap-4 ${theme.section}`}>
+              <div className={`rounded-xl border p-4 flex flex-col md:flex-row md:items-center gap-4 ${ui.section}`}>
                 <div className={`w-16 h-16 rounded-full border-4 flex items-center justify-center shrink-0 ${
                   health === 'healthy'
                     ? isDark ? 'border-emerald-500/50 bg-emerald-500/10' : 'border-emerald-400 bg-emerald-100'
@@ -1162,7 +1162,7 @@ export default function StorageManagerDashboard() {
                 ].map((card) => {
                   const Icon = card.icon;
                   return (
-                    <div key={card.label} className={`rounded-xl border p-4 ${theme.section}`}>
+                    <div key={card.label} className={`rounded-xl border p-4 ${ui.section}`}>
                       <div className="flex items-center justify-between mb-2">
                         <p className={`text-[10px] uppercase font-bold tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{card.label}</p>
                         <Icon className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
@@ -1303,7 +1303,7 @@ export default function StorageManagerDashboard() {
               </div>
 
               {disks.length > 0 && (
-                <div className={`shrink-0 border-t ${theme.headerBorder} ${theme.section}`}>
+                <div className={`shrink-0 border-t ${ui.headerBorder} ${ui.section}`}>
                   <div className={`px-4 py-3 border-b flex flex-wrap items-center justify-between gap-2 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
                     <p className="text-xs font-bold uppercase tracking-wider opacity-70">SMART &amp; {tr.diskBenchmark}</p>
                     <select
@@ -1412,7 +1412,7 @@ export default function StorageManagerDashboard() {
           )}
 
           {tab === 'volumes' && (
-            <div className={`overflow-hidden rounded-xl border ${theme.section}`}>
+            <div className={`overflow-hidden rounded-xl border ${ui.section}`}>
               {volumes.length === 0 ? (
                 <p className={`p-8 text-center text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{tr.noVolumes}</p>
               ) : (
