@@ -22,6 +22,8 @@ from urllib.request import Request, urlopen
 
 import httpx
 
+from core.cron_system import ensure_cron_service, get_cron_daemon_status
+
 IS_WINDOWS = os.name == "nt"
 
 STORE_PATH = (
@@ -594,11 +596,7 @@ def _persist_scheduler_sync(status: Dict[str, Any]) -> None:
 
 
 def _ensure_cron_service() -> None:
-    for svc in ("cron", "crond"):
-        probe = subprocess.run(["systemctl", "status", svc], capture_output=True, text=True)
-        if probe.returncode in (0, 3):
-            subprocess.run(["systemctl", "enable", "--now", svc], capture_output=True, text=True)
-            return
+    ensure_cron_service()
 
 
 def _ensure_crontab() -> Tuple[bool, str]:
@@ -697,6 +695,7 @@ def sync_crontab() -> Dict[str, Any]:
 
     result["ok"] = True
     result["entries"] = len(intervals)
+    ensure_cron_service()
     result["message"] = (
         f"Synced {len(intervals)} cron interval(s)."
         if intervals
@@ -722,6 +721,7 @@ def get_cron_status() -> Dict[str, Any]:
         }
 
     has_crontab = bool(shutil.which("crontab"))
+    daemon = get_cron_daemon_status()
     cron_lines: List[str] = []
     if has_crontab:
         res = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
@@ -754,10 +754,14 @@ def get_cron_status() -> Dict[str, Any]:
     install_hint = ""
     if not has_crontab:
         install_hint = "Chạy: apt install cron && systemctl enable --now cron — hoặc bấm «Cài cron & sync» trên panel."
+    elif not daemon.get("active"):
+        install_hint = "Crontab có dòng cron nhưng daemon cron chưa chạy. Bấm «Cài cron & sync» hoặc: systemctl enable --now cron"
 
     return {
         "supported": True,
         "crontab_available": has_crontab,
+        "cron_daemon": daemon,
+        "cron_service_active": bool(daemon.get("active")),
         "install_hint": install_hint,
         "scheduler_sync": scheduler_sync,
         "run_script": str(RUN_UPDATE_SCRIPT),
@@ -771,7 +775,7 @@ def get_cron_status() -> Dict[str, Any]:
             for m in intervals
         },
         "log_files": log_files,
-        "sync_ok": has_crontab and ((not enabled) or (expected_entries > 0 and len(cron_lines) == expected_entries)),
+        "sync_ok": has_crontab and daemon.get("active") and ((not enabled) or (expected_entries > 0 and len(cron_lines) == expected_entries)),
     }
 
 

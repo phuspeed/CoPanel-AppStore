@@ -225,9 +225,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.8.zip",
     "is_core": false,
     "system_packages": [
       "cron"

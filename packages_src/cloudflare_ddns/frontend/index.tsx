@@ -511,6 +511,12 @@ export default function CloudflareDdns() {
                     Trạng thái:{' '}
                     <strong>{cronStatus.sync_ok ? 'OK — crontab đã sync' : 'Cần kiểm tra'}</strong>
                     {' · '}{cronStatus.enabled_profiles} profile bật · {cronStatus.intervals_minutes?.length || 0} interval
+                    {cronStatus.cron_daemon?.service && (
+                      <> · daemon {cronStatus.cron_daemon.service}: {cronStatus.cron_service_active ? 'đang chạy' : 'tắt'}</>
+                    )}
+                  </p>
+                  <p className="mt-1 text-slate-500">
+                    Nút ▶ (Play) = chạy ngay một lần qua API, không phụ thuộc cron. Lịch tự động cần profile <strong>bật</strong> và daemon cron OS đang chạy.
                   </p>
                   {(cronStatus.cron_entries || []).length > 0 ? (
                     <ul className="mt-2 font-mono space-y-1 text-[11px]">
@@ -522,6 +528,9 @@ export default function CloudflareDdns() {
                     <p className="mt-1 text-slate-500">Chưa có dòng cron (profile disabled hoặc chưa sync).</p>
                   )}
                   {!cronStatus.crontab_available && cronStatus.install_hint && (
+                    <p className="mt-2 text-amber-800 dark:text-amber-200">{cronStatus.install_hint}</p>
+                  )}
+                  {cronStatus.crontab_available && cronStatus.cron_service_active === false && cronStatus.install_hint && (
                     <p className="mt-2 text-amber-800 dark:text-amber-200">{cronStatus.install_hint}</p>
                   )}
                   {!cronStatus.sync_ok && (
