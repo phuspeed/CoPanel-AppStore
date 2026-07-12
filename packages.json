@@ -116,7 +116,7 @@
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.6.zip",
     "is_core": true,
     "changelog_en": "v1.0.6: Desktop UI sidebar shell redesign — compact header, terminal + snippets split pane with flex h-full scroll, useIsWindowedModule. One ZIP for Classic and Desktop floating windows.",
-    "changelog_vi": "v1.0.6: Thiet ke lai giao dien Desktop — header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop.",
+    "changelog_vi": "v1.0.6: Thiet ke lai giao dien Desktop — header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop."
   },
   {
     "id": "rsync_manager",
@@ -208,7 +208,7 @@
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.8.zip",
     "is_core": true,
     "changelog_en": "v1.0.8: Desktop UI sidebar shell redesign — UFW/Fail2Ban sidebar nav, compact header with status controls, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.0.8: Thiet ke lai giao dien Desktop sidebar — dieu huong UFW/Fail2Ban, header gon, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "changelog_vi": "v1.0.8: Thiet ke lai giao dien Desktop sidebar — dieu huong UFW/Fail2Ban, header gon, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop."
   },
   {
     "id": "dns_manager",
@@ -265,7 +265,7 @@
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.9.zip",
     "is_core": true,
     "changelog_en": "v1.0.9: Desktop UI sidebar shell redesign — Create Job / Jobs sidebar nav, visual cron builder, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.0.9: Thiet ke lai giao dien Desktop sidebar — tab Tao Job/Danh sach, cron builder, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "changelog_vi": "v1.0.9: Thiet ke lai giao dien Desktop sidebar — tab Tao Job/Danh sach, cron builder, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop."
   },
   {
     "id": "appstore_manager",
