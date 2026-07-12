@@ -151,12 +151,12 @@
     "id": "system_monitor",
     "name": "System Monitor",
     "description": "Real-time visibility into CPU, memory, and disk usage.",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "icon": "Activity",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.6.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.1.2: Richer system header — CPU model (Linux /proc/cpuinfo, macOS sysctl), architecture, total RAM, aggregated disk totals by device (tmpfs etc. excluded); UI shows capacity breakdown. v1.1.1: process detail hardening.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.1.2: Thong tin hero day hon — ten CPU, kien truc, tong RAM, tong dung luong o dia (gop theo thiet bi, bo qua tmpfs); hien chi tiet dung luong. v1.1.1: cung co chi tiet PID."
+    "changelog_en": "v1.1.6: Desktop UI sidebar shell redesign — sidebar nav (Resources / Processes / PM2), compact header, flex scroll layout for Classic + Desktop windows, useIsWindowedModule. v1.1.2: Richer system header — CPU model, architecture, total RAM, aggregated disk totals.",
+    "changelog_vi": "v1.1.6: Thiet ke lai giao dien Desktop sidebar — dieu huong Resources/Tien trinh/PM2, header gon, layout flex scroll cho Classic va Desktop, useIsWindowedModule. v1.1.2: Thong tin he thong day du hon."
   },
   {
     "id": "storage_manager",
@@ -214,12 +214,12 @@
     "id": "dns_manager",
     "name": "DNS Manager",
     "description": "Manage DNS zones and records using local storage or BIND backend.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Network",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/dns_manager.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/dns_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.1: Improve reliability by using collision-resistant zone/record IDs and add frontend error handling for delete zone/record actions.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.1: Tang do on dinh bang ID zone/record chong trung va bo sung xu ly loi tren frontend khi xoa zone/record."
+    "changelog_en": "v1.0.4: Desktop UI sidebar shell redesign — zone sidebar, flex scroll layout, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic sidebar and Desktop floating windows.",
+    "changelog_vi": "v1.0.4: Thiet ke lai giao dien Desktop sidebar — danh sach zone ben trai, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi. Mot ZIP cho Classic va Desktop."
   },
   {
     "id": "cloudflare_ddns",
@@ -283,12 +283,12 @@
     "id": "system_cleaner",
     "name": "System Cleaner",
     "description": "System Junk cleaner and Disk Analyzer (TreeSize clone) for optimizing storage.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "Trash2",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_cleaner.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_cleaner.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.1: Fix white screen on first visit to /system-cleaner (remove React.lazy; eager module load like other modules). Sidebar Trash2 icon.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.1: Sửa lỗi trang trắng lần đầu vào /system-cleaner (bỏ React.lazy, load module đồng bộ). Icon Trash2 trên sidebar."
+    "changelog_en": "v1.0.4: Desktop UI sidebar shell redesign — sidebar nav (Junk / Disk / Large Files), flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.4: Thiet ke lai giao dien Desktop sidebar — dieu huong Junk/Phan tich o dia/File lon, layout flex scroll, WindowModal xac nhan, i18n en/vi. Mot ZIP cho Classic va Desktop."
   },
   {
     "id": "web_browser",
