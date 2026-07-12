@@ -27,13 +27,13 @@
   {
     "id": "site_wizard",
     "name": "Site Wizard",
-    "description": "Provision a complete website (Nginx + DB + SSL) end-to-end in one flow.",
-    "version": "1.0.2",
+    "description": "1-click website provisioning: Nginx vhost, LEMP stack, WordPress/Laravel deploy, MySQL, and SSL.",
+    "version": "1.1.0",
     "icon": "Wand2",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.0.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.0: First AppStore release of the Site Wizard module (guided stack + vhost + database + SSL provisioning).",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.0: Phat hanh AppStore lan dau cho module Site Wizard (luong huong dan stack + vhost + database + SSL).",
+    "changelog_en": "v1.1.0: Desktop sidebar UI + 1-Click Install — template cards (Static, WordPress, Laravel, Node proxy), stack preflight, LEMP auto-install, WordPress core download + wp-config, Laravel public skeleton, WindowModal confirm. v1.0.2: Dual UI ModuleViewport.",
+    "changelog_vi": "v1.1.0: Giao dien Desktop sidebar + Cai 1-Click — template (Static, WordPress, Laravel, Node proxy), preflight stack, tu cai LEMP, tai WordPress + wp-config, skeleton Laravel, xac nhan WindowModal. v1.0.2: Giao dien song song ModuleViewport.",
     "system_packages": [
       "nginx"
     ]
