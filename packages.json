@@ -42,12 +42,12 @@
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.6.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.7.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.4: Restore MySQL/MariaDB list action to download gzip dumps (.sql.gz) via GET /dump-gzip (button was missing in 1.0.3 frontend). v1.0.3: size reporting and backend dump-gzip.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.4: Khoi phuc nut tai ban dump .sql.gz tren danh sach MySQL/MariaDB (frontend 1.0.3 thieu). v1.0.3: hien thi dung luong va API dump-gzip phia backend.",
+    "changelog_en": "v1.0.7: Desktop UI sidebar shell redesign — engine sidebar (MySQL/Postgres), Databases/Users tabs, flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.7: Thiet ke lai giao dien Desktop sidebar — chon engine, tab Databases/Users, layout flex scroll, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
     "system_packages": [
       "mariadb"
     ]
@@ -111,12 +111,12 @@
     "id": "terminal",
     "name": "Terminal",
     "description": "Execute system commands securely in the browser.",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icon": "Terminal",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.6.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.3: Auto-save custom snippets on add/remove (PUT /snippets); more built-ins (daemon-reload, nginx, UFW, Fail2Ban). v1.0.2: JSON snippet API.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.3: Tu dong luu snippet khi them/xoa; them nhieu lenh co san (daemon-reload, nginx, UFW, Fail2Ban). v1.0.2: API snippet JSON."
+    "changelog_en": "v1.0.6: Desktop UI sidebar shell redesign — compact header, terminal + snippets split pane with flex h-full scroll, useIsWindowedModule. One ZIP for Classic and Desktop floating windows.",
+    "changelog_vi": "v1.0.6: Thiet ke lai giao dien Desktop — header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop.",
   },
   {
     "id": "rsync_manager",
@@ -203,12 +203,12 @@
     "id": "firewall",
     "name": "Firewall",
     "description": "Visual dashboard for UFW firewall rules and Fail2Ban IDS with correct jail / banned-IP display.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "Lock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.8.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Fix Fail2Ban active-state detection with robust service/client fallbacks and add one-click enable action from the Firewall UI when Fail2Ban is installed but inactive.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Sua nhan dien trang thai hoat dong Fail2Ban on dinh hon (fallback service/client) va bo sung nut bat nhanh trong giao dien Firewall khi Fail2Ban da cai nhung dang inactive."
+    "changelog_en": "v1.0.8: Desktop UI sidebar shell redesign — UFW/Fail2Ban sidebar nav, compact header with status controls, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.8: Thiet ke lai giao dien Desktop sidebar — dieu huong UFW/Fail2Ban, header gon, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
   },
   {
     "id": "dns_manager",
@@ -260,12 +260,12 @@
     "id": "cron_manager",
     "name": "Cron Manager",
     "description": "Manage recurring task schedules with visual cron builder and command execution.",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "icon": "Clock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.9.zip",
     "is_core": true,
-    "changelog_en": "v1.0.8: Auto-start cron daemon on every crontab sync; show daemon status when crontab exists but cron is not running. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Refactor crontab syncing logic to safely preserve blocks. v1.0.4: Add pause/start controls for managed cron jobs with DB-backed is_active state and crontab sync that only deploys active jobs.",
-    "changelog_vi": "v1.0.8: Tu dong bat daemon cron moi lan sync crontab; hien trang thai daemon khi co crontab nhung cron chua chay. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Tối ưu logic đồng bộ crontab để giữ nguyên cấu trúc khối an toàn. v1.0.4: Bo sung nut pause/start cho cron job managed voi trang thai is_active luu trong DB va dong bo crontab chi trien khai job dang active."
+    "changelog_en": "v1.0.9: Desktop UI sidebar shell redesign — Create Job / Jobs sidebar nav, visual cron builder, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.9: Thiet ke lai giao dien Desktop sidebar — tab Tao Job/Danh sach, cron builder, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
   },
   {
     "id": "appstore_manager",
