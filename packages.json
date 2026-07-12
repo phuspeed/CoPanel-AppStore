@@ -13,13 +13,13 @@
   {
     "id": "web_manager",
     "name": "Web Manager",
-    "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP-FPM overview, and smart DB admin tools.",
-    "version": "1.1.6",
+    "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP versions/extensions/php.ini, PHP-FPM overview, and smart DB admin tools.",
+    "version": "1.2.0",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.1.6.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.2.0.zip",
     "is_core": true,
-    "changelog_en": "v1.1.6: Desktop sidebar layout — left nav (Sites, Web Services, Databases) and scrollable content pane; matches panel_settings/file_manager shell pattern. v1.1.5: Dual UI ModuleViewport + useAppShellContext.",
-    "changelog_vi": "v1.1.6: Giao dien Desktop sidebar — menu trai (Sites, Web Services, Databases) va vung noi dung cuon; dong bo voi panel_settings/file_manager. v1.1.5: Giao dien song song ModuleViewport + useAppShellContext.",
+    "changelog_en": "v1.2.0: PHP Manager merged into Web Manager — new sidebar tab for PHP versions, extensions, and php.ini; standalone php_manager module removed. API: /api/web_manager/php/*. v1.1.6: Desktop sidebar layout.",
+    "changelog_vi": "v1.2.0: Gop PHP Manager vao Web Manager — tab sidebar moi cho phien ban PHP, extension va php.ini; bo module php_manager rieng. API: /api/web_manager/php/*. v1.1.6: Giao dien Desktop sidebar.",
     "system_packages": [
       "nginx"
     ]
@@ -106,17 +106,6 @@
     "is_core": true,
     "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.2: Refactor SSL router error handling and harden frontend request headers to avoid sending invalid Bearer tokens.",
     "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.2: Refactor xu ly loi trong SSL router va cung co header request frontend de tranh gui Bearer token khong hop le."
-  },
-  {
-    "id": "php_manager",
-    "name": "PHP Manager",
-    "description": "Control local PHP versions and php.ini configurations.",
-    "version": "1.0.5",
-    "icon": "Code",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/php_manager.v1.0.5.zip",
-    "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.3: Detect installed PHP streams via dpkg Status (install ok installed) instead of orphan /etc/php/*/php.ini after remove; purge APT packages with config (deinstall ok config-files), second-pass grep purge for phpX.Y* and libapache2-mod-phpX.Y, post-check dpkg/binary before success; fixes false \"still installed\" after uninstall.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.3: Nhan dien phien ban PHP qua trang thai dpkg (install ok installed), khong con dua vao file php.ini sot sau remove; purge goi APT kem cau hinh (deinstall ok config-files), vong hai purge theo ten phpX.Y* va libapache2-mod-phpX.Y, kiem tra lai dpkg/binary truoc khi bao thanh cong; sua loi van hien thi da cai sau khi go."
   },
   {
     "id": "terminal",

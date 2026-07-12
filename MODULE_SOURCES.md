@@ -98,7 +98,7 @@ Stubs (not in catalog): `module_cron`, `module_ping_pro`.
 
 ### Core (CoPanel only — `is_core: true` in catalog)
 
-Examples: `file_manager`, `web_manager`, `site_wizard`, `database_manager`, `docker_manager`, `ssl_manager`, `php_manager`, `terminal`, `backup_manager`, `system_monitor`, `firewall`, `dns_manager`, `cron_manager`, `appstore_manager`, `system_cleaner`, `panel_settings` (core, not always in App Store catalog).
+Examples: `file_manager`, `web_manager` (includes PHP Manager tab), `site_wizard`, `database_manager`, `docker_manager`, `ssl_manager`, `terminal`, `backup_manager`, `system_monitor`, `firewall`, `dns_manager`, `cron_manager`, `appstore_manager`, `system_cleaner`, `panel_settings` (core, not always in App Store catalog).
 
 Also in CoPanel but may be core-only (no App Store entry): `auth`, `platform`, `users`, `panel_settings`.
 
