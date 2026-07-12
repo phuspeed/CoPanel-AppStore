@@ -170,7 +170,16 @@ export default function CloudflareDdns() {
       await loadCronStatus();
       if (tab === 'tunnels' && cfg.api_token_set) await loadTunnels();
     } catch (err: any) {
-      setError(err?.message || 'Load failed');
+      const status = err?.status;
+      const msg = err?.message || 'Load failed';
+      if (status === 404) {
+        setError(
+          'API Cloudflare DDNS không tìm thấy (404) — module backend chưa load. Chạy: systemctl restart copanel. '
+          + 'Token cấu hình trước đó vẫn nằm tại /var/lib/copanel/cloudflare_ddns.json trên server (trừ khi file bị xóa thủ công).',
+        );
+      } else {
+        setError(msg);
+      }
     }
   }, [loadCronStatus, loadProfiles, loadTunnels, loadZones, tab]);
 

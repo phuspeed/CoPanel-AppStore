@@ -22,7 +22,7 @@ from urllib.request import Request, urlopen
 
 import httpx
 
-from core.cron_system import ensure_cron_service, get_cron_daemon_status
+from .cron_compat import ensure_cron_service, get_cron_daemon_status
 
 IS_WINDOWS = os.name == "nt"
 
@@ -30,6 +30,10 @@ STORE_PATH = (
     Path("./test_nginx/cloudflare_ddns.json")
     if IS_WINDOWS
     else Path("/var/lib/copanel/cloudflare_ddns.json")
+)
+LEGACY_STORE_PATHS = (
+    Path("/opt/copanel/config/cloudflare_ddns.json"),
+    Path("/opt/copanel/data/cloudflare_ddns.json"),
 )
 CF_CONFIG_DIR = (
     Path("./test_nginx/cloudflared")
@@ -77,13 +81,42 @@ def _default_store() -> Dict[str, Any]:
     }
 
 
+def _migrate_legacy_store() -> None:
+    """Copy settings from older paths if the canonical store is missing or empty."""
+    if IS_WINDOWS:
+        return
+    current_token = ""
+    if STORE_PATH.is_file():
+        try:
+            current_token = (json.loads(STORE_PATH.read_text(encoding="utf-8")) or {}).get("api_token") or ""
+        except Exception:
+            current_token = ""
+    if current_token:
+        return
+    for legacy in LEGACY_STORE_PATHS:
+        if not legacy.is_file() or legacy == STORE_PATH:
+            continue
+        try:
+            data = json.loads(legacy.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not (data.get("api_token") or data.get("ddns_profiles")):
+            continue
+        STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(legacy, STORE_PATH)
+        logger.info("Migrated Cloudflare DDNS store from %s to %s", legacy, STORE_PATH)
+        return
+
+
 def _load_store() -> Dict[str, Any]:
+    _migrate_legacy_store()
     if not STORE_PATH.exists():
         STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
         STORE_PATH.write_text(json.dumps(_default_store(), indent=2), encoding="utf-8")
     try:
         data = json.loads(STORE_PATH.read_text(encoding="utf-8"))
-    except Exception:
+    except Exception as exc:
+        logger.warning("Cloudflare store corrupt at %s: %s — using defaults in memory", STORE_PATH, exc)
         data = _default_store()
     for key, val in _default_store().items():
         if key not in data:
@@ -226,6 +259,7 @@ def get_public_config() -> Dict[str, Any]:
         "cloudflared_installed": bool(_resolve_cloudflared_bin()),
         "cloudflared_path": _resolve_cloudflared_bin() or "",
         "config_dir": str(CF_CONFIG_DIR),
+        "store_path": str(STORE_PATH),
         "updated_at": store.get("updated_at"),
     }
 

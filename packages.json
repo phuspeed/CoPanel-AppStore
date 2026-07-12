@@ -225,9 +225,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.9.zip",
     "is_core": false,
     "system_packages": [
       "cron"
@@ -235,8 +235,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Cron log lines in run_update.py; cd to backend in crontab; surface DDNS errors instead of silent fail. v1.0.4: auto-install cron.",
-    "changelog_vi": "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Ghi log khi cron chay; cd backend trong crontab; hien loi DDNS thay vi nuot im. v1.0.4: tu cai cron."
+    "changelog_en": "v1.0.8: Detect and start cron daemon on sync; sync_ok requires daemon active; clarify Play (run now) vs scheduled cron in UI. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Cron log lines in run_update.py; cd to backend in crontab; surface DDNS errors instead of silent fail. v1.0.4: auto-install cron.",
+    "changelog_vi": "v1.0.8: Phat hien va bat daemon cron khi sync; sync_ok yeu cau daemon dang chay; lam ro nut Play (chay ngay) vs cron tu dong trong UI. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Ghi log khi cron chay; cd backend trong crontab; hien loi DDNS thay vi nuot im. v1.0.4: tu cai cron."
   },
   {
     "id": "webdav",
@@ -260,12 +260,12 @@
     "id": "cron_manager",
     "name": "Cron Manager",
     "description": "Manage recurring task schedules with visual cron builder and command execution.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "Clock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.8.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Refactor crontab syncing logic to safely preserve blocks. v1.0.4: Add pause/start controls for managed cron jobs with DB-backed is_active state and crontab sync that only deploys active jobs.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Tối ưu logic đồng bộ crontab để giữ nguyên cấu trúc khối an toàn. v1.0.4: Bo sung nut pause/start cho cron job managed voi trang thai is_active luu trong DB va dong bo crontab chi trien khai job dang active."
+    "changelog_en": "v1.0.8: Auto-start cron daemon on every crontab sync; show daemon status when crontab exists but cron is not running. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Refactor crontab syncing logic to safely preserve blocks. v1.0.4: Add pause/start controls for managed cron jobs with DB-backed is_active state and crontab sync that only deploys active jobs.",
+    "changelog_vi": "v1.0.8: Tu dong bat daemon cron moi lan sync crontab; hien trang thai daemon khi co crontab nhung cron chua chay. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Tối ưu logic đồng bộ crontab để giữ nguyên cấu trúc khối an toàn. v1.0.4: Bo sung nut pause/start cho cron job managed voi trang thai is_active luu trong DB va dong bo crontab chi trien khai job dang active."
   },
   {
     "id": "appstore_manager",
