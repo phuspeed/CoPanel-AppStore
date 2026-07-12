@@ -225,9 +225,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.9.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.10.zip",
     "is_core": false,
     "system_packages": [
       "cron"
@@ -235,8 +235,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.8: Detect and start cron daemon on sync; sync_ok requires daemon active; clarify Play (run now) vs scheduled cron in UI. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Cron log lines in run_update.py; cd to backend in crontab; surface DDNS errors instead of silent fail. v1.0.4: auto-install cron.",
-    "changelog_vi": "v1.0.8: Phat hien va bat daemon cron khi sync; sync_ok yeu cau daemon dang chay; lam ro nut Play (chay ngay) vs cron tu dong trong UI. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Ghi log khi cron chay; cd backend trong crontab; hien loi DDNS thay vi nuot im. v1.0.4: tu cai cron."
+    "changelog_en": "v1.0.9: Fix module failing to load (404) when CoPanel core lacks cron_system — use local cron_compat fallback; migrate legacy store paths; clearer UI error when API unavailable. v1.0.8: Detect and start cron daemon on sync; sync_ok requires daemon active; clarify Play (run now) vs scheduled cron in UI.",
+    "changelog_vi": "v1.0.9: Sua loi module khong load (404) khi CoPanel core chua co cron_system — fallback cron_compat; migrate duong dan store cu; thong bao loi ro hon khi API khong san. v1.0.8: Phat hien va bat daemon cron khi sync; sync_ok yeu cau daemon dang chay; lam ro nut Play vs cron tu dong."
   },
   {
     "id": "webdav",

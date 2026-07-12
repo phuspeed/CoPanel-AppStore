@@ -1,7 +1,7 @@
 """
 Cloudflare DDNS + DNS record + Tunnel management.
 
-Persists settings under /var/lib/copanel/cloudflare_ddns.json and syncs DDNS
+Persists settings under /opt/copanel/config/cloudflare_ddns.json and syncs DDNS
 jobs to system crontab (Linux only).
 """
 from __future__ import annotations
@@ -26,13 +26,10 @@ from .cron_compat import ensure_cron_service, get_cron_daemon_status
 
 IS_WINDOWS = os.name == "nt"
 
-STORE_PATH = (
-    Path("./test_nginx/cloudflare_ddns.json")
-    if IS_WINDOWS
-    else Path("/var/lib/copanel/cloudflare_ddns.json")
-)
+CONFIG_DIR = Path("./test_copanel/config") if IS_WINDOWS else Path("/opt/copanel/config")
+STORE_PATH = CONFIG_DIR / "cloudflare_ddns.json"
 LEGACY_STORE_PATHS = (
-    Path("/opt/copanel/config/cloudflare_ddns.json"),
+    Path("/var/lib/copanel/cloudflare_ddns.json"),
     Path("/opt/copanel/data/cloudflare_ddns.json"),
 )
 CF_CONFIG_DIR = (
@@ -81,6 +78,19 @@ def _default_store() -> Dict[str, Any]:
     }
 
 
+def _ensure_store_permissions() -> None:
+    """Keep config dir traversable and store file root-only (matches copanel service user)."""
+    if IS_WINDOWS:
+        return
+    try:
+        CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+        os.chmod(CONFIG_DIR, 0o755)
+        if STORE_PATH.is_file():
+            os.chmod(STORE_PATH, 0o600)
+    except OSError as exc:
+        logger.warning("Could not set permissions on %s: %s", STORE_PATH, exc)
+
+
 def _migrate_legacy_store() -> None:
     """Copy settings from older paths if the canonical store is missing or empty."""
     if IS_WINDOWS:
@@ -89,12 +99,14 @@ def _migrate_legacy_store() -> None:
     if STORE_PATH.is_file():
         try:
             current_token = (json.loads(STORE_PATH.read_text(encoding="utf-8")) or {}).get("api_token") or ""
+        except OSError:
+            current_token = ""
         except Exception:
             current_token = ""
     if current_token:
         return
     for legacy in LEGACY_STORE_PATHS:
-        if not legacy.is_file() or legacy == STORE_PATH:
+        if not legacy.is_file() or legacy.resolve() == STORE_PATH.resolve():
             continue
         try:
             data = json.loads(legacy.read_text(encoding="utf-8"))
@@ -102,19 +114,40 @@ def _migrate_legacy_store() -> None:
             continue
         if not (data.get("api_token") or data.get("ddns_profiles")):
             continue
-        STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        CONFIG_DIR.mkdir(parents=True, exist_ok=True)
         shutil.copy2(legacy, STORE_PATH)
+        _ensure_store_permissions()
         logger.info("Migrated Cloudflare DDNS store from %s to %s", legacy, STORE_PATH)
         return
+
+
+def repair_store_on_startup() -> None:
+    """Migrate legacy store paths and fix permissions after install/update."""
+    _migrate_legacy_store()
+    _ensure_store_permissions()
 
 
 def _load_store() -> Dict[str, Any]:
     _migrate_legacy_store()
     if not STORE_PATH.exists():
-        STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        CONFIG_DIR.mkdir(parents=True, exist_ok=True)
         STORE_PATH.write_text(json.dumps(_default_store(), indent=2), encoding="utf-8")
+        _ensure_store_permissions()
     try:
         data = json.loads(STORE_PATH.read_text(encoding="utf-8"))
+    except PermissionError as exc:
+        raise PermissionError(
+            f"Cannot read {STORE_PATH}: {exc}. "
+            "Cron and CLI must run as root (same as copanel service). "
+            "Manual test: sudo /opt/copanel/venv/bin/python .../run_update.py --interval 5"
+        ) from exc
+    except OSError as exc:
+        if getattr(exc, "errno", None) == 13:
+            raise PermissionError(
+                f"Cannot read {STORE_PATH}: permission denied. "
+                "Run as root: sudo systemctl restart copanel, or sudo .../run_update.py"
+            ) from exc
+        raise
     except Exception as exc:
         logger.warning("Cloudflare store corrupt at %s: %s — using defaults in memory", STORE_PATH, exc)
         data = _default_store()
@@ -126,8 +159,17 @@ def _load_store() -> Dict[str, Any]:
 
 def _save_store(data: Dict[str, Any]) -> None:
     data["updated_at"] = time.time()
-    STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    STORE_PATH.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        STORE_PATH.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        _ensure_store_permissions()
+    except OSError as exc:
+        if getattr(exc, "errno", None) == 13:
+            raise PermissionError(
+                f"Cannot write {STORE_PATH}: permission denied. "
+                "CoPanel cron runs as root — use sudo for manual CLI tests."
+            ) from exc
+        raise
 
 
 def _resolve_python_bin() -> str:

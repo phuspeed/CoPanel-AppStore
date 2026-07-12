@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,6 +24,12 @@ def _log_line(message: str) -> None:
 
 
 def main() -> int:
+    if os.name != "nt" and os.geteuid() != 0:
+        _log_line(
+            "WARNING: not running as root — store file is root-only. "
+            "Use: sudo /opt/copanel/venv/bin/python .../run_update.py --interval 5"
+        )
+
     parser = argparse.ArgumentParser(description="Run Cloudflare DDNS updates")
     parser.add_argument("--interval", type=int, default=0, help="Only profiles with this interval (minutes)")
     parser.add_argument("--all", action="store_true", help="Run all enabled profiles")

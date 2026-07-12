@@ -26,6 +26,7 @@ router = APIRouter()
 @router.on_event("startup")
 async def on_startup() -> None:
     try:
+        logic.repair_store_on_startup()
         logic.sync_crontab()
     except Exception as exc:
         import logging
