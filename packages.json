@@ -136,16 +136,16 @@
   {
     "id": "backup_manager",
     "name": "Backup Manager",
-    "description": "Zero-CLI cloud backup manager powered by rclone. Includes guided Google OAuth onboarding, profile-based remote setup, cron scheduling, real-time sync watchdog, and live progress streaming.",
-    "version": "1.2.12",
+    "description": "Zero-CLI cloud backup manager powered by rclone. Desktop sidebar shell (Profiles / Remotes / Cloud Setup) for Classic + Desktop UI. Guided Google OAuth, cron scheduling, real-time sync, live progress streaming.",
+    "version": "1.2.13",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.12.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.13.zip",
     "is_core": true,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.2.9: Fix cron execution by migrating from inline python to run_sync.py and setting explicit PATH for tools like mysqldump. v1.2.8: MySQL uploads now target remote_path/<dump>.sql.gz so a configured path ending in .sql no longer renames the object to .sql; gzip binary resolved via PATH or /usr/bin/gzip. v1.2.7: gzip dump before rclone.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.2.9: Sửa lỗi cron không chạy bằng cách chuyển sang run_sync.py và truyền cứng biến PATH cho các công cụ như mysqldump. v1.2.8: Upload MySQL dat dich den remote_path/<file>.sql.gz — neu truoc day cau hinh ket thuc bang .sql thi rclone khong con doi ten thanh .sql nua; tim gzip qua PATH hoac /usr/bin/gzip. v1.2.7: nen gzip truoc khi rclone."
+    "changelog_en": "v1.2.13: Desktop sidebar shell — Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
+    "changelog_vi": "v1.2.13: Giao dien sidebar Desktop — tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop."
   },
   {
     "id": "system_monitor",
