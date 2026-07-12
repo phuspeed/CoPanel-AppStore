@@ -225,9 +225,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.11.zip",
     "is_core": false,
     "system_packages": [
       "cron"
@@ -235,8 +235,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.9: Fix module failing to load (404) when CoPanel core lacks cron_system — use local cron_compat fallback; migrate legacy store paths; clearer UI error when API unavailable. v1.0.8: Detect and start cron daemon on sync; sync_ok requires daemon active; clarify Play (run now) vs scheduled cron in UI.",
-    "changelog_vi": "v1.0.9: Sua loi module khong load (404) khi CoPanel core chua co cron_system — fallback cron_compat; migrate duong dan store cu; thong bao loi ro hon khi API khong san. v1.0.8: Phat hien va bat daemon cron khi sync; sync_ok yeu cau daemon dang chay; lam ro nut Play vs cron tu dong."
+    "changelog_en": "v1.0.11: Dual UI redesign — sidebar navigation, flex scroll layout for Desktop/Classic, WindowModal delete confirmations, en/vi i18n. v1.0.9: Fix module failing to load (404) when CoPanel core lacks cron_system — use local cron_compat fallback; migrate legacy store paths; clearer UI error when API unavailable.",
+    "changelog_vi": "v1.0.11: Thiet ke lai giao dien song song WebUI/Desktop — sidebar, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi. v1.0.9: Sua loi module khong load (404) khi CoPanel core chua co cron_system — fallback cron_compat; migrate duong dan store cu; thong bao loi ro hon khi API khong san."
   },
   {
     "id": "webdav",
