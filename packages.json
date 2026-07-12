@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.8.zip",
     "is_core": true,
-    "changelog_en": "v1.0.7: Desktop sidebar UI with tabs for Containers, Compose, Images, Networks, and Volumes — optimized for Desktop shell window mode. v1.0.6: Dual UI ModuleViewport + useAppShellContext.",
-    "changelog_vi": "v1.0.7: Giao dien sidebar Desktop voi tab Container, Compose, Image, Mang, Volume — toi uu cho che do cua so Desktop. v1.0.6: Giao dien song song ModuleViewport + useAppShellContext."
+    "changelog_en": "v1.0.8: Create Project wizard (+) on Containers tab — project name, folder picker, auto-detect compose, paste YAML or quick template, validate & background deploy. v1.0.7: Desktop sidebar UI with functional tabs.",
+    "changelog_vi": "v1.0.8: Wizard Tao Project (+) tren tab Container — ten project, chon thu muc, tu nhan dien compose, dan YAML hoac template nhanh, kiem tra & trien khai nen. v1.0.7: Giao dien sidebar Desktop voi tab chuc nang."
   },
   {
     "id": "download_manager",
