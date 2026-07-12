@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.11.zip",
     "is_core": true,
-    "changelog_en": "v1.0.10: Deploy auto-runs compose build when images are local (pull access denied / Dockerfile). Fixes stacks like boxysvg that must be built from source. v1.0.9: Phase 2 project management.",
-    "changelog_vi": "v1.0.10: Deploy tu dong chay compose build khi image local (pull access denied / Dockerfile). Sua stack nhu boxysvg can build tu source. v1.0.9: Quan ly project Phase 2."
+    "changelog_en": "v1.0.11: Modals no longer close on backdrop click — only X or Cancel. v1.0.10: Auto compose build on deploy.",
+    "changelog_vi": "v1.0.11: Modal khong dong khi click ngoai — chi dong bang X hoac Huy. v1.0.10: Tu dong compose build khi deploy."
   },
   {
     "id": "download_manager",
