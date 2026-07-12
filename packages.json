@@ -100,12 +100,12 @@
     "id": "ssl_manager",
     "name": "SSL Manager",
     "description": "Generate Let's Encrypt certificates automatically.",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "icon": "Shield",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.0.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.1.0.zip",
     "is_core": true,
-    "changelog_en": "Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.2: Refactor SSL router error handling and harden frontend request headers to avoid sending invalid Bearer tokens.",
-    "changelog_vi": "Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.2: Refactor xu ly loi trong SSL router va cung co header request frontend de tranh gui Bearer token khong hop le."
+    "changelog_en": "v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
+    "changelog_vi": "v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI."
   },
   {
     "id": "terminal",
