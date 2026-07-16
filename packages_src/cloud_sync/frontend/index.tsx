@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useAppShellContext } from '../../../copanel/frontend/src/core/hooks/useAppShellContext';
-import { useIsWindowedModule } from '../../../copanel/frontend/src/core/shell/WindowViewportContext';
-import ModuleViewport from '../../../copanel/frontend/src/core/shell/ModuleViewport';
-import WindowModal from '../../../copanel/frontend/src/core/shell/WindowModal';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import { useIsWindowedModule } from '../../core/shell/WindowViewportContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
+import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 
 type PairDirection = 'upload' | 'download';
