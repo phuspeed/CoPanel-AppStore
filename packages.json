@@ -137,17 +137,16 @@
     "id": "cloud_sync",
     "name": "Cloud Sync",
     "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. No manual OAuth fields.",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.4.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.1.3: If popup is blocked, keep modal open and show an explicit “Open Google sign‑in” button (no page navigation). v1.1.2: Popup robustness + 60s timeout. v1.1.1: Cache‑bust rebuild.",
-    "changelog_vi": "v1.1.3: Nếu popup bị chặn, giữ modal mở và hiển thị nút “Mở đăng nhập Google” (không điều hướng sang trang khác). v1.1.2: Ổn định popup + timeout 60s. v1.1.1: Rebuild tránh cache."
+    "changelog_en": "v1.1.4: Fix 500 on /accounts /pairs /oauth — ensure SQLite schema init on every request (sub-router startup unreliable after AppStore install). Clearer API errors. v1.1.3: Popup-blocked fallback button.",
+    "changelog_vi": "v1.1.4: Sua loi 500 tren /accounts /pairs /oauth — khoi tao SQLite moi request (startup sub-router khong on dinh sau cai AppStore). Thong bao loi API ro hon. v1.1.3: Nut mo dang nhap khi popup bi chan."
   },
-  
   {
     "id": "backup_manager",
     "name": "Backup Manager",

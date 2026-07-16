@@ -18,6 +18,9 @@ from urllib.request import Request, urlopen
 CONFIG_DIR = Path("/opt/copanel/config/cloud_sync")
 DB_PATH = CONFIG_DIR / "cloud_sync.db"
 LOG_DIR = Path("/opt/copanel/logs")
+PANEL_OAUTH_PATH = Path("/opt/copanel/config/google_oauth.json")
+BACKUP_MANAGER_DB = Path("/opt/copanel/config/backup_manager.db")
+DOWNLOAD_MANAGER_DB = Path("/opt/copanel/config/download_manager/download_manager.db")
 
 
 def _utc_now() -> str:
@@ -39,15 +42,20 @@ def _resolve_rclone_bin() -> str:
 
 
 class Store:
+    _initialized = False
+
     @staticmethod
     def init() -> None:
+        """Idempotent schema bootstrap — safe to call on every request."""
+        if Store._initialized and DB_PATH.is_file():
+            return
         with _db() as conn:
             conn.executescript(
                 """
                 CREATE TABLE IF NOT EXISTS pairs (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     pair_name TEXT NOT NULL,
-                    direction TEXT NOT NULL,                 -- upload | download
+                    direction TEXT NOT NULL,
                     local_path TEXT NOT NULL,
                     remote_name TEXT NOT NULL,
                     remote_path TEXT NOT NULL,
@@ -82,16 +90,19 @@ class Store:
                 );
                 """
             )
+        Store._initialized = True
 
     # Pairs
     @staticmethod
     def list_pairs() -> List[Dict[str, Any]]:
+        Store.init()
         with _db() as conn:
             rows = conn.execute("SELECT * FROM pairs ORDER BY id DESC").fetchall()
             return [dict(r) for r in rows]
 
     @staticmethod
     def create_pair(data: Dict[str, Any]) -> int:
+        Store.init()
         with _db() as conn:
             cur = conn.execute(
                 """
@@ -113,6 +124,7 @@ class Store:
 
     @staticmethod
     def update_pair(pair_id: int, data: Dict[str, Any]) -> bool:
+        Store.init()
         fields: List[str] = []
         values: List[Any] = []
         mapping = {
@@ -145,6 +157,7 @@ class Store:
 
     @staticmethod
     def delete_pair(pair_id: int) -> None:
+        Store.init()
         with _db() as conn:
             conn.execute("DELETE FROM pairs WHERE id = ?", (pair_id,))
 
@@ -210,6 +223,7 @@ class Store:
     # OAuth storage helpers (Google)
     @staticmethod
     def save_oauth_client(client_id: str, client_secret: str, redirect_uri: str) -> None:
+        Store.init()
         now = _utc_now()
         with _db() as conn:
             conn.execute(
@@ -227,6 +241,7 @@ class Store:
 
     @staticmethod
     def get_oauth_client() -> Optional[Dict[str, Any]]:
+        Store.init()
         with _db() as conn:
             row = conn.execute("SELECT * FROM oauth_clients WHERE provider = 'google'").fetchone()
             return dict(row) if row else None
@@ -235,6 +250,7 @@ class Store:
     def create_oauth_state(remote_name: str, ttl_seconds: int = 1800) -> str:
         import secrets, time
 
+        Store.init()
         state = secrets.token_urlsafe(24)
         expires = str(time.time() + ttl_seconds)
         with _db() as conn:
@@ -248,6 +264,7 @@ class Store:
     def get_oauth_state(state: str) -> Optional[Dict[str, Any]]:
         import time
 
+        Store.init()
         with _db() as conn:
             row = conn.execute("SELECT * FROM oauth_states WHERE state = ? AND provider = 'google'", (state,)).fetchone()
         if not row:
@@ -262,11 +279,13 @@ class Store:
 
     @staticmethod
     def delete_oauth_state(state: str) -> None:
+        Store.init()
         with _db() as conn:
             conn.execute("DELETE FROM oauth_states WHERE state = ?", (state,))
 
     @staticmethod
     def save_oauth_token(remote_name: str, token: Dict[str, Any]) -> None:
+        Store.init()
         now = _utc_now()
         with _db() as conn:
             conn.execute(
@@ -293,6 +312,7 @@ class Store:
 
     @staticmethod
     def list_oauth_status() -> List[Dict[str, Any]]:
+        Store.init()
         with _db() as conn:
             rows = conn.execute(
                 "SELECT remote_name, provider, expiry, updated_at FROM oauth_tokens WHERE provider = 'google' ORDER BY updated_at DESC"
@@ -332,16 +352,118 @@ class Store:
 
     @staticmethod
     def _get_token(remote_name: str) -> Optional[Dict[str, Any]]:
+        Store.init()
         with _db() as conn:
             row = conn.execute(
                 "SELECT * FROM oauth_tokens WHERE remote_name = ? AND provider = 'google'", (Store.normalize_remote_name(remote_name),)
             ).fetchone()
             return dict(row) if row else None
 
+    @staticmethod
+    def list_accounts() -> List[Dict[str, Any]]:
+        """Connected Google Drive accounts (oauth token + rclone remote if present)."""
+        Store.init()
+        tokens = {t["remote_name"]: t for t in Store.list_oauth_status()}
+        remotes = {r["name"]: r for r in Store.get_rclone_remotes_detail() if r.get("type") == "drive"}
+        names = sorted(set(tokens.keys()) | set(remotes.keys()))
+        out: List[Dict[str, Any]] = []
+        for name in names:
+            tok = tokens.get(name, {})
+            out.append(
+                {
+                    "remote_name": name,
+                    "provider": "google",
+                    "type": "drive",
+                    "connected": name in tokens,
+                    "expiry": tok.get("expiry"),
+                    "updated_at": tok.get("updated_at"),
+                }
+            )
+        return out
+
+    @staticmethod
+    def suggest_remote_name() -> str:
+        existing = {a["remote_name"] for a in Store.list_accounts()}
+        for candidate in ("google_drive", "gdrive", "drive"):
+            if candidate not in existing:
+                return candidate
+        n = 2
+        while f"google_drive_{n}" in existing:
+            n += 1
+        return f"google_drive_{n}"
+
+    @staticmethod
+    def _read_oauth_from_sqlite(db_path: Path) -> Optional[Dict[str, str]]:
+        if not db_path.is_file():
+            return None
+        try:
+            conn = sqlite3.connect(str(db_path))
+            conn.row_factory = sqlite3.Row
+            row = conn.execute("SELECT client_id, client_secret, redirect_uri FROM oauth_clients WHERE provider = 'google'").fetchone()
+            conn.close()
+            if not row:
+                return None
+            return {"client_id": row["client_id"], "client_secret": row["client_secret"], "redirect_uri": row["redirect_uri"]}
+        except Exception:
+            return None
+
+    @staticmethod
+    def resolve_google_oauth_client(redirect_uri: str) -> Dict[str, str]:
+        """Resolve OAuth app credentials without user input (panel / sibling modules / env)."""
+        stored = Store.get_oauth_client()
+        if stored and stored.get("client_id") and stored.get("client_secret"):
+            return {
+                "client_id": stored["client_id"],
+                "client_secret": stored["client_secret"],
+                "redirect_uri": redirect_uri,
+            }
+
+        if PANEL_OAUTH_PATH.is_file():
+            try:
+                data = json.loads(PANEL_OAUTH_PATH.read_text(encoding="utf-8"))
+                cid = (data.get("client_id") or "").strip()
+                secret = (data.get("client_secret") or "").strip()
+                if cid and secret:
+                    return {"client_id": cid, "client_secret": secret, "redirect_uri": redirect_uri}
+            except Exception:
+                pass
+
+        for db_path in (BACKUP_MANAGER_DB, DOWNLOAD_MANAGER_DB):
+            imported = Store._read_oauth_from_sqlite(db_path)
+            if imported and imported.get("client_id") and imported.get("client_secret"):
+                return {
+                    "client_id": imported["client_id"],
+                    "client_secret": imported["client_secret"],
+                    "redirect_uri": redirect_uri,
+                }
+
+        cid = (os.environ.get("COPANEL_GOOGLE_OAUTH_CLIENT_ID") or os.environ.get("GOOGLE_OAUTH_CLIENT_ID") or "").strip()
+        secret = (os.environ.get("COPANEL_GOOGLE_OAUTH_CLIENT_SECRET") or os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET") or "").strip()
+        if cid and secret:
+            return {"client_id": cid, "client_secret": secret, "redirect_uri": redirect_uri}
+
+        raise ValueError(
+            "Google OAuth is not configured on this panel. "
+            "Ask the administrator to set /opt/copanel/config/google_oauth.json "
+            "or configure Google OAuth once in Backup Manager."
+        )
+
 
 class GoogleOAuth:
     AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
     TOKEN_URL = "https://oauth2.googleapis.com/token"
+
+    @staticmethod
+    def connect(redirect_uri: str, remote_name: str = "") -> Dict[str, Any]:
+        """One-click connect: resolve panel OAuth creds, open Google consent popup."""
+        creds = Store.resolve_google_oauth_client(redirect_uri)
+        normalized = Store.normalize_remote_name(remote_name) or Store.suggest_remote_name()
+        return GoogleOAuth.start(
+            remote_name=normalized,
+            client_id=creds["client_id"],
+            client_secret=creds["client_secret"],
+            redirect_uri=creds["redirect_uri"],
+        )
 
     @staticmethod
     def start(remote_name: str, client_id: str, client_secret: str, redirect_uri: str) -> Dict[str, Any]:
@@ -431,4 +553,11 @@ def build_rclone_cmd(direction: str, local_path: str, remote: str, flags: Dict[s
     cmd.extend(["--use-json-log", "-v", "--stats", "1s"])
     cmd.extend(["--transfers", str(int(flags.get("transfers", 4)) or 4)])
     return cmd
+
+
+# Sub-router startup events are unreliable after AppStore install — bootstrap at import.
+try:
+    Store.init()
+except Exception:
+    pass
 

@@ -1,44 +1,74 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 
-from core.api import ok
+from core.api import ApiError, ok
 from core.auth import require_admin, require_module
 
 from .logic import Store, GoogleOAuth, build_rclone_cmd
 from .schemas import SavePairRequest, UpdatePairRequest
-import asyncio
 
 router = APIRouter()
+MODULE_DIR = Path(__file__).resolve().parent
 
 
 @router.on_event("startup")
 async def on_startup() -> None:
-    Store.init()
+    try:
+        Store.init()
+    except Exception:
+        pass
+
+
+def _oauth_callback_html(payload: Dict[str, Any], body: str = "Done", status: int = 200) -> HTMLResponse:
+    script = f"window.opener && window.opener.postMessage({json.dumps(payload)}, '*');window.close();"
+    return HTMLResponse(content=f"<html><body><script>{script}</script>{body}</body></html>", status_code=status)
+
+
+def _read_version() -> str:
+    try:
+        return (MODULE_DIR / "version.txt").read_text(encoding="utf-8").strip()
+    except Exception:
+        return "0.0.0"
 
 
 @router.get("/version")
 def get_version(user: Dict[str, Any] = Depends(require_module("cloud_sync"))) -> Dict[str, Any]:
-    from importlib.resources import files
-    ver = (files(__package__) / "version.txt").read_text(encoding="utf-8").strip()
-    return ok({"version": ver})
+    return ok({"version": _read_version()})
+
+
+@router.get("/accounts")
+def list_accounts(user: Dict[str, Any] = Depends(require_module("cloud_sync"))) -> Dict[str, Any]:
+    try:
+        Store.init()
+        return ok(Store.list_accounts())
+    except Exception as exc:
+        raise ApiError("CLOUD_SYNC_ERROR", f"Failed to list accounts: {exc}", http_status=500)
 
 
 @router.get("/pairs")
 def list_pairs(user: Dict[str, Any] = Depends(require_module("cloud_sync"))) -> Dict[str, Any]:
-    return ok(Store.list_pairs())
+    try:
+        Store.init()
+        return ok(Store.list_pairs())
+    except Exception as exc:
+        raise ApiError("CLOUD_SYNC_ERROR", f"Failed to list pairs: {exc}", http_status=500)
 
 
 @router.post("/pairs")
 def create_pair(req: SavePairRequest, user: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
-    pid = Store.create_pair(req.model_dump(mode="json"))
-    return ok({"id": pid})
+    try:
+        pid = Store.create_pair(req.model_dump(mode="json"))
+        return ok({"id": pid})
+    except Exception as exc:
+        raise ApiError("CLOUD_SYNC_ERROR", f"Failed to create pair: {exc}", http_status=500)
 
 
 @router.put("/pairs/{pair_id}")
@@ -69,92 +99,120 @@ def explore_files(path: str = "/", user: Dict[str, Any] = Depends(require_module
     if not target.exists() or not target.is_dir():
         return ok({"data": [], "current_path": str(target)})
     items = []
-    for entry in sorted(target.iterdir(), key=lambda e: (e.is_file(), e.name.lower())):
-        if entry.is_dir():
-            items.append({"name": entry.name, "path": str(entry), "type": "folder"})
-        else:
-            items.append({"name": entry.name, "path": str(entry), "type": "file"})
+    try:
+        for entry in sorted(target.iterdir(), key=lambda e: (e.is_file(), e.name.lower())):
+            if entry.is_dir():
+                items.append({"name": entry.name, "path": str(entry), "type": "folder"})
+            else:
+                items.append({"name": entry.name, "path": str(entry), "type": "file"})
+    except PermissionError:
+        return ok({"data": [], "current_path": str(target), "message": "Permission denied"})
     return ok({"data": items, "current_path": str(target)})
 
 
+@router.post("/oauth/google/connect")
+def oauth_connect(
+    request: Request,
+    data: Optional[Dict[str, Any]] = Body(default=None),
+    user: Dict[str, Any] = Depends(require_admin),
+) -> Dict[str, Any]:
+    """One-click connect — no client_id/secret in UI."""
+    payload = data or {}
+    origin = str(payload.get("redirect_origin") or "").strip().rstrip("/")
+    if not origin:
+        origin = str(request.base_url).rstrip("/")
+    redirect_uri = f"{origin}/api/cloud_sync/oauth/google/callback"
+    remote_name = str(payload.get("remote_name") or "").strip()
+    try:
+        Store.init()
+        result = GoogleOAuth.connect(redirect_uri=redirect_uri, remote_name=remote_name)
+        return ok(result)
+    except ValueError as exc:
+        raise ApiError("OAUTH_NOT_CONFIGURED", str(exc), http_status=503)
+    except Exception as exc:
+        raise ApiError("OAUTH_ERROR", f"Failed to start Google OAuth: {exc}", http_status=500)
+
+
 @router.post("/oauth/google/start")
-def oauth_start(data: dict, user: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
-    result = GoogleOAuth.start(
-        remote_name=(data.get("remote_name") or "").strip(),
-        client_id=(data.get("client_id") or "").strip(),
-        client_secret=(data.get("client_secret") or "").strip(),
-        redirect_uri=(data.get("redirect_uri") or "").strip(),
-    )
-    return ok(result)
+def oauth_start(
+    data: Optional[Dict[str, Any]] = Body(default=None),
+    user: Dict[str, Any] = Depends(require_admin),
+) -> Dict[str, Any]:
+    payload = data or {}
+    origin = str(payload.get("redirect_origin") or payload.get("redirect_uri") or "").strip().rstrip("/")
+    if origin and not origin.endswith("/callback"):
+        redirect_uri = f"{origin}/api/cloud_sync/oauth/google/callback" if "/api/" not in origin else origin
+    else:
+        redirect_uri = origin
+    try:
+        Store.init()
+        if payload.get("client_id") and payload.get("client_secret"):
+            result = GoogleOAuth.start(
+                remote_name=str(payload.get("remote_name") or "").strip() or Store.suggest_remote_name(),
+                client_id=str(payload.get("client_id") or "").strip(),
+                client_secret=str(payload.get("client_secret") or "").strip(),
+                redirect_uri=redirect_uri,
+            )
+        else:
+            result = GoogleOAuth.connect(redirect_uri=redirect_uri, remote_name=str(payload.get("remote_name") or "").strip())
+        return ok(result)
+    except ValueError as exc:
+        raise ApiError("OAUTH_ERROR", str(exc), http_status=400)
+    except Exception as exc:
+        raise ApiError("OAUTH_ERROR", f"Failed to start Google OAuth: {exc}", http_status=500)
 
 
 @router.get("/oauth/google/callback")
 def oauth_callback(code: str = "", state: str = "", error: str = ""):
     if error:
-        return HTMLResponse(
-            content=f\"\"\"<html><body><script>
-                window.opener && window.opener.postMessage({json.dumps({'type':'copanel_google_oauth','ok':False,'error':error})}, '*');
-                window.close();
-            </script>Authorization failed: {error}</body></html>\"\"\"
+        return _oauth_callback_html(
+            {"type": "copanel_google_oauth", "ok": False, "error": error},
+            f"Authorization failed: {error}",
+            400,
         )
     try:
         result = GoogleOAuth.exchange(code=code, state=state)
-        payload = {"type": "copanel_google_oauth", "ok": True, "remote_name": result["remote_name"]}
-        return HTMLResponse(
-            content=f\"\"\"<html><body><script>
-                window.opener && window.opener.postMessage({json.dumps(payload)}, '*');
-                window.close();
-            </script>Authorization completed.</body></html>\"\"\"
+        return _oauth_callback_html(
+            {"type": "copanel_google_oauth", "ok": True, "remote_name": result["remote_name"]},
+            "Authorization completed.",
         )
-    except Exception as e:
-        return HTMLResponse(
-            content=f\"\"\"<html><body><script>
-                window.opener && window.opener.postMessage({json.dumps({'type':'copanel_google_oauth','ok':False,'error':str(e)})}, '*');
-                window.close();
-            </script>OAuth callback failed.</body></html>\"\"\", status_code=400
+    except Exception as exc:
+        return _oauth_callback_html(
+            {"type": "copanel_google_oauth", "ok": False, "error": str(exc)},
+            "OAuth callback failed.",
+            400,
         )
-
-
-@router.post("/oauth/google/manual-token")
-def oauth_manual(data: dict, user: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
-    result = GoogleOAuth.apply_manual(
-        remote_name=(data.get("remote_name") or "").strip(),
-        token_json=(data.get("token_json") or "").strip(),
-        client_id=(data.get("client_id") or "").strip(),
-        client_secret=(data.get("client_secret") or "").strip(),
-        redirect_uri=(data.get("redirect_uri") or "").strip(),
-    )
-    return ok(result)
 
 
 @router.get("/oauth/google/status")
 def oauth_status(remote_name: str = "", user: Dict[str, Any] = Depends(require_module("cloud_sync"))) -> Dict[str, Any]:
+    Store.init()
     if remote_name:
-        from .logic import Store as S
-        row = S._get_token(remote_name)
+        row = Store._get_token(remote_name)
         return ok({"remote_name": remote_name, "connected": bool(row), "token": row})
     return ok(Store.list_oauth_status())
 
 
 @router.get("/stream_pair/{pair_id}")
 async def stream_pair(pair_id: int):
+    Store.init()
     pairs = [p for p in Store.list_pairs() if p["id"] == pair_id]
     if not pairs:
         raise HTTPException(status_code=404, detail="Pair not found")
     pair = pairs[0]
 
     rclone_config = str(Store.get_rclone_config_path())
-    remote = f\"{pair['remote_name']}:{pair['remote_path']}\"
+    remote = f"{pair['remote_name']}:{pair['remote_path']}"
     flags = {"sync_deletions": bool(pair.get("sync_deletions")), "transfers": int(pair.get("transfers") or 4)}
 
     async def event_gen():
         cmd = build_rclone_cmd(pair["direction"], pair["local_path"], remote, flags, rclone_config)
         if os.name == "nt":
-            yield f\"data: {json.dumps({'msg':'[Mock] rclone '+ ' '.join(cmd[1:3]), 'progress':20})}\\n\\n\"
+            yield f"data: {json.dumps({'msg': '[Mock] rclone ' + ' '.join(cmd[1:3]), 'progress': 20})}\n\n"
             await asyncio.sleep(1)
-            yield f\"data: {json.dumps({'msg':'Syncing files...', 'progress':60})}\\n\\n\"
+            yield f"data: {json.dumps({'msg': 'Syncing files...', 'progress': 60})}\n\n"
             await asyncio.sleep(1)
-            yield f\"data: {json.dumps({'msg':'Sync complete!', 'progress':100,'done':True})}\\n\\n\"
+            yield f"data: {json.dumps({'msg': 'Sync complete!', 'progress': 100, 'done': True})}\n\n"
             return
         try:
             proc = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT)
@@ -164,16 +222,13 @@ async def stream_pair(pair_id: int):
                     break
                 text = line.decode("utf-8", errors="replace").strip()
                 payload = {"msg": text}
-                if '"progress"' in text or '"transferred"' in text:
-                    payload["rclone"] = text
-                yield f\"data: {json.dumps(payload)}\\n\\n\"
+                yield f"data: {json.dumps(payload)}\n\n"
             code = await proc.wait()
             if code == 0:
-                yield f\"data: {json.dumps({'msg':'Done','done':True,'progress':100})}\\n\\n\"
+                yield f"data: {json.dumps({'msg': 'Done', 'done': True, 'progress': 100})}\n\n"
             else:
-                yield f\"data: {json.dumps({'error': 'rclone exited with code '+str(code), 'done':True})}\\n\\n\"
-        except Exception as e:
-            yield f\"data: {json.dumps({'error': str(e), 'done':True})}\\n\\n\"
+                yield f"data: {json.dumps({'error': 'rclone exited with code ' + str(code), 'done': True})}\n\n"
+        except Exception as exc:
+            yield f"data: {json.dumps({'error': str(exc), 'done': True})}\n\n"
 
     return StreamingResponse(event_gen(), media_type="text/event-stream")
-
