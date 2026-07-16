@@ -136,16 +136,16 @@
   {
     "id": "cloud_sync",
     "name": "Cloud Sync",
-    "description": "Connect Google Drive and set up folder sync pairs. One-way upload/download using rclone with live progress.",
-    "version": "1.0.3",
+    "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. No manual OAuth fields.",
+    "version": "1.1.0",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.0.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.1.0.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.0.3: Synology-like flow — OAuth popup only; remove manual token UI; auto-refresh remotes and preselect remote after consent. v1.0.2: Package corrected core import paths. v1.0.1: Fix frontend core imports.",
-    "changelog_vi": "v1.0.3: Flow giống Synology — chỉ popup OAuth; bỏ UI dán token thủ công; tự làm mới remotes và chọn sẵn remote sau khi cấp quyền. v1.0.2: Đóng gói đúng đường dẫn import core. v1.0.1: Sửa import frontend."
+    "changelog_en": "v1.1.0: One‑click OAuth popup for Google Drive (no Client ID/Secret fields in UI); provider picker; auto‑resolve panel OAuth (google_oauth.json / Backup Manager / env); account sidebar with Overview and Task List. v1.0.3: OAuth popup flow.",
+    "changelog_vi": "v1.1.0: Popup OAuth một chạm cho Google Drive (không cần nhập Client ID/Secret trên UI); chọn nhà cung cấp; tự dò OAuth từ panel (google_oauth.json / Backup Manager / env); sidebar tài khoản với tab Tổng quan/Danh sách tác vụ. v1.0.3: Flow popup OAuth."
   },
   {
     "id": "backup_manager",
