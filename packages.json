@@ -137,15 +137,15 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Desktop sidebar shell (Profiles / Remotes / Cloud Setup) for Classic + Desktop UI. Guided Google OAuth, cron scheduling, real-time sync, live progress streaming.",
-    "version": "1.2.13",
+    "version": "1.2.14",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.13.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.14.zip",
     "is_core": true,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.2.13: Desktop sidebar shell — Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
-    "changelog_vi": "v1.2.13: Giao dien sidebar Desktop — tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop."
+    "changelog_en": "v1.2.14: Fix duplicate i18n key cloudSetup (esbuild warning on frontend build). v1.2.13: Desktop sidebar shell — Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
+    "changelog_vi": "v1.2.14: Sua key i18n cloudSetup trung (canh bao esbuild khi build frontend). v1.2.13: Giao dien sidebar Desktop — tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop."
   },
   {
     "id": "system_monitor",
