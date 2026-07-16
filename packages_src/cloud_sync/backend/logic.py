@@ -408,6 +408,58 @@ class Store:
             return None
 
     @staticmethod
+    def is_google_oauth_configured() -> bool:
+        try:
+            Store.resolve_google_oauth_client("https://placeholder.local/callback")
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def google_oauth_config_status(redirect_uri: str = "") -> Dict[str, Any]:
+        """Public status for UI — never returns client_secret."""
+        configured = Store.is_google_oauth_configured()
+        stored = Store.get_oauth_client()
+        client_id = ""
+        if stored and stored.get("client_id"):
+            client_id = str(stored["client_id"])
+        elif configured:
+            try:
+                creds = Store.resolve_google_oauth_client(redirect_uri or "https://placeholder.local/callback")
+                client_id = creds.get("client_id") or ""
+            except ValueError:
+                pass
+        hint = ""
+        if client_id:
+            hint = client_id[:8] + "…" if len(client_id) > 10 else client_id
+        return {
+            "configured": configured,
+            "redirect_uri": redirect_uri,
+            "client_id_hint": hint,
+        }
+
+    @staticmethod
+    def configure_google_oauth_client(client_id: str, client_secret: str, redirect_uri: str) -> Dict[str, Any]:
+        cid = (client_id or "").strip()
+        secret = (client_secret or "").strip()
+        uri = (redirect_uri or "").strip()
+        if not cid or not secret:
+            raise ValueError("client_id and client_secret are required")
+        if not uri:
+            raise ValueError("redirect_uri is required")
+        Store.save_oauth_client(cid, secret, uri)
+        # Share with sibling modules when the panel config dir is writable.
+        try:
+            PANEL_OAUTH_PATH.parent.mkdir(parents=True, exist_ok=True)
+            PANEL_OAUTH_PATH.write_text(
+                json.dumps({"client_id": cid, "client_secret": secret}, indent=2) + "\n",
+                encoding="utf-8",
+            )
+        except Exception:
+            pass
+        return Store.google_oauth_config_status(uri)
+
+    @staticmethod
     def resolve_google_oauth_client(redirect_uri: str) -> Dict[str, str]:
         """Resolve OAuth app credentials without user input (panel / sibling modules / env)."""
         stored = Store.get_oauth_client()
@@ -444,8 +496,8 @@ class Store:
 
         raise ValueError(
             "Google OAuth is not configured on this panel. "
-            "Ask the administrator to set /opt/copanel/config/google_oauth.json "
-            "or configure Google OAuth once in Backup Manager."
+            "Save your Google Cloud Client ID and Client Secret once in Cloud Sync, "
+            "or set /opt/copanel/config/google_oauth.json."
         )
 
 

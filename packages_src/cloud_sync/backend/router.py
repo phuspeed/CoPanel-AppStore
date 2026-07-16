@@ -13,7 +13,7 @@ from core.api import ApiError, ok
 from core.auth import require_admin, require_module
 
 from .logic import Store, GoogleOAuth, build_rclone_cmd
-from .schemas import SavePairRequest, UpdatePairRequest
+from .schemas import SaveOAuthClientRequest, SavePairRequest, UpdatePairRequest
 
 router = APIRouter()
 MODULE_DIR = Path(__file__).resolve().parent
@@ -110,13 +110,43 @@ def explore_files(path: str = "/", user: Dict[str, Any] = Depends(require_module
     return ok({"data": items, "current_path": str(target)})
 
 
+@router.get("/oauth/google/config")
+def oauth_config_get(
+    request: Request,
+    redirect_origin: str = "",
+    user: Dict[str, Any] = Depends(require_module("cloud_sync")),
+) -> Dict[str, Any]:
+    Store.init()
+    origin = (redirect_origin or "").strip().rstrip("/") or str(request.base_url).rstrip("/")
+    redirect_uri = f"{origin}/api/cloud_sync/oauth/google/callback"
+    return ok(Store.google_oauth_config_status(redirect_uri))
+
+
+@router.post("/oauth/google/config")
+def oauth_config_save(
+    request: Request,
+    req: SaveOAuthClientRequest,
+    user: Dict[str, Any] = Depends(require_admin),
+) -> Dict[str, Any]:
+    """One-time Google Cloud OAuth app credentials for this panel."""
+    try:
+        Store.init()
+        origin = (req.redirect_origin or "").strip().rstrip("/") or str(request.base_url).rstrip("/")
+        redirect_uri = (req.redirect_uri or "").strip() or f"{origin}/api/cloud_sync/oauth/google/callback"
+        return ok(Store.configure_google_oauth_client(req.client_id, req.client_secret, redirect_uri))
+    except ValueError as exc:
+        raise ApiError("OAUTH_CONFIG_INVALID", str(exc), http_status=400)
+    except Exception as exc:
+        raise ApiError("OAUTH_ERROR", f"Failed to save Google OAuth config: {exc}", http_status=500)
+
+
 @router.post("/oauth/google/connect")
 def oauth_connect(
     request: Request,
     data: Optional[Dict[str, Any]] = Body(default=None),
     user: Dict[str, Any] = Depends(require_admin),
 ) -> Dict[str, Any]:
-    """One-click connect — no client_id/secret in UI."""
+    """One-click connect after panel OAuth app credentials are configured."""
     payload = data or {}
     origin = str(payload.get("redirect_origin") or "").strip().rstrip("/")
     if not origin:

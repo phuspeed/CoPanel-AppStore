@@ -46,6 +46,12 @@ export default function CloudSync() {
   const [providerOpen, setProviderOpen] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [authUrl, setAuthUrl] = useState<string | null>(null);
+  const [oauthConfigured, setOauthConfigured] = useState<boolean | null>(null);
+  const [oauthSetup, setOauthSetup] = useState(false);
+  const [oauthClientId, setOauthClientId] = useState('');
+  const [oauthClientSecret, setOauthClientSecret] = useState('');
+  const [oauthRedirectUri, setOauthRedirectUri] = useState('');
+  const [savingOauth, setSavingOauth] = useState(false);
 
   const [wizardOpen, setWizardOpen] = useState(false);
   const [pairName, setPairName] = useState('');
@@ -102,6 +108,15 @@ export default function CloudSync() {
           browse: 'Browse',
           noTasks: 'No sync tasks for this account.',
           oauthError: 'Could not start Google sign-in.',
+          oauthSetupTitle: 'Google API setup (one time)',
+          oauthSetupDesc:
+            'Create an OAuth client in Google Cloud Console (Web application), add the redirect URI below, then paste Client ID and Secret. After saving, Connect opens Google sign-in.',
+          oauthClientId: 'Client ID',
+          oauthClientSecret: 'Client Secret',
+          oauthRedirectUri: 'Authorized redirect URI',
+          oauthSave: 'Save & continue',
+          oauthCopy: 'Copy',
+          oauthCopied: 'Copied',
         },
         vi: {
           title: 'Cloud Sync',
@@ -133,6 +148,15 @@ export default function CloudSync() {
           browse: 'Duyệt',
           noTasks: 'Chưa có tác vụ cho tài khoản này.',
           oauthError: 'Không thể mở đăng nhập Google.',
+          oauthSetupTitle: 'Cấu hình Google API (một lần)',
+          oauthSetupDesc:
+            'Tạo OAuth client trên Google Cloud Console (Web application), thêm redirect URI bên dưới, rồi dán Client ID và Secret. Sau khi lưu, Connect sẽ mở đăng nhập Google.',
+          oauthClientId: 'Client ID',
+          oauthClientSecret: 'Client Secret',
+          oauthRedirectUri: 'Authorized redirect URI',
+          oauthSave: 'Lưu và tiếp tục',
+          oauthCopy: 'Sao chép',
+          oauthCopied: 'Đã sao chép',
         },
       })[language === 'vi' ? 'vi' : 'en'],
     [language],
@@ -191,7 +215,36 @@ export default function CloudSync() {
     [pairs, selectedAccount],
   );
 
-  const connectGoogleDrive = async () => {
+  const refreshOauthConfig = useCallback(async () => {
+    const origin = window.location.origin;
+    const redirect = `${origin}/api/cloud_sync/oauth/google/callback`;
+    setOauthRedirectUri(redirect);
+    try {
+      const r = await fetch(
+        `/api/cloud_sync/oauth/google/config?redirect_origin=${encodeURIComponent(origin)}`,
+        { headers: authHeaders() },
+      );
+      const d = await r.json();
+      const configured = Boolean(d?.data?.configured);
+      setOauthConfigured(configured);
+      setOauthSetup(!configured);
+      if (d?.data?.redirect_uri) setOauthRedirectUri(d.data.redirect_uri);
+      return configured;
+    } catch {
+      setOauthConfigured(false);
+      setOauthSetup(true);
+      return false;
+    }
+  }, [authHeaders]);
+
+  const openProviderModal = async () => {
+    setProviderOpen(true);
+    setAuthUrl(null);
+    setMsg(null);
+    await refreshOauthConfig();
+  };
+
+  const startGoogleConnect = async () => {
     setConnecting(true);
     setMsg(null);
     try {
@@ -202,18 +255,24 @@ export default function CloudSync() {
       });
       const d = await r.json();
       if (!r.ok || !d?.data?.auth_url) {
+        const code = d?.error?.code || '';
         const detail = d?.error?.message || d?.detail || d?.message || tr.oauthError;
+        if (r.status === 503 || code === 'OAUTH_NOT_CONFIGURED') {
+          setOauthConfigured(false);
+          setOauthSetup(true);
+          setOauthRedirectUri(`${window.location.origin}/api/cloud_sync/oauth/google/callback`);
+        }
         setMsg({ text: detail, isError: true });
         setConnecting(false);
         return;
       }
+      setOauthConfigured(true);
+      setOauthSetup(false);
       const url = d.data.auth_url as string;
       setAuthUrl(url);
-      // Try to open a popup; if blocked, show manual button instead of redirecting away.
       const features = 'width=520,height=720,noopener,noreferrer';
       const popup = window.open(url, '_blank', features);
       if (!popup) {
-        // Keep the modal open and show an explicit button/link to open login.
         setMsg({
           text:
             language === 'vi'
@@ -223,12 +282,58 @@ export default function CloudSync() {
         });
         setConnecting(false);
       }
-      // Safety timeout to clear spinner if no postMessage arrives (blocked environments).
       window.setTimeout(() => setConnecting(false), 60000);
     } catch {
       setMsg({ text: tr.oauthError, isError: true });
       setConnecting(false);
     }
+  };
+
+  const saveOauthConfig = async () => {
+    if (!oauthClientId.trim() || !oauthClientSecret.trim()) {
+      setMsg({
+        text: language === 'vi' ? 'Nhập Client ID và Client Secret.' : 'Enter Client ID and Client Secret.',
+        isError: true,
+      });
+      return;
+    }
+    setSavingOauth(true);
+    setMsg(null);
+    try {
+      const r = await fetch('/api/cloud_sync/oauth/google/config', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({
+          client_id: oauthClientId.trim(),
+          client_secret: oauthClientSecret.trim(),
+          redirect_uri: oauthRedirectUri,
+          redirect_origin: window.location.origin,
+        }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d?.data?.configured) {
+        const detail = d?.error?.message || d?.detail || d?.message || tr.oauthError;
+        setMsg({ text: detail, isError: true });
+        setSavingOauth(false);
+        return;
+      }
+      setOauthConfigured(true);
+      setOauthSetup(false);
+      setOauthClientSecret('');
+      setSavingOauth(false);
+      await startGoogleConnect();
+    } catch {
+      setMsg({ text: tr.oauthError, isError: true });
+      setSavingOauth(false);
+    }
+  };
+
+  const connectGoogleDrive = async () => {
+    if (oauthConfigured === false || oauthSetup) {
+      setOauthSetup(true);
+      return;
+    }
+    await startGoogleConnect();
   };
 
   const loadExplorer = async (path: string) => {
@@ -298,7 +403,7 @@ export default function CloudSync() {
             <button
               type="button"
               title={tr.addAccount}
-              onClick={() => setProviderOpen(true)}
+              onClick={openProviderModal}
               className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white hover:bg-indigo-500"
             >
               <Icons.Plus className="h-4 w-4" />
@@ -465,7 +570,7 @@ export default function CloudSync() {
               <p className="mb-4 text-xs">{tr.noAccountsHint}</p>
               <button
                 type="button"
-                onClick={() => setProviderOpen(true)}
+                onClick={openProviderModal}
                 className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-indigo-500"
               >
                 <Icons.Plus className="mr-1 inline h-4 w-4" />
@@ -476,45 +581,126 @@ export default function CloudSync() {
         </div>
       </div>
 
-      {/* Provider picker — Synology-style */}
-      <WindowModal open={providerOpen} onClose={() => !connecting && setProviderOpen(false)} title={tr.providersTitle} maxWidth="lg">
+      {/* Provider picker — Synology-style; one-time Google API setup when needed */}
+      <WindowModal
+        open={providerOpen}
+        onClose={() => !connecting && !savingOauth && setProviderOpen(false)}
+        title={oauthSetup ? tr.oauthSetupTitle : tr.providersTitle}
+        maxWidth="lg"
+      >
         <div className="space-y-4 p-4">
-          <p className={cn('text-xs', isDark ? 'text-slate-400' : 'text-slate-500')}>{tr.providersDesc}</p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {PROVIDERS.map(({ id, label, icon: Icon }) => (
-              <button
-                key={id}
-                type="button"
-                disabled={connecting}
-                onClick={connectGoogleDrive}
-                className={cn(
-                  'flex flex-col items-center gap-2 rounded-xl border p-4 transition hover:border-indigo-500 hover:bg-indigo-500/5',
-                  isDark ? 'border-slate-800 bg-slate-950/50' : 'border-slate-200 bg-slate-50',
-                  connecting && 'opacity-60',
-                )}
-              >
-                <Icon className="h-10 w-10 text-blue-500" />
-                <span className="text-xs font-semibold">{label}</span>
-              </button>
-            ))}
-          </div>
-          {connecting && (
-            <p className={cn('flex items-center gap-2 text-xs', isDark ? 'text-indigo-300' : 'text-indigo-600')}>
-              <Icons.Loader2 className="h-4 w-4 animate-spin" />
-              {tr.connecting}
-            </p>
+          {oauthSetup ? (
+            <>
+              <p className={cn('text-xs leading-relaxed', isDark ? 'text-slate-400' : 'text-slate-500')}>{tr.oauthSetupDesc}</p>
+              <div>
+                <label className={cn('mb-1 block text-xs font-bold', isDark ? 'text-slate-400' : 'text-slate-600')}>
+                  {tr.oauthRedirectUri}
+                </label>
+                <div className="flex gap-2">
+                  <input value={oauthRedirectUri} readOnly className={cn(input, 'font-mono text-[11px]')} />
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(oauthRedirectUri);
+                        setMsg({ text: tr.oauthCopied, isError: false });
+                      } catch {
+                        /* ignore */
+                      }
+                    }}
+                    className="shrink-0 rounded-lg border px-3 text-xs font-bold"
+                  >
+                    {tr.oauthCopy}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label className={cn('mb-1 block text-xs font-bold', isDark ? 'text-slate-400' : 'text-slate-600')}>
+                  {tr.oauthClientId}
+                </label>
+                <input
+                  value={oauthClientId}
+                  onChange={(e) => setOauthClientId(e.target.value)}
+                  className={input}
+                  autoComplete="off"
+                  placeholder="xxxx.apps.googleusercontent.com"
+                />
+              </div>
+              <div>
+                <label className={cn('mb-1 block text-xs font-bold', isDark ? 'text-slate-400' : 'text-slate-600')}>
+                  {tr.oauthClientSecret}
+                </label>
+                <input
+                  type="password"
+                  value={oauthClientSecret}
+                  onChange={(e) => setOauthClientSecret(e.target.value)}
+                  className={input}
+                  autoComplete="off"
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  disabled={savingOauth}
+                  onClick={() => setProviderOpen(false)}
+                  className={cn('rounded-lg px-3 py-2 text-xs font-bold', isDark ? 'text-slate-300' : 'text-slate-600')}
+                >
+                  {tr.cancel}
+                </button>
+                <button
+                  type="button"
+                  disabled={savingOauth || connecting}
+                  onClick={saveOauthConfig}
+                  className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-500 disabled:opacity-60"
+                >
+                  {savingOauth ? <Icons.Loader2 className="mr-1 inline h-3.5 w-3.5 animate-spin" /> : null}
+                  {tr.oauthSave}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className={cn('text-xs', isDark ? 'text-slate-400' : 'text-slate-500')}>{tr.providersDesc}</p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {PROVIDERS.map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    disabled={connecting}
+                    onClick={connectGoogleDrive}
+                    className={cn(
+                      'flex flex-col items-center gap-2 rounded-xl border p-4 transition hover:border-indigo-500 hover:bg-indigo-500/5',
+                      isDark ? 'border-slate-800 bg-slate-950/50' : 'border-slate-200 bg-slate-50',
+                      connecting && 'opacity-60',
+                    )}
+                  >
+                    <Icon className="h-10 w-10 text-blue-500" />
+                    <span className="text-xs font-semibold">{label}</span>
+                  </button>
+                ))}
+              </div>
+              {connecting && (
+                <p className={cn('flex items-center gap-2 text-xs', isDark ? 'text-indigo-300' : 'text-indigo-600')}>
+                  <Icons.Loader2 className="h-4 w-4 animate-spin" />
+                  {tr.connecting}
+                </p>
+              )}
+              {!connecting && authUrl && (
+                <div className="flex items-center justify-end">
+                  <a
+                    href={authUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white hover:bg-indigo-500"
+                  >
+                    {language === 'vi' ? 'Mở đăng nhập Google' : 'Open Google sign‑in'}
+                  </a>
+                </div>
+              )}
+            </>
           )}
-          {!connecting && authUrl && (
-            <div className="flex items-center justify-end">
-              <a
-                href={authUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white hover:bg-indigo-500"
-              >
-                {language === 'vi' ? 'Mở đăng nhập Google' : 'Open Google sign‑in'}
-              </a>
-            </div>
+          {msg && providerOpen && (
+            <p className={cn('text-xs', msg.isError ? 'text-rose-500' : 'text-emerald-600')}>{msg.text}</p>
           )}
         </div>
       </WindowModal>
