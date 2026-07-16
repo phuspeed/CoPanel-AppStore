@@ -28,7 +28,7 @@
     "id": "site_wizard",
     "name": "Site Wizard",
     "description": "1-click website provisioning: Nginx vhost, LEMP stack, WordPress/Laravel deploy, MySQL, and SSL.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "icon": "Wand2",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.1.zip",
     "is_core": true,
@@ -139,13 +139,13 @@
     "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. No manual OAuth fields.",
     "version": "1.1.1",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.2.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.1.1: Rebuild to bypass cache; same features as 1.1.0. v1.1.0: One‑click OAuth popup for Google Drive; provider picker; auto‑resolve panel OAuth; account sidebar.",
-    "changelog_vi": "v1.1.1: Rebuild tránh cache; tính năng giống 1.1.0. v1.1.0: Popup OAuth một chạm; chọn nhà cung cấp; tự dò OAuth của panel; sidebar tài khoản."
+    "changelog_en": "v1.1.2: OAuth popup robustness — fallback to same‑tab redirect if popup is blocked; auto‑clear spinner after 60s when no message arrives. v1.1.1: Cache‑bust rebuild.",
+    "changelog_vi": "v1.1.2: Ổn định popup OAuth — nếu bị chặn, tự chuyển trang hiện tại đến Google; tự tắt trạng thái đang mở sau 60s khi không nhận được tín hiệu. v1.1.1: Rebuild tránh cache."
   },
   {
     "id": "backup_manager",
