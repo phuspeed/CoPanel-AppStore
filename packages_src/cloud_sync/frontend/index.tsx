@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useAppShellContext } from '../../../copanel/frontend/src/core/hooks/useAppShellContext';
-import { useIsWindowedModule } from '../../../copanel/frontend/src/core/shell/WindowViewportContext';
-import ModuleViewport from '../../../copanel/frontend/src/core/shell/ModuleViewport';
-import WindowModal from '../../../copanel/frontend/src/core/shell/WindowModal';
+import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import { useIsWindowedModule } from '../../core/shell/WindowViewportContext';
+import ModuleViewport from '../../core/shell/ModuleViewport';
+import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 
 type PairDirection = 'upload' | 'download';
@@ -311,8 +311,7 @@ export default function CloudSync() {
 
   const [oauthForm, setOauthForm] = useState({ remote_name: '', client_id: '', client_secret: '', redirect_uri: `${window.location.origin}/api/cloud_sync/oauth/google/callback` });
   const [oauthLoading, setOauthLoading] = useState(false);
-  const [manualTokenJson, setManualTokenJson] = useState('');
-  const [copyCmdLoading, setCopyCmdLoading] = useState(false);
+  const [oauthStatus, setOauthStatus] = useState('');
   const startOAuth = async () => {
     setOauthLoading(true);
     const r = await fetch('/api/cloud_sync/oauth/google/start', { method: 'POST', headers: authHeaders(), body: JSON.stringify(oauthForm) });
@@ -321,20 +320,22 @@ export default function CloudSync() {
     const url = d.data?.auth_url;
     if (url) window.open(url, '_blank', 'width=640,height=760');
   };
-  const copyRcloneAuthorize = async () => {
-    const cmd = `rclone authorize "drive" "${oauthForm.client_id.trim() || 'YOUR_CLIENT_ID'}" "${oauthForm.client_secret.trim() || 'YOUR_CLIENT_SECRET'}"`;
-    setCopyCmdLoading(true);
-    await navigator.clipboard.writeText(cmd);
-    setCopyCmdLoading(false);
-  };
-  const applyManual = async () => {
-    await fetch('/api/cloud_sync/oauth/google/manual-token', {
-      method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify({ remote_name: oauthForm.remote_name, token_json: manualTokenJson, client_id: oauthForm.client_id, client_secret: oauthForm.client_secret, redirect_uri: oauthForm.redirect_uri })
-    });
-    fetchRemotes();
-  };
+  useEffect(() => {
+    const onMessage = async (event: MessageEvent) => {
+      const data = event.data;
+      if (!data || data.type !== 'copanel_google_oauth') return;
+      if (data.ok && data.remote_name) {
+        setOauthStatus(`Connected: ${data.remote_name}`);
+        await fetchRemotes();
+        setRemoteName(data.remote_name);
+        setTab('remotes');
+      } else {
+        setOauthStatus(String(data.error || 'OAuth failed'));
+      }
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
 
   const renderCloudSetup = () => (
     <div className={card}>
@@ -347,14 +348,8 @@ export default function CloudSync() {
           <button type="button" onClick={startOAuth} disabled={oauthLoading} className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-500 disabled:opacity-60">
             <Icons.Link className="mr-1 inline h-4 w-4" /> {tr.startOAuth}
           </button>
-          <button type="button" onClick={copyRcloneAuthorize} disabled={copyCmdLoading} className={`${isDark ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-700 hover:bg-slate-100'} rounded-xl border px-3 py-2 text-xs font-bold`}>
-            {copyCmdLoading ? 'Copying…' : 'Copy command'}
-          </button>
         </div>
-        <textarea value={manualTokenJson} onChange={(e) => setManualTokenJson(e.target.value)} placeholder='{"access_token":"...","refresh_token":"...","token_type":"Bearer","expiry":"2026-05-06T10:00:00Z"}' rows={5} className={`${input} font-mono text-[11px]`} />
-        <div className="flex justify-end">
-          <button type="button" onClick={applyManual} className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500">Apply Manual Token</button>
-        </div>
+        {oauthStatus && <p className={`${isDark ? 'text-indigo-300' : 'text-indigo-600'} text-xs`}>{oauthStatus}</p>}
       </div>
     </div>
   );

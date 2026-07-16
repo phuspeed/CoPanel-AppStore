@@ -137,15 +137,15 @@
     "id": "cloud_sync",
     "name": "Cloud Sync",
     "description": "Connect Google Drive and set up folder sync pairs. One-way upload/download using rclone with live progress.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.0.3.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.0.2: Ensure corrected core import paths are packaged. v1.0.1: Fix frontend core imports for AppStore install. v1.0.0: Initial release — Google OAuth (client or manual token), rclone remotes list, local folder picker, create Sync Pairs (upload/download), and Run Now with live logs. Desktop sidebar UI.",
-    "changelog_vi": "v1.0.2: Đảm bảo file ZIP đóng gói đúng đường dẫn import core. v1.0.1: Sửa import frontend tới core khi cài qua AppStore. v1.0.0: Phát hành đầu — Google OAuth (client hoặc token thủ công), danh sách rclone remote, duyệt thư mục máy chủ, tạo Cặp Đồng bộ (upload/download) và Chạy ngay với log trực tiếp. Giao diện sidebar Desktop."
+    "changelog_en": "v1.0.3: Synology-like flow — OAuth popup only; remove manual token UI; auto-refresh remotes and preselect remote after consent. v1.0.2: Package corrected core import paths. v1.0.1: Fix frontend core imports.",
+    "changelog_vi": "v1.0.3: Flow giống Synology — chỉ popup OAuth; bỏ UI dán token thủ công; tự làm mới remotes và chọn sẵn remote sau khi cấp quyền. v1.0.2: Đóng gói đúng đường dẫn import core. v1.0.1: Sửa import frontend."
   },
   {
     "id": "backup_manager",
