@@ -134,6 +134,20 @@
     "changelog_vi": "v1.0.0: Phien ban dau — API kiem tra tuong thich SSH, sync rsync (dry-run hoac that), preset loai tru cho cay CoPanel."
   },
   {
+    "id": "cloud_sync",
+    "name": "Cloud Sync",
+    "description": "Connect Google Drive and set up folder sync pairs. One-way upload/download using rclone with live progress.",
+    "version": "1.0.0",
+    "icon": "Cloud",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.0.0.zip",
+    "is_core": false,
+    "system_packages": [
+      "rclone"
+    ],
+    "changelog_en": "v1.0.0: Initial release — Google OAuth (client or manual token), rclone remotes list, local folder picker, create Sync Pairs (upload/download), and Run Now with live logs. Desktop sidebar UI.",
+    "changelog_vi": "v1.0.0: Phát hành đầu — Google OAuth (client hoặc token thủ công), danh sách rclone remote, duyệt thư mục máy chủ, tạo Cặp Đồng bộ (upload/download) và Chạy ngay với log trực tiếp. Giao diện sidebar Desktop."
+  },
+  {
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Desktop sidebar shell (Profiles / Remotes / Cloud Setup) for Classic + Desktop UI. Guided Google OAuth, cron scheduling, real-time sync, live progress streaming.",
