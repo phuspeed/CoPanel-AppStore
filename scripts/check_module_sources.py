@@ -20,6 +20,7 @@ APPSTORE_ONLY = frozenset(
         "clamav",
         "web_browser",
         "module_redis",
+        "cloud_sync",
     }
 )
 STUB_IDS = frozenset({"module_cron", "module_ping_pro"})
