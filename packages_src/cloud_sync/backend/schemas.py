@@ -24,3 +24,10 @@ class UpdatePairRequest(BaseModel):
     sync_deletions: Optional[bool] = None
     transfers: Optional[int] = None
     active: Optional[bool] = None
+
+
+class SaveOAuthClientRequest(BaseModel):
+    client_id: str = Field(..., min_length=1)
+    client_secret: str = Field(..., min_length=1)
+    redirect_uri: Optional[str] = None
+    redirect_origin: Optional[str] = None

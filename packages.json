@@ -136,16 +136,16 @@
   {
     "id": "cloud_sync",
     "name": "Cloud Sync",
-    "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. No manual OAuth fields.",
-    "version": "1.1.4",
+    "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. One-time Google API setup when the panel has no OAuth credentials.",
+    "version": "1.1.5",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.4.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.5.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.1.4: Fix 500 on /accounts /pairs /oauth — ensure SQLite schema init on every request (sub-router startup unreliable after AppStore install). Clearer API errors. v1.1.3: Popup-blocked fallback button.",
-    "changelog_vi": "v1.1.4: Sua loi 500 tren /accounts /pairs /oauth — khoi tao SQLite moi request (startup sub-router khong on dinh sau cai AppStore). Thong bao loi API ro hon. v1.1.3: Nut mo dang nhap khi popup bi chan."
+    "changelog_en": "v1.1.5: Fix 503 on /oauth/google/connect when panel OAuth is missing — one-time Client ID/Secret setup in Cloud Sync UI, then Connect stays one-click popup. GET/POST /oauth/google/config. v1.1.4: SQLite schema init on every request.",
+    "changelog_vi": "v1.1.5: Sua 503 tren /oauth/google/connect khi chua co OAuth tren panel — cau hinh Client ID/Secret mot lan trong Cloud Sync, sau do Connect van mo popup. GET/POST /oauth/google/config. v1.1.4: Khoi tao SQLite moi request."
   },
   {
     "id": "backup_manager",
