@@ -139,7 +139,7 @@
     "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. No manual OAuth fields.",
     "version": "1.1.0",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.0.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
