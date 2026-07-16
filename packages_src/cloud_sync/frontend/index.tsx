@@ -45,6 +45,7 @@ export default function CloudSync() {
 
   const [providerOpen, setProviderOpen] = useState(false);
   const [connecting, setConnecting] = useState(false);
+  const [authUrl, setAuthUrl] = useState<string | null>(null);
 
   const [wizardOpen, setWizardOpen] = useState(false);
   const [pairName, setPairName] = useState('');
@@ -207,12 +208,20 @@ export default function CloudSync() {
         return;
       }
       const url = d.data.auth_url as string;
-      // Try to open a popup; if blocked, redirect current tab as fallback.
+      setAuthUrl(url);
+      // Try to open a popup; if blocked, show manual button instead of redirecting away.
       const features = 'width=520,height=720,noopener,noreferrer';
       const popup = window.open(url, '_blank', features);
       if (!popup) {
-        // Fallback to same-tab redirect to ensure OAuth proceeds.
-        window.location.href = url;
+        // Keep the modal open and show an explicit button/link to open login.
+        setMsg({
+          text:
+            language === 'vi'
+              ? 'Trình duyệt đã chặn cửa sổ đăng nhập. Hãy nhấn nút “Mở đăng nhập Google”.'
+              : 'Your browser blocked the popup. Click “Open Google sign‑in”.',
+          isError: true,
+        });
+        setConnecting(false);
       }
       // Safety timeout to clear spinner if no postMessage arrives (blocked environments).
       window.setTimeout(() => setConnecting(false), 60000);
@@ -494,6 +503,18 @@ export default function CloudSync() {
               <Icons.Loader2 className="h-4 w-4 animate-spin" />
               {tr.connecting}
             </p>
+          )}
+          {!connecting && authUrl && (
+            <div className="flex items-center justify-end">
+              <a
+                href={authUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white hover:bg-indigo-500"
+              >
+                {language === 'vi' ? 'Mở đăng nhập Google' : 'Open Google sign‑in'}
+              </a>
+            </div>
           )}
         </div>
       </WindowModal>
