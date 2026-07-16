@@ -3,23 +3,23 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.11.zip",
     "is_core": true,
-    "changelog_en": "v1.0.10: Fix zip extract — Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
-    "changelog_vi": "v1.0.10: Sua giai nen zip — duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
+    "changelog_en": "v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract — Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
+    "changelog_vi": "v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip — duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
   },
   {
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP versions/extensions/php.ini, PHP-FPM overview, and smart DB admin tools.",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.2.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.2.2.zip",
     "is_core": true,
-    "changelog_en": "v1.2.1: Fix PHP version detection — probe FPM sockets/systemd units and resolve binaries via /usr/bin when service PATH is minimal; PHP Manager no longer shows all versions as uninstalled. v1.2.0: PHP Manager merged into Web Manager sidebar tab.",
-    "changelog_vi": "v1.2.1: Sua nhan dien phien ban PHP — quet socket FPM/systemd va tim binary qua /usr/bin khi PATH service hep; PHP Manager khong con hien tat ca la chua cai. v1.2.0: Gop PHP Manager vao tab Web Manager.",
+    "changelog_en": "v1.2.2: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.1: Fix PHP version detection — probe FPM sockets/systemd units and resolve binaries via /usr/bin when service PATH is minimal; PHP Manager no longer shows all versions as uninstalled. v1.2.0: PHP Manager merged into Web Manager sidebar tab.",
+    "changelog_vi": "v1.2.2: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.1: Sua nhan dien phien ban PHP — quet socket FPM/systemd va tim binary qua /usr/bin khi PATH service hep; PHP Manager khong con hien tat ca la chua cai. v1.2.0: Gop PHP Manager vao tab Web Manager.",
     "system_packages": [
       "nginx"
     ]
@@ -28,12 +28,12 @@
     "id": "site_wizard",
     "name": "Site Wizard",
     "description": "1-click website provisioning: Nginx vhost, LEMP stack, WordPress/Laravel deploy, MySQL, and SSL.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "Wand2",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.1.zip",
     "is_core": true,
-    "changelog_en": "v1.1.0: Desktop sidebar UI + 1-Click Install — template cards (Static, WordPress, Laravel, Node proxy), stack preflight, LEMP auto-install, WordPress core download + wp-config, Laravel public skeleton, WindowModal confirm. v1.0.2: Dual UI ModuleViewport.",
-    "changelog_vi": "v1.1.0: Giao dien Desktop sidebar + Cai 1-Click — template (Static, WordPress, Laravel, Node proxy), preflight stack, tu cai LEMP, tai WordPress + wp-config, skeleton Laravel, xac nhan WindowModal. v1.0.2: Giao dien song song ModuleViewport.",
+    "changelog_en": "v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI + 1-Click Install — template cards (Static, WordPress, Laravel, Node proxy), stack preflight, LEMP auto-install, WordPress core download + wp-config, Laravel public skeleton, WindowModal confirm. v1.0.2: Dual UI ModuleViewport.",
+    "changelog_vi": "v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar + Cai 1-Click — template (Static, WordPress, Laravel, Node proxy), preflight stack, tu cai LEMP, tai WordPress + wp-config, skeleton Laravel, xac nhan WindowModal. v1.0.2: Giao dien song song ModuleViewport.",
     "system_packages": [
       "nginx"
     ]
@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.12.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.13.zip",
     "is_core": true,
-    "changelog_en": "v1.0.12: Create Project wizard — New folder button in custom folder browser. v1.0.11: Modals close only via X/Cancel.",
-    "changelog_vi": "v1.0.12: Wizard Tao Project — nut Tao thu muc moi trong trinh duyet thu muc tuy chinh. v1.0.11: Modal chi dong bang X/Huy."
+    "changelog_en": "v1.0.13: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.12: Create Project wizard — New folder button in custom folder browser. v1.0.11: Modals close only via X/Cancel.",
+    "changelog_vi": "v1.0.13: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.12: Wizard Tao Project — nut Tao thu muc moi trong trinh duyet thu muc tuy chinh. v1.0.11: Modal chi dong bang X/Huy."
   },
   {
     "id": "download_manager",
@@ -100,12 +100,12 @@
     "id": "ssl_manager",
     "name": "SSL Manager",
     "description": "Generate Let's Encrypt certificates automatically.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "Shield",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.1.1.zip",
     "is_core": true,
-    "changelog_en": "v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
-    "changelog_vi": "v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI."
+    "changelog_en": "v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
+    "changelog_vi": "v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI."
   },
   {
     "id": "terminal",
@@ -137,26 +137,26 @@
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Desktop sidebar shell (Profiles / Remotes / Cloud Setup) for Classic + Desktop UI. Guided Google OAuth, cron scheduling, real-time sync, live progress streaming.",
-    "version": "1.2.14",
+    "version": "1.2.15",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.14.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.15.zip",
     "is_core": true,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.2.14: Fix duplicate i18n key cloudSetup (esbuild warning on frontend build). v1.2.13: Desktop sidebar shell — Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
-    "changelog_vi": "v1.2.14: Sua key i18n cloudSetup trung (canh bao esbuild khi build frontend). v1.2.13: Giao dien sidebar Desktop — tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop."
+    "changelog_en": "v1.2.15: Fix duplicate i18n key cloudSetup in backup_manager (esbuild warning). v1.2.14: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.13: Desktop sidebar shell — Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
+    "changelog_vi": "v1.2.15: Sua key i18n cloudSetup trung trong backup_manager (canh bao esbuild). v1.2.14: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.13: Giao dien sidebar Desktop — tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop."
   },
   {
     "id": "system_monitor",
     "name": "System Monitor",
     "description": "Real-time visibility into CPU, memory, and disk usage.",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "icon": "Activity",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.6.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.7.zip",
     "is_core": true,
-    "changelog_en": "v1.1.6: Desktop UI sidebar shell redesign — sidebar nav (Resources / Processes / PM2), compact header, flex scroll layout for Classic + Desktop windows, useIsWindowedModule. v1.1.2: Richer system header — CPU model, architecture, total RAM, aggregated disk totals.",
-    "changelog_vi": "v1.1.6: Thiet ke lai giao dien Desktop sidebar — dieu huong Resources/Tien trinh/PM2, header gon, layout flex scroll cho Classic va Desktop, useIsWindowedModule. v1.1.2: Thong tin he thong day du hon."
+    "changelog_en": "v1.1.7: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.6: Desktop UI sidebar shell redesign — sidebar nav (Resources / Processes / PM2), compact header, flex scroll layout for Classic + Desktop windows, useIsWindowedModule. v1.1.2: Richer system header — CPU model, architecture, total RAM, aggregated disk totals.",
+    "changelog_vi": "v1.1.7: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.6: Thiet ke lai giao dien Desktop sidebar — dieu huong Resources/Tien trinh/PM2, header gon, layout flex scroll cho Classic va Desktop, useIsWindowedModule. v1.1.2: Thong tin he thong day du hon."
   },
   {
     "id": "storage_manager",
@@ -271,13 +271,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.34",
+    "version": "1.0.35",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.34.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.35.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.34: Batch update all — install multiple modules with one npm build at the end instead of per-module rebuilds. v1.0.33: Smarter post-install restart — extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules.",
-    "changelog_vi": "v1.0.34: Cap nhat hang loat — cai nhieu module, chi chay npm build mot lan o cuoi thay vi build tung module. v1.0.33: Restart sau cai thong minh hon — extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi."
+    "changelog_en": "v1.0.35: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.34: Batch update all — install multiple modules with one npm build at the end instead of per-module rebuilds. v1.0.33: Smarter post-install restart — extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules.",
+    "changelog_vi": "v1.0.35: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.34: Cap nhat hang loat — cai nhieu module, chi chay npm build mot lan o cuoi thay vi build tung module. v1.0.33: Restart sau cai thong minh hon — extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi."
   },
   {
     "id": "system_cleaner",
