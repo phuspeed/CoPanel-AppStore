@@ -111,12 +111,12 @@
     "id": "terminal",
     "name": "Terminal",
     "description": "Execute system commands securely in the browser.",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "icon": "Terminal",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.6.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.7.zip",
     "is_core": true,
-    "changelog_en": "v1.0.6: Desktop UI sidebar shell redesign — compact header, terminal + snippets split pane with flex h-full scroll, useIsWindowedModule. One ZIP for Classic and Desktop floating windows.",
-    "changelog_vi": "v1.0.6: Thiet ke lai giao dien Desktop — header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop."
+    "changelog_en": "v1.0.7: Fix auth-hardened terminal WebSocket — remove router-level module dependency from /ws handshake and keep explicit access_token/module check inside the WebSocket handler. v1.0.6: Desktop UI sidebar shell redesign — compact header, terminal + snippets split pane with flex h-full scroll, useIsWindowedModule. One ZIP for Classic and Desktop floating windows.",
+    "changelog_vi": "v1.0.7: Sua WebSocket Terminal sau khi siet auth — bo router-level module dependency khoi /ws handshake va giu kiem tra access_token/quyen module ben trong WebSocket handler. v1.0.6: Thiet ke lai giao dien Desktop — header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop."
   },
   {
     "id": "rsync_manager",
