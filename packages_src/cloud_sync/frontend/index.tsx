@@ -372,7 +372,9 @@ export default function CloudSync() {
   const startStream = (p: PairItem) => {
     setStreamingPair(p);
     setStreamLogs([]);
-    const es = new EventSource(`/api/cloud_sync/stream_pair/${p.id}`);
+    const authToken = localStorage.getItem('copanel_token') || '';
+    const streamQs = authToken ? `?access_token=${encodeURIComponent(authToken)}` : '';
+    const es = new EventSource(`/api/cloud_sync/stream_pair/${p.id}${streamQs}`);
     es.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);

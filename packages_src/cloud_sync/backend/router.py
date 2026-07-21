@@ -224,7 +224,10 @@ def oauth_status(remote_name: str = "", user: Dict[str, Any] = Depends(require_m
 
 
 @router.get("/stream_pair/{pair_id}")
-async def stream_pair(pair_id: int):
+async def stream_pair(
+    pair_id: int,
+    user: Dict[str, Any] = Depends(require_module("cloud_sync")),
+):
     Store.init()
     pairs = [p for p in Store.list_pairs() if p["id"] == pair_id]
     if not pairs:
