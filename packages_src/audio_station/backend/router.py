@@ -9,7 +9,7 @@ from fastapi.responses import FileResponse
 
 from core.api import ApiError, ok
 from core.audit import record_audit
-from core.auth import require_module
+from core.auth import require_module, user_has_module
 from core.security import verify_token
 
 from . import logic
@@ -25,9 +25,15 @@ router = APIRouter()
 
 def _auth_user(
     authorization: Optional[str] = Header(None),
+    access_token: Optional[str] = Query(None),
     token: Optional[str] = Query(None),
 ) -> Dict[str, Any]:
-    """Accept Bearer header or ?token= for HTML5 audio Range requests."""
+    """Accept Bearer header or query token for HTML5 media requests.
+
+    Browsers cannot attach Authorization headers reliably for <audio>/<img>
+    requests, so audio_station supports both legacy ``?token=`` and the panel's
+    standard ``?access_token=`` query parameter.
+    """
     from core import user_model
 
     raw = None
@@ -35,8 +41,8 @@ def _auth_user(
         parts = authorization.split()
         if len(parts) == 2 and parts[0].lower() == "bearer":
             raw = parts[1]
-    if not raw and token:
-        raw = token
+    if not raw:
+        raw = access_token or token
     if not raw:
         raise ApiError("UNAUTHORIZED", "Authentication required", http_status=401)
     payload = verify_token(raw)
@@ -45,6 +51,12 @@ def _auth_user(
     user = user_model.get_user_by_username(payload["sub"])
     if not user:
         raise ApiError("UNAUTHORIZED", "User not found", http_status=401)
+    if not user_has_module(user, "audio_station"):
+        raise ApiError(
+            "FORBIDDEN",
+            "Access to module 'audio_station' is not granted.",
+            http_status=403,
+        )
     return user
 
 
