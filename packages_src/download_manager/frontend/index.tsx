@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
 import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
@@ -596,9 +597,11 @@ export default function DownloadManager() {
         </div>
       )}
 
-      <div className="flex flex-1 min-h-0">
-        {/* Sidebar */}
-        <aside className={`w-52 shrink-0 border-r flex flex-col ${isDark ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-slate-50'}`}>
+      <ModuleSidebarLayout
+        isDark={isDark}
+        mobileTitle={t.title}
+        sidebar={
+        <aside className={`h-full w-52 shrink-0 border-r flex flex-col ${isDark ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-slate-50'}`}>
           <div className="p-2">
             <input
               className={`w-full px-2 py-1.5 text-sm rounded border ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-white border-slate-300'}`}
@@ -643,7 +646,8 @@ export default function DownloadManager() {
             </button>
           </div>
         </aside>
-
+        }
+      >
         {/* Main */}
         <div className="flex-1 flex flex-col min-w-0">
           {/* Toolbar */}
@@ -791,7 +795,7 @@ export default function DownloadManager() {
             </div>
           )}
         </div>
-      </div>
+      </ModuleSidebarLayout>
 
       {/* Add URL modal */}
       <WindowModal open={addOpen} onClose={() => setAddOpen(false)} title={t.addUrl}>

@@ -67,9 +67,9 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.14",
+    "version": "0.2.15",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.14.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.15.zip",
     "is_core": false,
     "system_packages": [
       "aria2",
@@ -79,22 +79,22 @@
     "pip_packages": [
       "yt-dlp"
     ],
-    "changelog_en": "v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
-    "changelog_vi": "v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport."
+    "changelog_en": "v0.2.15: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
+    "changelog_vi": "v0.2.15: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport."
   },
   {
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.8.zip",
     "is_core": false,
     "pip_packages": [
       "mutagen==1.47.0"
     ],
-    "changelog_en": "v0.3.7: Background playback when minimized (keep-running policy); taskbar play/pause indicator with track name and animated badge. v0.3.6: Accept both ?access_token= and legacy ?token= on audio/cover links; enforce audio_station module permission on media routes to fix 401s after auth hardening. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP.",
-    "changelog_vi": "v0.3.7: Phat nhac nen khi minimize (keep-running policy); hien icon play/pause va ten bai tren taskbar kem animation. v0.3.6: Ho tro ca ?access_token= va ?token= cu cho link audio/cover; bo sung kiem tra quyen audio_station cho media routes de sua loi 401 sau khi siet auth. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop."
+    "changelog_en": "v0.3.8: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.3.7: Background playback when minimized (keep-running policy); taskbar play/pause indicator with track name and animated badge. v0.3.6: Accept both ?access_token= and legacy ?token= on audio/cover links; enforce audio_station module permission on media routes to fix 401s after auth hardening. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP.",
+    "changelog_vi": "v0.3.8: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.3.7: Phat nhac nen khi minimize (keep-running policy); hien icon play/pause va ten bai tren taskbar kem animation. v0.3.6: Ho tro ca ?access_token= va ?token= cu cho link audio/cover; bo sung kiem tra quyen audio_station cho media routes de sua loi 401 sau khi siet auth. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop."
   },
   {
     "id": "ssl_manager",
@@ -137,15 +137,15 @@
     "id": "cloud_sync",
     "name": "Cloud Sync",
     "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. One-time Google API setup when the panel has no OAuth credentials.",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/cloud_sync.v1.1.6.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.1.5: Fix 503 on /oauth/google/connect when panel OAuth is missing — one-time Client ID/Secret setup in Cloud Sync UI, then Connect stays one-click popup. GET/POST /oauth/google/config. v1.1.4: SQLite schema init on every request.",
-    "changelog_vi": "v1.1.5: Sua 503 tren /oauth/google/connect khi chua co OAuth tren panel — cau hinh Client ID/Secret mot lan trong Cloud Sync, sau do Connect van mo popup. GET/POST /oauth/google/config. v1.1.4: Khoi tao SQLite moi request."
+    "changelog_en": "v1.1.6: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.1.5: Fix 503 on /oauth/google/connect when panel OAuth is missing — one-time Client ID/Secret setup in Cloud Sync UI, then Connect stays one-click popup. GET/POST /oauth/google/config. v1.1.4: SQLite schema init on every request.",
+    "changelog_vi": "v1.1.6: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.1.5: Sua 503 tren /oauth/google/connect khi chua co OAuth tren panel — cau hinh Client ID/Secret mot lan trong Cloud Sync, sau do Connect van mo popup. GET/POST /oauth/google/config. v1.1.4: Khoi tao SQLite moi request."
   },
   {
     "id": "backup_manager",
@@ -176,9 +176,9 @@
     "id": "storage_manager",
     "name": "Storage Manager",
     "description": "Monitor disks and SMART health — Desktop UI shell with sidebar nav, GParted-style partition wizard, operation queue, drag resize/shrink, LVM, RAID, benchmarks.",
-    "version": "1.6.1",
+    "version": "1.6.2",
     "icon": "HardDrive",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.6.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.6.2.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "system_packages": [
@@ -194,8 +194,8 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.6.1: Fix frontend build — rename storage UI tokens to avoid clash with shell theme. v1.6.0: Desktop UI redesign — macOS/Deepin app shell with sidebar nav.",
-    "changelog_vi": "v1.6.1: Sua loi build frontend — doi ten token UI tranh trung shell theme. v1.6.0: Thiet ke lai Desktop UI — shell macOS/Deepin voi sidebar."
+    "changelog_en": "v1.6.2: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.6.1: Fix frontend build — rename storage UI tokens to avoid clash with shell theme. v1.6.0: Desktop UI redesign — macOS/Deepin app shell with sidebar nav.",
+    "changelog_vi": "v1.6.2: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.6.1: Sua loi build frontend — doi ten token UI tranh trung shell theme. v1.6.0: Thiet ke lai Desktop UI — shell macOS/Deepin voi sidebar."
   },
   {
     "id": "clamav",
@@ -239,9 +239,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.11.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.12.zip",
     "is_core": false,
     "system_packages": [
       "cron"
@@ -249,8 +249,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.11: Dual UI redesign — sidebar navigation, flex scroll layout for Desktop/Classic, WindowModal delete confirmations, en/vi i18n. v1.0.9: Fix module failing to load (404) when CoPanel core lacks cron_system — use local cron_compat fallback; migrate legacy store paths; clearer UI error when API unavailable.",
-    "changelog_vi": "v1.0.11: Thiet ke lai giao dien song song WebUI/Desktop — sidebar, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi. v1.0.9: Sua loi module khong load (404) khi CoPanel core chua co cron_system — fallback cron_compat; migrate duong dan store cu; thong bao loi ro hon khi API khong san."
+    "changelog_en": "v1.0.12: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.0.11: Dual UI redesign — sidebar navigation, flex scroll layout for Desktop/Classic, WindowModal delete confirmations, en/vi i18n. v1.0.9: Fix module failing to load (404) when CoPanel core lacks cron_system — use local cron_compat fallback; migrate legacy store paths; clearer UI error when API unavailable.",
+    "changelog_vi": "v1.0.12: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.0.11: Thiet ke lai giao dien song song WebUI/Desktop — sidebar, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi. v1.0.9: Sua loi module khong load (404) khi CoPanel core chua co cron_system — fallback cron_compat; migrate duong dan store cu; thong bao loi ro hon khi API khong san."
   },
   {
     "id": "webdav",
