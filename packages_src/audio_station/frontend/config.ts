@@ -7,6 +7,7 @@ export default {
   description: 'Music library — browse folders, play audio, scan metadata.',
   component: AudioStation,
   windowMode: true,
+  backgroundPolicy: 'keep-running',
   keepMountedOnMinimize: true,
   defaultWindowSize: { width: 1200, height: 760 },
   singleton: true,

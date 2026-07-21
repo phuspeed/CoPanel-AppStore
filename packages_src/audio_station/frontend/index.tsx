@@ -139,6 +139,23 @@ function coverUrl(opts: { path?: string; id?: string; hash?: string }): string |
   return `/api/audio_station/cover?${params.toString()}`;
 }
 
+function broadcastActivity(payload: { playing: boolean; currentTrack?: QueueItem | null }) {
+  if (typeof window === 'undefined') return;
+  const title = payload.currentTrack?.name
+    ? `Audio Player — ${payload.playing ? 'Playing' : 'Paused'}: ${payload.currentTrack.name}`
+    : 'Audio Player';
+  window.dispatchEvent(
+    new CustomEvent('copanel:module-activity', {
+      detail: {
+        modulePath: '/audio-player',
+        playing: payload.playing,
+        badgeText: payload.playing ? 'LIVE' : '',
+        title,
+      },
+    }),
+  );
+}
+
 function CoverThumb({
   track,
   album,
@@ -475,6 +492,13 @@ export default function AudioStation() {
     if (playing) el.play().catch(() => setPlaying(false));
     else el.pause();
   }, [playing]);
+
+  useEffect(() => {
+    broadcastActivity({ playing, currentTrack });
+    return () => {
+      broadcastActivity({ playing: false, currentTrack: null });
+    };
+  }, [playing, currentTrack?.path]);
 
   function playTracks(tracks: QueueItem[], startIndex = 0) {
     if (!tracks.length) return;

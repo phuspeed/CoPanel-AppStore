@@ -23,6 +23,11 @@ function boolField(key) {
   return m?.[1] === 'true';
 }
 
+function enumField(key) {
+  const m = src.match(new RegExp(`${key}:\\s*['"\`]([^'"\`]+)['"\`]`));
+  return m?.[1];
+}
+
 function sizeField(key) {
   const m = src.match(new RegExp(`${key}:\\s*\\{\\s*width:\\s*(\\d+),\\s*height:\\s*(\\d+)\\s*\\}`));
   if (!m) return undefined;
@@ -37,6 +42,7 @@ const manifest = {
   icon: strField('icon') || 'Grid',
   description: strField('description') || '',
   windowMode: boolField('windowMode'),
+  backgroundPolicy: enumField('backgroundPolicy'),
   keepMountedOnMinimize: boolField('keepMountedOnMinimize'),
   pinned: boolField('pinned'),
   core_ui: '1.1',
