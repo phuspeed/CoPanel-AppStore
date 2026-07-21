@@ -28,12 +28,12 @@
     "id": "site_wizard",
     "name": "Site Wizard",
     "description": "1-click website provisioning: Nginx vhost, LEMP stack, WordPress/Laravel deploy, MySQL, and SSL.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "icon": "Wand2",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.2.zip",
     "is_core": true,
-    "changelog_en": "v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI + 1-Click Install — template cards (Static, WordPress, Laravel, Node proxy), stack preflight, LEMP auto-install, WordPress core download + wp-config, Laravel public skeleton, WindowModal confirm. v1.0.2: Dual UI ModuleViewport.",
-    "changelog_vi": "v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar + Cai 1-Click — template (Static, WordPress, Laravel, Node proxy), preflight stack, tu cai LEMP, tai WordPress + wp-config, skeleton Laravel, xac nhan WindowModal. v1.0.2: Giao dien song song ModuleViewport.",
+    "changelog_en": "v1.1.2: Fix 1-click WordPress provisioning — initialize database via wp_install when core files already exist; sync wp-config credentials on re-provision; SSL failure no longer aborts the job (warnings shown); proper HTTPS reachability check. v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI + 1-Click Install — template cards (Static, WordPress, Laravel, Node proxy), stack preflight, LEMP auto-install, WordPress core download + wp-config, Laravel public skeleton, WindowModal confirm. v1.0.2: Dual UI ModuleViewport.",
+    "changelog_vi": "v1.1.2: Sua cai 1-click WordPress — khoi tao DB qua wp_install khi file core da co; dong bo wp-config khi provision lai; loi SSL khong dung job (hien canh bao); kiem tra HTTPS dung. v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar + Cai 1-Click — template (Static, WordPress, Laravel, Node proxy), preflight stack, tu cai LEMP, tai WordPress + wp-config, skeleton Laravel, xac nhan WindowModal. v1.0.2: Giao dien song song ModuleViewport.",
     "system_packages": [
       "nginx"
     ]
@@ -100,12 +100,12 @@
     "id": "ssl_manager",
     "name": "SSL Manager",
     "description": "Generate Let's Encrypt certificates automatically.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "icon": "Shield",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.1.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.1.2.zip",
     "is_core": true,
-    "changelog_en": "v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
-    "changelog_vi": "v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI."
+    "changelog_en": "v1.1.2: Fix nginx SSL vhost path — resolve {domain}.conf correctly when applying Let's Encrypt certificates (previously silent no-op). v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
+    "changelog_vi": "v1.1.2: Sua duong dan vhost SSL nginx — tim dung file {domain}.conf khi ap dung chung chi Let's Encrypt (truoc do that bai im lang). v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI."
   },
   {
     "id": "terminal",
