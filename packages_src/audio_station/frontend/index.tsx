@@ -120,13 +120,19 @@ function fmtTime(sec: number): string {
 
 function streamUrl(path: string): string {
   const token = localStorage.getItem('copanel_token') || '';
-  return `/api/audio_station/stream?path=${encodeURIComponent(path)}&token=${encodeURIComponent(token)}`;
+  const params = new URLSearchParams({
+    path,
+    access_token: token,
+  });
+  // Keep legacy ``token`` for older backend ZIPs during rolling upgrades.
+  params.set('token', token);
+  return `/api/audio_station/stream?${params.toString()}`;
 }
 
 function coverUrl(opts: { path?: string; id?: string; hash?: string }): string | null {
   if (!opts.hash && !opts.id && !opts.path) return null;
   const token = localStorage.getItem('copanel_token') || '';
-  const params = new URLSearchParams({ token });
+  const params = new URLSearchParams({ access_token: token, token });
   if (opts.hash) params.set('hash', opts.hash);
   else if (opts.id) params.set('id', opts.id);
   else if (opts.path) params.set('path', opts.path);

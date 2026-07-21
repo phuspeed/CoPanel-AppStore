@@ -86,15 +86,15 @@
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.5.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.6.zip",
     "is_core": false,
     "pip_packages": [
       "mutagen==1.47.0"
     ],
-    "changelog_en": "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Fix frontend build: move ModuleViewport wrapper from Modal helper to AudioStation root (same class of bug as download_manager v0.2.13). v0.3.3: Dual UI ModuleViewport support.",
-    "changelog_vi": "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Sua loi build frontend: chuyen ModuleViewport tu Modal len root AudioStation (loi tuong tu download_manager v0.2.13). v0.3.3: Ho tro giao dien song song ModuleViewport."
+    "changelog_en": "v0.3.6: Accept both ?access_token= and legacy ?token= on audio/cover links; enforce audio_station module permission on media routes to fix 401s after auth hardening. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Fix frontend build: move ModuleViewport wrapper from Modal helper to AudioStation root (same class of bug as download_manager v0.2.13). v0.3.3: Dual UI ModuleViewport support.",
+    "changelog_vi": "v0.3.6: Ho tro ca ?access_token= va ?token= cu cho link audio/cover; bo sung kiem tra quyen audio_station cho media routes de sua loi 401 sau khi siet auth. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Sua loi build frontend: chuyen ModuleViewport tu Modal len root AudioStation (loi tuong tu download_manager v0.2.13). v0.3.3: Ho tro giao dien song song ModuleViewport."
   },
   {
     "id": "ssl_manager",
