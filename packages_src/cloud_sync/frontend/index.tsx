@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import { useIsWindowedModule } from '../../core/shell/WindowViewportContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
 import WindowModal from '../../core/shell/WindowModal';
 import { cn } from '../../lib/utils';
 import * as Icons from 'lucide-react';
@@ -394,9 +395,12 @@ export default function CloudSync() {
 
   return (
     <ModuleViewport className="flex min-h-0 flex-col overflow-hidden">
-      <div className={cn('flex h-full min-h-0', isDark ? 'text-slate-100' : 'text-slate-900')}>
-        {/* Synology-style account sidebar */}
-        <aside className={cn('flex w-[220px] shrink-0 flex-col border-r', isDark ? 'border-slate-800 bg-slate-950/90' : 'border-slate-200 bg-slate-50/95')}>
+      <ModuleSidebarLayout
+        isDark={isDark}
+        mobileTitle={tr.title}
+        className={isDark ? 'text-slate-100' : 'text-slate-900'}
+        sidebar={
+        <aside className={cn('flex h-full w-[220px] shrink-0 flex-col border-r', isDark ? 'border-slate-800 bg-slate-950/90' : 'border-slate-200 bg-slate-50/95')}>
           <div className={cn('flex items-center justify-between border-b px-3 py-3', isDark ? 'border-slate-800' : 'border-slate-200')}>
             <div className="flex min-w-0 items-center gap-2">
               <Icons.Cloud className="h-5 w-5 shrink-0 text-indigo-500" />
@@ -447,7 +451,8 @@ export default function CloudSync() {
             )}
           </nav>
         </aside>
-
+        }
+      >
         {/* Main content */}
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           {selectedAccount ? (
@@ -581,7 +586,7 @@ export default function CloudSync() {
             </main>
           )}
         </div>
-      </div>
+      </ModuleSidebarLayout>
 
       {/* Provider picker — Synology-style; one-time Google API setup when needed */}
       <WindowModal

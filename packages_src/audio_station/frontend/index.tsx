@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
 import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
@@ -782,10 +783,12 @@ export default function AudioStation() {
         </button>
       </div>
 
-      <div className="flex flex-1 min-h-0">
-        {/* Sidebar */}
+      <ModuleSidebarLayout
+        isDark={isDark}
+        mobileTitle={t.title}
+        sidebar={
         <aside
-          className={`w-52 shrink-0 border-r overflow-y-auto p-3 space-y-4 ${isDark ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-slate-50/80'}`}
+          className={`h-full w-52 shrink-0 border-r overflow-y-auto p-3 space-y-4 ${isDark ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-slate-50/80'}`}
         >
           {navItem('home', t.home, 'Home')}
           <div>
@@ -829,7 +832,8 @@ export default function AudioStation() {
             ))}
           </div>
         </aside>
-
+        }
+      >
         {/* Main */}
         <main className="flex-1 flex flex-col min-w-0 min-h-0">
           {error && (
@@ -1186,7 +1190,7 @@ export default function AudioStation() {
             </>
           )}
         </main>
-      </div>
+      </ModuleSidebarLayout>
 
       {/* Player bar */}
       <div className={`border-t px-4 py-2 shrink-0 ${isDark ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-slate-50'}`}>

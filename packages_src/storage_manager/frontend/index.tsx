@@ -4,6 +4,7 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
 import { useIsWindowedModule } from '../../core/shell/WindowViewportContext';
 import * as Icons from 'lucide-react';
 import PartitionWizard from './PartitionWizard';
@@ -1072,9 +1073,11 @@ export default function StorageManagerDashboard() {
           </div>
         )}
 
-        <div className="flex min-h-0 flex-1">
-          {/* Sidebar navigation */}
-          <aside className={`flex w-48 shrink-0 flex-col border-r xl:w-52 ${ui.sidebar}`}>
+        <ModuleSidebarLayout
+          isDark={isDark}
+          mobileTitle={tr.title}
+          sidebar={
+          <aside className={`flex h-full w-48 shrink-0 flex-col border-r xl:w-52 ${ui.sidebar}`}>
             <nav className="flex-1 space-y-0.5 overflow-y-auto p-2">
               {tabs.map((item) => {
                 const Icon = item.icon;
@@ -1106,7 +1109,8 @@ export default function StorageManagerDashboard() {
               )}
             </div>
           </aside>
-
+          }
+        >
           {/* Main content */}
           <main className="flex min-h-0 min-w-0 flex-1 flex-col">
             {loading && !overview ? (
@@ -1916,7 +1920,7 @@ export default function StorageManagerDashboard() {
               </div>
             )}
           </main>
-        </div>
+        </ModuleSidebarLayout>
       </div>
     </ModuleViewport>
   );

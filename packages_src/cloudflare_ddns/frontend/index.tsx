@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
+import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
 import WindowModal from '../../core/shell/WindowModal';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
@@ -643,9 +644,12 @@ export default function CloudflareDdns() {
           </div>
         )}
 
-        <div className="flex flex-1 min-h-0">
+        <ModuleSidebarLayout
+          isDark={isDark}
+          mobileTitle={t.title}
+          sidebar={
           <aside
-            className={`w-44 shrink-0 border-r flex flex-col ${isDark ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-slate-50'}`}
+            className={`h-full w-44 shrink-0 border-r flex flex-col ${isDark ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-slate-50'}`}
           >
             <nav className="flex-1 overflow-y-auto p-2 space-y-0.5">
               {tabs.map((item) => {
@@ -671,7 +675,8 @@ export default function CloudflareDdns() {
               })}
             </nav>
           </aside>
-
+          }
+        >
           <main className="flex-1 min-h-0 overflow-y-auto p-4">
             {tab === 'settings' && (
               <section className={`rounded-2xl border p-5 space-y-4 ${panel}`}>
@@ -1242,7 +1247,7 @@ export default function CloudflareDdns() {
               </div>
             )}
           </main>
-        </div>
+        </ModuleSidebarLayout>
 
         <WindowModal open={!!confirm} onClose={() => setConfirm(null)} title={confirmTitle} maxWidth="sm">
           <div className="p-4 flex justify-end gap-2">
