@@ -28,12 +28,12 @@
     "id": "site_wizard",
     "name": "Site Wizard",
     "description": "1-click website provisioning: Nginx vhost, LEMP stack, WordPress/Laravel deploy, MySQL, and SSL.",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "icon": "Wand2",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.1.3.zip",
     "is_core": true,
-    "changelog_en": "v1.1.2: Fix 1-click WordPress provisioning — initialize database via wp_install when core files already exist; sync wp-config credentials on re-provision; SSL failure no longer aborts the job (warnings shown); proper HTTPS reachability check. v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI + 1-Click Install — template cards (Static, WordPress, Laravel, Node proxy), stack preflight, LEMP auto-install, WordPress core download + wp-config, Laravel public skeleton, WindowModal confirm. v1.0.2: Dual UI ModuleViewport.",
-    "changelog_vi": "v1.1.2: Sua cai 1-click WordPress — khoi tao DB qua wp_install khi file core da co; dong bo wp-config khi provision lai; loi SSL khong dung job (hien canh bao); kiem tra HTTPS dung. v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar + Cai 1-Click — template (Static, WordPress, Laravel, Node proxy), preflight stack, tu cai LEMP, tai WordPress + wp-config, skeleton Laravel, xac nhan WindowModal. v1.0.2: Giao dien song song ModuleViewport.",
+    "changelog_en": "v1.1.3: Fix WordPress database connection on install — sync MySQL password on re-provision, grant user for localhost and 127.0.0.1, verify connectivity and pick working DB_HOST, escape credentials in wp-config. v1.1.2: Fix 1-click WordPress provisioning — initialize database via wp_install when core files already exist; sync wp-config credentials on re-provision; SSL failure no longer aborts the job (warnings shown); proper HTTPS reachability check. v1.1.1: Desktop UI layout.",
+    "changelog_vi": "v1.1.3: Sua loi ket noi database WordPress khi cai — dong bo mat khau MySQL khi provision lai, cap quyen cho localhost va 127.0.0.1, kiem tra ket noi va chon DB_HOST phu hop, escape credential trong wp-config. v1.1.2: Sua cai 1-click WordPress — khoi tao DB qua wp_install; dong bo wp-config; loi SSL khong dung job; kiem tra HTTPS dung. v1.1.1: Bo cuc Desktop UI.",
     "system_packages": [
       "nginx"
     ]
@@ -42,12 +42,12 @@
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.0.8.zip",
     "is_core": true,
-    "changelog_en": "v1.0.7: Desktop UI sidebar shell redesign — engine sidebar (MySQL/Postgres), Databases/Users tabs, flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.0.7: Thiet ke lai giao dien Desktop sidebar — chon engine, tab Databases/Users, layout flex scroll, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "changelog_en": "v1.0.8: Fix create_user on re-provision — always ALTER USER password and grant for both localhost and 127.0.0.1 (fixes WordPress Site Wizard DB connection errors). v1.0.7: Desktop UI sidebar shell redesign — engine sidebar (MySQL/Postgres), Databases/Users tabs, flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.8: Sua create_user khi provision lai — luon ALTER USER mat khau va cap quyen cho localhost va 127.0.0.1 (sua loi ket noi DB WordPress Site Wizard). v1.0.7: Thiet ke lai giao dien Desktop sidebar — chon engine, tab Databases/Users, layout flex scroll, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
     "system_packages": [
       "mariadb"
     ]
