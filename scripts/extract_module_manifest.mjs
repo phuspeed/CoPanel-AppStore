@@ -37,6 +37,7 @@ const manifest = {
   icon: strField('icon') || 'Grid',
   description: strField('description') || '',
   windowMode: boolField('windowMode'),
+  keepMountedOnMinimize: boolField('keepMountedOnMinimize'),
   pinned: boolField('pinned'),
   core_ui: '1.1',
   version,
