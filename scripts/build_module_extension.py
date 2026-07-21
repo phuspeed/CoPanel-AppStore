@@ -73,7 +73,6 @@ def _esbuild_build_extension(frontend_root: Path, mod_name: str, out_dir: Path) 
     outfile = out_dir / "module.js"
     esbuild = _esbuild_bin(frontend_root)
     cmd = [
-        "node",
         str(esbuild.resolve()),
         str(entry.resolve()),
         "--bundle",
