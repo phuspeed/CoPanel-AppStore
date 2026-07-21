@@ -141,15 +141,20 @@ function coverUrl(opts: { path?: string; id?: string; hash?: string }): string |
 
 function broadcastActivity(payload: { playing: boolean; currentTrack?: QueueItem | null }) {
   if (typeof window === 'undefined') return;
-  const title = payload.currentTrack?.name
-    ? `Audio Player — ${payload.playing ? 'Playing' : 'Paused'}: ${payload.currentTrack.name}`
+  const trackName = payload.currentTrack?.name?.trim();
+  const playbackState = trackName ? (payload.playing ? 'playing' : 'paused') : null;
+  const title = trackName
+    ? payload.playing
+      ? `▶ ${trackName}`
+      : `⏸ ${trackName}`
     : 'Audio Player';
   window.dispatchEvent(
     new CustomEvent('copanel:module-activity', {
       detail: {
         modulePath: '/audio-player',
         playing: payload.playing,
-        badgeText: payload.playing ? 'LIVE' : '',
+        playbackState,
+        trackName,
         title,
       },
     }),
