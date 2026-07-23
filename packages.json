@@ -14,12 +14,12 @@
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP versions/extensions/php.ini, PHP-FPM overview, and smart DB admin tools.",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.2.3.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.2.4.zip",
     "is_core": true,
-    "changelog_en": "v1.2.3: Ensure PHP-FPM is started and write a live unix socket into new PHP vhosts (prevents nginx 502). v1.2.2: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.1: Fix PHP version detection — probe FPM sockets/systemd units and resolve binaries via /usr/bin when service PATH is minimal; PHP Manager no longer shows all versions as uninstalled. v1.2.0: PHP Manager merged into Web Manager sidebar tab.",
-    "changelog_vi": "v1.2.3: Dam bao PHP-FPM duoc start va ghi dung unix socket vao vhost PHP moi (tranh nginx 502). v1.2.2: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.1: Sua nhan dien phien ban PHP — quet socket FPM/systemd va tim binary qua /usr/bin khi PATH service hep; PHP Manager khong con hien tat ca la chua cai. v1.2.0: Gop PHP Manager vao tab Web Manager.",
+    "changelog_en": "v1.2.4: SSL toggle when creating Nginx reverse-proxy sites (Certbot + auto nginx SSL config); larger edit-config modal for nginx. v1.2.3: Ensure PHP-FPM is started and write a live unix socket into new PHP vhosts (prevents nginx 502). v1.2.2: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.1: Fix PHP version detection — probe FPM sockets/systemd units and resolve binaries via /usr/bin when service PATH is minimal; PHP Manager no longer shows all versions as uninstalled. v1.2.0: PHP Manager merged into Web Manager sidebar tab.",
+    "changelog_vi": "v1.2.4: Nut gat SSL khi tao Nginx Proxy Cong (Certbot + tu dong ghi SSL vao nginx); phong to modal sua cau hinh. v1.2.3: Dam bao PHP-FPM duoc start va ghi dung unix socket vao vhost PHP moi (tranh nginx 502). v1.2.2: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.1: Sua nhan dien phien ban PHP — quet socket FPM/systemd va tim binary qua /usr/bin khi PATH service hep; PHP Manager khong con hien tat ca la chua cai. v1.2.0: Gop PHP Manager vao tab Web Manager.",
     "system_packages": [
       "nginx"
     ]
