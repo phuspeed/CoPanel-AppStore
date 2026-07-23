@@ -21,6 +21,7 @@ APPSTORE_ONLY = frozenset(
         "web_browser",
         "module_redis",
         "cloud_sync",
+        "rsync_manager",
     }
 )
 STUB_IDS = frozenset({"module_cron", "module_ping_pro"})
