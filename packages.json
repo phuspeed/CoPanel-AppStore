@@ -296,13 +296,13 @@
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.36",
+    "version": "1.0.37",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.36.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.37.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.36: Dock/config icon ShoppingBag (was Package) — no longer identical to Packages on the taskbar. v1.0.35: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.34: Batch update all — install multiple modules with one npm build at the end instead of per-module rebuilds. v1.0.33: Smarter post-install restart — extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules.",
-    "changelog_vi": "v1.0.36: Icon dock ShoppingBag (truoc la Package) — khong con trung Packages tren taskbar. v1.0.35: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.34: Cap nhat hang loat — cai nhieu module, chi chay npm build mot lan o cuoi thay vi build tung module. v1.0.33: Restart sau cai thong minh hon — extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi."
+    "changelog_en": "v1.0.37: Fix Desktop window scroll — catalog list scrolls inside the App Store window (featured/categories included in the scroll pane); ModuleSidebarLayout min-h-0 content column. v1.0.36: Dock/config icon ShoppingBag (was Package) — no longer identical to Packages on the taskbar. v1.0.35: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.34: Batch update all — install multiple modules with one npm build at the end instead of per-module rebuilds. v1.0.33: Smarter post-install restart — extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules.",
+    "changelog_vi": "v1.0.37: Sua scroll cua so Desktop — danh sach app cuon trong cua so App Store (featured/danh muc nam trong vung scroll); cot noi dung ModuleSidebarLayout them min-h-0. v1.0.36: Icon dock ShoppingBag (truoc la Package) — khong con trung Packages tren taskbar. v1.0.35: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.34: Cap nhat hang loat — cai nhieu module, chi chay npm build mot lan o cuoi thay vi build tung module. v1.0.33: Restart sau cai thong minh hon — extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi."
   },
   {
     "id": "system_cleaner",
