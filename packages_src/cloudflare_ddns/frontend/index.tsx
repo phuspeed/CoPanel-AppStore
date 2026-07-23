@@ -160,6 +160,8 @@ const COPY = {
     confirmDeleteTunnel: 'Delete this tunnel from Cloudflare?',
     cancel: 'Cancel',
     delete: 'Delete',
+    needAccountId:
+      'Account ID is missing. Open the API tab, click Save & Verify (or paste Account ID), then return here. Token needs Account → Cloudflare Tunnel → Edit.',
     api404:
       'Cloudflare DDNS API not found (404) — backend module not loaded. Run: systemctl restart copanel. Previously saved token remains at /var/lib/copanel/cloudflare_ddns.json unless manually deleted.',
     loadFailed: 'Load failed',
@@ -177,6 +179,7 @@ const COPY = {
     saveTunnelFailed: 'Save tunnel config failed',
     installFailed: 'Install service failed',
     deleteTunnelFailed: 'Delete tunnel failed',
+    loadTunnelsFailed: 'Failed to load tunnels',
   },
   vi: {
     category: 'Network',
@@ -252,9 +255,11 @@ const COPY = {
     noTunnels: 'Chưa có tunnel.',
     confirmDeleteRecord: 'Delete this record?',
     confirmDeleteDdns: 'Delete this DDNS profile?',
-    confirmDeleteTunnel: 'Delete this tunnel from Cloudflare?',
+    confirmDeleteTunnel: 'Xóa tunnel này khỏi Cloudflare?',
     cancel: 'Hủy',
     delete: 'Xóa',
+    needAccountId:
+      'Thiếu Account ID. Vào tab API, bấm Lưu & Verify (hoặc dán Account ID), rồi quay lại. Token cần quyền Account → Cloudflare Tunnel → Edit.',
     api404:
       'API Cloudflare DDNS không tìm thấy (404) — module backend chưa load. Chạy: systemctl restart copanel. Token cấu hình trước đó vẫn nằm tại /var/lib/copanel/cloudflare_ddns.json trên server (trừ khi file bị xóa thủ công).',
     loadFailed: 'Load failed',
@@ -272,6 +277,7 @@ const COPY = {
     saveTunnelFailed: 'Save tunnel config failed',
     installFailed: 'Install service failed',
     deleteTunnelFailed: 'Delete tunnel failed',
+    loadTunnelsFailed: 'Không tải được danh sách tunnels',
   },
 };
 
@@ -354,6 +360,20 @@ export default function CloudflareDdns() {
     setTunnelStatus(status);
   }, []);
 
+  const applyVerifyResult = useCallback(async (verify: any) => {
+    setVerifyInfo(verify);
+    if (verify?.account_id) {
+      setAccountId(verify.account_id);
+    }
+    try {
+      const cfg = await api<Config>('/api/cloudflare_ddns/config');
+      setConfig(cfg);
+      if (cfg.account_id) setAccountId(cfg.account_id);
+    } catch {
+      /* ignore — verify already succeeded */
+    }
+  }, []);
+
   const refresh = useCallback(async () => {
     try {
       setError(null);
@@ -395,9 +415,38 @@ export default function CloudflareDdns() {
       loadCronStatus().catch(() => undefined);
     }
     if (tab === 'tunnels' && config?.api_token_set) {
-      loadTunnels().catch((err: any) => setError(err?.message || t.loadFailed));
+      (async () => {
+        try {
+          // Ensure account_id is resolved before listing tunnels (auto-detect on backend too).
+          if (!config.account_id) {
+            try {
+              const verify = await api('/api/cloudflare_ddns/config/verify', { method: 'POST' });
+              await applyVerifyResult(verify);
+            } catch (err: any) {
+              setError(err?.message || t.needAccountId);
+              return;
+            }
+          }
+          await loadTunnels();
+          setError(null);
+        } catch (err: any) {
+          setError(err?.message || t.loadTunnelsFailed);
+        }
+      })();
     }
-  }, [tab, config?.api_token_set, loadCronStatus, loadTunnels, loadZones, t.loadFailed, t.loadZonesFailed]);
+  }, [
+    tab,
+    config?.api_token_set,
+    config?.account_id,
+    applyVerifyResult,
+    loadCronStatus,
+    loadTunnels,
+    loadZones,
+    t.loadFailed,
+    t.loadTunnelsFailed,
+    t.loadZonesFailed,
+    t.needAccountId,
+  ]);
 
   async function syncCron() {
     setBusy(true);
@@ -417,13 +466,14 @@ export default function CloudflareDdns() {
     try {
       const cfg = await api<Config>('/api/cloudflare_ddns/config', {
         method: 'PUT',
-        body: { api_token: tokenInput || undefined, account_id: accountId },
+        body: { api_token: tokenInput || undefined, account_id: accountId || undefined },
       });
       setConfig(cfg);
+      setAccountId(cfg.account_id || accountId);
       setTokenInput('');
       setError(null);
       const verify = await api('/api/cloudflare_ddns/config/verify', { method: 'POST' });
-      setVerifyInfo(verify);
+      await applyVerifyResult(verify);
       await loadZones();
       await loadCronStatus();
     } catch (err: any) {
@@ -437,7 +487,7 @@ export default function CloudflareDdns() {
     setBusy(true);
     try {
       const verify = await api('/api/cloudflare_ddns/config/verify', { method: 'POST' });
-      setVerifyInfo(verify);
+      await applyVerifyResult(verify);
       setError(null);
     } catch (err: any) {
       setError(err?.message || t.verifyFailed);

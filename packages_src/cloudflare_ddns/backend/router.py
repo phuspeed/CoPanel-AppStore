@@ -1,7 +1,7 @@
 """Cloudflare DDNS router."""
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Dict, NoReturn
 
 from fastapi import APIRouter, Depends
 
@@ -21,6 +21,15 @@ from .schemas import (
 )
 
 router = APIRouter()
+
+
+def _raise_module_error(exc: Exception) -> NoReturn:
+    """Map logic exceptions to ApiError (never returns)."""
+    if isinstance(exc, logic.CloudflareAPIError):
+        raise ApiError("CLOUDFLARE_ERROR", str(exc), http_status=502) from exc
+    if isinstance(exc, ValueError):
+        raise ApiError("VALIDATION_ERROR", str(exc), http_status=400) from exc
+    raise ApiError("CLOUDFLARE_ERROR", str(exc), http_status=502) from exc
 
 
 @router.on_event("startup")
@@ -60,10 +69,8 @@ def save_config(req: SaveConfigRequest, user: Dict[str, Any] = Depends(require_m
 def verify_config(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
     try:
         result = logic.verify_config()
-    except ValueError as exc:
-        raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     except Exception as exc:
-        raise ApiError("CLOUDFLARE_ERROR", str(exc), http_status=502)
+        _raise_module_error(exc)
     return ok(result)
 
 
@@ -273,20 +280,16 @@ def run_all_ddns(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"
 def list_tunnels(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
     try:
         return ok(logic.list_tunnels())
-    except ValueError as exc:
-        raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     except Exception as exc:
-        raise ApiError("CLOUDFLARE_ERROR", str(exc), http_status=502)
+        _raise_module_error(exc)
 
 
 @router.post("/tunnels")
 def create_tunnel(req: CreateTunnelRequest, user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
     try:
         tunnel = logic.create_tunnel(req.name)
-    except ValueError as exc:
-        raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     except Exception as exc:
-        raise ApiError("CLOUDFLARE_ERROR", str(exc), http_status=502)
+        _raise_module_error(exc)
     record_audit(
         "cloudflare.tunnel.create",
         module="cloudflare_ddns",
@@ -306,10 +309,8 @@ def tunnel_status(user: Dict[str, Any] = Depends(require_module("cloudflare_ddns
 def delete_tunnel(tunnel_id: str, user: Dict[str, Any] = Depends(require_module("cloudflare_ddns"))) -> Dict[str, Any]:
     try:
         logic.delete_tunnel(tunnel_id)
-    except ValueError as exc:
-        raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     except Exception as exc:
-        raise ApiError("CLOUDFLARE_ERROR", str(exc), http_status=502)
+        _raise_module_error(exc)
     record_audit(
         "cloudflare.tunnel.delete",
         module="cloudflare_ddns",
@@ -354,10 +355,8 @@ def install_tunnel(
 ) -> Dict[str, Any]:
     try:
         status = logic.install_tunnel_service(tunnel_id)
-    except ValueError as exc:
-        raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     except Exception as exc:
-        raise ApiError("TUNNEL_ERROR", str(exc), http_status=500)
+        _raise_module_error(exc)
     record_audit(
         "cloudflare.tunnel.install",
         module="cloudflare_ddns",

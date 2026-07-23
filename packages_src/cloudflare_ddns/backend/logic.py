@@ -6,6 +6,7 @@ jobs to system crontab (Linux only).
 """
 from __future__ import annotations
 
+import base64
 import json
 import logging
 import os
@@ -53,6 +54,20 @@ PUBLIC_IP_URLS = (
     "https://ifconfig.me/ip",
     "https://icanhazip.com",
 )
+
+TUNNEL_PERM_HINT = (
+    "API token needs Account → Cloudflare Tunnel → Edit, "
+    "and Account → Account Settings → Read (or paste Account ID manually)."
+)
+
+
+class CloudflareAPIError(Exception):
+    """Raised when Cloudflare's API returns a non-success response."""
+
+    def __init__(self, message: str, *, status_code: int = 0, errors: Optional[List[Any]] = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+        self.errors = errors or []
 
 
 def _new_id(prefix: str) -> str:
@@ -227,8 +242,12 @@ class CloudflareClient:
             body = {"success": False, "errors": [{"message": res.text or res.reason_phrase}]}
         if not res.is_success or not body.get("success", False):
             errors = body.get("errors") or []
-            msg = errors[0].get("message") if errors else res.text or "Cloudflare API error"
-            raise ValueError(msg)
+            msg = ""
+            if errors and isinstance(errors[0], dict):
+                msg = errors[0].get("message") or ""
+            if not msg:
+                msg = res.text or "Cloudflare API error"
+            raise CloudflareAPIError(msg, status_code=res.status_code, errors=errors)
         return body.get("result")
 
     def verify_token(self) -> Dict[str, Any]:
@@ -261,18 +280,28 @@ class CloudflareClient:
             self._request(
                 "GET",
                 f"/accounts/{account_id}/cfd_tunnel",
-                params={"is_deleted": "false", "per_page": 50},
+                params={"is_deleted": False, "per_page": 50},
             )
             or []
         )
 
     def create_tunnel(self, account_id: str, name: str) -> Dict[str, Any]:
-        secret = os.urandom(32).hex()
-        return self._request(
+        # Cloudflare expects tunnel_secret as base64-encoded 32 bytes.
+        secret_b64 = base64.b64encode(os.urandom(32)).decode("ascii")
+        tunnel = self._request(
             "POST",
             f"/accounts/{account_id}/cfd_tunnel",
-            json={"name": name, "tunnel_secret": secret, "config_src": "local"},
-        )
+            json={"name": name, "tunnel_secret": secret_b64, "config_src": "local"},
+        ) or {}
+        tid = tunnel.get("id") or ""
+        creds = tunnel.get("credentials_file")
+        if tid and not isinstance(creds, dict):
+            tunnel["credentials_file"] = {
+                "AccountTag": account_id,
+                "TunnelID": tid,
+                "TunnelSecret": secret_b64,
+            }
+        return tunnel
 
     def delete_tunnel(self, account_id: str, tunnel_id: str) -> bool:
         self._request("DELETE", f"/accounts/{account_id}/cfd_tunnel/{tunnel_id}")
@@ -288,6 +317,85 @@ class CloudflareClient:
 def _client_from_store() -> CloudflareClient:
     store = _load_store()
     return CloudflareClient(store.get("api_token") or "")
+
+
+def _account_from_zones(client: CloudflareClient) -> Tuple[str, str]:
+    """Derive account id/name from the first zone (works with many zone-scoped tokens)."""
+    try:
+        zones = client.list_zones() or []
+    except CloudflareAPIError:
+        return "", ""
+    for zone in zones:
+        account = zone.get("account") or {}
+        aid = (account.get("id") or "").strip()
+        if aid:
+            return aid, (account.get("name") or "").strip()
+    return "", ""
+
+
+def _ensure_account_id(store: Optional[Dict[str, Any]] = None, client: Optional[CloudflareClient] = None) -> str:
+    """Return a usable Cloudflare account_id, auto-detecting and persisting when missing."""
+    own_client = False
+    if store is None:
+        store = _load_store()
+    account_id = (store.get("account_id") or "").strip()
+    if account_id:
+        return account_id
+
+    if client is None:
+        client = CloudflareClient(store.get("api_token") or "")
+        own_client = True
+
+    try:
+        accounts: List[Dict[str, Any]] = []
+        try:
+            accounts = client.list_accounts() or []
+        except CloudflareAPIError as exc:
+            logger.info("list_accounts failed while resolving account_id: %s", exc)
+
+        if accounts:
+            account_id = (accounts[0].get("id") or "").strip()
+            account_name = (accounts[0].get("name") or "").strip()
+        else:
+            account_id, account_name = _account_from_zones(client)
+
+        if not account_id:
+            raise ValueError(
+                "account_id is not configured and could not be auto-detected. "
+                f"Paste Account ID on the API tab, then Save & Verify. {TUNNEL_PERM_HINT}"
+            )
+
+        store["account_id"] = account_id
+        if account_name:
+            store["account_name"] = account_name
+        _save_store(store)
+        return account_id
+    finally:
+        if own_client:
+            client.close()
+
+
+def _enrich_tunnel_error(exc: Exception) -> Exception:
+    """Attach permission guidance to common Cloudflare tunnel failures."""
+    msg = str(exc)
+    lower = msg.lower()
+    if not any(
+        needle in lower
+        for needle in (
+            "authentication",
+            "authorization",
+            "permission",
+            "not authorized",
+            "access denied",
+            "actor 'com.cloudflare",
+            "could not route",
+        )
+    ):
+        return exc
+    enriched = f"{msg} — {TUNNEL_PERM_HINT}"
+    if isinstance(exc, CloudflareAPIError):
+        return CloudflareAPIError(enriched, status_code=exc.status_code, errors=exc.errors)
+    return ValueError(enriched)
 
 
 def get_public_config() -> Dict[str, Any]:
@@ -311,7 +419,10 @@ def save_config(api_token: Optional[str] = None, account_id: Optional[str] = Non
     if api_token is not None and api_token.strip():
         store["api_token"] = api_token.strip()
     if account_id is not None:
-        store["account_id"] = account_id.strip()
+        stripped = account_id.strip()
+        # Empty string means "keep existing / auto-detect" — do not wipe a known account_id.
+        if stripped:
+            store["account_id"] = stripped
     _save_store(store)
     if store.get("api_token"):
         try:
@@ -327,17 +438,35 @@ def verify_config() -> Dict[str, Any]:
     client = CloudflareClient(store.get("api_token") or "")
     try:
         verify = client.verify_token()
-        accounts = client.list_accounts()
+        accounts: List[Dict[str, Any]] = []
+        try:
+            accounts = client.list_accounts() or []
+        except CloudflareAPIError as exc:
+            logger.info("list_accounts failed during verify: %s", exc)
+            accounts = []
+
         if not store.get("account_id") and accounts:
             store["account_id"] = accounts[0].get("id") or ""
             store["account_name"] = accounts[0].get("name") or ""
             _save_store(store)
         elif store.get("account_id"):
+            matched = False
             for acc in accounts:
                 if acc.get("id") == store["account_id"]:
                     store["account_name"] = acc.get("name") or ""
                     _save_store(store)
+                    matched = True
                     break
+            if not matched and not store.get("account_name"):
+                # Keep existing account_id even if /accounts is empty (zone-scoped token).
+                pass
+        elif not store.get("account_id"):
+            aid, aname = _account_from_zones(client)
+            if aid:
+                store["account_id"] = aid
+                store["account_name"] = aname
+                _save_store(store)
+
         return {
             "valid": True,
             "status": verify.get("status"),
@@ -876,12 +1005,13 @@ def run_ddns_for_interval(interval_minutes: int) -> List[Dict[str, Any]]:
 
 def list_tunnels() -> List[Dict[str, Any]]:
     store = _load_store()
-    account_id = store.get("account_id") or ""
-    if not account_id:
-        raise ValueError("account_id is not configured. Verify API token first.")
     client = _client_from_store()
     try:
-        tunnels = client.list_tunnels(account_id)
+        account_id = _ensure_account_id(store, client)
+        try:
+            tunnels = client.list_tunnels(account_id)
+        except CloudflareAPIError as exc:
+            raise _enrich_tunnel_error(exc) from exc
         local = store.get("tunnel_local") or {}
         out = []
         for t in tunnels:
@@ -912,16 +1042,19 @@ def _write_tunnel_credentials(tunnel_id: str, credentials: Dict[str, Any]) -> Pa
 
 def create_tunnel(name: str) -> Dict[str, Any]:
     store = _load_store()
-    account_id = store.get("account_id") or ""
-    if not account_id:
-        raise ValueError("account_id is not configured.")
     client = _client_from_store()
     try:
-        tunnel = client.create_tunnel(account_id, name.strip())
+        account_id = _ensure_account_id(store, client)
+        try:
+            tunnel = client.create_tunnel(account_id, name.strip())
+        except CloudflareAPIError as exc:
+            raise _enrich_tunnel_error(exc) from exc
         tid = tunnel.get("id") or ""
         creds = tunnel.get("credentials_file") or {}
         if tid and creds:
             _write_tunnel_credentials(tid, creds)
+        elif tid:
+            logger.warning("Tunnel %s created without credentials_file in API response", tid)
         return {"id": tid, "name": tunnel.get("name"), "status": tunnel.get("status")}
     finally:
         client.close()
@@ -929,10 +1062,13 @@ def create_tunnel(name: str) -> Dict[str, Any]:
 
 def delete_tunnel(tunnel_id: str) -> bool:
     store = _load_store()
-    account_id = store.get("account_id") or ""
     client = _client_from_store()
     try:
-        client.delete_tunnel(account_id, tunnel_id)
+        account_id = _ensure_account_id(store, client)
+        try:
+            client.delete_tunnel(account_id, tunnel_id)
+        except CloudflareAPIError as exc:
+            raise _enrich_tunnel_error(exc) from exc
     finally:
         client.close()
     local = store.get("tunnel_local") or {}
@@ -1053,10 +1189,13 @@ def install_tunnel_service(tunnel_id: str) -> Dict[str, Any]:
         raise ValueError("Tunnel config not saved yet. Save ingress config first.")
 
     store = _load_store()
-    account_id = store.get("account_id") or ""
     client = _client_from_store()
     try:
-        token = client.get_tunnel_token(account_id, tunnel_id)
+        account_id = _ensure_account_id(store, client)
+        try:
+            token = client.get_tunnel_token(account_id, tunnel_id)
+        except CloudflareAPIError as exc:
+            raise _enrich_tunnel_error(exc) from exc
     finally:
         client.close()
 
