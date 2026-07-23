@@ -121,17 +121,17 @@
   {
     "id": "rsync_manager",
     "name": "Rsync Manager",
-    "description": "SSH compatibility checks and rsync sync to a new VPS (CoPanel/web files). Optional; not core. SQL and Docker are manual.",
-    "version": "1.0.0",
+    "description": "Wizard to move, clone, or sync this VPS to another over SSH. Detects CoPanel on both sides or rsync-only targets. Progress via Task Center. SQL/Docker remain manual.",
+    "version": "1.1.0",
     "icon": "RefreshCw",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.0.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.1.0.zip",
     "is_core": false,
     "system_packages": [
       "rsync",
       "openssh-client"
     ],
-    "changelog_en": "v1.0.0: Initial AppStore module — POST /compatibility (arch, OS, rsync, optional disk vs estimate), POST /sync (dry-run or real), presets for CoPanel tree excludes.",
-    "changelog_vi": "v1.0.0: Phien ban dau — API kiem tra tuong thich SSH, sync rsync (dry-run hoac that), preset loai tru cho cay CoPanel."
+    "changelog_en": "v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
+    "changelog_vi": "v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking."
   },
   {
     "id": "cloud_sync",

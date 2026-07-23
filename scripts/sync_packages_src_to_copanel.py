@@ -21,6 +21,8 @@ APPSTORE_ONLY = frozenset(
         "clamav",
         "web_browser",
         "module_redis",
+        "cloud_sync",
+        "rsync_manager",
     }
 )
 

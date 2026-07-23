@@ -49,6 +49,8 @@ Update `packages.json` (`version`, `download_url`, changelogs). Commit ZIP + `pa
 | `clamav` | ClamAV scanner |
 | `web_browser` | Playwright browser (superadmin) |
 | `module_redis` | Redis cache dashboard (extension fast-path) |
+| `cloud_sync` | Google Drive folder sync |
+| `rsync_manager` | VPS move / clone / sync wizard (SSH + rsync) |
 
 Stubs: `module_cron`, `module_ping_pro` (not in catalog).
 
