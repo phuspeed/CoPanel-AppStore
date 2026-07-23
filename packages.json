@@ -282,6 +282,17 @@
     "changelog_vi": "v1.0.9: Thiet ke lai giao dien Desktop sidebar — tab Tao Job/Danh sach, cron builder, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop."
   },
   {
+    "id": "package_manager",
+    "name": "Package Manager",
+    "description": "Install and control Ubuntu system packages, runtimes, and tools — including Node.js and PM2.",
+    "version": "1.0.4",
+    "icon": "Package",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/package_manager.v1.0.4.zip",
+    "is_core": true,
+    "changelog_en": "v1.0.4: Add dedicated PM2 package (npm global install/stop/restart/remove); rename Node.js package; dual-UI polish — search, status filters, compact Desktop window header, mobile drawer + sticky toolbar. v1.0.2: Real install/start/stop/restart/remove via package manager and systemctl; phpMyAdmin access path/open button.",
+    "changelog_vi": "v1.0.4: Them goi PM2 rieng (cai npm global, stop/restart/remove); doi ten goi Node.js; toi uu UI dual — tim kiem, loc trang thai, header Desktop gon, drawer mobile + thanh cong cu sticky. v1.0.2: Thuc thi that install/start/stop/restart/remove; nut mo phpMyAdmin."
+  },
+  {
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
