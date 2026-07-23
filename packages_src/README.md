@@ -27,6 +27,14 @@ packages_src/<module_id>/
 
 **Never** add `packages_src/<id>/` for a core module — `build_versioned_zip.py` prefers this folder and would **shadow** CoPanel source.
 
+## Dual UI / Desktop scroll
+
+Follow [CoPanel DESKTOP_UI.md](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md) — especially **[Desktop window scrolling](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md#desktop-window-scrolling-required)**:
+
+- `ModuleViewport` + `useAppShellContext`
+- Flex chain with `min-h-0`; one `flex-1 min-h-0 overflow-y-auto` pane
+- Without this, lists clip in Desktop windows (Classic may still look fine)
+
 ## Build ZIP
 
 ```bash
