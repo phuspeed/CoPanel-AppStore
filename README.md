@@ -87,8 +87,13 @@ export default function MyModule() {
   const { theme, language } = useAppShellContext();
 
   return (
-    <ModuleViewport constrained className="p-4 md:p-8">
-      {/* content — no min-h-screen / 100vh at root */}
+    <ModuleViewport constrained className="overflow-hidden">
+      <div className="flex h-full min-h-0 flex-col">
+        <header className="shrink-0 border-b px-4 py-3">...</header>
+        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+          {/* scroll here — required for Desktop floating windows */}
+        </main>
+      </div>
     </ModuleViewport>
   );
 }
@@ -99,9 +104,12 @@ export default function MyModule() {
 - Use `useAppShellContext()` — **not** `useOutletContext()`
 - Wrap root in `<ModuleViewport>`
 - Dialogs: `<WindowModal>` (desktop) — avoid fixed fullscreen overlays
+- **Desktop scroll:** every flex ancestor to the list needs `min-h-0`; one pane with `flex-1 min-h-0 overflow-y-auto` (missing this → clipped list, no scrollbar in window mode)
+- Sidebar modules: `<ModuleSidebarLayout>` + content column `h-full min-h-0 overflow-hidden`
 - **No separate Desktop ZIP** — same archive for both UIs
 
-Full checklist: [DESKTOP_UI.md § AppStore ZIP](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md#appstore-zip--dual-ui-checklist)
+Full checklist + scroll failure symptoms:  
+[DESKTOP_UI.md § Desktop window scrolling](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md#desktop-window-scrolling-required) · [§ AppStore ZIP](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md#appstore-zip--dual-ui-checklist)
 
 ## Catalog entry (`packages.json`)
 
