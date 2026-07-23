@@ -93,6 +93,7 @@ Release: bump `packages_src/<id>/backend/version.txt` → `build_versioned_zip.p
 | `clamav` | antivirus scanner |
 | `web_browser` | Playwright remote browser |
 | `module_redis` | Redis dashboard (`frontend_install: extension`) |
+| `coagent` | AI SysAdmin assistant — OpenAI-compatible ReAct + HITL (`frontend_install: extension`) |
 | `cloud_sync` | Google Drive folder sync |
 | `rsync_manager` | VPS move/clone/sync wizard over SSH |
 

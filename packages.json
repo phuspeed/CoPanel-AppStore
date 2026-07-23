@@ -344,5 +344,21 @@
     ],
     "changelog_en": "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. v1.0.0: First release. Pre-built extension/ in ZIP — AppStore install skips npm run build when panel has appstore_manager >= 1.0.32.",
     "changelog_vi": "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. v1.0.0: Phat hanh dau. ZIP co extension/ san — cai AppStore bo qua npm run build khi panel da co appstore_manager >= 1.0.32."
+  },
+  {
+    "id": "coagent",
+    "name": "CoAgent",
+    "description": "AI SysAdmin assistant (OpenAI-compatible). Diagnose VPS issues in Vietnamese, read metrics/logs, and propose system actions with human-in-the-loop confirmation.",
+    "version": "1.0.0",
+    "icon": "Bot",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/coagent.v1.0.0.zip",
+    "is_core": false,
+    "frontend_install": "extension",
+    "requires_copanel_restart": true,
+    "pip_packages": [
+      "openai>=1.40.0,<2"
+    ],
+    "changelog_en": "v1.0.0: First release — ReAct agent with safe OS tools, HITL action confirmation cards, chat UI (Markdown), configurable OpenAI-compatible endpoint.",
+    "changelog_vi": "v1.0.0: Phat hanh dau — Agent ReAct voi tool OS an toan, the xac nhan HITL, chat UI (Markdown), cau hinh endpoint tuong thich OpenAI."
   }
 ]
