@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.14.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.15.zip",
     "is_core": true,
-    "changelog_en": "v1.0.14: Non-blocking deploy/stop/restart/build via background jobs; live CPU/RAM/network stats; richer container/compose logs with refresh. v1.0.13: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.12: Create Project wizard — New folder button in custom folder browser.",
-    "changelog_vi": "v1.0.14: Deploy/stop/restart/build khong lam do UI (job + progress); hien CPU/RAM/network; log chi tiet co refresh/auto-refresh. v1.0.13: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.12: Wizard Tao Project — nut Tao thu muc moi trong trinh duyet thu muc tuy chinh."
+    "changelog_en": "v1.0.15: Compact card list when window is narrow; click container for status detail modal. v1.0.14: Non-blocking deploy/stop/restart/build via background jobs; live CPU/RAM/network stats; richer logs with refresh. v1.0.13: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid.",
+    "changelog_vi": "v1.0.15: Danh sach dang the khi thu gon cua so; bam container de xem trang thai chi tiet. v1.0.14: Deploy/stop/restart/build khong lam do UI (job + progress); hien CPU/RAM/network; log chi tiet co refresh/auto-refresh. v1.0.13: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install."
   },
   {
     "id": "download_manager",
