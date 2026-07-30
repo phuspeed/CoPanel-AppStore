@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.17.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.18.zip",
     "is_core": true,
-    "changelog_en": "v1.0.17: Images tab — check Docker Hub digests and Update to latest (background pull). v1.0.16: Container restart policy in status modal.",
-    "changelog_vi": "v1.0.17: Tab Images — kiem tra digest Docker Hub va Cap nhat ban moi (pull nen). v1.0.16: Chinh sach restart trong modal trang thai container."
+    "changelog_en": "v1.0.18: Fix React crash on Images tab (DownloadCloud icon). v1.0.17: Check Docker Hub updates + Update to latest.",
+    "changelog_vi": "v1.0.18: Sua crash React o tab Images (icon DownloadCloud). v1.0.17: Kiem tra cap nhat Docker Hub + Cap nhat ban moi."
   },
   {
     "id": "download_manager",
