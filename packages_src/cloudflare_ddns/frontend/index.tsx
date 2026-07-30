@@ -122,7 +122,7 @@ const COPY = {
     customUrl: 'Custom URL',
     intervalMin: 'Interval (minutes)',
     proxied: 'Proxied (orange cloud)',
-    add: 'Add',
+    add: 'Add & update IP',
     ddnsProfiles: 'DDNS profiles',
     pending: 'pending',
     disabled: 'disabled',
@@ -133,6 +133,8 @@ const COPY = {
     runNow: 'Run now',
     enable: 'Enable',
     disable: 'Disable',
+    needZone: 'Select a Cloudflare zone before adding a DDNS profile.',
+    needProfileName: 'Enter a profile name before adding.',
     zones: 'Zones',
     noZones: 'No zones loaded — configure API token first.',
     selectZoneRecords: 'Select a zone to view/edit DNS records.',
@@ -220,7 +222,7 @@ const COPY = {
     customUrl: 'Custom URL',
     intervalMin: 'Interval (phút)',
     proxied: 'Proxied (orange cloud)',
-    add: 'Thêm',
+    add: 'Thêm & cập nhật IP',
     ddnsProfiles: 'DDNS profiles',
     pending: 'pending',
     disabled: 'disabled',
@@ -231,6 +233,8 @@ const COPY = {
     runNow: 'Chạy ngay',
     enable: 'Bật',
     disable: 'Tắt',
+    needZone: 'Chọn zone Cloudflare trước khi thêm DDNS profile.',
+    needProfileName: 'Nhập tên profile trước khi thêm.',
     zones: 'Zones',
     noZones: 'Chưa load zones — cấu hình API token trước.',
     selectZoneRecords: 'Chọn zone để xem/sửa DNS records.',
@@ -532,21 +536,52 @@ export default function CloudflareDdns() {
   }
 
   async function createDdns() {
-    if (!ddnsZone || !ddnsDraft.name?.trim()) return;
+    if (!ddnsZone) {
+      setError(t.needZone);
+      return;
+    }
+    if (!ddnsDraft.name?.trim()) {
+      setError(t.needProfileName);
+      return;
+    }
+    const intervalRaw = Number(ddnsDraft.interval_minutes);
+    const interval = Number.isFinite(intervalRaw) && intervalRaw >= 1
+      ? Math.min(1440, Math.floor(intervalRaw))
+      : 5;
+    const recordName = (ddnsDraft.record_name || '@').trim() || '@';
+    setBusy(true);
     try {
-      await api('/api/cloudflare_ddns/ddns', {
+      const profile = await api<DdnsProfile>('/api/cloudflare_ddns/ddns', {
         method: 'POST',
         body: {
-          ...ddnsDraft,
+          name: ddnsDraft.name.trim(),
           zone_id: ddnsZone.id,
           zone_name: ddnsZone.name,
+          record_name: recordName,
+          record_type: ddnsDraft.record_type || 'A',
+          proxied: !!ddnsDraft.proxied,
+          ttl: Number(ddnsDraft.ttl) > 0 ? Number(ddnsDraft.ttl) : 1,
+          ip_source: ddnsDraft.ip_source || 'public',
+          interface_name: ddnsDraft.interface_name || '',
+          custom_ip_url: ddnsDraft.custom_ip_url || '',
+          interval_minutes: interval,
+          enabled: ddnsDraft.enabled !== false,
         },
       });
-      setDdnsDraft(EMPTY_DDNS);
+      setDdnsDraft({ ...EMPTY_DDNS });
+      setError(null);
+      // Create alone only stores the profile; run once so DNS IP updates immediately.
+      try {
+        await api(`/api/cloudflare_ddns/ddns/${profile.id}/run`, { method: 'POST' });
+      } catch (runErr: any) {
+        setError(runErr?.message || t.runFailed);
+      }
       await loadProfiles();
       await loadCronStatus();
     } catch (err: any) {
       setError(err?.message || t.createDdnsFailed);
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -913,7 +948,7 @@ export default function CloudflareDdns() {
                       className={`rounded-xl border px-3 py-2 text-sm ${inputCls}`}
                     />
                     <input
-                      value={ddnsDraft.record_name || '@'}
+                      value={ddnsDraft.record_name ?? '@'}
                       onChange={(e) => setDdnsDraft({ ...ddnsDraft, record_name: e.target.value })}
                       placeholder={t.recordName}
                       className={`rounded-xl border px-3 py-2 text-sm ${inputCls}`}
@@ -957,8 +992,14 @@ export default function CloudflareDdns() {
                       type="number"
                       min={1}
                       max={1440}
-                      value={ddnsDraft.interval_minutes || 5}
-                      onChange={(e) => setDdnsDraft({ ...ddnsDraft, interval_minutes: Number(e.target.value) })}
+                      value={ddnsDraft.interval_minutes ?? 5}
+                      onChange={(e) => {
+                        const n = Number(e.target.value);
+                        setDdnsDraft({
+                          ...ddnsDraft,
+                          interval_minutes: Number.isFinite(n) ? n : 5,
+                        });
+                      }}
                       placeholder={t.intervalMin}
                       className={`rounded-xl border px-3 py-2 text-sm ${inputCls}`}
                     />
@@ -973,9 +1014,10 @@ export default function CloudflareDdns() {
                     <button
                       type="button"
                       onClick={createDdns}
-                      className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold px-4"
+                      disabled={busy}
+                      className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold px-4 py-2 disabled:opacity-50"
                     >
-                      {t.add}
+                      {busy ? '…' : t.add}
                     </button>
                   </div>
                 </section>

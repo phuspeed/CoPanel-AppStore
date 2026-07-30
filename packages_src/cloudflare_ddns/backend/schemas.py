@@ -31,9 +31,9 @@ class UpdateRecordRequest(BaseModel):
 
 class CreateDdnsRequest(BaseModel):
     name: str = Field(..., min_length=1)
-    zone_id: str
+    zone_id: str = Field(..., min_length=1)
     zone_name: str = ""
-    record_name: str
+    record_name: str = "@"
     record_type: Literal["A", "AAAA"] = "A"
     proxied: bool = False
     ttl: int = 1

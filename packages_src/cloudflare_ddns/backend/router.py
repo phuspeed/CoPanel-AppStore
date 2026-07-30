@@ -198,6 +198,10 @@ def create_ddns(req: CreateDdnsRequest, user: Dict[str, Any] = Depends(require_m
         profile = logic.create_ddns_profile(req.model_dump())
     except ValueError as exc:
         raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
+    except PermissionError as exc:
+        raise ApiError("SERVICE_ERROR", str(exc), http_status=503)
+    except Exception as exc:
+        raise ApiError("SERVICE_ERROR", str(exc), http_status=500)
     record_audit(
         "cloudflare.ddns.create",
         module="cloudflare_ddns",

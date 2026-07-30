@@ -583,21 +583,40 @@ def _find_ddns(profile_id: str) -> Tuple[Dict[str, Any], Dict[str, Any], int]:
     raise ValueError("DDNS profile not found.")
 
 
+def _safe_sync_crontab() -> Dict[str, Any]:
+    """Sync crontab after profile changes; never abort the CRUD response on cron errors."""
+    try:
+        return sync_crontab()
+    except Exception as exc:
+        logger.warning("Cloudflare DDNS cron sync after profile change failed: %s", exc)
+        return {"ok": False, "message": str(exc), "entries": 0}
+
+
 def create_ddns_profile(data: Dict[str, Any]) -> Dict[str, Any]:
     store = _load_store()
+    name = (data.get("name") or "").strip()
+    if not name:
+        raise ValueError("Profile name is required.")
+    zone_id = (data.get("zone_id") or "").strip()
+    if not zone_id:
+        raise ValueError("zone_id is required.")
+    record_name = (data.get("record_name") or "@").strip() or "@"
+    interval = int(data.get("interval_minutes") or 5)
+    if interval < 1 or interval > 1440:
+        raise ValueError("interval_minutes must be between 1 and 1440.")
     profile = {
         "id": _new_id("ddns"),
-        "name": data["name"].strip(),
-        "zone_id": data["zone_id"],
+        "name": name,
+        "zone_id": zone_id,
         "zone_name": data.get("zone_name") or "",
-        "record_name": data["record_name"].strip(),
+        "record_name": record_name,
         "record_type": (data.get("record_type") or "A").upper(),
         "proxied": bool(data.get("proxied")),
         "ttl": int(data.get("ttl") or 1),
         "ip_source": data.get("ip_source") or "public",
         "interface_name": data.get("interface_name") or "",
         "custom_ip_url": data.get("custom_ip_url") or "",
-        "interval_minutes": int(data.get("interval_minutes") or 5),
+        "interval_minutes": interval,
         "enabled": bool(data.get("enabled", True)),
         "record_id": "",
         "last_ip": "",
@@ -609,7 +628,7 @@ def create_ddns_profile(data: Dict[str, Any]) -> Dict[str, Any]:
     }
     store.setdefault("ddns_profiles", []).append(profile)
     _save_store(store)
-    sync_crontab()
+    _safe_sync_crontab()
     return profile
 
 
@@ -627,12 +646,14 @@ def update_ddns_profile(profile_id: str, data: Dict[str, Any]) -> Dict[str, Any]
                 profile[key] = int(data[key])
             elif key == "record_type":
                 profile[key] = str(data[key]).upper()
+            elif key == "record_name":
+                profile[key] = str(data[key]).strip() or "@"
             else:
                 profile[key] = data[key]
     profile["updated_at"] = time.time()
     store["ddns_profiles"][idx] = profile
     _save_store(store)
-    sync_crontab()
+    _safe_sync_crontab()
     return profile
 
 
@@ -643,7 +664,7 @@ def delete_ddns_profile(profile_id: str) -> bool:
     if len(store["ddns_profiles"]) == before:
         return False
     _save_store(store)
-    sync_crontab()
+    _safe_sync_crontab()
     return True
 
 

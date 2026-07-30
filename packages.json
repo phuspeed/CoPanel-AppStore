@@ -239,9 +239,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.13.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.14.zip",
     "is_core": false,
     "system_packages": [
       "cron"
@@ -249,8 +249,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.13: Fix tunnels API 400 — auto-detect account_id from accounts/zones, stop wiping account_id on empty save, map Cloudflare API errors to 502 with Tunnel permission hints, sync Account ID in UI after verify. v1.0.12: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.0.11: Dual UI redesign — sidebar navigation, flex scroll layout for Desktop/Classic, WindowModal delete confirmations, en/vi i18n.",
-    "changelog_vi": "v1.0.13: Sua loi API tunnels 400 — tu dong nhan account_id tu accounts/zones, khong xoa account_id khi save rong, map loi Cloudflare API sang 502 kem goi y quyen Tunnel, dong bo Account ID tren UI sau verify. v1.0.12: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.0.11: Thiet ke lai giao dien song song WebUI/Desktop — sidebar, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi."
+    "changelog_en": "v1.0.14: Fix DDNS create — cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP. v1.0.13: Fix tunnels API 400 — auto-detect account_id from accounts/zones, stop wiping account_id on empty save, map Cloudflare API errors to 502 with Tunnel permission hints, sync Account ID in UI after verify.",
+    "changelog_vi": "v1.0.14: Sua loi them DDNS — loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare. v1.0.13: Sua loi API tunnels 400 — tu dong nhan account_id tu accounts/zones, khong xoa account_id khi save rong, map loi Cloudflare API sang 502 kem goi y quyen Tunnel, dong bo Account ID tren UI sau verify."
   },
   {
     "id": "webdav",
