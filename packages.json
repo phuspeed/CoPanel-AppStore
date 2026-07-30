@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.16.zip",
     "is_core": true,
-    "changelog_en": "v1.0.15: Compact card list when window is narrow; click container for status detail modal. v1.0.14: Non-blocking deploy/stop/restart/build via background jobs; live CPU/RAM/network stats; richer logs with refresh. v1.0.13: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid.",
-    "changelog_vi": "v1.0.15: Danh sach dang the khi thu gon cua so; bam container de xem trang thai chi tiet. v1.0.14: Deploy/stop/restart/build khong lam do UI (job + progress); hien CPU/RAM/network; log chi tiet co refresh/auto-refresh. v1.0.13: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install."
+    "changelog_en": "v1.0.16: Container status modal — set auto restart policy (no / on-failure / always / unless-stopped). v1.0.15: Compact card list + status detail modal.",
+    "changelog_vi": "v1.0.16: Modal trang thai container — thiet lap chinh sach auto restart (no / on-failure / always / unless-stopped). v1.0.15: Danh sach the gon + modal chi tiet."
   },
   {
     "id": "download_manager",
