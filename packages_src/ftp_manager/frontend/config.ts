@@ -1,10 +1,10 @@
 import FtpManager from './index';
 
 export default {
-  name: 'FTP / SFTP Manager',
+  name: 'FTP Manager',
   icon: 'Server',
   path: '/ftp-manager',
-  description: 'Manage external FTP, FTPS, and SFTP connections; browse and transfer files.',
+  description: 'External FTP, FTPS, and SFTP connections.',
   component: FtpManager,
   windowMode: true,
   defaultWindowSize: { width: 1100, height: 720 },

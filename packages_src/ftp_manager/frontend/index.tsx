@@ -1,22 +1,14 @@
 /**
- * FTP / SFTP Manager — AppStore module (Classic + Desktop Dual UI).
+ * FTP Manager — AppStore module (Classic + Desktop Dual UI).
+ * Layout mirrors Cloud Sync: compact connection sidebar + main browser pane.
  */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppShellContext } from '../../core/hooks/useAppShellContext';
+import { useIsWindowedModule } from '../../core/shell/WindowViewportContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
 import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
 import WindowModal from '../../core/shell/WindowModal';
-import {
-  chromeNavIcon,
-  chromeNavItem,
-  chromeSidebar,
-  chromeSidebarHeader,
-  chromeSidebarIconBox,
-  chromeSidebarNav,
-  chromeSidebarSubtitle,
-  chromeSidebarTitle,
-} from '../../core/desktopChrome';
 import { cn } from '../../lib/utils';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
@@ -121,6 +113,7 @@ export default function FtpManager() {
   const isDark = theme === 'dark';
   const lang: Lang = language === 'vi' ? 'vi' : 'en';
   const tr = TEXT[lang];
+  const windowed = useIsWindowedModule();
 
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -128,7 +121,7 @@ export default function FtpManager() {
   const [items, setItems] = useState<RemoteItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<RemoteItem | null>(null);
 
-  const [loadingList, setLoadingList] = useState(false);
+  const [loadingList, setLoadingList] = useState(true);
   const [loadingBrowse, setLoadingBrowse] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -137,6 +130,7 @@ export default function FtpManager() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm());
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [transferOpen, setTransferOpen] = useState(false);
   const [transferDir, setTransferDir] = useState<'download' | 'upload'>('download');
@@ -151,46 +145,47 @@ export default function FtpManager() {
     [connections, selectedId],
   );
 
-  const loadConnections = useCallback(async () => {
+  const loadConnections = useCallback(async (preferId?: number | null) => {
     setLoadingList(true);
     setError(null);
     try {
       const data = await api<Connection[]>('/api/ftp_manager/connections');
-      setConnections(Array.isArray(data) ? data : []);
-      if (selectedId == null && Array.isArray(data) && data.length > 0) {
-        setSelectedId(data[0].id);
-      }
+      const list = Array.isArray(data) ? data : [];
+      setConnections(list);
+      setSelectedId((prev) => {
+        if (preferId != null && list.some((c) => c.id === preferId)) return preferId;
+        if (prev != null && list.some((c) => c.id === prev)) return prev;
+        return list.length > 0 ? list[0].id : null;
+      });
     } catch (e: any) {
       setError(e?.message || String(e));
+      setConnections([]);
     } finally {
       setLoadingList(false);
     }
-  }, [selectedId]);
+  }, []);
 
-  const browse = useCallback(
-    async (connId: number, path: string) => {
-      setLoadingBrowse(true);
-      setError(null);
-      setSelectedItem(null);
-      try {
-        const data = await api<{ path: string; items: RemoteItem[] }>(
-          `/api/ftp_manager/connections/${connId}/list?path=${encodeURIComponent(path)}`,
-        );
-        setRemotePath(data.path || path || '/');
-        setItems(Array.isArray(data.items) ? data.items : []);
-      } catch (e: any) {
-        setError(e?.message || String(e));
-        setItems([]);
-      } finally {
-        setLoadingBrowse(false);
-      }
-    },
-    [],
-  );
+  const browse = useCallback(async (connId: number, path: string) => {
+    setLoadingBrowse(true);
+    setError(null);
+    setSelectedItem(null);
+    try {
+      const data = await api<{ path: string; items: RemoteItem[] }>(
+        `/api/ftp_manager/connections/${connId}/list?path=${encodeURIComponent(path)}`,
+      );
+      setRemotePath(data.path || path || '/');
+      setItems(Array.isArray(data.items) ? data.items : []);
+    } catch (e: any) {
+      setError(e?.message || String(e));
+      setItems([]);
+    } finally {
+      setLoadingBrowse(false);
+    }
+  }, []);
 
   useEffect(() => {
     loadConnections();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [loadConnections]);
 
   useEffect(() => {
     if (selectedId != null) {
@@ -200,7 +195,9 @@ export default function FtpManager() {
       setItems([]);
       setRemotePath('/');
     }
-  }, [selectedId]); // eslint-disable-line react-hooks/exhaustive-deps
+    // only re-browse when selection changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
 
   const crumbs = useMemo(() => {
     const parts = remotePath.split('/').filter(Boolean);
@@ -216,6 +213,7 @@ export default function FtpManager() {
   const openCreate = () => {
     setEditingId(null);
     setForm(emptyForm());
+    setShowAdvanced(false);
     setEditorOpen(true);
     setMsg(null);
     setError(null);
@@ -224,6 +222,7 @@ export default function FtpManager() {
   const openEdit = (c: Connection) => {
     setEditingId(c.id);
     setForm(formFromConn(c));
+    setShowAdvanced(false);
     setEditorOpen(true);
     setMsg(null);
     setError(null);
@@ -258,12 +257,13 @@ export default function FtpManager() {
       if (form.auth_type === 'key_path' && form.key_path) payload.key_path = form.key_path;
       if (form.auth_type === 'key_blob' && form.key_blob) payload.key_blob = form.key_blob;
 
+      let newId: number | null = editingId;
       if (editingId == null) {
         const created = await api<Connection>('/api/ftp_manager/connections', {
           method: 'POST',
           body: payload,
         });
-        setSelectedId(created.id);
+        newId = created.id;
       } else {
         await api(`/api/ftp_manager/connections/${editingId}`, {
           method: 'PATCH',
@@ -271,8 +271,8 @@ export default function FtpManager() {
         });
       }
       setEditorOpen(false);
-      await loadConnections();
-      setMsg(tr.save);
+      await loadConnections(newId);
+      setMsg(tr.saved);
     } catch (e: any) {
       setError(e?.message || String(e));
     } finally {
@@ -320,7 +320,7 @@ export default function FtpManager() {
       await api(`/api/ftp_manager/connections/${selectedId}`, { method: 'DELETE' });
       setSelectedId(null);
       setConfirmOpen(false);
-      await loadConnections();
+      await loadConnections(null);
     } catch (e: any) {
       setError(e?.message || String(e));
     } finally {
@@ -332,7 +332,7 @@ export default function FtpManager() {
     if (selectedId == null) return;
     const name = window.prompt(tr.namePrompt);
     if (!name || !name.trim()) return;
-    const path = remotePath.replace(/\/$/, '') + '/' + name.trim();
+    const path = `${remotePath.replace(/\/$/, '')}/${name.trim()}`;
     setBusy(true);
     try {
       await api(`/api/ftp_manager/connections/${selectedId}/mkdir`, {
@@ -410,91 +410,167 @@ export default function FtpManager() {
   };
 
   const fieldClass = cn(
-    'w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-sky-500/40',
-    isDark ? 'border-zinc-700 bg-zinc-900 text-zinc-100' : 'border-zinc-300 bg-white text-zinc-900',
+    'w-full rounded-lg border px-3 py-2 text-sm outline-none transition',
+    'focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500',
+    isDark ? 'border-slate-700 bg-slate-900 text-slate-100' : 'border-slate-300 bg-white text-slate-900',
   );
+  const labelClass = cn('mb-1.5 block text-xs font-medium', isDark ? 'text-slate-400' : 'text-slate-500');
   const btnPrimary = cn(
-    'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-white',
+    'inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-white',
     'bg-sky-600 hover:bg-sky-500 disabled:opacity-50',
   );
   const btnGhost = cn(
-    'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium border',
+    'inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium border',
     isDark
-      ? 'border-zinc-700 text-zinc-200 hover:bg-zinc-800'
-      : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100',
+      ? 'border-slate-700 text-slate-200 hover:bg-slate-800'
+      : 'border-slate-300 text-slate-700 hover:bg-slate-50',
+  );
+  const btnIcon = cn(
+    'inline-flex h-8 w-8 items-center justify-center rounded-lg border',
+    isDark
+      ? 'border-slate-700 text-slate-300 hover:bg-slate-800'
+      : 'border-slate-300 text-slate-600 hover:bg-slate-50',
   );
 
   const sidebar = (
-    <aside className={cn(chromeSidebar, 'flex h-full min-h-0 flex-col')}>
-      <div className={chromeSidebarHeader}>
-        <div className={chromeSidebarIconBox}>
-          <Icons.Server className="h-5 w-5" />
-        </div>
+    <aside
+      className={cn(
+        'flex h-full w-[220px] shrink-0 flex-col border-r',
+        isDark ? 'border-slate-800 bg-slate-950/90' : 'border-slate-200 bg-slate-50/95',
+      )}
+    >
+      <div
+        className={cn(
+          'flex shrink-0 items-center justify-between gap-2 border-b px-3 py-3',
+          isDark ? 'border-slate-800' : 'border-slate-200',
+        )}
+      >
         <div className="min-w-0">
-          <div className={chromeSidebarTitle}>{tr.title}</div>
-          <div className={chromeSidebarSubtitle}>{tr.subtitle}</div>
+          <div className="truncate text-sm font-semibold">{tr.title}</div>
+          <div className={cn('truncate text-[11px]', isDark ? 'text-slate-500' : 'text-slate-400')}>
+            {tr.subtitle}
+          </div>
         </div>
-      </div>
-      <div className="flex items-center justify-between gap-2 px-3 pb-2">
-        <span className="text-xs font-medium uppercase tracking-wide opacity-60">{tr.connections}</span>
-        <button type="button" className={btnGhost + ' !px-2 !py-1 text-xs'} onClick={openCreate}>
-          <Icons.Plus className="h-3.5 w-3.5" />
-          {tr.add}
+        <button
+          type="button"
+          title={tr.add}
+          onClick={openCreate}
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white hover:bg-sky-500"
+        >
+          <Icons.Plus className="h-4 w-4" />
         </button>
       </div>
-      <nav className={cn(chromeSidebarNav, 'min-h-0 flex-1 overflow-y-auto')}>
+
+      <nav className="min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2">
         {loadingList && (
-          <div className="px-3 py-2 text-sm opacity-60">{tr.connecting}</div>
+          <div className={cn('flex items-center gap-2 px-2 py-3 text-xs', isDark ? 'text-slate-500' : 'text-slate-400')}>
+            <Icons.Loader2 className="h-3.5 w-3.5 animate-spin" />
+            {tr.loading}
+          </div>
         )}
         {!loadingList && connections.length === 0 && (
-          <div className="px-3 py-2 text-sm opacity-60">{tr.empty}</div>
+          <p className={cn('px-2 py-6 text-center text-[11px] leading-relaxed', isDark ? 'text-slate-500' : 'text-slate-400')}>
+            {tr.emptySidebar}
+          </p>
         )}
-        {connections.map((c) => {
-          const active = c.id === selectedId;
-          return (
-            <button
-              key={c.id}
-              type="button"
-              className={cn(chromeNavItem, active && 'bg-sky-500/15 text-sky-500')}
-              onClick={() => setSelectedId(c.id)}
-            >
-              <Icons.HardDrive className={chromeNavIcon} />
-              <span className="min-w-0 flex-1 truncate text-left">
-                <span className="block truncate font-medium">{c.label}</span>
-                <span className="block truncate text-xs opacity-60">
-                  {c.protocol.toUpperCase()} · {c.host}:{c.port}
+        {!loadingList &&
+          connections.map((c) => {
+            const active = c.id === selectedId;
+            return (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => setSelectedId(c.id)}
+                className={cn(
+                  'flex w-full items-center gap-2 rounded-lg px-2.5 py-2.5 text-left text-xs transition',
+                  active
+                    ? isDark
+                      ? 'bg-slate-800 text-white'
+                      : 'bg-white text-slate-900 shadow-sm'
+                    : isDark
+                      ? 'text-slate-300 hover:bg-slate-900/70'
+                      : 'text-slate-700 hover:bg-white/80',
+                )}
+              >
+                <Icons.HardDrive
+                  className={cn('h-4 w-4 shrink-0', active ? 'text-sky-500' : 'text-slate-400')}
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-medium">{c.label}</span>
+                  <span className={cn('block truncate', isDark ? 'text-slate-500' : 'text-slate-400')}>
+                    {c.protocol.toUpperCase()} · {c.host}
+                  </span>
                 </span>
-              </span>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
       </nav>
     </aside>
   );
 
+  const banner =
+    error || msg ? (
+      <div
+        className={cn(
+          'mx-4 mt-3 flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-xs',
+          error
+            ? 'border-red-500/30 bg-red-500/10 text-red-500'
+            : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600',
+        )}
+      >
+        {error ? <Icons.AlertTriangle className="h-4 w-4 shrink-0" /> : <Icons.CheckCircle2 className="h-4 w-4 shrink-0" />}
+        <span className="min-w-0 flex-1">{error || msg}</span>
+        <button type="button" className="opacity-60 hover:opacity-100" onClick={() => { setError(null); setMsg(null); }}>
+          <Icons.X className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    ) : null;
+
   return (
     <ModuleViewport constrained className="overflow-hidden">
-      <div className={cn('flex h-full min-h-0 flex-col', isDark ? 'text-zinc-100' : 'text-zinc-900')}>
-        <ModuleSidebarLayout sidebar={sidebar} className="min-h-0 flex-1">
-          <div className="flex h-full min-h-0 flex-col overflow-hidden">
-            <header
-              className={cn(
-                'flex shrink-0 flex-wrap items-center gap-2 border-b px-4 py-3',
-                isDark ? 'border-zinc-800' : 'border-zinc-200',
-              )}
-            >
-              <div className="min-w-0 flex-1">
-                <h1 className="truncate text-lg font-semibold">
-                  {selected ? selected.label : tr.selectConnection}
-                </h1>
-                {selected && (
-                  <p className="truncate text-xs opacity-60">
+      <ModuleSidebarLayout
+        isDark={isDark}
+        mobileTitle={tr.title}
+        className={cn('min-h-0', isDark ? 'text-slate-100' : 'text-slate-900')}
+        sidebar={sidebar}
+      >
+        <div className="flex h-full min-h-0 flex-col overflow-hidden">
+          {banner}
+
+          {!selected ? (
+            <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
+              <div
+                className={cn(
+                  'flex h-14 w-14 items-center justify-center rounded-2xl',
+                  isDark ? 'bg-slate-800' : 'bg-slate-100',
+                )}
+              >
+                <Icons.Server className={cn('h-7 w-7', isDark ? 'text-slate-400' : 'text-slate-500')} />
+              </div>
+              <div className="max-w-sm space-y-1.5">
+                <h2 className="text-base font-semibold">{tr.emptyTitle}</h2>
+                <p className={cn('text-sm', isDark ? 'text-slate-400' : 'text-slate-500')}>{tr.emptyHint}</p>
+              </div>
+              <button type="button" className={btnPrimary} onClick={openCreate}>
+                <Icons.Plus className="h-4 w-4" />
+                {tr.add}
+              </button>
+            </div>
+          ) : (
+            <>
+              <header
+                className={cn(
+                  'flex shrink-0 flex-wrap items-center gap-2 border-b px-4 py-3',
+                  isDark ? 'border-slate-800' : 'border-slate-200',
+                )}
+              >
+                <div className="min-w-0 flex-1">
+                  <h1 className="truncate text-base font-semibold">{selected.label}</h1>
+                  <p className={cn('truncate text-xs', isDark ? 'text-slate-500' : 'text-slate-400')}>
                     {selected.protocol.toUpperCase()}://{selected.username}@{selected.host}:{selected.port}
                   </p>
-                )}
-              </div>
-              {selected && (
-                <div className="flex flex-wrap gap-2">
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   <button type="button" className={btnGhost} disabled={busy} onClick={() => testConnection(selected.id)}>
                     <Icons.ShieldCheck className="h-4 w-4" />
                     {busy ? tr.testing : tr.test}
@@ -515,225 +591,200 @@ export default function FtpManager() {
                     {tr.delete}
                   </button>
                 </div>
-              )}
-            </header>
+              </header>
 
-            {(error || msg) && (
               <div
                 className={cn(
-                  'shrink-0 px-4 py-2 text-sm',
-                  error
-                    ? isDark
-                      ? 'bg-red-950/40 text-red-300'
-                      : 'bg-red-50 text-red-700'
-                    : isDark
-                      ? 'bg-emerald-950/40 text-emerald-300'
-                      : 'bg-emerald-50 text-emerald-700',
+                  'flex shrink-0 flex-wrap items-center gap-1.5 border-b px-3 py-2',
+                  isDark ? 'border-slate-800' : 'border-slate-200',
                 )}
               >
-                {error || msg}
-              </div>
-            )}
-
-            {!selected ? (
-              <div className="flex flex-1 items-center justify-center p-8 text-sm opacity-60">{tr.empty}</div>
-            ) : (
-              <main className="flex min-h-0 flex-1 flex-col overflow-hidden">
-                <div
-                  className={cn(
-                    'flex shrink-0 flex-wrap items-center gap-2 border-b px-4 py-2',
-                    isDark ? 'border-zinc-800' : 'border-zinc-200',
-                  )}
-                >
-                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1 text-sm">
-                    {crumbs.map((c, i) => (
-                      <span key={c.path} className="inline-flex items-center gap-1">
-                        {i > 0 && <Icons.ChevronRight className="h-3.5 w-3.5 opacity-40" />}
-                        <button
-                          type="button"
-                          className="truncate hover:text-sky-500"
-                          onClick={() => browse(selected.id, c.path)}
-                        >
-                          {c.label}
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                  <button type="button" className={btnGhost} disabled={loadingBrowse} onClick={() => browse(selected.id, remotePath)}>
-                    <Icons.RefreshCw className={cn('h-4 w-4', loadingBrowse && 'animate-spin')} />
-                    {tr.refresh}
-                  </button>
-                  <button type="button" className={btnGhost} onClick={doMkdir}>
-                    <Icons.FolderPlus className="h-4 w-4" />
-                    {tr.mkdir}
-                  </button>
-                  <button
-                    type="button"
-                    className={btnGhost}
-                    disabled={!selectedItem}
-                    onClick={doRename}
-                  >
-                    <Icons.TextCursorInput className="h-4 w-4" />
-                    {tr.rename}
-                  </button>
-                  <button
-                    type="button"
-                    className={btnGhost}
-                    disabled={!selectedItem}
-                    onClick={() => {
-                      setConfirmKind('item');
-                      setConfirmOpen(true);
-                    }}
-                  >
-                    <Icons.Trash2 className="h-4 w-4" />
-                    {tr.deleteItem}
-                  </button>
-                  <button
-                    type="button"
-                    className={btnPrimary}
-                    onClick={() => {
-                      setTransferDir('download');
-                      setLocalPath('/tmp');
-                      setTransferOpen(true);
-                    }}
-                  >
-                    <Icons.Download className="h-4 w-4" />
-                    {tr.download}
-                  </button>
-                  <button
-                    type="button"
-                    className={btnPrimary}
-                    onClick={() => {
-                      setTransferDir('upload');
-                      setLocalPath('/tmp');
-                      setTransferOpen(true);
-                    }}
-                  >
-                    <Icons.Upload className="h-4 w-4" />
-                    {tr.upload}
-                  </button>
+                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-0.5 text-sm">
+                  {crumbs.map((c, i) => (
+                    <span key={c.path} className="inline-flex items-center gap-0.5">
+                      {i > 0 && <Icons.ChevronRight className="h-3.5 w-3.5 opacity-40" />}
+                      <button
+                        type="button"
+                        className={cn(
+                          'rounded px-1.5 py-0.5 hover:text-sky-500',
+                          i === crumbs.length - 1 && 'font-medium',
+                        )}
+                        onClick={() => browse(selected.id, c.path)}
+                      >
+                        {c.label}
+                      </button>
+                    </span>
+                  ))}
                 </div>
+                <button type="button" className={btnIcon} title={tr.refresh} disabled={loadingBrowse} onClick={() => browse(selected.id, remotePath)}>
+                  <Icons.RefreshCw className={cn('h-4 w-4', loadingBrowse && 'animate-spin')} />
+                </button>
+                <button type="button" className={btnIcon} title={tr.mkdir} onClick={doMkdir}>
+                  <Icons.FolderPlus className="h-4 w-4" />
+                </button>
+                <button type="button" className={btnIcon} title={tr.rename} disabled={!selectedItem} onClick={doRename}>
+                  <Icons.TextCursorInput className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  className={btnIcon}
+                  title={tr.deleteItem}
+                  disabled={!selectedItem}
+                  onClick={() => {
+                    setConfirmKind('item');
+                    setConfirmOpen(true);
+                  }}
+                >
+                  <Icons.Trash2 className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  className={btnGhost}
+                  onClick={() => {
+                    setTransferDir('download');
+                    setLocalPath('/tmp');
+                    setTransferOpen(true);
+                  }}
+                >
+                  <Icons.Download className="h-4 w-4" />
+                  {tr.download}
+                </button>
+                <button
+                  type="button"
+                  className={btnPrimary}
+                  onClick={() => {
+                    setTransferDir('upload');
+                    setLocalPath('/tmp');
+                    setTransferOpen(true);
+                  }}
+                >
+                  <Icons.Upload className="h-4 w-4" />
+                  {tr.upload}
+                </button>
+              </div>
 
-                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-                  <table className="w-full text-left text-sm">
-                    <thead
-                      className={cn(
-                        'sticky top-0 z-10 border-b text-xs uppercase tracking-wide opacity-70',
-                        isDark ? 'border-zinc-800 bg-zinc-950' : 'border-zinc-200 bg-zinc-50',
-                      )}
-                    >
-                      <tr>
-                        <th className="px-4 py-2 font-medium">{tr.name}</th>
-                        <th className="px-4 py-2 font-medium">{tr.type}</th>
-                        <th className="px-4 py-2 font-medium">{tr.size}</th>
-                        <th className="px-4 py-2 font-medium">{tr.modified}</th>
+              <div className={cn('min-h-0 flex-1 overflow-y-auto overscroll-contain', windowed ? '' : '')}>
+                <table className="w-full text-left text-sm">
+                  <thead
+                    className={cn(
+                      'sticky top-0 z-10 border-b text-[11px] uppercase tracking-wide',
+                      isDark ? 'border-slate-800 bg-slate-950 text-slate-500' : 'border-slate-200 bg-slate-50 text-slate-400',
+                    )}
+                  >
+                    <tr>
+                      <th className="px-4 py-2.5 font-medium">{tr.name}</th>
+                      <th className="px-4 py-2.5 font-medium">{tr.type}</th>
+                      <th className="px-4 py-2.5 font-medium">{tr.size}</th>
+                      <th className="px-4 py-2.5 font-medium">{tr.modified}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {remotePath !== '/' && (
+                      <tr
+                        className={cn(
+                          'cursor-pointer border-b',
+                          isDark ? 'border-slate-800/80 hover:bg-slate-900' : 'border-slate-100 hover:bg-slate-50',
+                        )}
+                        onDoubleClick={() => {
+                          const parent =
+                            remotePath.replace(/\/+$/, '').split('/').slice(0, -1).join('/') || '/';
+                          browse(selected.id, parent);
+                        }}
+                      >
+                        <td className="px-4 py-2.5" colSpan={4}>
+                          <span className="inline-flex items-center gap-2 opacity-70">
+                            <Icons.CornerLeftUp className="h-4 w-4" />
+                            ..
+                          </span>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {remotePath !== '/' && (
+                    )}
+                    {!loadingBrowse && items.length === 0 && (
+                      <tr>
+                        <td className="px-4 py-10 text-center text-sm opacity-50" colSpan={4}>
+                          {tr.noItems}
+                        </td>
+                      </tr>
+                    )}
+                    {items.map((item) => {
+                      const active = selectedItem?.path === item.path;
+                      return (
                         <tr
+                          key={item.path}
                           className={cn(
                             'cursor-pointer border-b',
-                            isDark ? 'border-zinc-800/80 hover:bg-zinc-900' : 'border-zinc-100 hover:bg-zinc-50',
+                            isDark ? 'border-slate-800/80' : 'border-slate-100',
+                            active
+                              ? 'bg-sky-500/10'
+                              : isDark
+                                ? 'hover:bg-slate-900'
+                                : 'hover:bg-slate-50',
                           )}
+                          onClick={() => setSelectedItem(item)}
                           onDoubleClick={() => {
-                            const parent = remotePath.replace(/\/+$/, '').split('/').slice(0, -1).join('/') || '/';
-                            browse(selected.id, parent);
+                            if (item.is_dir) browse(selected.id, item.path);
                           }}
                         >
-                          <td className="px-4 py-2" colSpan={4}>
+                          <td className="px-4 py-2.5">
                             <span className="inline-flex items-center gap-2">
-                              <Icons.CornerLeftUp className="h-4 w-4 opacity-60" />
-                              ..
+                              {item.is_dir ? (
+                                <Icons.Folder className="h-4 w-4 text-amber-500" />
+                              ) : (
+                                <Icons.File className="h-4 w-4 opacity-50" />
+                              )}
+                              {item.name}
                             </span>
                           </td>
+                          <td className="px-4 py-2.5 opacity-60">{item.is_dir ? tr.folder : tr.file}</td>
+                          <td className="px-4 py-2.5 opacity-60">{item.is_dir ? '—' : formatBytes(item.size)}</td>
+                          <td className="px-4 py-2.5 opacity-60">{formatTime(item.modified)}</td>
                         </tr>
-                      )}
-                      {!loadingBrowse && items.length === 0 && (
-                        <tr>
-                          <td className="px-4 py-8 text-center opacity-60" colSpan={4}>
-                            {tr.noItems}
-                          </td>
-                        </tr>
-                      )}
-                      {items.map((item) => {
-                        const active = selectedItem?.path === item.path;
-                        return (
-                          <tr
-                            key={item.path}
-                            className={cn(
-                              'cursor-pointer border-b',
-                              isDark ? 'border-zinc-800/80' : 'border-zinc-100',
-                              active
-                                ? 'bg-sky-500/15'
-                                : isDark
-                                  ? 'hover:bg-zinc-900'
-                                  : 'hover:bg-zinc-50',
-                            )}
-                            onClick={() => setSelectedItem(item)}
-                            onDoubleClick={() => {
-                              if (item.is_dir) browse(selected.id, item.path);
-                            }}
-                          >
-                            <td className="px-4 py-2">
-                              <span className="inline-flex items-center gap-2">
-                                {item.is_dir ? (
-                                  <Icons.Folder className="h-4 w-4 text-amber-500" />
-                                ) : (
-                                  <Icons.File className="h-4 w-4 opacity-60" />
-                                )}
-                                {item.name}
-                              </span>
-                            </td>
-                            <td className="px-4 py-2 opacity-70">{item.is_dir ? tr.folder : tr.file}</td>
-                            <td className="px-4 py-2 opacity-70">{item.is_dir ? '—' : formatBytes(item.size)}</td>
-                            <td className="px-4 py-2 opacity-70">{formatTime(item.modified)}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
 
-                <div
-                  className={cn(
-                    'flex shrink-0 items-center justify-between gap-2 border-t px-4 py-2 text-xs',
-                    isDark ? 'border-zinc-800 opacity-70' : 'border-zinc-200 opacity-70',
-                  )}
-                >
-                  <span>
-                    {tr.path}: {remotePath}
-                    {selectedItem ? ` · ${selectedItem.name}` : ''}
-                  </span>
-                  <Link
-                    to={`/file-manager`}
-                    className="inline-flex items-center gap-1 text-sky-500 hover:underline"
-                  >
-                    <Icons.FolderOpen className="h-3.5 w-3.5" />
-                    {tr.openFileManager}
-                  </Link>
-                </div>
-              </main>
-            )}
-          </div>
-        </ModuleSidebarLayout>
-      </div>
+              <div
+                className={cn(
+                  'flex shrink-0 items-center justify-between gap-2 border-t px-4 py-2 text-[11px]',
+                  isDark ? 'border-slate-800 text-slate-500' : 'border-slate-200 text-slate-400',
+                )}
+              >
+                <span className="truncate">
+                  {tr.path}: {remotePath}
+                  {selectedItem ? ` · ${selectedItem.name}` : ''}
+                </span>
+                <Link to="/file-manager" className="inline-flex items-center gap-1 text-sky-500 hover:underline">
+                  <Icons.FolderOpen className="h-3.5 w-3.5" />
+                  {tr.openFileManager}
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </ModuleSidebarLayout>
 
       <WindowModal
         open={editorOpen}
         onClose={() => setEditorOpen(false)}
         title={editingId == null ? tr.add : tr.edit}
-        maxWidth="xl"
-        className="max-h-[85vh] max-w-xl"
+        maxWidth="lg"
+        className="max-h-[85vh]"
       >
-        <div className="space-y-3 p-1">
-          <div className="grid gap-3 sm:grid-cols-2">
-            <label className="block text-sm">
-              <span className="mb-1 block opacity-70">{tr.label}</span>
-              <input className={fieldClass} value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} />
+        <div className="space-y-4 p-1">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <label className="block sm:col-span-1">
+              <span className={labelClass}>{tr.label}</span>
+              <input
+                className={fieldClass}
+                autoComplete="off"
+                value={form.label}
+                onChange={(e) => setForm({ ...form, label: e.target.value })}
+              />
             </label>
-            <label className="block text-sm">
-              <span className="mb-1 block opacity-70">{tr.protocol}</span>
+            <label className="block sm:col-span-1">
+              <span className={labelClass}>{tr.protocol}</span>
               <select
                 className={fieldClass}
                 value={form.protocol}
@@ -744,21 +795,38 @@ export default function FtpManager() {
                 <option value="ftps">FTPS</option>
               </select>
             </label>
-            <label className="block text-sm sm:col-span-2">
-              <span className="mb-1 block opacity-70">{tr.host}</span>
-              <input className={fieldClass} value={form.host} onChange={(e) => setForm({ ...form, host: e.target.value })} />
+            <label className="block sm:col-span-2">
+              <span className={labelClass}>{tr.host}</span>
+              <input
+                className={fieldClass}
+                autoComplete="off"
+                value={form.host}
+                onChange={(e) => setForm({ ...form, host: e.target.value })}
+              />
             </label>
-            <label className="block text-sm">
-              <span className="mb-1 block opacity-70">{tr.port}</span>
-              <input className={fieldClass} value={form.port} onChange={(e) => setForm({ ...form, port: e.target.value })} />
+            <label className="block">
+              <span className={labelClass}>{tr.port}</span>
+              <input
+                className={fieldClass}
+                autoComplete="off"
+                inputMode="numeric"
+                value={form.port}
+                onChange={(e) => setForm({ ...form, port: e.target.value })}
+              />
             </label>
-            <label className="block text-sm">
-              <span className="mb-1 block opacity-70">{tr.username}</span>
-              <input className={fieldClass} value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
+            <label className="block">
+              <span className={labelClass}>{tr.username}</span>
+              <input
+                className={fieldClass}
+                autoComplete="off"
+                name="ftp-username"
+                value={form.username}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
+              />
             </label>
             {form.protocol === 'sftp' && (
-              <label className="block text-sm sm:col-span-2">
-                <span className="mb-1 block opacity-70">{tr.authType}</span>
+              <label className="block sm:col-span-2">
+                <span className={labelClass}>{tr.authType}</span>
                 <select
                   className={fieldClass}
                   value={form.auth_type}
@@ -771,11 +839,13 @@ export default function FtpManager() {
               </label>
             )}
             {(form.auth_type === 'password' || form.protocol !== 'sftp') && (
-              <label className="block text-sm sm:col-span-2">
-                <span className="mb-1 block opacity-70">{tr.password}</span>
+              <label className="block sm:col-span-2">
+                <span className={labelClass}>{tr.password}</span>
                 <input
                   type="password"
                   className={fieldClass}
+                  autoComplete="new-password"
+                  name="ftp-password"
                   value={form.password}
                   placeholder={editingId != null ? tr.passwordKeep : ''}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -783,10 +853,11 @@ export default function FtpManager() {
               </label>
             )}
             {form.protocol === 'sftp' && form.auth_type === 'key_path' && (
-              <label className="block text-sm sm:col-span-2">
-                <span className="mb-1 block opacity-70">{tr.keyPath}</span>
+              <label className="block sm:col-span-2">
+                <span className={labelClass}>{tr.keyPath}</span>
                 <input
                   className={fieldClass}
+                  autoComplete="off"
                   value={form.key_path}
                   placeholder={editingId != null ? tr.keyKeep : '~/.ssh/id_ed25519'}
                   onChange={(e) => setForm({ ...form, key_path: e.target.value })}
@@ -794,40 +865,70 @@ export default function FtpManager() {
               </label>
             )}
             {form.protocol === 'sftp' && form.auth_type === 'key_blob' && (
-              <label className="block text-sm sm:col-span-2">
-                <span className="mb-1 block opacity-70">{tr.keyBlob}</span>
+              <label className="block sm:col-span-2">
+                <span className={labelClass}>{tr.keyBlob}</span>
                 <textarea
-                  className={cn(fieldClass, 'min-h-[120px] font-mono text-xs')}
+                  className={cn(fieldClass, 'min-h-[100px] font-mono text-xs')}
+                  autoComplete="off"
                   value={form.key_blob}
                   placeholder={editingId != null ? tr.keyKeep : '-----BEGIN OPENSSH PRIVATE KEY-----'}
                   onChange={(e) => setForm({ ...form, key_blob: e.target.value })}
                 />
               </label>
             )}
-            <label className="block text-sm">
-              <span className="mb-1 block opacity-70">{tr.remoteRoot}</span>
-              <input className={fieldClass} value={form.remote_root} onChange={(e) => setForm({ ...form, remote_root: e.target.value })} />
-            </label>
-            <label className="block text-sm">
-              <span className="mb-1 block opacity-70">{tr.timeout}</span>
-              <input className={fieldClass} value={form.timeout} onChange={(e) => setForm({ ...form, timeout: e.target.value })} />
-            </label>
-            {form.protocol !== 'sftp' && (
-              <label className="flex items-center gap-2 text-sm sm:col-span-2">
-                <input
-                  type="checkbox"
-                  checked={form.passive}
-                  onChange={(e) => setForm({ ...form, passive: e.target.checked })}
-                />
-                {tr.passive}
-              </label>
-            )}
           </div>
-          <div className="flex flex-wrap justify-end gap-2 pt-2">
+
+          <button
+            type="button"
+            className={cn(
+              'flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs font-medium',
+              isDark ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-500 hover:bg-slate-50',
+            )}
+            onClick={() => setShowAdvanced((v) => !v)}
+          >
+            {showAdvanced ? <Icons.ChevronDown className="h-3.5 w-3.5" /> : <Icons.ChevronRight className="h-3.5 w-3.5" />}
+            {tr.advanced}
+          </button>
+
+          {showAdvanced && (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <label className="block">
+                <span className={labelClass}>{tr.remoteRoot}</span>
+                <input
+                  className={fieldClass}
+                  autoComplete="off"
+                  value={form.remote_root}
+                  onChange={(e) => setForm({ ...form, remote_root: e.target.value })}
+                />
+              </label>
+              <label className="block">
+                <span className={labelClass}>{tr.timeout}</span>
+                <input
+                  className={fieldClass}
+                  autoComplete="off"
+                  inputMode="numeric"
+                  value={form.timeout}
+                  onChange={(e) => setForm({ ...form, timeout: e.target.value })}
+                />
+              </label>
+              {form.protocol !== 'sftp' && (
+                <label className="flex items-center gap-2 text-sm sm:col-span-2">
+                  <input
+                    type="checkbox"
+                    checked={form.passive}
+                    onChange={(e) => setForm({ ...form, passive: e.target.checked })}
+                  />
+                  {tr.passive}
+                </label>
+              )}
+            </div>
+          )}
+
+          <div className="flex flex-wrap justify-end gap-2 border-t pt-3" style={{ borderColor: isDark ? '#1e293b' : '#e2e8f0' }}>
             <button type="button" className={btnGhost} onClick={() => setEditorOpen(false)}>
               {tr.cancel}
             </button>
-            <button type="button" className={btnGhost} disabled={busy} onClick={() => testConnection()}>
+            <button type="button" className={btnGhost} disabled={busy || !form.host.trim() || !form.username.trim()} onClick={() => testConnection()}>
               {busy ? tr.testing : tr.test}
             </button>
             <button
@@ -846,20 +947,18 @@ export default function FtpManager() {
         open={transferOpen}
         onClose={() => setTransferOpen(false)}
         title={transferDir === 'download' ? tr.download : tr.upload}
+        maxWidth="md"
       >
         <div className="space-y-3 p-1">
-          <label className="block text-sm">
-            <span className="mb-1 block opacity-70">{tr.remotePath}</span>
-            <input
-              className={fieldClass}
-              value={selectedItem?.path || remotePath}
-              readOnly
-            />
+          <label className="block">
+            <span className={labelClass}>{tr.remotePath}</span>
+            <input className={fieldClass} value={selectedItem?.path || remotePath} readOnly />
           </label>
-          <label className="block text-sm">
-            <span className="mb-1 block opacity-70">{tr.localPath}</span>
+          <label className="block">
+            <span className={labelClass}>{tr.localPath}</span>
             <input
               className={fieldClass}
+              autoComplete="off"
               value={localPath}
               onChange={(e) => setLocalPath(e.target.value)}
             />
@@ -884,9 +983,10 @@ export default function FtpManager() {
         open={confirmOpen}
         onClose={() => setConfirmOpen(false)}
         title={confirmKind === 'connection' ? tr.delete : tr.deleteItem}
+        maxWidth="sm"
       >
         <div className="space-y-4 p-1">
-          <p className="text-sm opacity-80">
+          <p className={cn('text-sm', isDark ? 'text-slate-300' : 'text-slate-600')}>
             {confirmKind === 'connection' ? tr.confirmDelete : tr.confirmDeleteItem}
           </p>
           <div className="flex justify-end gap-2">
