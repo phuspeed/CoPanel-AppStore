@@ -96,6 +96,7 @@ Release: bump `packages_src/<id>/backend/version.txt` → `build_versioned_zip.p
 | `coagent` | AI SysAdmin assistant — OpenAI-compatible ReAct + HITL (`frontend_install: rebuild`) |
 | `cloud_sync` | Google Drive folder sync |
 | `rsync_manager` | VPS move/clone/sync wizard over SSH |
+| `ftp_manager` | External FTP/FTPS/SFTP connections + browse/transfer |
 
 Stubs (not in catalog): `module_cron`, `module_ping_pro`.
 

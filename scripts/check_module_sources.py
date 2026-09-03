@@ -23,6 +23,7 @@ APPSTORE_ONLY = frozenset(
         "coagent",
         "cloud_sync",
         "rsync_manager",
+        "ftp_manager",
     }
 )
 STUB_IDS = frozenset({"module_cron", "module_ping_pro"})

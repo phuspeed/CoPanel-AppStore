@@ -134,6 +134,23 @@
     "changelog_vi": "v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking."
   },
   {
+    "id": "ftp_manager",
+    "name": "FTP / SFTP Manager",
+    "description": "Manage external FTP, FTPS, and SFTP connections: browse remotes and transfer files via Task Center. Optional companion to File Manager for remote servers.",
+    "version": "1.0.0",
+    "icon": "Server",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/ftp_manager.v1.0.0.zip",
+    "is_core": false,
+    "system_packages": [
+      "openssh-client"
+    ],
+    "pip_packages": [
+      "paramiko==3.4.0"
+    ],
+    "changelog_en": "v1.0.0: Initial release — connection CRUD (FTP/FTPS/SFTP), remote browse, mkdir/rename/delete, upload/download via Task Center. Dual UI (Classic + Desktop windowMode).",
+    "changelog_vi": "v1.0.0: Ban dau — CRUD ket noi FTP/FTPS/SFTP, duyet remote, mkdir/doi ten/xoa, upload/download qua Task Center. Dual UI (Classic + Desktop windowMode)."
+  },
+  {
     "id": "cloud_sync",
     "name": "Cloud Sync",
     "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. One-time Google API setup when the panel has no OAuth credentials.",
