@@ -97,7 +97,7 @@ Release: bump `packages_src/<id>/backend/version.txt` → `build_versioned_zip.p
 | `cloud_sync` | Google Drive folder sync |
 | `rsync_manager` | VPS move/clone/sync wizard over SSH |
 | `ftp_manager` | External FTP/FTPS/SFTP connections + browse/transfer |
-| `speedtest` | VPS network speed test — ping / download / upload (`frontend_install: extension`) |
+| `speedtest` | VPS network speed test — ping / download / upload (`frontend_install: rebuild`) |
 
 Stubs (not in catalog): `module_cron`, `module_ping_pro`.
 
