@@ -60,6 +60,7 @@ Update `packages.json` (`version`, `download_url`, changelogs). Commit ZIP + `pa
 | `cloud_sync` | Google Drive folder sync |
 | `rsync_manager` | VPS move / clone / sync wizard (SSH + rsync) |
 | `ftp_manager` | External FTP/FTPS/SFTP connections |
+| `speedtest` | VPS network speed test (ping / download / upload); `frontend_install: extension` |
 
 Stubs: `module_cron`, `module_ping_pro` (not in catalog).
 
