@@ -377,5 +377,17 @@
     ],
     "changelog_en": "v1.0.2: Switch to standard AppStore frontend_install=rebuild (copy into src/modules + Vite build) so CoAgent appears in the launcher immediately after install — same path as other AppStore modules. v1.0.1: Remove react-markdown dependency. v1.0.0: First release.",
     "changelog_vi": "v1.0.2: Chuyen sang frontend_install=rebuild nhu cac module AppStore khac (copy src/modules + Vite build) de CoAgent hien ngay sau khi cai. v1.0.1: Bo react-markdown. v1.0.0: Phat hanh dau."
+  },
+  {
+    "id": "speedtest",
+    "name": "Speedtest",
+    "description": "Measure this VPS network speed — latency, download, and upload — with a live gauge UI like classic Speedtest.",
+    "version": "1.0.0",
+    "icon": "Gauge",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/speedtest.v1.0.0.zip",
+    "is_core": false,
+    "frontend_install": "extension",
+    "changelog_en": "v1.0.0: First release. VPS-side ping / download / upload via Cloudflare (OVH fallback). Live Mbps gauge, en/vi UI, Dual UI windowMode. Pre-built extension/ in ZIP — AppStore install skips npm run build when panel has appstore_manager >= 1.0.32.",
+    "changelog_vi": "v1.0.0: Phat hanh dau. Do ping / tai xuong / tai len tren VPS qua Cloudflare (fallback OVH). Dong ho Mbps truc tiep, UI en/vi, Dual UI windowMode. ZIP co extension/ san — cai AppStore bo qua npm run build khi panel da co appstore_manager >= 1.0.32."
   }
 ]

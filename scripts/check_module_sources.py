@@ -7,7 +7,18 @@ import sys
 from pathlib import Path
 
 APPSTORE = Path(__file__).resolve().parent.parent
-COPANEL = APPSTORE.parent / "copanel"
+
+
+def _resolve_copanel(appstore: Path) -> Path:
+    parent = appstore.parent
+    for name in ("CoPanel", "copanel"):
+        cand = parent / name
+        if cand.is_dir():
+            return cand
+    return parent / "copanel"
+
+
+COPANEL = _resolve_copanel(APPSTORE)
 PACKAGES_SRC = APPSTORE / "packages_src"
 
 APPSTORE_ONLY = frozenset(
@@ -24,6 +35,7 @@ APPSTORE_ONLY = frozenset(
         "cloud_sync",
         "rsync_manager",
         "ftp_manager",
+        "speedtest",
     }
 )
 STUB_IDS = frozenset({"module_cron", "module_ping_pro"})
