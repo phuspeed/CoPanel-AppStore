@@ -8,6 +8,8 @@ GitHub catalog + versioned ZIP distribution for CoPanel modules.
 |-----|------|
 | This file | ZIP layout, build, publish |
 | [MODULE_SOURCES.md](MODULE_SOURCES.md) | **Core vs AppStore-only — where to edit, sync rules** |
+| [AGENTS.md](AGENTS.md) | Agent notes + link to packaging skill |
+| [`.cursor/skills/appstore-module-packaging/SKILL.md`](.cursor/skills/appstore-module-packaging/SKILL.md) | **`frontend_install` + missing icon after install** |
 | [packages_src/README.md](packages_src/README.md) | AppStore-only module folder |
 | [CoPanel frontend/DESKTOP_UI.md](https://github.com/phuspeed/CoPanel/blob/main/frontend/DESKTOP_UI.md) | Dual-UI module author guide |
 | [CoPanel README](https://github.com/phuspeed/CoPanel/blob/main/README.md) | Panel install (classic / desktop) |
@@ -166,12 +168,16 @@ python scripts/check_module_sources.py
    - `copanel` — source + `version.txt`
    - `copanel-appstore` — `packages.json` + new ZIP under `packages/`
 
-Panel install flow: AppStore downloads ZIP → extracts to module dirs → `npm run build:appstore` (with no-AVX retry on low-memory hosts).
+Panel install flow depends on `frontend_install` in `packages.json`:
+
+- **`rebuild` (prefer):** extract → `src/modules/<id>/` → `npm run build:appstore` (no-AVX retry on low-memory hosts). Launcher icon appears after build.
+- **`extension`:** extract pre-built `extension/` only (no npm build). **Requires** panel React import map — otherwise install succeeds but **no launcher icon**. See the packaging skill.
 
 ## Pre-publish checklist
 
 - [ ] `router.py` exports `router`
 - [ ] `config.ts` + `index.tsx` with dual-UI pattern
+- [ ] Prefer `frontend_install: rebuild` unless extension + import map were verified
 - [ ] Test Classic: module full-page at `/your-path`
 - [ ] Test Desktop: toggle ON; `windowMode` modules open in window
 - [ ] Version bumped in `version.txt` and `packages.json`

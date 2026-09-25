@@ -71,6 +71,22 @@ Local dev: symlink or copy `packages_src/<id>/` into CoPanel module dirs, or ins
 
 Release: bump `packages_src/<id>/backend/version.txt` → `build_versioned_zip.py` → `packages.json` → push **AppStore** repo (+ CoPanel if you changed shared core shell code).
 
+## `frontend_install` — missing launcher icon
+
+| Mode | Install behavior | Launcher |
+|------|------------------|----------|
+| **`rebuild`** (default — prefer this) | Copy `frontend/` → `src/modules/<id>/` + `npm run build:appstore` | Reliable (Vite glob) |
+| **`extension`** | Pre-built `extension/` → `dist/extensions/<id>/` only (no npm build) | Needs panel React **import map** + `react-vendor*.js`; otherwise install “succeeds” but **no icon** |
+| **`none`** | Skip frontend | N/A |
+
+**Symptom to recognize:** App Store install finishes successfully, backend routes may work, but the app never appears in desktop launcher / dock / classic nav.
+
+**Cause:** `extension` mode loads UI at runtime via `/extensions/<id>/module.js`. Panels without the import-map build cannot load that module → silent miss.
+
+**Fix:** republish with `"frontend_install": "rebuild"` (CoAgent v1.0.2, Speedtest v1.0.1). Full diagnosis → [`.cursor/skills/appstore-module-packaging/SKILL.md`](.cursor/skills/appstore-module-packaging/SKILL.md).
+
+Do not use `extension` only to skip npm build unless the target panel is confirmed import-map ready.
+
 ## Sync checklist (before merge / release)
 
 - [ ] Core module: changes in **CoPanel** `backend/` + `frontend/`; **no** `packages_src/<id>/` folder
