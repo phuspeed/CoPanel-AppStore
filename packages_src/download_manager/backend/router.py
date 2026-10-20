@@ -52,17 +52,6 @@ def list_tasks(
     return ok(logic.list_tasks(filter_key=filter, search=search))
 
 
-@router.get("/tasks/{task_id}")
-def get_task(
-    task_id: str,
-    user: Dict[str, Any] = Depends(require_module("download_manager")),
-) -> Dict[str, Any]:
-    task = logic.get_task(task_id)
-    if not task:
-        raise ApiError("NOT_FOUND", "Task not found", http_status=404)
-    return ok(task)
-
-
 @router.post("/tasks")
 def create_task(
     req: CreateTaskRequest,
@@ -105,6 +94,26 @@ async def upload_torrent(
     return ok(task)
 
 
+@router.delete("/tasks/completed")
+def clear_completed(
+    user: Dict[str, Any] = Depends(require_module("download_manager")),
+) -> Dict[str, Any]:
+    count = logic.clear_completed()
+    record_audit("download.clear_completed", module="download_manager", actor=user.get("username"), meta={"count": count})
+    return ok({"deleted": count})
+
+
+@router.get("/tasks/{task_id}")
+def get_task(
+    task_id: str,
+    user: Dict[str, Any] = Depends(require_module("download_manager")),
+) -> Dict[str, Any]:
+    task = logic.get_task(task_id)
+    if not task:
+        raise ApiError("NOT_FOUND", "Task not found", http_status=404)
+    return ok(task)
+
+
 @router.get("/engine/status")
 def engine_status(
     user: Dict[str, Any] = Depends(require_module("download_manager")),
@@ -144,15 +153,6 @@ def delete_task(
         raise ApiError("NOT_FOUND", "Task not found", http_status=404)
     record_audit("download.delete", module="download_manager", target=task_id, actor=user.get("username"))
     return ok({"deleted": True})
-
-
-@router.delete("/tasks/completed")
-def clear_completed(
-    user: Dict[str, Any] = Depends(require_module("download_manager")),
-) -> Dict[str, Any]:
-    count = logic.clear_completed()
-    record_audit("download.clear_completed", module="download_manager", actor=user.get("username"), meta={"count": count})
-    return ok({"deleted": count})
 
 
 @router.post("/detect-url")

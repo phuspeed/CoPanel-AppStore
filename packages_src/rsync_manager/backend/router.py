@@ -238,6 +238,13 @@ def post_sync_job(
         pairs = _normalize_paths(body)
         # Safety: --delete only for sync/move
         delete = logic.effective_delete_flag(bool(body.delete), mode)
+        for pair in pairs:
+            logic.validate_sync_destination_for_target(
+                pair["remote_path"],
+                body.host.strip(),
+                delete=delete,
+                mode=mode,
+            )
     except ValueError as e:
         raise ApiError("VALIDATION_ERROR", str(e), http_status=400)
 
