@@ -1,0 +1,49 @@
+name: Build prebuilt frontend bundles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages_src/**/frontend/**"
+      - "scripts/build-prebuilt.sh"
+      - "scripts/build_module_prebuilt.py"
+      - "scripts/build_versioned_zip.py"
+      - "scripts/bump_prebuilt_catalog.py"
+      - "packages.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prebuilt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build prebuilt bundles and ZIPs
+        env:
+          COPANEL_DIR: ${{ runner.temp }}/CoPanel
+        run: |
+          chmod +x scripts/build-prebuilt.sh
+          ./scripts/build-prebuilt.sh
+
+      - name: Commit updated dist and packages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages_src/*/frontend/dist packages/*.zip packages.json packages_src/*/backend/version.txt
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh prebuilt frontend bundles and module ZIPs"
+          git push

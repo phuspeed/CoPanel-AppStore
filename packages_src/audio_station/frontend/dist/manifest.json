@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "id": "audio_station",
+  "name": "Audio Player",
+  "path": "/audio-player",
+  "icon": "Music",
+  "description": "Music library \u2014 browse folders, play audio, scan metadata.",
+  "windowMode": true,
+  "backgroundPolicy": "keep-running",
+  "keepMountedOnMinimize": true,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "0.3.9",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 1200,
+    "height": 760
+  }
+}

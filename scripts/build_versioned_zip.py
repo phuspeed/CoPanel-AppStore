@@ -8,9 +8,18 @@ from pathlib import Path
 
 
 def _copanel_root(workspace_parent: Path) -> Path:
+    env = os.environ.get("COPANEL_DIR", "").strip()
+    if env:
+        cand = Path(env)
+        if (cand / "frontend" / "package.json").is_file():
+            return cand
+    appstore_root = Path(__file__).resolve().parent.parent
+    cached = appstore_root / ".copanel-build"
+    if (cached / "frontend" / "package.json").is_file():
+        return cached
     for name in ("CoPanel", "copanel"):
         cand = workspace_parent / name
-        if cand.is_dir():
+        if (cand / "frontend" / "package.json").is_file():
             return cand
     return workspace_parent / "CoPanel"
 
@@ -84,12 +93,35 @@ def create_versioned_zip(mod_name, version):
         sys.exit(1)
 
     extension_dir = None
+    prebuilt_dist = frontend_src / "dist" if frontend_src.is_dir() else None
+
     if frontend_install == "extension":
         if not frontend_src.is_dir():
             print(f"ERROR: frontend_install=extension but no frontend source for {mod_name}", file=sys.stderr)
             sys.exit(1)
         print(f"Building extension artifact (frontend_install=extension)...")
         extension_dir = _build_extension_dir(mod_name, version, appstore_root)
+    elif frontend_install == "prebuilt":
+        if not frontend_src.is_dir():
+            print(f"ERROR: frontend_install=prebuilt but no frontend source for {mod_name}", file=sys.stderr)
+            sys.exit(1)
+        manifest = (prebuilt_dist / "manifest.json") if prebuilt_dist else None
+        module_js = (prebuilt_dist / "module.js") if prebuilt_dist else None
+        if not manifest or not manifest.is_file() or not module_js or not module_js.is_file():
+            print(
+                f"ERROR: frontend_install=prebuilt requires packages_src/{mod_name}/frontend/dist/"
+                "manifest.json + module.js — run scripts/build-prebuilt.sh first",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        print("frontend_install=prebuilt — ZIP includes frontend/ source + frontend/dist bundle")
+        # Legacy extension/ path for older panels that only understand extension mode.
+        try:
+            print("Building legacy extension/ artifact for older panel compatibility...")
+            extension_dir = _build_extension_dir(mod_name, version, appstore_root)
+        except Exception as exc:
+            print(f"WARNING: legacy extension build skipped: {exc}")
+            extension_dir = None
     elif frontend_install == "none":
         print("frontend_install=none — skipping extension build")
     else:
@@ -137,6 +169,6 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python build_versioned_zip.py <module_id> <version>")
         print("Example: python build_versioned_zip.py storage_manager 1.4.20")
-        print("Reads packages.json frontend_install: rebuild | extension | none")
+        print("Reads packages.json frontend_install: rebuild | extension | prebuilt | none")
         sys.exit(1)
     create_versioned_zip(sys.argv[1], sys.argv[2])

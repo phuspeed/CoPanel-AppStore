@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "module_redis",
+  "name": "Redis Cache Manager",
+  "path": "/redis-cache-manager",
+  "icon": "Database",
+  "description": "Monitor Redis cache, memory usage, and connection status.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.0.2",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 880,
+    "height": 520
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "storage_manager",
+  "name": "Storage Manager",
+  "path": "/storage-manager",
+  "icon": "HardDrive",
+  "description": "Monitor disks, volumes, and drive health",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.6.3",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 1280,
+    "height": 760
+  }
+}

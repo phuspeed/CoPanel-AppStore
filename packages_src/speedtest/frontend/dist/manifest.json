@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "speedtest",
+  "name": "Speedtest",
+  "path": "/speedtest",
+  "icon": "Gauge",
+  "description": "Measure VPS download, upload, and latency like a classic speed test.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.0.2",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 720,
+    "height": 640
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "ftp_manager",
+  "name": "FTP Manager",
+  "path": "/ftp-manager",
+  "icon": "Server",
+  "description": "External FTP, FTPS, and SFTP connections.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.0.2",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 1100,
+    "height": 720
+  }
+}

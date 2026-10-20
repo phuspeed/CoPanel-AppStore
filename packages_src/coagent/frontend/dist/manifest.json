@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "coagent",
+  "name": "CoAgent",
+  "path": "/coagent",
+  "icon": "Bot",
+  "description": "AI SysAdmin assistant for diagnosing and managing your VPS with human-in-the-loop actions.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.0.4",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 980,
+    "height": 700
+  }
+}

@@ -14,9 +14,18 @@ CORE_UI_VERSION = "1.1"
 
 
 def _copanel_root(workspace_parent: Path) -> Path:
-    for name in ("copanel", "CoPanel"):
+    env = os.environ.get("COPANEL_DIR", "").strip()
+    if env:
+        cand = Path(env)
+        if (cand / "frontend" / "package.json").is_file():
+            return cand
+    appstore_root = Path(__file__).resolve().parent.parent
+    cached = appstore_root / ".copanel-build"
+    if (cached / "frontend" / "package.json").is_file():
+        return cached
+    for name in ("CoPanel", "copanel"):
         cand = workspace_parent / name
-        if cand.is_dir():
+        if (cand / "frontend" / "package.json").is_file():
             return cand
     return workspace_parent / "copanel"
 

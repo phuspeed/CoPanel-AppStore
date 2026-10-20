@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "download_manager",
+  "name": "Download Manager",
+  "path": "/download-manager",
+  "icon": "Download",
+  "description": "Direct links, Google Drive, custom file hosting, BitTorrent via aria2.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "0.2.17",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 1120,
+    "height": 720
+  }
+}

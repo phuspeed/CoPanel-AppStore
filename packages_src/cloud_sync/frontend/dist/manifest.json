@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "cloud_sync",
+  "name": "Cloud Sync",
+  "path": "/cloud-sync",
+  "icon": "Cloud",
+  "description": "Connect Google Drive and set up folder sync pairs.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.1.7",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 1024,
+    "height": 680
+  }
+}
