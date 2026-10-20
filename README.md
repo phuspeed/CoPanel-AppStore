@@ -170,7 +170,8 @@ python scripts/check_module_sources.py
 
 Panel install flow depends on `frontend_install` in `packages.json`:
 
-- **`rebuild` (prefer):** extract → `src/modules/<id>/` → `npm run build:appstore` (no-AVX retry on low-memory hosts). Launcher icon appears after build.
+- **`rebuild`:** extract → `src/modules/<id>/` → `npm run build:appstore` (no-AVX retry on low-memory hosts). Launcher icon appears after build.
+- **`prebuilt`:** copy `frontend/dist/` bundle into panel extensions (no Vite on host). ZIP also ships `frontend/` source for AVX rebuild. Build via `./scripts/build-prebuilt.sh` (uses CoPanel `vite.extension.mjs`).
 - **`extension`:** extract pre-built `extension/` only (no npm build). **Requires** panel React import map — otherwise install succeeds but **no launcher icon**. See the packaging skill.
 
 ## Pre-publish checklist

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "web_browser",
+  "name": "Web Browser",
+  "path": "/web-browser",
+  "icon": "Globe",
+  "description": "Remote headless Chromium on the VPS \u2014 browse LAN-only services (router UI, internal webapps) from the panel.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.0.8",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 1280,
+    "height": 800
+  }
+}

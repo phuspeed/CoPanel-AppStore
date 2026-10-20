@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "clamav",
+  "name": "ClamAV",
+  "path": "/clamav",
+  "icon": "ShieldAlert",
+  "description": "Antivirus status, signature updates, malware scans, and quarantine management.",
+  "windowMode": true,
+  "keepMountedOnMinimize": false,
+  "pinned": false,
+  "core_ui": "1.1",
+  "version": "1.0.6",
+  "component": "default",
+  "defaultWindowSize": {
+    "width": 960,
+    "height": 640
+  }
+}
