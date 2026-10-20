@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+import posixpath
 import re
 import shlex
 import shutil
@@ -56,6 +57,27 @@ _PROGRESS_RE = re.compile(
     r"(?P<bytes>[\d,]+)\s+(?P<pct>\d+)%\s+(?P<speed>\S+)\s+(?P<eta>\S+)"
 )
 
+DANGEROUS_SYNC_DEST_ROOTS = frozenset(
+    {
+        "/",
+        "/etc",
+        "/home",
+        "/root",
+        "/usr",
+        "/var",
+        "/boot",
+        "/bin",
+        "/sbin",
+        "/lib",
+        "/lib64",
+        "/proc",
+        "/sys",
+        "/dev",
+        "/opt",
+        "/srv",
+    }
+)
+
 
 def _is_windows() -> bool:
     return os.name == "nt"
@@ -105,6 +127,68 @@ def validate_remote_path(remote_path: str) -> str:
     if not rp or len(rp) > 2048 or not _REMOTE_PATH_RE.match(rp):
         raise ValueError("Remote path must be an absolute path (e.g. /opt/copanel).")
     return rp
+
+
+def effective_delete_flag(delete: bool, mode: Mode) -> bool:
+    return bool(delete) and mode in ("sync", "move")
+
+
+def _is_loopback_ssh_target(host: str) -> bool:
+    h = (host or "").strip().lower()
+    if h.startswith("[") and h.endswith("]"):
+        h = h[1:-1]
+    return h in ("localhost", "127.0.0.1", "::1", "0:0:0:0:0:0:0:1")
+
+
+def _normalize_remote_dest_path(remote_path: str) -> str:
+    rp = validate_remote_path(remote_path)
+    return posixpath.normpath(rp.rstrip("/") or "/")
+
+
+def _resolve_local_dest_path(local_path: str) -> str:
+    try:
+        return str(Path(local_path).expanduser().resolve())
+    except (OSError, RuntimeError) as e:
+        raise ValueError(f"Invalid destination path: {local_path}") from e
+
+
+def _is_dangerous_dest_root(normalized: str) -> bool:
+    norm = posixpath.normpath(normalized.rstrip("/") or "/")
+    return norm in DANGEROUS_SYNC_DEST_ROOTS
+
+
+def validate_sync_destination(
+    dest_path: str,
+    *,
+    local: bool,
+    delete: bool,
+    mode: Mode,
+) -> None:
+    """Reject protected system roots when delete is on or mode is plain sync."""
+    if not effective_delete_flag(delete, mode) and mode != "sync":
+        return
+    normalized = _resolve_local_dest_path(dest_path) if local else _normalize_remote_dest_path(dest_path)
+    if _is_dangerous_dest_root(normalized):
+        raise ValueError(
+            f"Refusing sync to protected system path: {normalized}. "
+            "Use a subdirectory (e.g. /home/user/backup)."
+        )
+
+
+def validate_sync_destination_for_target(
+    dest_path: str,
+    host: str,
+    *,
+    delete: bool,
+    mode: Mode,
+) -> None:
+    """Validate destination on local panel (loopback SSH) or remote target."""
+    validate_sync_destination(
+        dest_path,
+        local=_is_loopback_ssh_target(host),
+        delete=delete,
+        mode=mode,
+    )
 
 
 def validate_excludes(excludes: List[str]) -> List[str]:
@@ -742,10 +826,12 @@ def build_rsync_argv(
     *,
     dry_run: bool,
     delete: bool,
+    mode: Mode,
     progress: bool = False,
 ) -> List[str]:
     lp = validate_local_path(local_path)
     rp = validate_remote_path(remote_path)
+    validate_sync_destination_for_target(rp, host, delete=delete, mode=mode)
     ex = validate_excludes(excludes)
 
     if not shutil.which("rsync"):
@@ -759,7 +845,7 @@ def build_rsync_argv(
         args.append("--info=progress2")
     if dry_run:
         args.append("--dry-run")
-    if delete:
+    if effective_delete_flag(delete, mode):
         args.append("--delete")
     for pat in ex:
         args.extend(["--exclude", pat])
@@ -778,6 +864,7 @@ def run_rsync(
     *,
     dry_run: bool,
     delete: bool,
+    mode: Mode,
     timeout_sec: int = 3600,
 ) -> Dict[str, Any]:
     if _is_windows():
@@ -794,6 +881,7 @@ def run_rsync(
         excludes,
         dry_run=dry_run,
         delete=delete,
+        mode=mode,
         progress=False,
     )
 
@@ -862,8 +950,9 @@ async def run_rsync_job(
 
     results: List[Dict[str, Any]] = []
     total = len(paths)
+    eff_delete = effective_delete_flag(delete, mode)
     job.update(progress=1, message=f"Starting {'dry-run ' if dry_run else ''}{mode} ({total} path(s))")
-    job.log(f"mode={mode} dry_run={dry_run} delete={delete} paths={total}")
+    job.log(f"mode={mode} dry_run={dry_run} delete={eff_delete} paths={total}")
 
     for idx, pair in enumerate(paths):
         if job.cancel_requested():
@@ -887,6 +976,7 @@ async def run_rsync_job(
             excludes,
             dry_run=dry_run,
             delete=delete,
+            mode=mode,
             progress=True,
         )
 
@@ -976,7 +1066,7 @@ async def run_rsync_job(
         "ok": True,
         "mode": mode,
         "dry_run": dry_run,
-        "delete": delete,
+        "delete": eff_delete,
         "paths": results,
         "summary": f"{'Dry-run' if dry_run else 'Sync'} completed for {len(results)} path(s).",
     }
