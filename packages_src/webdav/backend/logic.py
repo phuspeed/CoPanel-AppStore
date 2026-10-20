@@ -323,21 +323,62 @@ def _get_superadmin() -> Optional[Dict[str, Any]]:
     return None
 
 
-def _admin_password_plain() -> Optional[str]:
-    pwd_path = user_model.PWD_PATH
-    if pwd_path.is_file():
+def _admin_pwd_path() -> Optional[Path]:
+    """CoPanel stores superadmin plaintext at config_dir()/admin_password.txt (pwd_path())."""
+    pwd_fn = getattr(user_model, "pwd_path", None)
+    if callable(pwd_fn):
         try:
-            text = pwd_path.read_text(encoding="utf-8").strip()
-            if text:
-                return text
+            return Path(pwd_fn())
         except Exception:
             pass
+    legacy = getattr(user_model, "PWD_PATH", None)
+    if legacy is not None:
+        return Path(legacy)
+    try:
+        from core.paths import config_dir
+
+        return config_dir() / "admin_password.txt"
+    except Exception:
+        return None
+
+
+def _admin_password_file_present() -> bool:
+    path = _admin_pwd_path()
+    return bool(path and path.is_file())
+
+
+def _admin_password_plain() -> Optional[str]:
+    pwd_path = _admin_pwd_path()
+    if pwd_path is None or not pwd_path.is_file():
+        return None
+    try:
+        text = pwd_path.read_text(encoding="utf-8").strip()
+        if text:
+            return text
+    except Exception:
+        pass
     return None
 
 
 def _save_admin_password_file(password: str) -> None:
-    user_model.PWD_PATH.parent.mkdir(parents=True, exist_ok=True)
-    user_model.PWD_PATH.write_text(password)
+    path = _admin_pwd_path()
+    if path is None:
+        return
+    write_fn = None
+    try:
+        from core.paths import write_private_text
+
+        write_fn = write_private_text
+    except ImportError:
+        write_fn = None
+    if write_fn is not None and callable(getattr(user_model, "pwd_path", None)):
+        try:
+            write_fn(user_model.pwd_path(), password)
+            return
+        except Exception:
+            pass
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(password, encoding="utf-8")
 
 
 def _resolve_admin_password(plain: Optional[str] = None) -> str:
@@ -439,7 +480,7 @@ def get_public_config() -> Dict[str, Any]:
         "is_linux": not IS_WINDOWS,
         "samba_installed": shutil.which("smbd") is not None or Path("/usr/sbin/smbd").exists(),
         "wsgidav_available": _wsgidav_available(),
-        "admin_password_file_present": user_model.PWD_PATH.is_file(),
+        "admin_password_file_present": _admin_password_file_present(),
     }
 
 

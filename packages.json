@@ -67,9 +67,9 @@
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.15",
+    "version": "0.2.16",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.16.zip",
     "is_core": false,
     "system_packages": [
       "aria2",
@@ -79,8 +79,8 @@
     "pip_packages": [
       "yt-dlp"
     ],
-    "changelog_en": "v0.2.15: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
-    "changelog_vi": "v0.2.15: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport."
+    "changelog_en": "v0.2.16: Fix 404 on DELETE /tasks/completed and POST /tasks/upload-torrent — register static task routes before /tasks/{id}. v0.2.15: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
+    "changelog_vi": "v0.2.16: Sua loi 404 cho DELETE /tasks/completed va POST /tasks/upload-torrent — khai bao route tinh truoc /tasks/{id}. v0.2.15: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport."
   },
   {
     "id": "audio_station",
@@ -122,16 +122,16 @@
     "id": "rsync_manager",
     "name": "Rsync Manager",
     "description": "Wizard to move, clone, or sync this VPS to another over SSH. Detects CoPanel on both sides or rsync-only targets. Progress via Task Center. SQL/Docker remain manual.",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "icon": "RefreshCw",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.1.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.1.3.zip",
     "is_core": false,
     "system_packages": [
       "rsync",
       "openssh-client"
     ],
-    "changelog_en": "v1.1.2: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, …); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
-    "changelog_vi": "v1.1.2: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, …); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking."
+    "changelog_en": "v1.1.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.1.2: POST /sync_job validates destination paths before creating a job (400 instead of failing in Task Center). v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, …); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
+    "changelog_vi": "v1.1.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.1.2: POST /sync_job kiem tra duong dich truoc khi tao job (tra 400 thay vi loi trong Task Center). v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, …); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking."
   },
   {
     "id": "ftp_manager",
@@ -273,9 +273,9 @@
     "id": "webdav",
     "name": "WebDAV SMB",
     "description": "WebDAV and SMB file sharing on server IP:port. Login with the same username/password as the panel root (superadmin) account. Optional WebDAV root mount for http://IP:port/ without share path.",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "icon": "FolderSync",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/webdav.v1.0.11.zip",
     "is_core": false,
     "system_packages": [
       "samba"
@@ -284,8 +284,8 @@
       "wsgidav==4.3.3",
       "cheroot==10.0.1"
     ],
-    "changelog_en": "Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.8: Fix frontend build — restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
-    "changelog_vi": "Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.8: Sua loi build frontend — khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/."
+    "changelog_en": "v1.0.11: Fix 500 on status/config/SMB diagnostics — use user_model.pwd_path() instead of removed PWD_PATH. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.8: Fix frontend build — restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
+    "changelog_vi": "v1.0.11: Sua loi 500 tren status/config/SMB diagnostics — dung user_model.pwd_path() thay PWD_PATH da bo. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.8: Sua loi build frontend — khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/."
   },
   {
     "id": "cron_manager",
