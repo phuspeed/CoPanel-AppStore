@@ -1,7 +1,6 @@
 export type Lang = 'en' | 'vi';
 
-export const COPY = {
-  en: {
+const en = {
     title: 'CoAgent',
     subtitle: 'AI SysAdmin for your VPS',
     placeholder: 'Ask CoAgent… e.g. Why is my site returning 502?',
@@ -33,8 +32,9 @@ export const COPY = {
     command: 'Command preview',
     error: 'Error',
     quickTitle: 'Quick prompts',
-  },
-  vi: {
+};
+
+const vi: Record<keyof typeof en, string> = {
     title: 'CoAgent',
     subtitle: 'AI SysAdmin cho VPS của bạn',
     placeholder: 'Hỏi CoAgent… ví dụ: Vì sao trang web bị lỗi 502?',
@@ -66,8 +66,9 @@ export const COPY = {
     command: 'Lệnh / script sẽ chạy',
     error: 'Lỗi',
     quickTitle: 'Gợi ý nhanh',
-  },
-} as const;
+};
+
+export const COPY: Record<Lang, Record<keyof typeof en, string>> = { en, vi };
 
 export const QUICK_PROMPTS = {
   en: [

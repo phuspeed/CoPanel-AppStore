@@ -122,16 +122,16 @@
     "id": "rsync_manager",
     "name": "Rsync Manager",
     "description": "Wizard to move, clone, or sync this VPS to another over SSH. Detects CoPanel on both sides or rsync-only targets. Progress via Task Center. SQL/Docker remain manual.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "icon": "RefreshCw",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.1.1.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/rsync_manager.v1.1.2.zip",
     "is_core": false,
     "system_packages": [
       "rsync",
       "openssh-client"
     ],
-    "changelog_en": "v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, …); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
-    "changelog_vi": "v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, …); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking."
+    "changelog_en": "v1.1.2: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, …); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
+    "changelog_vi": "v1.1.2: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, …); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking."
   },
   {
     "id": "ftp_manager",
@@ -366,17 +366,17 @@
     "id": "coagent",
     "name": "CoAgent",
     "description": "AI SysAdmin assistant (OpenAI-compatible). Diagnose VPS issues in Vietnamese, read metrics/logs, and propose system actions with human-in-the-loop confirmation.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Bot",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/coagent.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/coagent.v1.0.3.zip",
     "is_core": false,
     "frontend_install": "rebuild",
     "requires_copanel_restart": true,
     "pip_packages": [
       "openai>=1.40.0,<2"
     ],
-    "changelog_en": "v1.0.2: Switch to standard AppStore frontend_install=rebuild (copy into src/modules + Vite build) so CoAgent appears in the launcher immediately after install — same path as other AppStore modules. v1.0.1: Remove react-markdown dependency. v1.0.0: First release.",
-    "changelog_vi": "v1.0.2: Chuyen sang frontend_install=rebuild nhu cac module AppStore khac (copy src/modules + Vite build) de CoAgent hien ngay sau khi cai. v1.0.1: Bo react-markdown. v1.0.0: Phat hanh dau."
+    "changelog_en": "v1.0.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.0.2: Switch to standard AppStore frontend_install=rebuild (copy into src/modules + Vite build) so CoAgent appears in the launcher immediately after install — same path as other AppStore modules. v1.0.1: Remove react-markdown dependency. v1.0.0: First release.",
+    "changelog_vi": "v1.0.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.0.2: Chuyen sang frontend_install=rebuild nhu cac module AppStore khac (copy src/modules + Vite build) de CoAgent hien ngay sau khi cai. v1.0.1: Bo react-markdown. v1.0.0: Phat hanh dau."
   },
   {
     "id": "speedtest",
