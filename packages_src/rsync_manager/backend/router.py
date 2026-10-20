@@ -189,6 +189,7 @@ def post_sync(
     try:
         mode = logic.validate_mode(body.mode)
         pairs = _normalize_paths(body)
+        delete = logic.effective_delete_flag(bool(body.delete), mode)
         # For blocking API, only first path for backward compat if single; else all sequentially
         results = []
         for pair in pairs:
@@ -201,7 +202,8 @@ def post_sync(
                 pair["remote_path"],
                 body.excludes,
                 dry_run=body.dry_run,
-                delete=bool(body.delete) and mode in ("sync", "move"),
+                delete=delete,
+                mode=mode,
             )
             results.append({**pair, **result})
             if not result.get("ok"):
@@ -211,7 +213,7 @@ def post_sync(
             "ok": all_ok,
             "mode": mode,
             "dry_run": body.dry_run,
-            "delete": bool(body.delete),
+            "delete": delete,
             "paths": results,
             # legacy single-path fields
             "exit_code": results[-1]["exit_code"] if results else 1,
@@ -235,9 +237,7 @@ def post_sync_job(
         mode = logic.validate_mode(body.mode)
         pairs = _normalize_paths(body)
         # Safety: --delete only for sync/move
-        delete = bool(body.delete) and mode in ("sync", "move")
-        if body.delete and mode == "clone":
-            delete = False
+        delete = logic.effective_delete_flag(bool(body.delete), mode)
     except ValueError as e:
         raise ApiError("VALIDATION_ERROR", str(e), http_status=400)
 
