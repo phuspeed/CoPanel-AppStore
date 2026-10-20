@@ -1,15 +1,24 @@
 """Unit tests for rsync_manager destination safety guards."""
 from __future__ import annotations
 
-import sys
+import importlib.util
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 
-from backend import logic  # noqa: E402
+
+def _load_logic():
+    path = ROOT / "backend" / "logic.py"
+    spec = importlib.util.spec_from_file_location("rsync_manager_unit_logic", path)
+    mod = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(mod)
+    return mod
+
+
+logic = _load_logic()
 
 
 def test_remote_dangerous_root_blocked_on_sync_without_delete():
@@ -54,3 +63,16 @@ def test_effective_delete_flag():
     assert logic.effective_delete_flag(True, "clone") is False
     assert logic.effective_delete_flag(True, "sync") is True
     assert logic.effective_delete_flag(False, "sync") is False
+
+
+def test_sync_job_preflight_blocks_protected_remote_dest():
+    """POST /sync_job should reject the same destinations as blocking /sync."""
+    pairs = [{"local_path": "/var/www", "remote_path": "/home"}]
+    with pytest.raises(ValueError, match="protected system path"):
+        for pair in pairs:
+            logic.validate_sync_destination_for_target(
+                pair["remote_path"],
+                "203.0.113.10",
+                delete=False,
+                mode="sync",
+            )
