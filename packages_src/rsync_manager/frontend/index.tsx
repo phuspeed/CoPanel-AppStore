@@ -911,7 +911,7 @@ function RunPanel({
   job: ReturnType<typeof useJob>;
   isDark: boolean;
   onReset: () => void;
-  tr: (typeof TEXT)['en'];
+  tr: Record<keyof typeof en, string>;
 }) {
   const [logs, setLogs] = useState<string>('');
 
@@ -992,8 +992,7 @@ function RunPanel({
   );
 }
 
-const TEXT = {
-  en: {
+const en = {
     title: 'Rsync Manager',
     subtitle: 'Move · Clone · Sync VPS',
     stepMode: 'Mode',
@@ -1074,8 +1073,9 @@ const TEXT = {
     confirmRealTitle: 'Start real sync?',
     confirmRealBody: 'Files will be copied over SSH. Ensure detection passed and excludes look correct.',
     submitting: 'Submitting job…',
-  },
-  vi: {
+};
+
+const vi: Record<keyof typeof en, string> = {
     title: 'Rsync Manager',
     subtitle: 'Move · Clone · Sync VPS',
     stepMode: 'Chế độ',
@@ -1156,5 +1156,6 @@ const TEXT = {
     confirmRealTitle: 'Chạy sync thật?',
     confirmRealBody: 'File sẽ được copy qua SSH. Đảm bảo đã detect OK và excludes đúng.',
     submitting: 'Đang gửi job…',
-  },
-} as const;
+};
+
+const TEXT: Record<Lang, Record<keyof typeof en, string>> = { en, vi };
