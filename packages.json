@@ -263,9 +263,9 @@
     "id": "cloudflare_ddns",
     "name": "Cloudflare DDNS",
     "description": "Dynamic DNS updates to Cloudflare, DNS record management via API, and Cloudflare Tunnel (cloudflared) configuration.",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloudflare_ddns.v1.0.16.zip",
     "is_core": false,
     "system_packages": [
       "cron"
@@ -273,8 +273,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create \u2014 cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP. v1.0.13: Fix tunnels API 400 \u2014 auto-detect account_id from accounts/zones, stop wiping account_id on empty save, map Cloudflare API errors to 502 with Tunnel permission hints, sync Account ID in UI after verify.",
-    "changelog_vi": "v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS \u2014 loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare. v1.0.13: Sua loi API tunnels 400 \u2014 tu dong nhan account_id tu accounts/zones, khong xoa account_id khi save rong, map loi Cloudflare API sang 502 kem goi y quyen Tunnel, dong bo Account ID tren UI sau verify.",
+    "changelog_en": "v1.0.16: Fix run_update.py high-CPU hang/busy loop — enforce minimum 60s interval with exponential backoff on errors, guard runs with flock single-instance lock, terminate duplicate/orphan workers on startup and cron sync, bound IP lookup reads and subprocess timeouts, and emit valid cron schedules for >=60 min intervals. v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create — cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP.",
+    "changelog_vi": "v1.0.16: Sua loi run_update.py treo/chay 100% CPU — ap dung khoang cach toi thieu 60s kem backoff khi loi, khoa flock chong chay trung, don dep tien trinh worker du thua khi khoi dong va sync cron, gioi han timeout mang/subprocess, va sua cu phap cron cho chu ky >=60 phut. v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS — loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare.",
     "frontend_install": "prebuilt"
   },
   {
