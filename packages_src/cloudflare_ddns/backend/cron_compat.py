@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import os
-import shutil
 import subprocess
 from typing import Any, Dict
+
+SUBPROCESS_TIMEOUT_SECONDS = 15
 
 try:
     from core.cron_system import ensure_cron_service as _ensure_cron_service
@@ -18,13 +19,40 @@ except ImportError:
         active = False
         enabled = False
         for svc in ("cron", "crond"):
-            probe = subprocess.run(["systemctl", "status", svc], capture_output=True, text=True)
+            try:
+                probe = subprocess.run(
+                    ["systemctl", "status", svc],
+                    capture_output=True,
+                    text=True,
+                    timeout=SUBPROCESS_TIMEOUT_SECONDS,
+                    shell=False,
+                )
+            except (OSError, subprocess.SubprocessError):
+                continue
             if probe.returncode in (0, 3):
                 service = svc
-                is_active = subprocess.run(["systemctl", "is-active", svc], capture_output=True, text=True)
-                active = (is_active.stdout or "").strip() == "active"
-                is_enabled = subprocess.run(["systemctl", "is-enabled", svc], capture_output=True, text=True)
-                enabled = (is_enabled.stdout or "").strip() in ("enabled", "static")
+                try:
+                    is_active = subprocess.run(
+                        ["systemctl", "is-active", svc],
+                        capture_output=True,
+                        text=True,
+                        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+                        shell=False,
+                    )
+                    active = (is_active.stdout or "").strip() == "active"
+                except (OSError, subprocess.SubprocessError):
+                    active = False
+                try:
+                    is_enabled = subprocess.run(
+                        ["systemctl", "is-enabled", svc],
+                        capture_output=True,
+                        text=True,
+                        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+                        shell=False,
+                    )
+                    enabled = (is_enabled.stdout or "").strip() in ("enabled", "static")
+                except (OSError, subprocess.SubprocessError):
+                    enabled = False
                 break
         return {"available": service is not None, "service": service, "active": active, "enabled": enabled}
 
@@ -32,9 +60,27 @@ except ImportError:
         if os.name == "nt":
             return False
         for svc in ("cron", "crond"):
-            probe = subprocess.run(["systemctl", "status", svc], capture_output=True, text=True)
+            try:
+                probe = subprocess.run(
+                    ["systemctl", "status", svc],
+                    capture_output=True,
+                    text=True,
+                    timeout=SUBPROCESS_TIMEOUT_SECONDS,
+                    shell=False,
+                )
+            except (OSError, subprocess.SubprocessError):
+                continue
             if probe.returncode in (0, 3):
-                subprocess.run(["systemctl", "enable", "--now", svc], capture_output=True, text=True)
+                try:
+                    subprocess.run(
+                        ["systemctl", "enable", "--now", svc],
+                        capture_output=True,
+                        text=True,
+                        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+                        shell=False,
+                    )
+                except (OSError, subprocess.SubprocessError):
+                    return False
                 return _get_cron_daemon_status().get("active", False)
         return False
 

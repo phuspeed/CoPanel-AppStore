@@ -7,23 +7,30 @@ jobs to system crontab (Linux only).
 from __future__ import annotations
 
 import base64
+from contextlib import contextmanager
 import json
 import logging
 import os
 import re
 import shlex
 import shutil
+import signal
 import socket
 import subprocess
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, Iterator, List, Optional, Tuple
 from urllib.request import Request, urlopen
 
 import httpx
 
 from .cron_compat import ensure_cron_service, get_cron_daemon_status
+
+try:
+    import fcntl
+except ImportError:
+    fcntl = None  # type: ignore[assignment]
 
 IS_WINDOWS = os.name == "nt"
 
@@ -39,12 +46,21 @@ CF_CONFIG_DIR = (
     else Path("/etc/cloudflared")
 )
 LOG_DIR = Path("./test_nginx/logs") if IS_WINDOWS else Path("/opt/copanel/logs")
+LOCK_DIR = CONFIG_DIR / "locks"
 BACKEND_ROOT = Path("/opt/copanel/backend") if not IS_WINDOWS else Path(__file__).resolve().parents[2]
 RUN_UPDATE_SCRIPT = BACKEND_ROOT / "modules" / "cloudflare_ddns" / "run_update.py"
 CRON_TAG_START = "# BEGIN COPANEL CLOUDFLARE DDNS"
 CRON_TAG_END = "# END COPANEL CLOUDFLARE DDNS"
 DDNS_CRON_MARKER = "modules.cloudflare_ddns.run_update"
 DEFAULT_CRON_PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+MIN_INTERVAL_MINUTES = 1
+MAX_INTERVAL_MINUTES = 1440
+DEFAULT_INTERVAL_MINUTES = 5
+MIN_WORKER_INTERVAL_SECONDS = 60
+MAX_WORKER_BACKOFF_SECONDS = 3600
+BASE_WORKER_BACKOFF_SECONDS = 60
+SUBPROCESS_TIMEOUT_SECONDS = 15
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +84,143 @@ class CloudflareAPIError(Exception):
         super().__init__(message)
         self.status_code = status_code
         self.errors = errors or []
+
+
+class WorkerAlreadyRunningError(RuntimeError):
+    """Raised when another run_update.py worker already holds the single-instance lock."""
+
+
+def normalize_interval_minutes(raw: Any, default: int = DEFAULT_INTERVAL_MINUTES) -> int:
+    """Clamp interval_minutes to [1, 1440] (minimum 60s between DDNS runs)."""
+    try:
+        val = int(raw)
+    except (TypeError, ValueError):
+        val = default
+    if val <= 0:
+        val = max(MIN_INTERVAL_MINUTES, default)
+    return max(MIN_INTERVAL_MINUTES, min(MAX_INTERVAL_MINUTES, val))
+
+
+def interval_minutes_to_seconds(interval_minutes: Any) -> int:
+    """Convert interval in minutes to seconds, enforcing MIN_WORKER_INTERVAL_SECONDS (>= 60s)."""
+    minutes = normalize_interval_minutes(interval_minutes, default=MIN_INTERVAL_MINUTES)
+    return max(MIN_WORKER_INTERVAL_SECONDS, minutes * 60)
+
+
+def compute_backoff_seconds(
+    base_interval_seconds: int,
+    consecutive_failures: int,
+    *,
+    base_backoff: int = BASE_WORKER_BACKOFF_SECONDS,
+    max_backoff: int = MAX_WORKER_BACKOFF_SECONDS,
+) -> int:
+    """Compute sleep duration in seconds with exponential backoff on consecutive failures."""
+    safe_base = max(MIN_WORKER_INTERVAL_SECONDS, int(base_interval_seconds or 0))
+    if consecutive_failures <= 0:
+        return safe_base
+    exponent = min(int(consecutive_failures) - 1, 10)
+    backoff = max(MIN_WORKER_INTERVAL_SECONDS, int(base_backoff)) * (2 ** exponent)
+    return min(int(max_backoff), max(safe_base, backoff))
+
+
+def _worker_lock_path(scope: str = "all") -> Path:
+    safe_scope = re.sub(r"[^a-zA-Z0-9_-]", "_", str(scope or "all"))
+    return LOCK_DIR / f"cloudflare_ddns_worker_{safe_scope}.lock"
+
+
+@contextmanager
+def acquire_worker_lock(scope: str = "all", lock_dir: Optional[Path] = None) -> Iterator[Path]:
+    """Acquire a non-blocking exclusive flock so duplicate run_update.py workers cannot coexist."""
+    target_dir = lock_dir if lock_dir is not None else LOCK_DIR
+    try:
+        target_dir.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        target_dir = Path("/tmp/copanel_locks")
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+    safe_scope = re.sub(r"[^a-zA-Z0-9_-]", "_", str(scope or "all"))
+    lock_path = target_dir / f"cloudflare_ddns_worker_{safe_scope}.lock"
+
+    fd = os.open(str(lock_path), os.O_CREAT | os.O_RDWR, 0o600)
+    locked = False
+    try:
+        if fcntl is not None:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                locked = True
+            except BlockingIOError as exc:
+                raise WorkerAlreadyRunningError(
+                    f"Another Cloudflare DDNS worker is already running for scope '{safe_scope}' ({lock_path})."
+                ) from exc
+        else:
+            locked = True
+
+        try:
+            os.ftruncate(fd, 0)
+            os.write(
+                fd,
+                json.dumps({"pid": os.getpid(), "scope": safe_scope, "started_at": time.time()}).encode("utf-8"),
+            )
+        except OSError:
+            pass
+
+        yield lock_path
+    finally:
+        if locked and fcntl is not None:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+            except OSError:
+                pass
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+
+
+def terminate_duplicate_workers(
+    *,
+    exclude_pids: Optional[set[int]] = None,
+    proc_root: Path = Path("/proc"),
+    kill_fn: Optional[Callable[[int, int], None]] = None,
+) -> List[int]:
+    """Find and terminate orphan/duplicate run_update.py processes on Linux via /proc."""
+    if IS_WINDOWS or not proc_root.is_dir():
+        return []
+    excluded = set(exclude_pids or set())
+    excluded.add(os.getpid())
+    killer = kill_fn or os.kill
+    terminated: List[int] = []
+
+    try:
+        entries = list(proc_root.iterdir())
+    except OSError:
+        return []
+
+    for entry in entries:
+        if not entry.name.isdigit():
+            continue
+        pid = int(entry.name)
+        if pid in excluded:
+            continue
+        cmdline_file = entry / "cmdline"
+        try:
+            raw = cmdline_file.read_bytes()
+        except OSError:
+            continue
+        if not raw:
+            continue
+        parts = [p.decode("utf-8", errors="ignore") for p in raw.split(b"\x00") if p]
+        if not parts:
+            continue
+        joined = " ".join(parts)
+        if "cloudflare_ddns" in joined and "run_update" in joined:
+            try:
+                killer(pid, signal.SIGTERM)
+                terminated.append(pid)
+            except OSError:
+                continue
+
+    return terminated
 
 
 def _new_id(prefix: str) -> str:
@@ -137,9 +290,12 @@ def _migrate_legacy_store() -> None:
 
 
 def repair_store_on_startup() -> None:
-    """Migrate legacy store paths and fix permissions after install/update."""
+    """Migrate legacy store paths, fix permissions, and clean up any hung run_update.py workers."""
     _migrate_legacy_store()
     _ensure_store_permissions()
+    killed = terminate_duplicate_workers()
+    if killed:
+        logger.warning("Terminated %d stale Cloudflare DDNS run_update.py worker(s): %s", len(killed), killed)
 
 
 def _load_store() -> Dict[str, Any]:
@@ -228,7 +384,7 @@ class CloudflareClient:
                 "Authorization": f"Bearer {api_token}",
                 "Content-Type": "application/json",
             },
-            timeout=30.0,
+            timeout=httpx.Timeout(20.0, connect=10.0),
         )
 
     def close(self) -> None:
@@ -429,7 +585,7 @@ def save_config(api_token: Optional[str] = None, account_id: Optional[str] = Non
             verify_config()
         except Exception:
             pass
-    sync_crontab()
+    _safe_sync_crontab()
     return get_public_config()
 
 
@@ -601,9 +757,10 @@ def create_ddns_profile(data: Dict[str, Any]) -> Dict[str, Any]:
     if not zone_id:
         raise ValueError("zone_id is required.")
     record_name = (data.get("record_name") or "@").strip() or "@"
-    interval = int(data.get("interval_minutes") or 5)
-    if interval < 1 or interval > 1440:
-        raise ValueError("interval_minutes must be between 1 and 1440.")
+    raw_interval = data.get("interval_minutes")
+    interval = int(raw_interval) if raw_interval is not None else DEFAULT_INTERVAL_MINUTES
+    if interval < MIN_INTERVAL_MINUTES or interval > MAX_INTERVAL_MINUTES:
+        raise ValueError(f"interval_minutes must be between {MIN_INTERVAL_MINUTES} and {MAX_INTERVAL_MINUTES}.")
     profile = {
         "id": _new_id("ddns"),
         "name": name,
@@ -642,7 +799,14 @@ def update_ddns_profile(profile_id: str, data: Dict[str, Any]) -> Dict[str, Any]
         if key in data and data[key] is not None:
             if key in {"proxied", "enabled"}:
                 profile[key] = bool(data[key])
-            elif key in {"ttl", "interval_minutes"}:
+            elif key == "interval_minutes":
+                interval = int(data[key])
+                if interval < MIN_INTERVAL_MINUTES or interval > MAX_INTERVAL_MINUTES:
+                    raise ValueError(
+                        f"interval_minutes must be between {MIN_INTERVAL_MINUTES} and {MAX_INTERVAL_MINUTES}."
+                    )
+                profile[key] = interval
+            elif key == "ttl":
                 profile[key] = int(data[key])
             elif key == "record_type":
                 profile[key] = str(data[key]).upper()
@@ -670,10 +834,10 @@ def delete_ddns_profile(profile_id: str) -> bool:
 
 def _fetch_url_ip(url: str) -> str:
     req = Request(url, headers={"User-Agent": "CoPanel-CloudflareDDNS/1.0"})
-    with urlopen(req, timeout=15) as resp:
-        ip = resp.read().decode("utf-8", errors="ignore").strip()
-    if not re.match(r"^[\da-fA-F:.]+$", ip):
-        raise ValueError(f"Invalid IP from URL: {ip}")
+    with urlopen(req, timeout=10) as resp:
+        ip = resp.read(256).decode("utf-8", errors="ignore").strip()
+    if not ip or len(ip) > 64 or not re.match(r"^[\da-fA-F:.]+$", ip):
+        raise ValueError(f"Invalid IP from URL: {ip[:64]}")
     return ip
 
 
@@ -697,6 +861,8 @@ def _get_interface_ip(iface: str, record_type: str) -> str:
         ["ip", "-j", "-f", "inet6" if family == socket.AF_INET6 else "inet", "addr", "show", "dev", iface],
         capture_output=True,
         text=True,
+        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+        shell=False,
     )
     if proc.returncode != 0:
         raise ValueError(proc.stderr.strip() or f"Failed to read interface {iface}")
@@ -744,7 +910,16 @@ def _fqdn(record_name: str, zone_name: str) -> str:
 
 def run_ddns_profile(profile_id: str) -> Dict[str, Any]:
     store, profile, idx = _find_ddns(profile_id)
-    client = CloudflareClient(store.get("api_token") or "")
+    try:
+        client = CloudflareClient(store.get("api_token") or "")
+    except Exception as exc:
+        profile["last_run"] = time.time()
+        profile["last_status"] = "error"
+        profile["last_error"] = str(exc)
+        store["ddns_profiles"][idx] = profile
+        _save_store(store)
+        raise
+
     try:
         new_ip = resolve_profile_ip(profile)
         zone_id = profile["zone_id"]
@@ -838,7 +1013,7 @@ def _ensure_crontab() -> Tuple[bool, str]:
             cmd = ["apt-get", "install", "-y", "cron"]
         else:
             cmd = ["sudo", "-n", "DEBIAN_FRONTEND=noninteractive", "apt-get", "install", "-y", "cron"]
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600, env=env)
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600, env=env, shell=False)
         if proc.returncode != 0:
             err = (proc.stderr or proc.stdout or "").strip()
             return False, f"apt install cron failed: {err or proc.returncode}"
@@ -847,6 +1022,21 @@ def _ensure_crontab() -> Tuple[bool, str]:
             return True, "Installed cron package."
         return False, "cron package installed but crontab still missing."
     return False, "Install cron: apt install cron && systemctl enable --now cron"
+
+
+def _cron_schedule_for_minutes(minutes: int) -> str:
+    """Return a valid 5-field cron schedule expression for interval in minutes."""
+    safe = normalize_interval_minutes(minutes)
+    if safe <= 1:
+        return "* * * * *"
+    if safe < 60:
+        return f"*/{safe} * * * *"
+    if safe == 60:
+        return "0 * * * *"
+    hours = max(1, min(23, safe // 60))
+    if safe >= 1440:
+        return "0 0 * * *"
+    return f"0 */{hours} * * *"
 
 
 def sync_crontab() -> Dict[str, Any]:
@@ -859,6 +1049,8 @@ def sync_crontab() -> Dict[str, Any]:
         result["message"] = "Cron not available on Windows."
         _persist_scheduler_sync(result)
         return result
+
+    terminate_duplicate_workers()
 
     ok_crontab, install_msg = _ensure_crontab()
     if not ok_crontab:
@@ -873,7 +1065,13 @@ def sync_crontab() -> Dict[str, Any]:
     python_bin = _resolve_python_bin()
     run_script = str(RUN_UPDATE_SCRIPT)
 
-    res = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
+    res = subprocess.run(
+        ["crontab", "-l"],
+        capture_output=True,
+        text=True,
+        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+        shell=False,
+    )
     current = res.stdout if res.returncode == 0 else ""
     lines = current.splitlines()
     clean: List[str] = []
@@ -894,14 +1092,15 @@ def sync_crontab() -> Dict[str, Any]:
     block = [CRON_TAG_START]
     intervals = sorted(
         {
-            int(p.get("interval_minutes") or 5)
+            normalize_interval_minutes(p.get("interval_minutes") or DEFAULT_INTERVAL_MINUTES)
             for p in enabled
         }
     )
     for minutes in intervals:
         log_file = LOG_DIR / f"cloudflare_ddns_{minutes}m.log"
+        schedule = _cron_schedule_for_minutes(minutes)
         cmd = (
-            f"*/{minutes} * * * * cd {shlex.quote(str(BACKEND_ROOT))} && "
+            f"{schedule} cd {shlex.quote(str(BACKEND_ROOT))} && "
             f"PATH={DEFAULT_CRON_PATH} "
             f"{shlex.quote(python_bin)} {shlex.quote(run_script)} --interval {minutes} "
             f">> {shlex.quote(str(log_file))} 2>&1"
@@ -912,7 +1111,14 @@ def sync_crontab() -> Dict[str, Any]:
     if len(block) > 2:
         clean.extend(block)
 
-    proc = subprocess.run(["crontab", "-"], input="\n".join(clean).rstrip() + "\n", text=True, capture_output=True)
+    proc = subprocess.run(
+        ["crontab", "-"],
+        input="\n".join(clean).rstrip() + "\n",
+        text=True,
+        capture_output=True,
+        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+        shell=False,
+    )
     if proc.returncode != 0:
         err = (proc.stderr or proc.stdout or "").strip() or "crontab write failed"
         result["message"] = err
@@ -936,7 +1142,12 @@ def get_cron_status() -> Dict[str, Any]:
     """Report crontab entries and log tails for DDNS scheduler."""
     profiles = list_ddns_profiles()
     enabled = [p for p in profiles if p.get("enabled")]
-    intervals = sorted({int(p.get("interval_minutes") or 5) for p in enabled})
+    intervals = sorted(
+        {
+            normalize_interval_minutes(p.get("interval_minutes") or DEFAULT_INTERVAL_MINUTES)
+            for p in enabled
+        }
+    )
 
     if IS_WINDOWS:
         return {
@@ -950,7 +1161,13 @@ def get_cron_status() -> Dict[str, Any]:
     daemon = get_cron_daemon_status()
     cron_lines: List[str] = []
     if has_crontab:
-        res = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
+        res = subprocess.run(
+            ["crontab", "-l"],
+            capture_output=True,
+            text=True,
+            timeout=SUBPROCESS_TIMEOUT_SECONDS,
+            shell=False,
+        )
         if res.returncode == 0:
             in_block = False
             for line in res.stdout.splitlines():
@@ -997,7 +1214,11 @@ def get_cron_status() -> Dict[str, Any]:
         "intervals_minutes": intervals,
         "enabled_profiles": len(enabled),
         "profiles_by_interval": {
-            str(m): [p.get("name") for p in enabled if int(p.get("interval_minutes") or 5) == m]
+            str(m): [
+                p.get("name")
+                for p in enabled
+                if normalize_interval_minutes(p.get("interval_minutes") or DEFAULT_INTERVAL_MINUTES) == m
+            ]
             for m in intervals
         },
         "log_files": log_files,
@@ -1006,11 +1227,12 @@ def get_cron_status() -> Dict[str, Any]:
 
 
 def run_ddns_for_interval(interval_minutes: int) -> List[Dict[str, Any]]:
+    target = normalize_interval_minutes(interval_minutes)
     results: List[Dict[str, Any]] = []
     for p in list_ddns_profiles():
         if not p.get("enabled"):
             continue
-        if int(p.get("interval_minutes") or 5) != int(interval_minutes):
+        if normalize_interval_minutes(p.get("interval_minutes") or DEFAULT_INTERVAL_MINUTES) != target:
             continue
         pid = p.get("id") or ""
         name = p.get("name") or pid
@@ -1181,6 +1403,8 @@ def tunnel_service_status() -> Dict[str, Any]:
             ["systemctl", "is-active", "cloudflared"],
             capture_output=True,
             text=True,
+            timeout=SUBPROCESS_TIMEOUT_SECONDS,
+            shell=False,
         )
         active = proc.stdout.strip() == "active"
         running = active
@@ -1224,11 +1448,25 @@ def install_tunnel_service(tunnel_id: str) -> Dict[str, Any]:
         [cloudflared, "service", "install", token],
         capture_output=True,
         text=True,
+        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+        shell=False,
     )
     if proc.returncode != 0:
         err = (proc.stderr or proc.stdout or "").strip()
         raise RuntimeError(err or "cloudflared service install failed")
 
-    subprocess.run(["systemctl", "enable", "cloudflared"], check=False, capture_output=True)
-    subprocess.run(["systemctl", "restart", "cloudflared"], check=False, capture_output=True)
+    subprocess.run(
+        ["systemctl", "enable", "cloudflared"],
+        check=False,
+        capture_output=True,
+        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+        shell=False,
+    )
+    subprocess.run(
+        ["systemctl", "restart", "cloudflared"],
+        check=False,
+        capture_output=True,
+        timeout=SUBPROCESS_TIMEOUT_SECONDS,
+        shell=False,
+    )
     return tunnel_service_status()
