@@ -1,16 +1,16 @@
-var ht = Object.defineProperty;
-var ft = (e, t, r) => t in e ? ht(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var B = (e, t, r) => ft(e, typeof t != "symbol" ? t + "" : t, r);
-import { jsx as n, jsxs as u, Fragment as bt } from "react/jsx-runtime";
-import { createContext as Ve, useContext as Ue, useState as N, useEffect as be, useMemo as Le, useCallback as Fe } from "react";
-import { useOutletContext as gt, Link as yt } from "react-router-dom";
+var ft = Object.defineProperty;
+var bt = (e, t, r) => t in e ? ft(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var B = (e, t, r) => bt(e, typeof t != "symbol" ? t + "" : t, r);
+import { jsx as s, jsxs as u, Fragment as gt } from "react/jsx-runtime";
+import { createContext as He, useContext as Ue, useState as N, useEffect as be, useMemo as Re, useCallback as Fe } from "react";
+import { useOutletContext as yt, Link as xt } from "react-router-dom";
 import * as x from "lucide-react";
-import { createPortal as Re } from "react-dom";
-const xt = Ve(null);
-function wt() {
-  return Ue(xt);
+import { createPortal as $e } from "react-dom";
+const wt = He(null);
+function vt() {
+  return Ue(wt);
 }
-const vt = {
+const kt = {
   theme: localStorage.getItem("copanel_theme") || "light",
   setTheme: () => {
   },
@@ -19,7 +19,7 @@ const vt = {
   }
 };
 function _e() {
-  const e = wt(), t = gt();
+  const e = vt(), t = yt();
   return e || (t?.theme ? {
     theme: t.theme,
     setTheme: t.setTheme ?? (() => {
@@ -27,58 +27,58 @@ function _e() {
     language: t.language ?? "en",
     setLanguage: t.setLanguage ?? (() => {
     })
-  } : vt);
+  } : kt);
 }
-const kt = Ve(null);
-function He() {
-  return Ue(kt);
+const Nt = He(null);
+function Xe() {
+  return Ue(Nt);
 }
-function Te() {
-  return He()?.isWindowed === !0;
+function Pe() {
+  return Xe()?.isWindowed === !0;
 }
-function Xe(e) {
-  var t, r, s = "";
-  if (typeof e == "string" || typeof e == "number") s += e;
+function Je(e) {
+  var t, r, n = "";
+  if (typeof e == "string" || typeof e == "number") n += e;
   else if (typeof e == "object") if (Array.isArray(e)) {
     var o = e.length;
-    for (t = 0; t < o; t++) e[t] && (r = Xe(e[t])) && (s && (s += " "), s += r);
-  } else for (r in e) e[r] && (s && (s += " "), s += r);
-  return s;
+    for (t = 0; t < o; t++) e[t] && (r = Je(e[t])) && (n && (n += " "), n += r);
+  } else for (r in e) e[r] && (n && (n += " "), n += r);
+  return n;
 }
-function Nt() {
-  for (var e, t, r = 0, s = "", o = arguments.length; r < o; r++) (e = arguments[r]) && (t = Xe(e)) && (s && (s += " "), s += t);
-  return s;
+function Ct() {
+  for (var e, t, r = 0, n = "", o = arguments.length; r < o; r++) (e = arguments[r]) && (t = Je(e)) && (n && (n += " "), n += t);
+  return n;
 }
-const Pe = "-", Ct = (e) => {
+const Me = "-", St = (e) => {
   const t = _t(e), {
     conflictingClassGroups: r,
-    conflictingClassGroupModifiers: s
+    conflictingClassGroupModifiers: n
   } = e;
   return {
     getClassGroupId: (l) => {
-      const d = l.split(Pe);
-      return d[0] === "" && d.length !== 1 && d.shift(), Je(d, t) || St(l);
+      const d = l.split(Me);
+      return d[0] === "" && d.length !== 1 && d.shift(), Qe(d, t) || Tt(l);
     },
     getConflictingClassGroupIds: (l, d) => {
       const p = r[l] || [];
-      return d && s[l] ? [...p, ...s[l]] : p;
+      return d && n[l] ? [...p, ...n[l]] : p;
     }
   };
-}, Je = (e, t) => {
+}, Qe = (e, t) => {
   if (e.length === 0)
     return t.classGroupId;
-  const r = e[0], s = t.nextPart.get(r), o = s ? Je(e.slice(1), s) : void 0;
+  const r = e[0], n = t.nextPart.get(r), o = n ? Qe(e.slice(1), n) : void 0;
   if (o)
     return o;
   if (t.validators.length === 0)
     return;
-  const i = e.join(Pe);
+  const i = e.join(Me);
   return t.validators.find(({
     validator: l
   }) => l(i))?.classGroupId;
-}, $e = /^\[(.+)\]$/, St = (e) => {
-  if ($e.test(e)) {
-    const t = $e.exec(e)[1], r = t?.substring(0, t.indexOf(":"));
+}, Oe = /^\[(.+)\]$/, Tt = (e) => {
+  if (Oe.test(e)) {
+    const t = Oe.exec(e)[1], r = t?.substring(0, t.indexOf(":"));
     if (r)
       return "arbitrary.." + r;
   }
@@ -86,23 +86,23 @@ const Pe = "-", Ct = (e) => {
   const {
     theme: t,
     prefix: r
-  } = e, s = {
+  } = e, n = {
     nextPart: /* @__PURE__ */ new Map(),
     validators: []
   };
-  return Pt(Object.entries(e.classGroups), r).forEach(([i, l]) => {
-    Ne(l, s, i, t);
-  }), s;
-}, Ne = (e, t, r, s) => {
+  return Mt(Object.entries(e.classGroups), r).forEach(([i, l]) => {
+    Ce(l, n, i, t);
+  }), n;
+}, Ce = (e, t, r, n) => {
   e.forEach((o) => {
     if (typeof o == "string") {
-      const i = o === "" ? t : Oe(t, o);
+      const i = o === "" ? t : Ge(t, o);
       i.classGroupId = r;
       return;
     }
     if (typeof o == "function") {
-      if (Tt(o)) {
-        Ne(o(s), t, r, s);
+      if (Pt(o)) {
+        Ce(o(n), t, r, n);
         return;
       }
       t.validators.push({
@@ -112,21 +112,21 @@ const Pe = "-", Ct = (e) => {
       return;
     }
     Object.entries(o).forEach(([i, l]) => {
-      Ne(l, Oe(t, i), r, s);
+      Ce(l, Ge(t, i), r, n);
     });
   });
-}, Oe = (e, t) => {
+}, Ge = (e, t) => {
   let r = e;
-  return t.split(Pe).forEach((s) => {
-    r.nextPart.has(s) || r.nextPart.set(s, {
+  return t.split(Me).forEach((n) => {
+    r.nextPart.has(n) || r.nextPart.set(n, {
       nextPart: /* @__PURE__ */ new Map(),
       validators: []
-    }), r = r.nextPart.get(s);
+    }), r = r.nextPart.get(n);
   }), r;
-}, Tt = (e) => e.isThemeGetter, Pt = (e, t) => t ? e.map(([r, s]) => {
-  const o = s.map((i) => typeof i == "string" ? t + i : typeof i == "object" ? Object.fromEntries(Object.entries(i).map(([l, d]) => [t + l, d])) : i);
+}, Pt = (e) => e.isThemeGetter, Mt = (e, t) => t ? e.map(([r, n]) => {
+  const o = n.map((i) => typeof i == "string" ? t + i : typeof i == "object" ? Object.fromEntries(Object.entries(i).map(([l, d]) => [t + l, d])) : i);
   return [r, o];
-}) : e, Mt = (e) => {
+}) : e, zt = (e) => {
   if (e < 1)
     return {
       get: () => {
@@ -134,44 +134,44 @@ const Pe = "-", Ct = (e) => {
       set: () => {
       }
     };
-  let t = 0, r = /* @__PURE__ */ new Map(), s = /* @__PURE__ */ new Map();
+  let t = 0, r = /* @__PURE__ */ new Map(), n = /* @__PURE__ */ new Map();
   const o = (i, l) => {
-    r.set(i, l), t++, t > e && (t = 0, s = r, r = /* @__PURE__ */ new Map());
+    r.set(i, l), t++, t > e && (t = 0, n = r, r = /* @__PURE__ */ new Map());
   };
   return {
     get(i) {
       let l = r.get(i);
       if (l !== void 0)
         return l;
-      if ((l = s.get(i)) !== void 0)
+      if ((l = n.get(i)) !== void 0)
         return o(i, l), l;
     },
     set(i, l) {
       r.has(i) ? r.set(i, l) : o(i, l);
     }
   };
-}, Qe = "!", zt = (e) => {
+}, Ye = "!", Et = (e) => {
   const {
     separator: t,
     experimentalParseClassName: r
-  } = e, s = t.length === 1, o = t[0], i = t.length, l = (d) => {
+  } = e, n = t.length === 1, o = t[0], i = t.length, l = (d) => {
     const p = [];
-    let y = 0, b = 0, _;
+    let y = 0, b = 0, T;
     for (let v = 0; v < d.length; v++) {
-      let T = d[v];
+      let _ = d[v];
       if (y === 0) {
-        if (T === o && (s || d.slice(v, v + i) === t)) {
+        if (_ === o && (n || d.slice(v, v + i) === t)) {
           p.push(d.slice(b, v)), b = v + i;
           continue;
         }
-        if (T === "/") {
-          _ = v;
+        if (_ === "/") {
+          T = v;
           continue;
         }
       }
-      T === "[" ? y++ : T === "]" && y--;
+      _ === "[" ? y++ : _ === "]" && y--;
     }
-    const z = p.length === 0 ? d : d.substring(b), I = z.startsWith(Qe), w = I ? z.substring(1) : z, C = _ && _ > b ? _ - b : void 0;
+    const z = p.length === 0 ? d : d.substring(b), I = z.startsWith(Ye), w = I ? z.substring(1) : z, C = T && T > b ? T - b : void 0;
     return {
       modifiers: p,
       hasImportantModifier: I,
@@ -183,101 +183,101 @@ const Pe = "-", Ct = (e) => {
     className: d,
     parseClassName: l
   }) : l;
-}, Et = (e) => {
+}, At = (e) => {
   if (e.length <= 1)
     return e;
   const t = [];
   let r = [];
-  return e.forEach((s) => {
-    s[0] === "[" ? (t.push(...r.sort(), s), r = []) : r.push(s);
+  return e.forEach((n) => {
+    n[0] === "[" ? (t.push(...r.sort(), n), r = []) : r.push(n);
   }), t.push(...r.sort()), t;
 }, jt = (e) => ({
-  cache: Mt(e.cacheSize),
-  parseClassName: zt(e),
-  ...Ct(e)
-}), At = /\s+/, It = (e, t) => {
+  cache: zt(e.cacheSize),
+  parseClassName: Et(e),
+  ...St(e)
+}), It = /\s+/, Lt = (e, t) => {
   const {
     parseClassName: r,
-    getClassGroupId: s,
+    getClassGroupId: n,
     getConflictingClassGroupIds: o
-  } = t, i = [], l = e.trim().split(At);
+  } = t, i = [], l = e.trim().split(It);
   let d = "";
   for (let p = l.length - 1; p >= 0; p -= 1) {
     const y = l[p], {
       modifiers: b,
-      hasImportantModifier: _,
+      hasImportantModifier: T,
       baseClassName: z,
       maybePostfixModifierPosition: I
     } = r(y);
-    let w = !!I, C = s(w ? z.substring(0, I) : z);
+    let w = !!I, C = n(w ? z.substring(0, I) : z);
     if (!C) {
       if (!w) {
         d = y + (d.length > 0 ? " " + d : d);
         continue;
       }
-      if (C = s(z), !C) {
+      if (C = n(z), !C) {
         d = y + (d.length > 0 ? " " + d : d);
         continue;
       }
       w = !1;
     }
-    const v = Et(b).join(":"), T = _ ? v + Qe : v, j = T + C;
-    if (i.includes(j))
+    const v = At(b).join(":"), _ = T ? v + Ye : v, A = _ + C;
+    if (i.includes(A))
       continue;
-    i.push(j);
+    i.push(A);
     const V = o(C, w);
-    for (let A = 0; A < V.length; ++A) {
-      const P = V[A];
-      i.push(T + P);
+    for (let j = 0; j < V.length; ++j) {
+      const P = V[j];
+      i.push(_ + P);
     }
     d = y + (d.length > 0 ? " " + d : d);
   }
   return d;
 };
-function Lt() {
-  let e = 0, t, r, s = "";
+function Rt() {
+  let e = 0, t, r, n = "";
   for (; e < arguments.length; )
-    (t = arguments[e++]) && (r = Ye(t)) && (s && (s += " "), s += r);
-  return s;
+    (t = arguments[e++]) && (r = qe(t)) && (n && (n += " "), n += r);
+  return n;
 }
-const Ye = (e) => {
+const qe = (e) => {
   if (typeof e == "string")
     return e;
   let t, r = "";
-  for (let s = 0; s < e.length; s++)
-    e[s] && (t = Ye(e[s])) && (r && (r += " "), r += t);
+  for (let n = 0; n < e.length; n++)
+    e[n] && (t = qe(e[n])) && (r && (r += " "), r += t);
   return r;
 };
 function Ft(e, ...t) {
-  let r, s, o, i = l;
+  let r, n, o, i = l;
   function l(p) {
-    const y = t.reduce((b, _) => _(b), e());
-    return r = jt(y), s = r.cache.get, o = r.cache.set, i = d, d(p);
+    const y = t.reduce((b, T) => T(b), e());
+    return r = jt(y), n = r.cache.get, o = r.cache.set, i = d, d(p);
   }
   function d(p) {
-    const y = s(p);
+    const y = n(p);
     if (y)
       return y;
-    const b = It(p, r);
+    const b = Lt(p, r);
     return o(p, b), b;
   }
   return function() {
-    return i(Lt.apply(null, arguments));
+    return i(Rt.apply(null, arguments));
   };
 }
 const k = (e) => {
   const t = (r) => r[e] || [];
   return t.isThemeGetter = !0, t;
-}, qe = /^\[(?:([a-z-]+):)?(.+)\]$/i, Rt = /^\d+\/\d+$/, $t = /* @__PURE__ */ new Set(["px", "full", "screen"]), Ot = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, Gt = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, Dt = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, Wt = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, Bt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, K = (e) => re(e) || $t.has(e) || Rt.test(e), X = (e) => oe(e, "length", Yt), re = (e) => !!e && !Number.isNaN(Number(e)), ve = (e) => oe(e, "number", re), de = (e) => !!e && Number.isInteger(Number(e)), Kt = (e) => e.endsWith("%") && re(e.slice(0, -1)), f = (e) => qe.test(e), J = (e) => Ot.test(e), Vt = /* @__PURE__ */ new Set(["length", "size", "percentage"]), Ut = (e) => oe(e, Vt, Ze), Ht = (e) => oe(e, "position", Ze), Xt = /* @__PURE__ */ new Set(["image", "url"]), Jt = (e) => oe(e, Xt, Zt), Qt = (e) => oe(e, "", qt), ue = () => !0, oe = (e, t, r) => {
-  const s = qe.exec(e);
-  return s ? s[1] ? typeof t == "string" ? s[1] === t : t.has(s[1]) : r(s[2]) : !1;
-}, Yt = (e) => (
+}, Ze = /^\[(?:([a-z-]+):)?(.+)\]$/i, $t = /^\d+\/\d+$/, Ot = /* @__PURE__ */ new Set(["px", "full", "screen"]), Gt = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, Dt = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, Bt = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, Wt = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, Kt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, K = (e) => re(e) || Ot.has(e) || $t.test(e), X = (e) => oe(e, "length", qt), re = (e) => !!e && !Number.isNaN(Number(e)), ke = (e) => oe(e, "number", re), de = (e) => !!e && Number.isInteger(Number(e)), Vt = (e) => e.endsWith("%") && re(e.slice(0, -1)), f = (e) => Ze.test(e), J = (e) => Gt.test(e), Ht = /* @__PURE__ */ new Set(["length", "size", "percentage"]), Ut = (e) => oe(e, Ht, et), Xt = (e) => oe(e, "position", et), Jt = /* @__PURE__ */ new Set(["image", "url"]), Qt = (e) => oe(e, Jt, er), Yt = (e) => oe(e, "", Zt), ue = () => !0, oe = (e, t, r) => {
+  const n = Ze.exec(e);
+  return n ? n[1] ? typeof t == "string" ? n[1] === t : t.has(n[1]) : r(n[2]) : !1;
+}, qt = (e) => (
   // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
   // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-  Gt.test(e) && !Dt.test(e)
-), Ze = () => !1, qt = (e) => Wt.test(e), Zt = (e) => Bt.test(e), er = () => {
-  const e = k("colors"), t = k("spacing"), r = k("blur"), s = k("brightness"), o = k("borderColor"), i = k("borderRadius"), l = k("borderSpacing"), d = k("borderWidth"), p = k("contrast"), y = k("grayscale"), b = k("hueRotate"), _ = k("invert"), z = k("gap"), I = k("gradientColorStops"), w = k("gradientColorStopPositions"), C = k("inset"), v = k("margin"), T = k("opacity"), j = k("padding"), V = k("saturate"), A = k("scale"), P = k("sepia"), Q = k("skew"), S = k("space"), ne = k("translate"), L = () => ["auto", "contain", "none"], se = () => ["auto", "hidden", "clip", "visible", "scroll"], W = () => ["auto", f, t], g = () => [f, t], ae = () => ["", K, X], c = () => ["auto", re, f], E = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], Y = () => ["solid", "dashed", "dotted", "double", "none"], q = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], le = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], G = () => ["", "0", f], ie = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], $ = () => [re, f];
+  Dt.test(e) && !Bt.test(e)
+), et = () => !1, Zt = (e) => Wt.test(e), er = (e) => Kt.test(e), tr = () => {
+  const e = k("colors"), t = k("spacing"), r = k("blur"), n = k("brightness"), o = k("borderColor"), i = k("borderRadius"), l = k("borderSpacing"), d = k("borderWidth"), p = k("contrast"), y = k("grayscale"), b = k("hueRotate"), T = k("invert"), z = k("gap"), I = k("gradientColorStops"), w = k("gradientColorStopPositions"), C = k("inset"), v = k("margin"), _ = k("opacity"), A = k("padding"), V = k("saturate"), j = k("scale"), P = k("sepia"), Q = k("skew"), S = k("space"), ne = k("translate"), L = () => ["auto", "contain", "none"], se = () => ["auto", "hidden", "clip", "visible", "scroll"], W = () => ["auto", f, t], g = () => [f, t], ae = () => ["", K, X], c = () => ["auto", re, f], E = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], Y = () => ["solid", "dashed", "dotted", "double", "none"], q = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], le = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], G = () => ["", "0", f], ie = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], $ = () => [re, f];
   return {
     cacheSize: 500,
     separator: ":",
@@ -296,7 +296,7 @@ const k = (e) => {
       invert: G(),
       gap: g(),
       gradientColorStops: [e],
-      gradientColorStopPositions: [Kt, X],
+      gradientColorStopPositions: [Vt, X],
       inset: W(),
       margin: W(),
       opacity: $(),
@@ -745,63 +745,63 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/padding
        */
       p: [{
-        p: [j]
+        p: [A]
       }],
       /**
        * Padding X
        * @see https://tailwindcss.com/docs/padding
        */
       px: [{
-        px: [j]
+        px: [A]
       }],
       /**
        * Padding Y
        * @see https://tailwindcss.com/docs/padding
        */
       py: [{
-        py: [j]
+        py: [A]
       }],
       /**
        * Padding Start
        * @see https://tailwindcss.com/docs/padding
        */
       ps: [{
-        ps: [j]
+        ps: [A]
       }],
       /**
        * Padding End
        * @see https://tailwindcss.com/docs/padding
        */
       pe: [{
-        pe: [j]
+        pe: [A]
       }],
       /**
        * Padding Top
        * @see https://tailwindcss.com/docs/padding
        */
       pt: [{
-        pt: [j]
+        pt: [A]
       }],
       /**
        * Padding Right
        * @see https://tailwindcss.com/docs/padding
        */
       pr: [{
-        pr: [j]
+        pr: [A]
       }],
       /**
        * Padding Bottom
        * @see https://tailwindcss.com/docs/padding
        */
       pb: [{
-        pb: [j]
+        pb: [A]
       }],
       /**
        * Padding Left
        * @see https://tailwindcss.com/docs/padding
        */
       pl: [{
-        pl: [j]
+        pl: [A]
       }],
       /**
        * Margin
@@ -965,7 +965,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/font-weight
        */
       "font-weight": [{
-        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", ve]
+        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", ke]
       }],
       /**
        * Font Family
@@ -1016,7 +1016,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/line-clamp
        */
       "line-clamp": [{
-        "line-clamp": ["none", re, ve]
+        "line-clamp": ["none", re, ke]
       }],
       /**
        * Line Height
@@ -1059,7 +1059,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/placeholder-opacity
        */
       "placeholder-opacity": [{
-        "placeholder-opacity": [T]
+        "placeholder-opacity": [_]
       }],
       /**
        * Text Alignment
@@ -1080,7 +1080,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/text-opacity
        */
       "text-opacity": [{
-        "text-opacity": [T]
+        "text-opacity": [_]
       }],
       /**
        * Text Decoration
@@ -1195,7 +1195,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/background-opacity
        */
       "bg-opacity": [{
-        "bg-opacity": [T]
+        "bg-opacity": [_]
       }],
       /**
        * Background Origin
@@ -1209,7 +1209,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/background-position
        */
       "bg-position": [{
-        bg: [...E(), Ht]
+        bg: [...E(), Xt]
       }],
       /**
        * Background Repeat
@@ -1234,7 +1234,7 @@ const k = (e) => {
       "bg-image": [{
         bg: ["none", {
           "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
-        }, Jt]
+        }, Qt]
       }],
       /**
        * Background Color
@@ -1459,7 +1459,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/border-opacity
        */
       "border-opacity": [{
-        "border-opacity": [T]
+        "border-opacity": [_]
       }],
       /**
        * Border Style
@@ -1497,7 +1497,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/divide-opacity
        */
       "divide-opacity": [{
-        "divide-opacity": [T]
+        "divide-opacity": [_]
       }],
       /**
        * Divide Style
@@ -1628,7 +1628,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/ring-opacity
        */
       "ring-opacity": [{
-        "ring-opacity": [T]
+        "ring-opacity": [_]
       }],
       /**
        * Ring Offset Width
@@ -1650,7 +1650,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/box-shadow
        */
       shadow: [{
-        shadow: ["", "inner", "none", J, Qt]
+        shadow: ["", "inner", "none", J, Yt]
       }],
       /**
        * Box Shadow Color
@@ -1664,7 +1664,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/opacity
        */
       opacity: [{
-        opacity: [T]
+        opacity: [_]
       }],
       /**
        * Mix Blend Mode
@@ -1701,7 +1701,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/brightness
        */
       brightness: [{
-        brightness: [s]
+        brightness: [n]
       }],
       /**
        * Contrast
@@ -1736,7 +1736,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/invert
        */
       invert: [{
-        invert: [_]
+        invert: [T]
       }],
       /**
        * Saturate
@@ -1772,7 +1772,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-brightness
        */
       "backdrop-brightness": [{
-        "backdrop-brightness": [s]
+        "backdrop-brightness": [n]
       }],
       /**
        * Backdrop Contrast
@@ -1800,14 +1800,14 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-invert
        */
       "backdrop-invert": [{
-        "backdrop-invert": [_]
+        "backdrop-invert": [T]
       }],
       /**
        * Backdrop Opacity
        * @see https://tailwindcss.com/docs/backdrop-opacity
        */
       "backdrop-opacity": [{
-        "backdrop-opacity": [T]
+        "backdrop-opacity": [_]
       }],
       /**
        * Backdrop Saturate
@@ -1915,21 +1915,21 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/scale
        */
       scale: [{
-        scale: [A]
+        scale: [j]
       }],
       /**
        * Scale X
        * @see https://tailwindcss.com/docs/scale
        */
       "scale-x": [{
-        "scale-x": [A]
+        "scale-x": [j]
       }],
       /**
        * Scale Y
        * @see https://tailwindcss.com/docs/scale
        */
       "scale-y": [{
-        "scale-y": [A]
+        "scale-y": [j]
       }],
       /**
        * Rotate
@@ -2230,7 +2230,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/stroke-width
        */
       "stroke-w": [{
-        stroke: [K, X, ve]
+        stroke: [K, X, ke]
       }],
       /**
        * Stroke
@@ -2305,24 +2305,24 @@ const k = (e) => {
       "font-size": ["leading"]
     }
   };
-}, tr = /* @__PURE__ */ Ft(er);
+}, rr = /* @__PURE__ */ Ft(tr);
 function h(...e) {
-  return tr(Nt(e));
+  return rr(Ct(e));
 }
-const rr = "copanel_mobile_desktop_site";
-function or() {
+const or = "copanel_mobile_desktop_site";
+function nr() {
   try {
-    return localStorage.getItem(rr) === "1";
+    return localStorage.getItem(or) === "1";
   } catch {
     return !1;
   }
 }
-function Ce(e = window.innerWidth) {
-  return or() || e >= 1024;
+function Se(e = window.innerWidth) {
+  return nr() || e >= 1024;
 }
-function nr({ children: e, className: t, constrained: r = !1 }) {
-  const { theme: s } = _e(), o = Te(), i = s === "dark", l = !o && !Ce();
-  return /* @__PURE__ */ n(
+function sr({ children: e, className: t, constrained: r = !1 }) {
+  const { theme: n } = _e(), o = Pe(), i = n === "dark", l = !o && !Se();
+  return /* @__PURE__ */ s(
     "div",
     {
       className: h(
@@ -2336,23 +2336,23 @@ function nr({ children: e, className: t, constrained: r = !1 }) {
     }
   );
 }
-function sr({
+function ar({
   isDark: e,
   sidebar: t,
   children: r,
-  mobileTitle: s,
+  mobileTitle: n,
   className: o
 }) {
-  const i = Te(), [l, d] = N(!1), [p, y] = N(() => Ce());
+  const i = Pe(), [l, d] = N(!1), [p, y] = N(() => Se());
   be(() => {
-    const z = () => y(Ce());
+    const z = () => y(Se());
     return window.addEventListener("resize", z), () => window.removeEventListener("resize", z);
   }, []);
   const b = !i && !p;
   be(() => {
     p && d(!1);
   }, [p]);
-  const _ = () => d(!1);
+  const T = () => d(!1);
   return b ? /* @__PURE__ */ u("div", { className: h("relative flex h-full min-h-0 flex-1 flex-col overflow-hidden", o), children: [
     /* @__PURE__ */ u(
       "div",
@@ -2362,7 +2362,7 @@ function sr({
           e ? "border-slate-800 bg-slate-950/90" : "border-slate-200 bg-white"
         ),
         children: [
-          /* @__PURE__ */ n(
+          /* @__PURE__ */ s(
             "button",
             {
               type: "button",
@@ -2372,40 +2372,40 @@ function sr({
                 e ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-100"
               ),
               "aria-label": "Open module menu",
-              children: /* @__PURE__ */ n(x.PanelLeft, { className: "h-5 w-5" })
+              children: /* @__PURE__ */ s(x.PanelLeft, { className: "h-5 w-5" })
             }
           ),
-          s ? /* @__PURE__ */ n("span", { className: h("truncate text-sm font-semibold", e ? "text-slate-100" : "text-slate-900"), children: s }) : null
+          n ? /* @__PURE__ */ s("span", { className: h("truncate text-sm font-semibold", e ? "text-slate-100" : "text-slate-900"), children: n }) : null
         ]
       }
     ),
-    l ? /* @__PURE__ */ n(
+    l ? /* @__PURE__ */ s(
       "button",
       {
         type: "button",
         className: "fixed inset-0 z-[60] bg-black/45",
         "aria-label": "Close module menu",
-        onClick: _
+        onClick: T
       }
     ) : null,
-    /* @__PURE__ */ n(
+    /* @__PURE__ */ s(
       "div",
       {
         className: h(
           "fixed inset-y-0 left-0 z-[61] flex max-w-[min(85vw,280px)] transform shadow-xl transition-transform duration-200 ease-out",
           l ? "translate-x-0" : "-translate-x-full pointer-events-none"
         ),
-        onClick: _,
+        onClick: T,
         children: t
       }
     ),
-    /* @__PURE__ */ n("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: r })
+    /* @__PURE__ */ s("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: r })
   ] }) : /* @__PURE__ */ u("div", { className: h("flex h-full min-h-0 flex-1 overflow-hidden", o), children: [
     t,
-    /* @__PURE__ */ n("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: r })
+    /* @__PURE__ */ s("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: r })
   ] });
 }
-const ar = {
+const lr = {
   sm: "max-w-sm",
   md: "max-w-md",
   lg: "max-w-lg",
@@ -2414,18 +2414,18 @@ const ar = {
   "4xl": "max-w-4xl",
   "5xl": "max-w-5xl"
 };
-function ke({
+function Ne({
   open: e,
   onClose: t,
   children: r,
-  title: s,
+  title: n,
   className: o,
   maxWidth: i = "lg",
   closeOnBackdropClick: l = !0
 }) {
-  const { theme: d } = _e(), p = d === "dark", y = He();
+  const { theme: d } = _e(), p = d === "dark", y = Xe();
   if (!e) return null;
-  const b = /* @__PURE__ */ n(
+  const b = /* @__PURE__ */ s(
     "div",
     {
       className: h(
@@ -2438,13 +2438,13 @@ function ke({
         {
           className: h(
             "flex w-full flex-col overflow-hidden rounded-2xl border shadow-2xl",
-            ar[i],
+            lr[i],
             p ? "border-slate-700 bg-slate-900 text-slate-100" : "border-slate-200 bg-white text-slate-900",
             o
           ),
-          onClick: (_) => _.stopPropagation(),
+          onClick: (T) => T.stopPropagation(),
           children: [
-            s && /* @__PURE__ */ u(
+            n && /* @__PURE__ */ u(
               "div",
               {
                 className: h(
@@ -2452,8 +2452,8 @@ function ke({
                   p ? "border-slate-800" : "border-slate-200"
                 ),
                 children: [
-                  /* @__PURE__ */ n("h3", { className: "text-sm font-bold", children: s }),
-                  /* @__PURE__ */ n("button", { type: "button", onClick: t, className: "rounded-lg p-1 hover:bg-slate-800/50", "aria-label": "Close", children: /* @__PURE__ */ n(x.X, { className: "h-4 w-4" }) })
+                  /* @__PURE__ */ s("h3", { className: "text-sm font-bold", children: n }),
+                  /* @__PURE__ */ s("button", { type: "button", onClick: t, className: "rounded-lg p-1 hover:bg-slate-800/50", "aria-label": "Close", children: /* @__PURE__ */ s(x.X, { className: "h-4 w-4" }) })
                 ]
               }
             ),
@@ -2463,11 +2463,11 @@ function ke({
       )
     }
   );
-  return y?.isWindowed && y.viewportRef.current ? Re(b, y.viewportRef.current) : Re(b, document.body);
+  return y?.isWindowed && y.viewportRef.current ? $e(b, y.viewportRef.current) : $e(b, document.body);
 }
-class Ge extends Error {
-  constructor(r, s, o, i) {
-    super(s);
+class De extends Error {
+  constructor(r, n, o, i) {
+    super(n);
     B(this, "code");
     B(this, "status");
     B(this, "details");
@@ -2475,14 +2475,14 @@ class Ge extends Error {
   }
 }
 async function D(e, t = {}) {
-  const r = typeof window < "u" ? localStorage.getItem("copanel_token") : null, s = {
+  const r = typeof window < "u" ? localStorage.getItem("copanel_token") : null, n = {
     "Content-Type": "application/json",
     ...t.headers || {}
   };
-  r && (s.Authorization = `Bearer ${r}`);
+  r && (n.Authorization = `Bearer ${r}`);
   const o = {
     method: t.method || "GET",
-    headers: s,
+    headers: n,
     signal: t.signal
   };
   t.body !== void 0 && (o.body = typeof t.body == "string" ? t.body : JSON.stringify(t.body));
@@ -2499,34 +2499,61 @@ async function D(e, t = {}) {
     return l;
   if (!i.ok) {
     const p = l && typeof l == "object" && l.error ? l.error : { code: `HTTP_${i.status}`, message: typeof l == "string" ? l : l?.detail || i.statusText };
-    throw new Ge(p.code || `HTTP_${i.status}`, p.message || "Request failed", i.status, p.details);
+    throw new De(p.code || `HTTP_${i.status}`, p.message || "Request failed", i.status, p.details);
   }
   if (l && typeof l == "object" && "status" in l) {
     if (l.status === "success")
       return l.data !== void 0 ? l.data : l;
     if (l.status === "error" && l.error)
-      throw new Ge(l.error.code, l.error.message, i.status, l.error.details);
+      throw new De(l.error.code, l.error.message, i.status, l.error.details);
   }
   return l;
 }
-const lr = "copanel-platform-sse-degraded", pe = 2e3, ir = 6e4, cr = 3;
-class dr {
+function ge() {
+  return typeof localStorage > "u" ? null : localStorage.getItem("copanel_token");
+}
+function ir(e) {
+  const t = {};
+  e && new Headers(e).forEach((o, i) => {
+    t[i] = o;
+  });
+  const r = ge();
+  return r && (t.Authorization = `Bearer ${r}`), t;
+}
+function cr(e, t = {}) {
+  const r = ir(t.headers);
+  return fetch(e, { ...t, headers: r });
+}
+async function dr() {
+  if (!ge()) return null;
+  try {
+    const e = await cr("/api/auth/stream-ticket", { method: "POST" });
+    if (!e.ok) return null;
+    const t = await e.json();
+    return typeof t?.ticket == "string" ? t.ticket : null;
+  } catch {
+    return null;
+  }
+}
+const ur = "copanel-platform-sse-degraded", pe = 2e3, pr = 6e4, mr = 3;
+class hr {
   constructor() {
     B(this, "source", null);
     B(this, "handlers", /* @__PURE__ */ new Map());
     B(this, "retryDelay", pe);
     B(this, "retryTimer", null);
     B(this, "failureCount", 0);
+    B(this, "connecting", !1);
   }
   on(t, r) {
-    let s = this.handlers.get(t);
-    return s || (s = /* @__PURE__ */ new Set(), this.handlers.set(t, s)), s.add(r), this.ensureConnected(), () => {
-      s.delete(r), s.size === 0 && this.handlers.delete(t), this.teardownIfIdle();
+    let n = this.handlers.get(t);
+    return n || (n = /* @__PURE__ */ new Set(), this.handlers.set(t, n)), n.add(r), this.ensureConnected(), () => {
+      n.delete(r), n.size === 0 && this.handlers.delete(t), this.teardownIfIdle();
     };
   }
   emit(t, r) {
-    const s = this.handlers.get(t);
-    s && s.forEach((o) => {
+    const n = this.handlers.get(t);
+    n && n.forEach((o) => {
       try {
         o(r);
       } catch (i) {
@@ -2534,50 +2561,60 @@ class dr {
       }
     });
   }
-  buildUrl() {
-    const t = localStorage.getItem("copanel_token");
+  async buildUrl() {
+    if (!ge()) return null;
+    const t = await dr();
     return t ? `/api/platform/events?${new URLSearchParams({
       topics: "jobs,notifications",
-      access_token: t
+      ticket: t
     }).toString()}` : null;
   }
   ensureConnected() {
-    if (this.source || typeof document < "u" && document.hidden) return;
-    const t = this.buildUrl();
-    if (t) {
-      try {
-        this.source = new EventSource(t, { withCredentials: !1 });
-      } catch {
-        this.scheduleRetry();
-        return;
+    this.source || this.connecting || typeof document < "u" && document.hidden || ge() && (this.connecting = !0, this.buildUrl().then((t) => {
+      if (this.connecting = !1, !(this.source || this.handlers.size === 0)) {
+        if (!t) {
+          this.failureCount += 1, this.scheduleRetry();
+          return;
+        }
+        this.openSource(t);
       }
-      this.source.addEventListener("open", () => {
-        this.failureCount = 0, this.retryDelay = pe;
-      }), this.source.addEventListener("jobs", (r) => {
-        this.onStreamMessage(), this.parseAndEmit("jobs", r.data);
-      }), this.source.addEventListener("notifications", (r) => {
-        this.onStreamMessage(), this.parseAndEmit("notifications", r.data);
-      }), this.source.addEventListener("message", () => {
-        this.onStreamMessage();
-      }), this.source.onerror = () => {
-        this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= cr && window.dispatchEvent(new CustomEvent(lr)), this.scheduleRetry();
-      };
+    }).catch(() => {
+      this.connecting = !1, this.scheduleRetry();
+    }));
+  }
+  openSource(t) {
+    try {
+      this.source = new EventSource(t, { withCredentials: !1 });
+    } catch {
+      this.scheduleRetry();
+      return;
     }
+    this.source.addEventListener("open", () => {
+      this.failureCount = 0, this.retryDelay = pe;
+    }), this.source.addEventListener("jobs", (r) => {
+      this.onStreamMessage(), this.parseAndEmit("jobs", r.data);
+    }), this.source.addEventListener("notifications", (r) => {
+      this.onStreamMessage(), this.parseAndEmit("notifications", r.data);
+    }), this.source.addEventListener("message", () => {
+      this.onStreamMessage();
+    }), this.source.onerror = () => {
+      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= mr && window.dispatchEvent(new CustomEvent(ur)), this.scheduleRetry();
+    };
   }
   onStreamMessage() {
     this.failureCount = 0, this.retryDelay = pe;
   }
   parseAndEmit(t, r) {
     try {
-      const s = JSON.parse(r);
-      this.emit(t, s.payload || s);
+      const n = JSON.parse(r);
+      this.emit(t, n.payload || n);
     } catch {
     }
   }
   scheduleRetry() {
     if (this.retryTimer || this.handlers.size === 0) return;
     const t = this.retryDelay;
-    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), ir), this.retryTimer = setTimeout(() => {
+    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), pr), this.retryTimer = setTimeout(() => {
       this.retryTimer = null, this.ensureConnected();
     }, t);
   }
@@ -2589,20 +2626,20 @@ class dr {
     this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = pe, this.handlers.size > 0 && this.ensureConnected();
   }
 }
-const Me = new dr();
-function ur() {
-  Me.reconnect();
+const ze = new hr();
+function fr() {
+  ze.reconnect();
 }
 typeof document < "u" && document.addEventListener("visibilitychange", () => {
-  document.hidden || ur();
+  document.hidden || fr();
 });
-function et(e) {
+function tt(e) {
   let t = e;
   const r = /* @__PURE__ */ new Set();
   return {
     getState: () => t,
-    setState: (s) => {
-      const o = typeof s == "function" ? s(t) : s;
+    setState: (n) => {
+      const o = typeof n == "function" ? n(t) : n;
       if (!o || Object.keys(o).length === 0) return;
       let i = !1;
       for (const l of Object.keys(o))
@@ -2612,14 +2649,14 @@ function et(e) {
         }
       i && (t = { ...t, ...o }, r.forEach((l) => l()));
     },
-    subscribe: (s) => (r.add(s), () => r.delete(s))
+    subscribe: (n) => (r.add(n), () => r.delete(n))
   };
 }
-const tt = et({ jobs: {}, order: [], lastFetch: 0 });
-function pr() {
+const rt = tt({ jobs: {}, order: [], lastFetch: 0 });
+function br() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
-function De(e, t) {
+function Be(e, t) {
   if (e) {
     if (typeof e == "string") return e;
     if (typeof e == "object") return e[t] || e.en || e.vi || e.default;
@@ -2627,64 +2664,8 @@ function De(e, t) {
 }
 function te(e, t, r) {
   if (!e || typeof e != "object") return;
-  const s = De(e[t], r);
-  if (s) return s;
-  const o = De(e[`${t}_i18n`], r);
-  if (o) return o;
-  const i = e[`${t}_${r}`];
-  if (typeof i == "string" && i) return i;
-  const l = e[`${t}_en`];
-  if (typeof l == "string" && l) return l;
-  const d = e[`${t}_vi`];
-  if (typeof d == "string" && d) return d;
-}
-function mr(e) {
-  const t = pr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
-  return {
-    ...e,
-    title: te(e, "title", t) || te(r, "title", t) || e?.title || "",
-    message: te(e, "message", t) || te(r, "message", t) || e?.message,
-    error: te(e, "error", t) || te(r, "error", t) || e?.error || null
-  };
-}
-function We(e) {
-  const t = mr(e);
-  tt.setState((r) => {
-    const s = { ...r.jobs, [t.id]: { ...r.jobs[t.id], ...t } };
-    let o = r.order;
-    return o.includes(t.id) || (o = [t.id, ...o].slice(0, 200)), { jobs: s, order: o };
-  });
-}
-Me.on("jobs", (e) => {
-  if (e?.job) {
-    We(e.job);
-    return;
-  }
-  if (e?.job_id && e?.event === "update") {
-    const t = tt.getState().jobs[e.job_id];
-    t && We({
-      ...t,
-      progress: e.progress ?? t.progress,
-      message: e.message ?? t.message,
-      status: e.status ?? t.status
-    });
-  }
-});
-const Se = et({ inbox: [], unread: 0, toasts: [] }), hr = 6e3;
-function fr() {
-  return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
-}
-function Be(e, t) {
-  if (e) {
-    if (typeof e == "string") return e;
-    if (typeof e == "object")
-      return e[t] || e.en || e.vi || e.default;
-  }
-}
-function fe(e, t, r) {
-  if (!e || typeof e != "object") return;
-  const s = Be(e[t], r);
-  if (s) return s;
+  const n = Be(e[t], r);
+  if (n) return n;
   const o = Be(e[`${t}_i18n`], r);
   if (o) return o;
   const i = e[`${t}_${r}`];
@@ -2694,29 +2675,85 @@ function fe(e, t, r) {
   const d = e[`${t}_vi`];
   if (typeof d == "string" && d) return d;
 }
-function br(e) {
-  const t = fr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, s = fe(e, "title", t) || fe(r, "title", t) || e?.title || "", o = fe(e, "body", t) || fe(r, "body", t) || e?.body || null;
+function gr(e) {
+  const t = br(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
   return {
     ...e,
-    title: s,
+    title: te(e, "title", t) || te(r, "title", t) || e?.title || "",
+    message: te(e, "message", t) || te(r, "message", t) || e?.message,
+    error: te(e, "error", t) || te(r, "error", t) || e?.error || null
+  };
+}
+function We(e) {
+  const t = gr(e);
+  rt.setState((r) => {
+    const n = { ...r.jobs, [t.id]: { ...r.jobs[t.id], ...t } };
+    let o = r.order;
+    return o.includes(t.id) || (o = [t.id, ...o].slice(0, 200)), { jobs: n, order: o };
+  });
+}
+ze.on("jobs", (e) => {
+  if (e?.job) {
+    We(e.job);
+    return;
+  }
+  if (e?.job_id && e?.event === "update") {
+    const t = rt.getState().jobs[e.job_id];
+    t && We({
+      ...t,
+      progress: e.progress ?? t.progress,
+      message: e.message ?? t.message,
+      status: e.status ?? t.status
+    });
+  }
+});
+const Te = tt({ inbox: [], unread: 0, toasts: [] }), yr = 6e3;
+function xr() {
+  return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
+}
+function Ke(e, t) {
+  if (e) {
+    if (typeof e == "string") return e;
+    if (typeof e == "object")
+      return e[t] || e.en || e.vi || e.default;
+  }
+}
+function fe(e, t, r) {
+  if (!e || typeof e != "object") return;
+  const n = Ke(e[t], r);
+  if (n) return n;
+  const o = Ke(e[`${t}_i18n`], r);
+  if (o) return o;
+  const i = e[`${t}_${r}`];
+  if (typeof i == "string" && i) return i;
+  const l = e[`${t}_en`];
+  if (typeof l == "string" && l) return l;
+  const d = e[`${t}_vi`];
+  if (typeof d == "string" && d) return d;
+}
+function wr(e) {
+  const t = xr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, n = fe(e, "title", t) || fe(r, "title", t) || e?.title || "", o = fe(e, "body", t) || fe(r, "body", t) || e?.body || null;
+  return {
+    ...e,
+    title: n,
     body: o
   };
 }
-function gr(e) {
-  Se.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
-    Se.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
-  }, hr);
+function vr(e) {
+  Te.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
+    Te.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
+  }, yr);
 }
-Me.on("notifications", (e) => {
+ze.on("notifications", (e) => {
   if (e?.event === "new" && e.notification) {
-    const t = br(e.notification);
-    gr({ ...t, ephemeral: !0 }), Se.setState((r) => ({
+    const t = wr(e.notification);
+    vr({ ...t, ephemeral: !0 }), Te.setState((r) => ({
       inbox: [t, ...r.inbox].slice(0, 200),
       unread: r.unread + 1
     }));
   }
 });
-const yr = {
+const kr = {
   title: "FTP Manager",
   subtitle: "External FTP · FTPS · SFTP",
   connections: "Connections",
@@ -2780,7 +2817,7 @@ const yr = {
   noItems: "This folder is empty",
   overwrite: "Overwrite if exists",
   saved: "Saved"
-}, xr = {
+}, Nr = {
   title: "FTP Manager",
   subtitle: "FTP · FTPS · SFTP bên ngoài",
   connections: "Kết nối",
@@ -2844,7 +2881,7 @@ const yr = {
   noItems: "Thư mục trống",
   overwrite: "Ghi đè nếu tồn tại",
   saved: "Đã lưu"
-}, wr = { en: yr, vi: xr }, Ke = () => ({
+}, Cr = { en: kr, vi: Nr }, Ve = () => ({
   label: "",
   protocol: "sftp",
   host: "",
@@ -2858,7 +2895,7 @@ const yr = {
   passive: !0,
   timeout: "30"
 });
-function vr(e) {
+function Sr(e) {
   return {
     label: e.label,
     protocol: e.protocol,
@@ -2874,13 +2911,13 @@ function vr(e) {
     timeout: String(e.timeout || 30)
   };
 }
-function kr(e) {
+function Tr(e) {
   return e === "sftp" ? "22" : "21";
 }
-function Nr(e) {
+function _r(e) {
   return e ? e < 1024 ? `${e} B` : e < 1024 * 1024 ? `${(e / 1024).toFixed(1)} KB` : e < 1024 * 1024 * 1024 ? `${(e / (1024 * 1024)).toFixed(1)} MB` : `${(e / (1024 * 1024 * 1024)).toFixed(2)} GB` : "—";
 }
-function Cr(e) {
+function Pr(e) {
   if (!e) return "—";
   try {
     return new Date(e * 1e3).toLocaleString();
@@ -2888,27 +2925,27 @@ function Cr(e) {
     return "—";
   }
 }
-function zr() {
-  const { theme: e, language: t } = _e(), r = e === "dark", o = wr[t === "vi" ? "vi" : "en"], i = Te(), [l, d] = N([]), [p, y] = N(null), [b, _] = N("/"), [z, I] = N([]), [w, C] = N(null), [v, T] = N(!0), [j, V] = N(!1), [A, P] = N(!1), [Q, S] = N(null), [ne, L] = N(null), [se, W] = N(!1), [g, ae] = N(null), [c, E] = N(Ke()), [Y, q] = N(!1), [le, G] = N(!1), [ie, $] = N("download"), [ge, ye] = N("/tmp"), [ze, rt] = N(!0), [ot, Z] = N(!1), [xe, Ee] = N("connection"), O = Le(
+function Ir() {
+  const { theme: e, language: t } = _e(), r = e === "dark", o = Cr[t === "vi" ? "vi" : "en"], i = Pe(), [l, d] = N([]), [p, y] = N(null), [b, T] = N("/"), [z, I] = N([]), [w, C] = N(null), [v, _] = N(!0), [A, V] = N(!1), [j, P] = N(!1), [Q, S] = N(null), [ne, L] = N(null), [se, W] = N(!1), [g, ae] = N(null), [c, E] = N(Ve()), [Y, q] = N(!1), [le, G] = N(!1), [ie, $] = N("download"), [ye, xe] = N("/tmp"), [Ee, ot] = N(!0), [nt, Z] = N(!1), [we, Ae] = N("connection"), O = Re(
     () => l.find((a) => a.id === p) || null,
     [l, p]
   ), me = Fe(async (a) => {
-    T(!0), S(null);
+    _(!0), S(null);
     try {
       const m = await D("/api/ftp_manager/connections"), M = Array.isArray(m) ? m : [];
-      d(M), y((ee) => a != null && M.some((we) => we.id === a) ? a : ee != null && M.some((we) => we.id === ee) ? ee : M.length > 0 ? M[0].id : null);
+      d(M), y((ee) => a != null && M.some((ve) => ve.id === a) ? a : ee != null && M.some((ve) => ve.id === ee) ? ee : M.length > 0 ? M[0].id : null);
     } catch (m) {
       S(m?.message || String(m)), d([]);
     } finally {
-      T(!1);
+      _(!1);
     }
-  }, []), U = Fe(async (a, m) => {
+  }, []), H = Fe(async (a, m) => {
     V(!0), S(null), C(null);
     try {
       const M = await D(
         `/api/ftp_manager/connections/${a}/list?path=${encodeURIComponent(m)}`
       );
-      _(M.path || m || "/"), I(Array.isArray(M.items) ? M.items : []);
+      T(M.path || m || "/"), I(Array.isArray(M.items) ? M.items : []);
     } catch (M) {
       S(M?.message || String(M)), I([]);
     } finally {
@@ -2920,28 +2957,28 @@ function zr() {
   }, [me]), be(() => {
     if (p != null) {
       const a = l.find((m) => m.id === p)?.remote_root || "/";
-      U(p, a);
+      H(p, a);
     } else
-      I([]), _("/");
+      I([]), T("/");
   }, [p]);
-  const je = Le(() => {
+  const je = Re(() => {
     const a = b.split("/").filter(Boolean), m = [{ label: "/", path: "/" }];
     let M = "";
     for (const ee of a)
       M += `/${ee}`, m.push({ label: ee, path: M });
     return m;
-  }, [b]), Ae = () => {
-    ae(null), E(Ke()), q(!1), W(!0), L(null), S(null);
-  }, nt = (a) => {
-    ae(a.id), E(vr(a)), q(!1), W(!0), L(null), S(null);
+  }, [b]), Ie = () => {
+    ae(null), E(Ve()), q(!1), W(!0), L(null), S(null);
   }, st = (a) => {
+    ae(a.id), E(Sr(a)), q(!1), W(!0), L(null), S(null);
+  }, at = (a) => {
     E((m) => ({
       ...m,
       protocol: a,
-      port: m.port === "21" || m.port === "22" || !m.port ? kr(a) : m.port,
+      port: m.port === "21" || m.port === "22" || !m.port ? Tr(a) : m.port,
       auth_type: a === "sftp" ? m.auth_type : "password"
     }));
-  }, at = async () => {
+  }, lt = async () => {
     P(!0), S(null), L(null);
     try {
       const a = {
@@ -2969,7 +3006,7 @@ function zr() {
     } finally {
       P(!1);
     }
-  }, Ie = async (a) => {
+  }, Le = async (a) => {
     P(!0), S(null), L(null);
     try {
       a != null ? await D(`/api/ftp_manager/connections/${a}/test`, { method: "POST", body: {} }) : await D("/api/ftp_manager/connections/test", {
@@ -2993,7 +3030,7 @@ function zr() {
     } finally {
       P(!1);
     }
-  }, lt = async () => {
+  }, it = async () => {
     if (p != null) {
       P(!0);
       try {
@@ -3004,7 +3041,7 @@ function zr() {
         P(!1);
       }
     }
-  }, it = async () => {
+  }, ct = async () => {
     if (p == null) return;
     const a = window.prompt(o.namePrompt);
     if (!a || !a.trim()) return;
@@ -3014,13 +3051,13 @@ function zr() {
       await D(`/api/ftp_manager/connections/${p}/mkdir`, {
         method: "POST",
         body: { path: m }
-      }), await U(p, b);
+      }), await H(p, b);
     } catch (M) {
       S(M?.message || String(M));
     } finally {
       P(!1);
     }
-  }, ct = async () => {
+  }, dt = async () => {
     if (p == null || !w) return;
     const a = window.prompt(o.renamePrompt, w.name);
     if (!(!a || !a.trim() || a.trim() === w.name)) {
@@ -3029,28 +3066,28 @@ function zr() {
         await D(`/api/ftp_manager/connections/${p}/rename`, {
           method: "POST",
           body: { path: w.path, new_name: a.trim() }
-        }), await U(p, b);
+        }), await H(p, b);
       } catch (m) {
         S(m?.message || String(m));
       } finally {
         P(!1);
       }
     }
-  }, dt = async () => {
+  }, ut = async () => {
     if (!(p == null || !w)) {
       P(!0);
       try {
         await D(`/api/ftp_manager/connections/${p}/delete`, {
           method: "POST",
           body: { path: w.path, recursive: w.is_dir }
-        }), Z(!1), C(null), await U(p, b);
+        }), Z(!1), C(null), await H(p, b);
       } catch (a) {
         S(a?.message || String(a));
       } finally {
         P(!1);
       }
     }
-  }, ut = async () => {
+  }, pt = async () => {
     if (p == null) return;
     const a = w?.path || b;
     P(!0), S(null), L(null);
@@ -3061,8 +3098,8 @@ function zr() {
           connection_id: p,
           direction: ie,
           remote_path: a,
-          local_path: ge.trim(),
-          overwrite: ze
+          local_path: ye.trim(),
+          overwrite: Ee
         }
       });
       G(!1), L(`${o.jobQueued}: ${m.job_id}`);
@@ -3071,20 +3108,20 @@ function zr() {
     } finally {
       P(!1);
     }
-  }, F = h(
+  }, R = h(
     "w-full rounded-lg border px-3 py-2 text-sm outline-none transition",
     "focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500",
     r ? "border-slate-700 bg-slate-900 text-slate-100" : "border-slate-300 bg-white text-slate-900"
-  ), R = h("mb-1.5 block text-xs font-medium", r ? "text-slate-400" : "text-slate-500"), ce = h(
+  ), F = h("mb-1.5 block text-xs font-medium", r ? "text-slate-400" : "text-slate-500"), ce = h(
     "inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-white",
     "bg-sky-600 hover:bg-sky-500 disabled:opacity-50"
-  ), H = h(
+  ), U = h(
     "inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium border",
     r ? "border-slate-700 text-slate-200 hover:bg-slate-800" : "border-slate-300 text-slate-700 hover:bg-slate-50"
   ), he = h(
     "inline-flex h-8 w-8 items-center justify-center rounded-lg border",
     r ? "border-slate-700 text-slate-300 hover:bg-slate-800" : "border-slate-300 text-slate-600 hover:bg-slate-50"
-  ), pt = /* @__PURE__ */ u(
+  ), mt = /* @__PURE__ */ u(
     "aside",
     {
       className: h(
@@ -3101,17 +3138,17 @@ function zr() {
             ),
             children: [
               /* @__PURE__ */ u("div", { className: "min-w-0", children: [
-                /* @__PURE__ */ n("div", { className: "truncate text-sm font-semibold", children: o.title }),
-                /* @__PURE__ */ n("div", { className: h("truncate text-[11px]", r ? "text-slate-500" : "text-slate-400"), children: o.subtitle })
+                /* @__PURE__ */ s("div", { className: "truncate text-sm font-semibold", children: o.title }),
+                /* @__PURE__ */ s("div", { className: h("truncate text-[11px]", r ? "text-slate-500" : "text-slate-400"), children: o.subtitle })
               ] }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s(
                 "button",
                 {
                   type: "button",
                   title: o.add,
-                  onClick: Ae,
+                  onClick: Ie,
                   className: "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white hover:bg-sky-500",
-                  children: /* @__PURE__ */ n(x.Plus, { className: "h-4 w-4" })
+                  children: /* @__PURE__ */ s(x.Plus, { className: "h-4 w-4" })
                 }
               )
             ]
@@ -3119,10 +3156,10 @@ function zr() {
         ),
         /* @__PURE__ */ u("nav", { className: "min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2", children: [
           v && /* @__PURE__ */ u("div", { className: h("flex items-center gap-2 px-2 py-3 text-xs", r ? "text-slate-500" : "text-slate-400"), children: [
-            /* @__PURE__ */ n(x.Loader2, { className: "h-3.5 w-3.5 animate-spin" }),
+            /* @__PURE__ */ s(x.Loader2, { className: "h-3.5 w-3.5 animate-spin" }),
             o.loading
           ] }),
-          !v && l.length === 0 && /* @__PURE__ */ n("p", { className: h("px-2 py-6 text-center text-[11px] leading-relaxed", r ? "text-slate-500" : "text-slate-400"), children: o.emptySidebar }),
+          !v && l.length === 0 && /* @__PURE__ */ s("p", { className: h("px-2 py-6 text-center text-[11px] leading-relaxed", r ? "text-slate-500" : "text-slate-400"), children: o.emptySidebar }),
           !v && l.map((a) => {
             const m = a.id === p;
             return /* @__PURE__ */ u(
@@ -3135,14 +3172,14 @@ function zr() {
                   m ? r ? "bg-slate-800 text-white" : "bg-white text-slate-900 shadow-sm" : r ? "text-slate-300 hover:bg-slate-900/70" : "text-slate-700 hover:bg-white/80"
                 ),
                 children: [
-                  /* @__PURE__ */ n(
+                  /* @__PURE__ */ s(
                     x.HardDrive,
                     {
                       className: h("h-4 w-4 shrink-0", m ? "text-sky-500" : "text-slate-400")
                     }
                   ),
                   /* @__PURE__ */ u("span", { className: "min-w-0 flex-1", children: [
-                    /* @__PURE__ */ n("span", { className: "block truncate font-medium", children: a.label }),
+                    /* @__PURE__ */ s("span", { className: "block truncate font-medium", children: a.label }),
                     /* @__PURE__ */ u("span", { className: h("block truncate", r ? "text-slate-500" : "text-slate-400"), children: [
                       a.protocol.toUpperCase(),
                       " · ",
@@ -3157,7 +3194,7 @@ function zr() {
         ] })
       ]
     }
-  ), mt = Q || ne ? /* @__PURE__ */ u(
+  ), ht = Q || ne ? /* @__PURE__ */ u(
     "div",
     {
       className: h(
@@ -3165,25 +3202,25 @@ function zr() {
         Q ? "border-red-500/30 bg-red-500/10 text-red-500" : "border-emerald-500/30 bg-emerald-500/10 text-emerald-600"
       ),
       children: [
-        Q ? /* @__PURE__ */ n(x.AlertTriangle, { className: "h-4 w-4 shrink-0" }) : /* @__PURE__ */ n(x.CheckCircle2, { className: "h-4 w-4 shrink-0" }),
-        /* @__PURE__ */ n("span", { className: "min-w-0 flex-1", children: Q || ne }),
-        /* @__PURE__ */ n("button", { type: "button", className: "opacity-60 hover:opacity-100", onClick: () => {
+        Q ? /* @__PURE__ */ s(x.AlertTriangle, { className: "h-4 w-4 shrink-0" }) : /* @__PURE__ */ s(x.CheckCircle2, { className: "h-4 w-4 shrink-0" }),
+        /* @__PURE__ */ s("span", { className: "min-w-0 flex-1", children: Q || ne }),
+        /* @__PURE__ */ s("button", { type: "button", className: "opacity-60 hover:opacity-100", onClick: () => {
           S(null), L(null);
-        }, children: /* @__PURE__ */ n(x.X, { className: "h-3.5 w-3.5" }) })
+        }, children: /* @__PURE__ */ s(x.X, { className: "h-3.5 w-3.5" }) })
       ]
     }
   ) : null;
-  return /* @__PURE__ */ u(nr, { constrained: !0, className: "overflow-hidden", children: [
-    /* @__PURE__ */ n(
-      sr,
+  return /* @__PURE__ */ u(sr, { constrained: !0, className: "overflow-hidden", children: [
+    /* @__PURE__ */ s(
+      ar,
       {
         isDark: r,
         mobileTitle: o.title,
         className: h("min-h-0", r ? "text-slate-100" : "text-slate-900"),
-        sidebar: pt,
+        sidebar: mt,
         children: /* @__PURE__ */ u("div", { className: "flex h-full min-h-0 flex-col overflow-hidden", children: [
-          mt,
-          O ? /* @__PURE__ */ u(bt, { children: [
+          ht,
+          O ? /* @__PURE__ */ u(gt, { children: [
             /* @__PURE__ */ u(
               "header",
               {
@@ -3193,7 +3230,7 @@ function zr() {
                 ),
                 children: [
                   /* @__PURE__ */ u("div", { className: "min-w-0 flex-1", children: [
-                    /* @__PURE__ */ n("h1", { className: "truncate text-base font-semibold", children: O.label }),
+                    /* @__PURE__ */ s("h1", { className: "truncate text-base font-semibold", children: O.label }),
                     /* @__PURE__ */ u("p", { className: h("truncate text-xs", r ? "text-slate-500" : "text-slate-400"), children: [
                       O.protocol.toUpperCase(),
                       "://",
@@ -3205,24 +3242,24 @@ function zr() {
                     ] })
                   ] }),
                   /* @__PURE__ */ u("div", { className: "flex flex-wrap gap-1.5", children: [
-                    /* @__PURE__ */ u("button", { type: "button", className: H, disabled: A, onClick: () => Ie(O.id), children: [
-                      /* @__PURE__ */ n(x.ShieldCheck, { className: "h-4 w-4" }),
-                      A ? o.testing : o.test
+                    /* @__PURE__ */ u("button", { type: "button", className: U, disabled: j, onClick: () => Le(O.id), children: [
+                      /* @__PURE__ */ s(x.ShieldCheck, { className: "h-4 w-4" }),
+                      j ? o.testing : o.test
                     ] }),
-                    /* @__PURE__ */ u("button", { type: "button", className: H, onClick: () => nt(O), children: [
-                      /* @__PURE__ */ n(x.Pencil, { className: "h-4 w-4" }),
+                    /* @__PURE__ */ u("button", { type: "button", className: U, onClick: () => st(O), children: [
+                      /* @__PURE__ */ s(x.Pencil, { className: "h-4 w-4" }),
                       o.edit
                     ] }),
                     /* @__PURE__ */ u(
                       "button",
                       {
                         type: "button",
-                        className: H,
+                        className: U,
                         onClick: () => {
-                          Ee("connection"), Z(!0);
+                          Ae("connection"), Z(!0);
                         },
                         children: [
-                          /* @__PURE__ */ n(x.Trash2, { className: "h-4 w-4" }),
+                          /* @__PURE__ */ s(x.Trash2, { className: "h-4 w-4" }),
                           o.delete
                         ]
                       }
@@ -3239,9 +3276,9 @@ function zr() {
                   r ? "border-slate-800" : "border-slate-200"
                 ),
                 children: [
-                  /* @__PURE__ */ n("div", { className: "flex min-w-0 flex-1 flex-wrap items-center gap-0.5 text-sm", children: je.map((a, m) => /* @__PURE__ */ u("span", { className: "inline-flex items-center gap-0.5", children: [
-                    m > 0 && /* @__PURE__ */ n(x.ChevronRight, { className: "h-3.5 w-3.5 opacity-40" }),
-                    /* @__PURE__ */ n(
+                  /* @__PURE__ */ s("div", { className: "flex min-w-0 flex-1 flex-wrap items-center gap-0.5 text-sm", children: je.map((a, m) => /* @__PURE__ */ u("span", { className: "inline-flex items-center gap-0.5", children: [
+                    m > 0 && /* @__PURE__ */ s(x.ChevronRight, { className: "h-3.5 w-3.5 opacity-40" }),
+                    /* @__PURE__ */ s(
                       "button",
                       {
                         type: "button",
@@ -3249,15 +3286,15 @@ function zr() {
                           "rounded px-1.5 py-0.5 hover:text-sky-500",
                           m === je.length - 1 && "font-medium"
                         ),
-                        onClick: () => U(O.id, a.path),
+                        onClick: () => H(O.id, a.path),
                         children: a.label
                       }
                     )
                   ] }, a.path)) }),
-                  /* @__PURE__ */ n("button", { type: "button", className: he, title: o.refresh, disabled: j, onClick: () => U(O.id, b), children: /* @__PURE__ */ n(x.RefreshCw, { className: h("h-4 w-4", j && "animate-spin") }) }),
-                  /* @__PURE__ */ n("button", { type: "button", className: he, title: o.mkdir, onClick: it, children: /* @__PURE__ */ n(x.FolderPlus, { className: "h-4 w-4" }) }),
-                  /* @__PURE__ */ n("button", { type: "button", className: he, title: o.rename, disabled: !w, onClick: ct, children: /* @__PURE__ */ n(x.TextCursorInput, { className: "h-4 w-4" }) }),
-                  /* @__PURE__ */ n(
+                  /* @__PURE__ */ s("button", { type: "button", className: he, title: o.refresh, disabled: A, onClick: () => H(O.id, b), children: /* @__PURE__ */ s(x.RefreshCw, { className: h("h-4 w-4", A && "animate-spin") }) }),
+                  /* @__PURE__ */ s("button", { type: "button", className: he, title: o.mkdir, onClick: ct, children: /* @__PURE__ */ s(x.FolderPlus, { className: "h-4 w-4" }) }),
+                  /* @__PURE__ */ s("button", { type: "button", className: he, title: o.rename, disabled: !w, onClick: dt, children: /* @__PURE__ */ s(x.TextCursorInput, { className: "h-4 w-4" }) }),
+                  /* @__PURE__ */ s(
                     "button",
                     {
                       type: "button",
@@ -3265,21 +3302,21 @@ function zr() {
                       title: o.deleteItem,
                       disabled: !w,
                       onClick: () => {
-                        Ee("item"), Z(!0);
+                        Ae("item"), Z(!0);
                       },
-                      children: /* @__PURE__ */ n(x.Trash2, { className: "h-4 w-4" })
+                      children: /* @__PURE__ */ s(x.Trash2, { className: "h-4 w-4" })
                     }
                   ),
                   /* @__PURE__ */ u(
                     "button",
                     {
                       type: "button",
-                      className: H,
+                      className: U,
                       onClick: () => {
-                        $("download"), ye("/tmp"), G(!0);
+                        $("download"), xe("/tmp"), G(!0);
                       },
                       children: [
-                        /* @__PURE__ */ n(x.Download, { className: "h-4 w-4" }),
+                        /* @__PURE__ */ s(x.Download, { className: "h-4 w-4" }),
                         o.download
                       ]
                     }
@@ -3290,10 +3327,10 @@ function zr() {
                       type: "button",
                       className: ce,
                       onClick: () => {
-                        $("upload"), ye("/tmp"), G(!0);
+                        $("upload"), xe("/tmp"), G(!0);
                       },
                       children: [
-                        /* @__PURE__ */ n(x.Upload, { className: "h-4 w-4" }),
+                        /* @__PURE__ */ s(x.Upload, { className: "h-4 w-4" }),
                         o.upload
                       ]
                     }
@@ -3301,8 +3338,8 @@ function zr() {
                 ]
               }
             ),
-            /* @__PURE__ */ n("div", { className: h("min-h-0 flex-1 overflow-y-auto overscroll-contain", ""), children: /* @__PURE__ */ u("table", { className: "w-full text-left text-sm", children: [
-              /* @__PURE__ */ n(
+            /* @__PURE__ */ s("div", { className: h("min-h-0 flex-1 overflow-y-auto overscroll-contain", ""), children: /* @__PURE__ */ u("table", { className: "w-full text-left text-sm", children: [
+              /* @__PURE__ */ s(
                 "thead",
                 {
                   className: h(
@@ -3310,15 +3347,15 @@ function zr() {
                     r ? "border-slate-800 bg-slate-950 text-slate-500" : "border-slate-200 bg-slate-50 text-slate-400"
                   ),
                   children: /* @__PURE__ */ u("tr", { children: [
-                    /* @__PURE__ */ n("th", { className: "px-4 py-2.5 font-medium", children: o.name }),
-                    /* @__PURE__ */ n("th", { className: "px-4 py-2.5 font-medium", children: o.type }),
-                    /* @__PURE__ */ n("th", { className: "px-4 py-2.5 font-medium", children: o.size }),
-                    /* @__PURE__ */ n("th", { className: "px-4 py-2.5 font-medium", children: o.modified })
+                    /* @__PURE__ */ s("th", { className: "px-4 py-2.5 font-medium", children: o.name }),
+                    /* @__PURE__ */ s("th", { className: "px-4 py-2.5 font-medium", children: o.type }),
+                    /* @__PURE__ */ s("th", { className: "px-4 py-2.5 font-medium", children: o.size }),
+                    /* @__PURE__ */ s("th", { className: "px-4 py-2.5 font-medium", children: o.modified })
                   ] })
                 }
               ),
               /* @__PURE__ */ u("tbody", { children: [
-                b !== "/" && /* @__PURE__ */ n(
+                b !== "/" && /* @__PURE__ */ s(
                   "tr",
                   {
                     className: h(
@@ -3327,15 +3364,15 @@ function zr() {
                     ),
                     onDoubleClick: () => {
                       const a = b.replace(/\/+$/, "").split("/").slice(0, -1).join("/") || "/";
-                      U(O.id, a);
+                      H(O.id, a);
                     },
-                    children: /* @__PURE__ */ n("td", { className: "px-4 py-2.5", colSpan: 4, children: /* @__PURE__ */ u("span", { className: "inline-flex items-center gap-2 opacity-70", children: [
-                      /* @__PURE__ */ n(x.CornerLeftUp, { className: "h-4 w-4" }),
+                    children: /* @__PURE__ */ s("td", { className: "px-4 py-2.5", colSpan: 4, children: /* @__PURE__ */ u("span", { className: "inline-flex items-center gap-2 opacity-70", children: [
+                      /* @__PURE__ */ s(x.CornerLeftUp, { className: "h-4 w-4" }),
                       ".."
                     ] }) })
                   }
                 ),
-                !j && z.length === 0 && /* @__PURE__ */ n("tr", { children: /* @__PURE__ */ n("td", { className: "px-4 py-10 text-center text-sm opacity-50", colSpan: 4, children: o.noItems }) }),
+                !A && z.length === 0 && /* @__PURE__ */ s("tr", { children: /* @__PURE__ */ s("td", { className: "px-4 py-10 text-center text-sm opacity-50", colSpan: 4, children: o.noItems }) }),
                 z.map((a) => {
                   const m = w?.path === a.path;
                   return /* @__PURE__ */ u(
@@ -3348,16 +3385,16 @@ function zr() {
                       ),
                       onClick: () => C(a),
                       onDoubleClick: () => {
-                        a.is_dir && U(O.id, a.path);
+                        a.is_dir && H(O.id, a.path);
                       },
                       children: [
-                        /* @__PURE__ */ n("td", { className: "px-4 py-2.5", children: /* @__PURE__ */ u("span", { className: "inline-flex items-center gap-2", children: [
-                          a.is_dir ? /* @__PURE__ */ n(x.Folder, { className: "h-4 w-4 text-amber-500" }) : /* @__PURE__ */ n(x.File, { className: "h-4 w-4 opacity-50" }),
+                        /* @__PURE__ */ s("td", { className: "px-4 py-2.5", children: /* @__PURE__ */ u("span", { className: "inline-flex items-center gap-2", children: [
+                          a.is_dir ? /* @__PURE__ */ s(x.Folder, { className: "h-4 w-4 text-amber-500" }) : /* @__PURE__ */ s(x.File, { className: "h-4 w-4 opacity-50" }),
                           a.name
                         ] }) }),
-                        /* @__PURE__ */ n("td", { className: "px-4 py-2.5 opacity-60", children: a.is_dir ? o.folder : o.file }),
-                        /* @__PURE__ */ n("td", { className: "px-4 py-2.5 opacity-60", children: a.is_dir ? "—" : Nr(a.size) }),
-                        /* @__PURE__ */ n("td", { className: "px-4 py-2.5 opacity-60", children: Cr(a.modified) })
+                        /* @__PURE__ */ s("td", { className: "px-4 py-2.5 opacity-60", children: a.is_dir ? o.folder : o.file }),
+                        /* @__PURE__ */ s("td", { className: "px-4 py-2.5 opacity-60", children: a.is_dir ? "—" : _r(a.size) }),
+                        /* @__PURE__ */ s("td", { className: "px-4 py-2.5 opacity-60", children: Pr(a.modified) })
                       ]
                     },
                     a.path
@@ -3379,38 +3416,38 @@ function zr() {
                     b,
                     w ? ` · ${w.name}` : ""
                   ] }),
-                  /* @__PURE__ */ u(yt, { to: "/file-manager", className: "inline-flex items-center gap-1 text-sky-500 hover:underline", children: [
-                    /* @__PURE__ */ n(x.FolderOpen, { className: "h-3.5 w-3.5" }),
+                  /* @__PURE__ */ u(xt, { to: "/file-manager", className: "inline-flex items-center gap-1 text-sky-500 hover:underline", children: [
+                    /* @__PURE__ */ s(x.FolderOpen, { className: "h-3.5 w-3.5" }),
                     o.openFileManager
                   ] })
                 ]
               }
             )
           ] }) : /* @__PURE__ */ u("div", { className: "flex min-h-0 flex-1 flex-col items-center justify-center gap-4 px-6 text-center", children: [
-            /* @__PURE__ */ n(
+            /* @__PURE__ */ s(
               "div",
               {
                 className: h(
                   "flex h-14 w-14 items-center justify-center rounded-2xl",
                   r ? "bg-slate-800" : "bg-slate-100"
                 ),
-                children: /* @__PURE__ */ n(x.Server, { className: h("h-7 w-7", r ? "text-slate-400" : "text-slate-500") })
+                children: /* @__PURE__ */ s(x.Server, { className: h("h-7 w-7", r ? "text-slate-400" : "text-slate-500") })
               }
             ),
             /* @__PURE__ */ u("div", { className: "max-w-sm space-y-1.5", children: [
-              /* @__PURE__ */ n("h2", { className: "text-base font-semibold", children: o.emptyTitle }),
-              /* @__PURE__ */ n("p", { className: h("text-sm", r ? "text-slate-400" : "text-slate-500"), children: o.emptyHint })
+              /* @__PURE__ */ s("h2", { className: "text-base font-semibold", children: o.emptyTitle }),
+              /* @__PURE__ */ s("p", { className: h("text-sm", r ? "text-slate-400" : "text-slate-500"), children: o.emptyHint })
             ] }),
-            /* @__PURE__ */ u("button", { type: "button", className: ce, onClick: Ae, children: [
-              /* @__PURE__ */ n(x.Plus, { className: "h-4 w-4" }),
+            /* @__PURE__ */ u("button", { type: "button", className: ce, onClick: Ie, children: [
+              /* @__PURE__ */ s(x.Plus, { className: "h-4 w-4" }),
               o.add
             ] })
           ] })
         ] })
       }
     ),
-    /* @__PURE__ */ n(
-      ke,
+    /* @__PURE__ */ s(
+      Ne,
       {
         open: se,
         onClose: () => W(!1),
@@ -3420,11 +3457,11 @@ function zr() {
         children: /* @__PURE__ */ u("div", { className: "space-y-4 p-1", children: [
           /* @__PURE__ */ u("div", { className: "grid grid-cols-1 gap-3 sm:grid-cols-2", children: [
             /* @__PURE__ */ u("label", { className: "block sm:col-span-1", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.label }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.label }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   value: c.label,
                   onChange: (a) => E({ ...c, label: a.target.value })
@@ -3432,27 +3469,27 @@ function zr() {
               )
             ] }),
             /* @__PURE__ */ u("label", { className: "block sm:col-span-1", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.protocol }),
+              /* @__PURE__ */ s("span", { className: F, children: o.protocol }),
               /* @__PURE__ */ u(
                 "select",
                 {
-                  className: F,
+                  className: R,
                   value: c.protocol,
-                  onChange: (a) => st(a.target.value),
+                  onChange: (a) => at(a.target.value),
                   children: [
-                    /* @__PURE__ */ n("option", { value: "sftp", children: "SFTP" }),
-                    /* @__PURE__ */ n("option", { value: "ftp", children: "FTP" }),
-                    /* @__PURE__ */ n("option", { value: "ftps", children: "FTPS" })
+                    /* @__PURE__ */ s("option", { value: "sftp", children: "SFTP" }),
+                    /* @__PURE__ */ s("option", { value: "ftp", children: "FTP" }),
+                    /* @__PURE__ */ s("option", { value: "ftps", children: "FTPS" })
                   ]
                 }
               )
             ] }),
             /* @__PURE__ */ u("label", { className: "block sm:col-span-2", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.host }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.host }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   value: c.host,
                   onChange: (a) => E({ ...c, host: a.target.value })
@@ -3460,11 +3497,11 @@ function zr() {
               )
             ] }),
             /* @__PURE__ */ u("label", { className: "block", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.port }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.port }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   inputMode: "numeric",
                   value: c.port,
@@ -3473,11 +3510,11 @@ function zr() {
               )
             ] }),
             /* @__PURE__ */ u("label", { className: "block", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.username }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.username }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   name: "ftp-username",
                   value: c.username,
@@ -3486,28 +3523,28 @@ function zr() {
               )
             ] }),
             c.protocol === "sftp" && /* @__PURE__ */ u("label", { className: "block sm:col-span-2", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.authType }),
+              /* @__PURE__ */ s("span", { className: F, children: o.authType }),
               /* @__PURE__ */ u(
                 "select",
                 {
-                  className: F,
+                  className: R,
                   value: c.auth_type,
                   onChange: (a) => E({ ...c, auth_type: a.target.value }),
                   children: [
-                    /* @__PURE__ */ n("option", { value: "password", children: o.authPassword }),
-                    /* @__PURE__ */ n("option", { value: "key_path", children: o.authKeyPath }),
-                    /* @__PURE__ */ n("option", { value: "key_blob", children: o.authKeyBlob })
+                    /* @__PURE__ */ s("option", { value: "password", children: o.authPassword }),
+                    /* @__PURE__ */ s("option", { value: "key_path", children: o.authKeyPath }),
+                    /* @__PURE__ */ s("option", { value: "key_blob", children: o.authKeyBlob })
                   ]
                 }
               )
             ] }),
             (c.auth_type === "password" || c.protocol !== "sftp") && /* @__PURE__ */ u("label", { className: "block sm:col-span-2", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.password }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.password }),
+              /* @__PURE__ */ s(
                 "input",
                 {
                   type: "password",
-                  className: F,
+                  className: R,
                   autoComplete: "new-password",
                   name: "ftp-password",
                   value: c.password,
@@ -3517,11 +3554,11 @@ function zr() {
               )
             ] }),
             c.protocol === "sftp" && c.auth_type === "key_path" && /* @__PURE__ */ u("label", { className: "block sm:col-span-2", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.keyPath }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.keyPath }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   value: c.key_path,
                   placeholder: g != null ? o.keyKeep : "~/.ssh/id_ed25519",
@@ -3530,11 +3567,11 @@ function zr() {
               )
             ] }),
             c.protocol === "sftp" && c.auth_type === "key_blob" && /* @__PURE__ */ u("label", { className: "block sm:col-span-2", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.keyBlob }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.keyBlob }),
+              /* @__PURE__ */ s(
                 "textarea",
                 {
-                  className: h(F, "min-h-[100px] font-mono text-xs"),
+                  className: h(R, "min-h-[100px] font-mono text-xs"),
                   autoComplete: "off",
                   value: c.key_blob,
                   placeholder: g != null ? o.keyKeep : "-----BEGIN OPENSSH PRIVATE KEY-----",
@@ -3553,18 +3590,18 @@ function zr() {
               ),
               onClick: () => q((a) => !a),
               children: [
-                Y ? /* @__PURE__ */ n(x.ChevronDown, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ n(x.ChevronRight, { className: "h-3.5 w-3.5" }),
+                Y ? /* @__PURE__ */ s(x.ChevronDown, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ s(x.ChevronRight, { className: "h-3.5 w-3.5" }),
                 o.advanced
               ]
             }
           ),
           Y && /* @__PURE__ */ u("div", { className: "grid grid-cols-1 gap-3 sm:grid-cols-2", children: [
             /* @__PURE__ */ u("label", { className: "block", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.remoteRoot }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.remoteRoot }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   value: c.remote_root,
                   onChange: (a) => E({ ...c, remote_root: a.target.value })
@@ -3572,11 +3609,11 @@ function zr() {
               )
             ] }),
             /* @__PURE__ */ u("label", { className: "block", children: [
-              /* @__PURE__ */ n("span", { className: R, children: o.timeout }),
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s("span", { className: F, children: o.timeout }),
+              /* @__PURE__ */ s(
                 "input",
                 {
-                  className: F,
+                  className: R,
                   autoComplete: "off",
                   inputMode: "numeric",
                   value: c.timeout,
@@ -3585,7 +3622,7 @@ function zr() {
               )
             ] }),
             c.protocol !== "sftp" && /* @__PURE__ */ u("label", { className: "flex items-center gap-2 text-sm sm:col-span-2", children: [
-              /* @__PURE__ */ n(
+              /* @__PURE__ */ s(
                 "input",
                 {
                   type: "checkbox",
@@ -3597,24 +3634,24 @@ function zr() {
             ] })
           ] }),
           /* @__PURE__ */ u("div", { className: "flex flex-wrap justify-end gap-2 border-t pt-3", style: { borderColor: r ? "#1e293b" : "#e2e8f0" }, children: [
-            /* @__PURE__ */ n("button", { type: "button", className: H, onClick: () => W(!1), children: o.cancel }),
-            /* @__PURE__ */ n("button", { type: "button", className: H, disabled: A || !c.host.trim() || !c.username.trim(), onClick: () => Ie(), children: A ? o.testing : o.test }),
-            /* @__PURE__ */ n(
+            /* @__PURE__ */ s("button", { type: "button", className: U, onClick: () => W(!1), children: o.cancel }),
+            /* @__PURE__ */ s("button", { type: "button", className: U, disabled: j || !c.host.trim() || !c.username.trim(), onClick: () => Le(), children: j ? o.testing : o.test }),
+            /* @__PURE__ */ s(
               "button",
               {
                 type: "button",
                 className: ce,
-                disabled: A || !c.label.trim() || !c.host.trim() || !c.username.trim(),
-                onClick: at,
-                children: A ? o.saving : o.save
+                disabled: j || !c.label.trim() || !c.host.trim() || !c.username.trim(),
+                onClick: lt,
+                children: j ? o.saving : o.save
               }
             )
           ] })
         ] })
       }
     ),
-    /* @__PURE__ */ n(
-      ke,
+    /* @__PURE__ */ s(
+      Ne,
       {
         open: le,
         onClose: () => G(!1),
@@ -3622,53 +3659,53 @@ function zr() {
         maxWidth: "md",
         children: /* @__PURE__ */ u("div", { className: "space-y-3 p-1", children: [
           /* @__PURE__ */ u("label", { className: "block", children: [
-            /* @__PURE__ */ n("span", { className: R, children: o.remotePath }),
-            /* @__PURE__ */ n("input", { className: F, value: w?.path || b, readOnly: !0 })
+            /* @__PURE__ */ s("span", { className: F, children: o.remotePath }),
+            /* @__PURE__ */ s("input", { className: R, value: w?.path || b, readOnly: !0 })
           ] }),
           /* @__PURE__ */ u("label", { className: "block", children: [
-            /* @__PURE__ */ n("span", { className: R, children: o.localPath }),
-            /* @__PURE__ */ n(
+            /* @__PURE__ */ s("span", { className: F, children: o.localPath }),
+            /* @__PURE__ */ s(
               "input",
               {
-                className: F,
+                className: R,
                 autoComplete: "off",
-                value: ge,
-                onChange: (a) => ye(a.target.value)
+                value: ye,
+                onChange: (a) => xe(a.target.value)
               }
             )
           ] }),
           /* @__PURE__ */ u("label", { className: "flex items-center gap-2 text-sm", children: [
-            /* @__PURE__ */ n("input", { type: "checkbox", checked: ze, onChange: (a) => rt(a.target.checked) }),
+            /* @__PURE__ */ s("input", { type: "checkbox", checked: Ee, onChange: (a) => ot(a.target.checked) }),
             o.overwrite
           ] }),
           /* @__PURE__ */ u("div", { className: "flex justify-end gap-2 pt-2", children: [
-            /* @__PURE__ */ n("button", { type: "button", className: H, onClick: () => G(!1), children: o.cancel }),
-            /* @__PURE__ */ u("button", { type: "button", className: ce, disabled: A || !ge.trim(), onClick: ut, children: [
-              /* @__PURE__ */ n(x.Play, { className: "h-4 w-4" }),
+            /* @__PURE__ */ s("button", { type: "button", className: U, onClick: () => G(!1), children: o.cancel }),
+            /* @__PURE__ */ u("button", { type: "button", className: ce, disabled: j || !ye.trim(), onClick: pt, children: [
+              /* @__PURE__ */ s(x.Play, { className: "h-4 w-4" }),
               o.transferJob
             ] })
           ] })
         ] })
       }
     ),
-    /* @__PURE__ */ n(
-      ke,
+    /* @__PURE__ */ s(
+      Ne,
       {
-        open: ot,
+        open: nt,
         onClose: () => Z(!1),
-        title: xe === "connection" ? o.delete : o.deleteItem,
+        title: we === "connection" ? o.delete : o.deleteItem,
         maxWidth: "sm",
         children: /* @__PURE__ */ u("div", { className: "space-y-4 p-1", children: [
-          /* @__PURE__ */ n("p", { className: h("text-sm", r ? "text-slate-300" : "text-slate-600"), children: xe === "connection" ? o.confirmDelete : o.confirmDeleteItem }),
+          /* @__PURE__ */ s("p", { className: h("text-sm", r ? "text-slate-300" : "text-slate-600"), children: we === "connection" ? o.confirmDelete : o.confirmDeleteItem }),
           /* @__PURE__ */ u("div", { className: "flex justify-end gap-2", children: [
-            /* @__PURE__ */ n("button", { type: "button", className: H, onClick: () => Z(!1), children: o.cancel }),
-            /* @__PURE__ */ n(
+            /* @__PURE__ */ s("button", { type: "button", className: U, onClick: () => Z(!1), children: o.cancel }),
+            /* @__PURE__ */ s(
               "button",
               {
                 type: "button",
                 className: h(ce, "!bg-red-600 hover:!bg-red-500"),
-                disabled: A,
-                onClick: () => xe === "connection" ? lt() : dt(),
+                disabled: j,
+                onClick: () => we === "connection" ? it() : ut(),
                 children: o.delete
               }
             )
@@ -3679,5 +3716,5 @@ function zr() {
   ] });
 }
 export {
-  zr as default
+  Ir as default
 };
