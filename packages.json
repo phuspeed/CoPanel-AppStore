@@ -3,12 +3,12 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.11.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.12.zip",
     "is_core": true,
-    "changelog_en": "v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract \u2014 Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
-    "changelog_vi": "v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip \u2014 duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
+    "changelog_en": "v1.0.12: Editable path bar - click the pencil/empty space or double-click the breadcrumb, type an absolute or relative path, Enter to open, Esc to cancel; missing or forbidden folders show an error and keep the current folder. v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract \u2014 Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
+    "changelog_vi": "v1.0.12: Thanh duong dan go duoc - bam but chi/cho trong hoac nhap dup, nhap duong dan tuyet doi hoac tuong doi, Enter de mo, Esc de huy; thu muc khong ton tai hoac khong co quyen se bao loi va giu nguyen thu muc hien tai. v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip \u2014 duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
   },
   {
     "id": "web_manager",
@@ -273,8 +273,8 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.16: Fix run_update.py high-CPU hang/busy loop — enforce minimum 60s interval with exponential backoff on errors, guard runs with flock single-instance lock, terminate duplicate/orphan workers on startup and cron sync, bound IP lookup reads and subprocess timeouts, and emit valid cron schedules for >=60 min intervals. v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create — cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP.",
-    "changelog_vi": "v1.0.16: Sua loi run_update.py treo/chay 100% CPU — ap dung khoang cach toi thieu 60s kem backoff khi loi, khoa flock chong chay trung, don dep tien trinh worker du thua khi khoi dong va sync cron, gioi han timeout mang/subprocess, va sua cu phap cron cho chu ky >=60 phut. v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS — loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare.",
+    "changelog_en": "v1.0.16: Fix run_update.py high-CPU hang/busy loop \u2014 enforce minimum 60s interval with exponential backoff on errors, guard runs with flock single-instance lock, terminate duplicate/orphan workers on startup and cron sync, bound IP lookup reads and subprocess timeouts, and emit valid cron schedules for >=60 min intervals. v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create \u2014 cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP.",
+    "changelog_vi": "v1.0.16: Sua loi run_update.py treo/chay 100% CPU \u2014 ap dung khoang cach toi thieu 60s kem backoff khi loi, khoa flock chong chay trung, don dep tien trinh worker du thua khi khoi dong va sync cron, gioi han timeout mang/subprocess, va sua cu phap cron cho chu ky >=60 phut. v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS \u2014 loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare.",
     "frontend_install": "prebuilt"
   },
   {
