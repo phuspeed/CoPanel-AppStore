@@ -9,7 +9,7 @@
   "keepMountedOnMinimize": false,
   "pinned": false,
   "core_ui": "1.1",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "component": "default",
   "defaultWindowSize": {
     "width": 1120,
