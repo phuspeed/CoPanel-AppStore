@@ -9,6 +9,7 @@ Features:
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import shlex
@@ -35,6 +36,8 @@ from .aria2_engine import (
     read_aria2_log_tail,
 )
 from .google_oauth import GoogleOAuthService
+
+logger = logging.getLogger(__name__)
 
 IS_WINDOWS = os.name == "nt"
 CONFIG_DIR = Path("./test_nginx/download_manager") if IS_WINDOWS else Path("/opt/copanel/config/download_manager")
@@ -269,6 +272,49 @@ def _update_task(task_id: str, **fields: Any) -> None:
     vals = list(fields.values()) + [task_id]
     with _db() as conn:
         conn.execute(f"UPDATE download_tasks SET {cols} WHERE id = ?", vals)
+    if fields.get("status") == "completed":
+        _fix_download_ownership(task_id)
+
+
+def _fix_download_ownership(task_id: str) -> None:
+    """Hand finished downloads of a restricted user to their home folder's owner.
+
+    Only root-owned items inside the task's destination are changed, and only
+    when the destination is inside the creator's permitted folders and that
+    folder is owned by a non-root account (see ``core.user_home.owner_for``).
+    Superadmin downloads are left as they are.
+    """
+    try:
+        from core import user_model
+        from core.user_home import owner_for
+    except Exception:  # older core without user_home
+        return
+    try:
+        task = get_task(task_id)
+        if not task or not task.get("created_by") or not task.get("destination"):
+            return
+        user = user_model.get_user_by_username(task["created_by"])
+        if not user or user.get("role") == "superadmin":
+            return
+        dest = str(task["destination"])
+        owner = owner_for(dest, user)
+        if not owner or not os.path.isdir(dest):
+            return
+        uid, gid = owner
+
+        def _fix(path: str) -> None:
+            try:
+                if os.lstat(path).st_uid == 0:
+                    os.chown(path, uid, gid, follow_symlinks=False)
+            except OSError as exc:
+                logger.warning("chown %s failed: %s", path, exc)
+
+        _fix(dest)
+        for root, dirs, files in os.walk(dest):
+            for name in dirs + files:
+                _fix(os.path.join(root, name))
+    except Exception as exc:  # never fail a download over ownership
+        logger.warning("download ownership fix failed for %s: %s", task_id, exc)
 
 
 def detect_url(url: str) -> Dict[str, Any]:

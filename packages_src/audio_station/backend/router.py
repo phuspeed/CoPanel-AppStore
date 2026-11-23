@@ -60,6 +60,47 @@ def _auth_user(
     return user
 
 
+def _is_superadmin(user: Dict[str, Any]) -> bool:
+    return user.get("role") == "superadmin"
+
+
+def _restricted_folder_picker(path: str, user: Dict[str, Any]) -> Dict[str, Any]:
+    """Folder picker for non-superadmin users: only inside their permitted folders."""
+    try:
+        from core.user_home import ensure_permitted_folders, permitted_folders
+        from modules.file_manager.router import check_safe_path
+    except Exception:  # older panel / File Manager missing: deny rather than browse freely
+        raise ApiError("FORBIDDEN", "Folder access check unavailable.", http_status=403)
+    try:
+        ensure_permitted_folders(user)
+    except Exception:
+        pass
+    folders = [os.path.abspath(f) for f in permitted_folders(user)]
+    if not folders:
+        raise ApiError("FORBIDDEN", "No permitted folders for this user.", http_status=403)
+    target = check_safe_path(path or folders[0], user)
+    if not os.path.isdir(target):
+        raise ApiError("NOT_FOUND", "Folder not found.", http_status=404)
+    entries = []
+    try:
+        for name in sorted(os.listdir(target), key=str.lower):
+            full = os.path.join(target, name)
+            if not name.startswith(".") and os.path.isdir(full):
+                entries.append({"name": name, "path": full, "type": "dir"})
+    except PermissionError:
+        pass
+    parent = os.path.dirname(target)
+    if os.path.realpath(target) in {os.path.realpath(f) for f in folders} or parent == target:
+        parent = None
+    return {
+        "current": target,
+        "parent": parent,
+        "entries": entries,
+        "volumes": [{"label": f, "path": f} for f in folders],
+        "library_roots": logic.get_library_roots(),
+    }
+
+
 try:
     logic.ensure_startup()
 except Exception:
@@ -78,6 +119,9 @@ def save_settings(
     req: SaveSettingsRequest,
     user: Dict[str, Any] = Depends(require_module("audio_station")),
 ) -> Dict[str, Any]:
+    if not _is_superadmin(user):
+        # Library roots, scan and symlink options are server-wide.
+        raise ApiError("FORBIDDEN", "Only an administrator can change Audio Station settings.", http_status=403)
     try:
         saved = logic.save_settings(req.model_dump(exclude_none=True))
     except ValueError as exc:
@@ -91,6 +135,8 @@ def browse_folders_picker(
     path: str = Query(""),
     user: Dict[str, Any] = Depends(require_module("audio_station")),
 ) -> Dict[str, Any]:
+    if not _is_superadmin(user):
+        return ok(_restricted_folder_picker(path, user))
     return ok(logic.browse_folders_picker(path))
 
 

@@ -191,3 +191,81 @@ def test_superadmin_keeps_global_default(env):
     assert created["data"]["destination"] is None
     ids = sorted(t["id"] for t in client.get("/api/download_manager/tasks").json()["data"])
     assert ids == ["t-other", "t-own"]
+
+
+def _ownership_env(dm, tmp_path, monkeypatch, role="user"):
+    import core.user_model as user_model
+
+    logic = dm.logic
+    home = tmp_path / "home" / "phutv"
+    (home / "Downloads" / "album").mkdir(parents=True)
+    (home / "Downloads" / "a.iso").write_bytes(b"x")
+    (home / "Downloads" / "album" / "t.mp3").write_bytes(b"y")
+    user = {"id": 9, "username": "phutv", "role": role, "permitted_folders": [str(home)]}
+    task = {"id": "t1", "created_by": "phutv", "destination": str(home / "Downloads")}
+    monkeypatch.setattr(logic, "get_task", lambda tid: task if tid == "t1" else None)
+    monkeypatch.setattr(user_model, "get_user_by_username", lambda name: user if name == "phutv" else None)
+
+    real_lstat = os.lstat
+
+    def fake_lstat(p, *a, **k):
+        # Pretend everything the download wrote is root-owned (panel runs as root).
+        st = real_lstat(p, *a, **k)
+        if str(p).startswith(str(home / "Downloads")):
+            fields = list(st)
+            fields[4] = fields[5] = 0  # st_uid, st_gid
+            return os.stat_result(fields)
+        return st
+
+    calls = []
+    monkeypatch.setattr(logic.os, "lstat", fake_lstat)
+    monkeypatch.setattr(logic.os, "chown", lambda p, u, g, **kw: calls.append((str(p), u, g)))
+    return logic, home, calls
+
+
+def test_finished_download_gets_home_owner(dm, tmp_path, monkeypatch):
+    logic, home, calls = _ownership_env(dm, tmp_path, monkeypatch)
+    st = home.stat()
+    if st.st_uid == 0:
+        pytest.skip("tmp home owned by root")
+    logic._fix_download_ownership("t1")
+    dl = home / "Downloads"
+    assert {c[0] for c in calls} == {str(dl), str(dl / "a.iso"), str(dl / "album"), str(dl / "album" / "t.mp3")}
+    assert all(c[1:] == (st.st_uid, st.st_gid) for c in calls)
+
+
+def test_superadmin_download_ownership_untouched(dm, tmp_path, monkeypatch):
+    logic, _, calls = _ownership_env(dm, tmp_path, monkeypatch, role="superadmin")
+    logic._fix_download_ownership("t1")
+    assert calls == []
+
+
+def test_ownership_skips_destination_outside_home(dm, tmp_path, monkeypatch):
+    logic, home, calls = _ownership_env(dm, tmp_path, monkeypatch)
+    other = tmp_path / "srv"
+    other.mkdir()
+    task = {"id": "t1", "created_by": "phutv", "destination": str(other)}
+    monkeypatch.setattr(logic, "get_task", lambda tid: task)
+    logic._fix_download_ownership("t1")
+    assert calls == []
+
+
+def test_completed_status_triggers_ownership_fix(dm, monkeypatch):
+    logic = dm.logic
+    seen = []
+    monkeypatch.setattr(logic, "_fix_download_ownership", lambda tid: seen.append(tid))
+
+    class Conn:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def execute(self, *a):
+            return None
+
+    monkeypatch.setattr(logic, "_db", lambda: Conn())
+    logic._update_task("a", status="downloading", progress=5.0)
+    logic._update_task("b", status="completed", progress=100.0)
+    assert seen == ["b"]
