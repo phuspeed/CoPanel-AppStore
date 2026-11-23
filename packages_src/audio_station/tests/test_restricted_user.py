@@ -132,3 +132,49 @@ def test_superadmin_picker_unchanged(env):
     r = client.get("/api/audio_station/folders/browse", params={"path": "/srv"})
     assert r.status_code == 200
     assert r.json()["data"] == {"current": "/srv", "admin": True}
+
+
+# ── 1.1.15: media URLs use path-scoped media tokens, never the JWT ─────────
+
+
+@pytest.fixture
+def media_client(audio, tmp_path, monkeypatch):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    import core.auth as auth_mod
+    import core.stream_tickets as st
+    from core.api import install_exception_handlers
+
+    song = tmp_path / "song.mp3"
+    song.write_bytes(b"ID3" + b"\0" * 64)
+    user = {"id": 1, "username": "admin", "role": "superadmin", "token_version": 0}
+    monkeypatch.setattr(auth_mod, "_AUTH_DISABLED", False)
+    monkeypatch.setattr(auth_mod, "_user_from_token", lambda a: user if a == "Bearer good" else None)
+    monkeypatch.setattr(auth_mod, "_user_from_bearer_token", lambda t: user if t == "good" else None)
+    monkeypatch.setattr(st, "session_still_valid", lambda _u: True, raising=False)
+    monkeypatch.setattr(audio.logic, "get_stream_info", lambda _p: (str(song), "audio/mpeg"))
+    app = FastAPI()
+    install_exception_handlers(app)
+    app.middleware("http")(auth_mod.api_auth_middleware)
+    app.include_router(audio.router, prefix="/api/audio_station")
+    return TestClient(app), st, user, song
+
+
+def test_stream_rejects_jwt_query(media_client):
+    c, st, user, song = media_client
+    for q in ("access_token=good", "token=good"):
+        r = c.get(f"/api/audio_station/stream?path={song}&{q}")
+        assert r.status_code == 401, (q, r.text)
+
+
+def test_stream_media_token_is_path_scoped(media_client):
+    c, st, user, song = media_client
+    cover_tok = st.issue_media_token(user, "/api/audio_station/cover")
+    r = c.get(f"/api/audio_station/stream?path={song}&media_token={cover_tok}")
+    assert r.status_code == 401
+    tok = st.issue_media_token(user, "/api/audio_station/stream")
+    r = c.get(f"/api/audio_station/stream?path={song}&media_token={tok}")
+    assert r.status_code != 401, r.text
+    r = c.get(f"/api/audio_station/stream?path={song}&media_token={tok}")
+    assert r.status_code != 401  # reusable for Range requests

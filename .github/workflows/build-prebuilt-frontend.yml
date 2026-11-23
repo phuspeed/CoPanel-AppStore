@@ -9,6 +9,8 @@ on:
       - "scripts/build_module_prebuilt.py"
       - "scripts/build_versioned_zip.py"
       - "scripts/bump_prebuilt_catalog.py"
+      - "scripts/update_catalog_sha256.py"
+      - "packages/**"
       - "packages.json"
   workflow_dispatch:
 
@@ -35,6 +37,9 @@ jobs:
         run: |
           chmod +x scripts/build-prebuilt.sh
           ./scripts/build-prebuilt.sh
+
+      - name: Check catalog checksums
+        run: python3 scripts/update_catalog_sha256.py --check
 
       - name: Commit updated dist and packages
         run: |

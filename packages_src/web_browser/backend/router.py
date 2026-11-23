@@ -1,8 +1,10 @@
 """Web Browser router — REST control + WebSocket screencast stream."""
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
+import time
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
@@ -12,8 +14,15 @@ from core.api import ApiError, ok
 from core.audit import record_audit
 from core.auth import require_admin
 from core.jobs import jobs
-from core.security import verify_token
-from core import user_model
+
+try:  # CoPanel 1.1.14+: short-lived single-use stream tickets
+    from core.auth import user_from_stream_ticket as _consume_ticket
+except ImportError:  # pragma: no cover - very old core
+    _consume_ticket = None
+try:  # CoPanel 1.1.15+: end the stream when the session is revoked
+    from core.stream_tickets import REVALIDATE_INTERVAL_S, session_still_valid
+except ImportError:  # pragma: no cover
+    REVALIDATE_INTERVAL_S, session_still_valid = 30, None
 
 from . import logic
 
@@ -170,13 +179,15 @@ def get_chromium_install_status(
     return ok({"job": job, "chromium_installed": logic.is_chromium_installed()})
 
 
-def _ws_user_from_token(token: Optional[str]) -> Optional[Dict[str, Any]]:
-    if not token:
+def _ws_user_from_ticket(ticket: Optional[str]) -> Optional[Dict[str, Any]]:
+    """WebSocket auth: a single-use ``?ticket=`` from POST /api/auth/stream-ticket.
+
+    The long-lived JWT is never accepted in the URL (it would end up in
+    proxy/access logs and browser history).
+    """
+    if not ticket or _consume_ticket is None:
         return None
-    payload = verify_token(token)
-    if not payload or "sub" not in payload:
-        return None
-    user = user_model.get_user_by_username(payload["sub"])
+    user = _consume_ticket(ticket)
     if not user or user.get("role") != "superadmin":
         return None
     return user
@@ -184,7 +195,7 @@ def _ws_user_from_token(token: Optional[str]) -> Optional[Dict[str, Any]]:
 
 @router.websocket("/ws")
 async def browser_websocket(websocket: WebSocket):
-    user = _ws_user_from_token(websocket.query_params.get("access_token"))
+    user = _ws_user_from_ticket(websocket.query_params.get("ticket"))
     if not user:
         await websocket.close(code=4401)
         return
@@ -216,8 +227,17 @@ async def browser_websocket(websocket: WebSocket):
             }
         )
 
+        last_check = time.monotonic()
         while True:
-            raw = await websocket.receive_text()
+            if session_still_valid is not None and time.monotonic() - last_check >= REVALIDATE_INTERVAL_S:
+                last_check = time.monotonic()
+                if not session_still_valid(user):
+                    await websocket.close(code=4401)
+                    break
+            try:
+                raw = await asyncio.wait_for(websocket.receive_text(), timeout=REVALIDATE_INTERVAL_S)
+            except asyncio.TimeoutError:
+                continue
             try:
                 msg = json.loads(raw)
             except json.JSONDecodeError:

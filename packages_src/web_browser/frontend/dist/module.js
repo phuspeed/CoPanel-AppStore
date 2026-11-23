@@ -1,10 +1,10 @@
-var Pe = Object.defineProperty;
-var Le = (e, t, r) => t in e ? Pe(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var $e = Object.defineProperty;
+var Le = (e, t, r) => t in e ? $e(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
 var E = (e, t, r) => Le(e, typeof t != "symbol" ? t + "" : t, r);
 import { jsx as u, jsxs as j } from "react/jsx-runtime";
-import { createContext as ke, useContext as Se, useState as L, useRef as Q, useCallback as ce, useEffect as se } from "react";
+import { createContext as ke, useContext as Se, useState as L, useRef as te, useCallback as de, useEffect as ie } from "react";
 import { useOutletContext as Oe } from "react-router-dom";
-import * as ie from "lucide-react";
+import * as ae from "lucide-react";
 const We = ke(null);
 function Ge() {
   return Se(We);
@@ -41,19 +41,19 @@ function Ve() {
   for (var e, t, r = 0, o = "", i = arguments.length; r < i; r++) (e = arguments[r]) && (t = ze(e)) && (o && (o += " "), o += t);
   return o;
 }
-const fe = "-", Fe = (e) => {
+const he = "-", Fe = (e) => {
   const t = Ue(e), {
     conflictingClassGroups: r,
     conflictingClassGroupModifiers: o
   } = e;
   return {
     getClassGroupId: (n) => {
-      const l = n.split(fe);
+      const l = n.split(he);
       return l[0] === "" && l.length !== 1 && l.shift(), Ne(l, t) || De(n);
     },
     getConflictingClassGroupIds: (n, l) => {
-      const f = r[n] || [];
-      return l && o[n] ? [...f, ...o[n]] : f;
+      const h = r[n] || [];
+      return l && o[n] ? [...h, ...o[n]] : h;
     }
   };
 }, Ne = (e, t) => {
@@ -64,7 +64,7 @@ const fe = "-", Fe = (e) => {
     return i;
   if (t.validators.length === 0)
     return;
-  const s = e.join(fe);
+  const s = e.join(he);
   return t.validators.find(({
     validator: n
   }) => n(s))?.classGroupId;
@@ -83,9 +83,9 @@ const fe = "-", Fe = (e) => {
     validators: []
   };
   return Je(Object.entries(e.classGroups), r).forEach(([s, n]) => {
-    ue(n, o, s, t);
+    pe(n, o, s, t);
   }), o;
-}, ue = (e, t, r, o) => {
+}, pe = (e, t, r, o) => {
   e.forEach((i) => {
     if (typeof i == "string") {
       const s = i === "" ? t : ye(t, i);
@@ -94,7 +94,7 @@ const fe = "-", Fe = (e) => {
     }
     if (typeof i == "function") {
       if (He(i)) {
-        ue(i(o), t, r, o);
+        pe(i(o), t, r, o);
         return;
       }
       t.validators.push({
@@ -104,12 +104,12 @@ const fe = "-", Fe = (e) => {
       return;
     }
     Object.entries(i).forEach(([s, n]) => {
-      ue(n, ye(t, s), r, o);
+      pe(n, ye(t, s), r, o);
     });
   });
 }, ye = (e, t) => {
   let r = e;
-  return t.split(fe).forEach((o) => {
+  return t.split(he).forEach((o) => {
     r.nextPart.has(o) || r.nextPart.set(o, {
       nextPart: /* @__PURE__ */ new Map(),
       validators: []
@@ -142,30 +142,30 @@ const fe = "-", Fe = (e) => {
       r.has(s) ? r.set(s, n) : i(s, n);
     }
   };
-}, _e = "!", Xe = (e) => {
+}, Te = "!", Xe = (e) => {
   const {
     separator: t,
     experimentalParseClassName: r
   } = e, o = t.length === 1, i = t[0], s = t.length, n = (l) => {
-    const f = [];
-    let h = 0, x = 0, _;
+    const h = [];
+    let b = 0, x = 0, N;
     for (let p = 0; p < l.length; p++) {
-      let g = l[p];
-      if (h === 0) {
-        if (g === i && (o || l.slice(p, p + s) === t)) {
-          f.push(l.slice(x, p)), x = p + s;
+      let m = l[p];
+      if (b === 0) {
+        if (m === i && (o || l.slice(p, p + s) === t)) {
+          h.push(l.slice(x, p)), x = p + s;
           continue;
         }
-        if (g === "/") {
-          _ = p;
+        if (m === "/") {
+          N = p;
           continue;
         }
       }
-      g === "[" ? h++ : g === "]" && h--;
+      m === "[" ? b++ : m === "]" && b--;
     }
-    const S = f.length === 0 ? l : l.substring(x), v = S.startsWith(_e), R = v ? S.substring(1) : S, w = _ && _ > x ? _ - x : void 0;
+    const S = h.length === 0 ? l : l.substring(x), v = S.startsWith(Te), R = v ? S.substring(1) : S, w = N && N > x ? N - x : void 0;
     return {
-      modifiers: f,
+      modifiers: h,
       hasImportantModifier: v,
       baseClassName: R,
       maybePostfixModifierPosition: w
@@ -194,73 +194,73 @@ const fe = "-", Fe = (e) => {
     getConflictingClassGroupIds: i
   } = t, s = [], n = e.trim().split(Ze);
   let l = "";
-  for (let f = n.length - 1; f >= 0; f -= 1) {
-    const h = n[f], {
+  for (let h = n.length - 1; h >= 0; h -= 1) {
+    const b = n[h], {
       modifiers: x,
-      hasImportantModifier: _,
+      hasImportantModifier: N,
       baseClassName: S,
       maybePostfixModifierPosition: v
-    } = r(h);
+    } = r(b);
     let R = !!v, w = o(R ? S.substring(0, v) : S);
     if (!w) {
       if (!R) {
-        l = h + (l.length > 0 ? " " + l : l);
+        l = b + (l.length > 0 ? " " + l : l);
         continue;
       }
       if (w = o(S), !w) {
-        l = h + (l.length > 0 ? " " + l : l);
+        l = b + (l.length > 0 ? " " + l : l);
         continue;
       }
       R = !1;
     }
-    const p = qe(x).join(":"), g = _ ? p + _e : p, k = g + w;
+    const p = qe(x).join(":"), m = N ? p + Te : p, k = m + w;
     if (s.includes(k))
       continue;
     s.push(k);
-    const N = i(w, R);
-    for (let T = 0; T < N.length; ++T) {
-      const G = N[T];
-      s.push(g + G);
+    const z = i(w, R);
+    for (let T = 0; T < z.length; ++T) {
+      const G = z[T];
+      s.push(m + G);
     }
-    l = h + (l.length > 0 ? " " + l : l);
+    l = b + (l.length > 0 ? " " + l : l);
   }
   return l;
 };
 function et() {
   let e = 0, t, r, o = "";
   for (; e < arguments.length; )
-    (t = arguments[e++]) && (r = Te(t)) && (o && (o += " "), o += r);
+    (t = arguments[e++]) && (r = _e(t)) && (o && (o += " "), o += r);
   return o;
 }
-const Te = (e) => {
+const _e = (e) => {
   if (typeof e == "string")
     return e;
   let t, r = "";
   for (let o = 0; o < e.length; o++)
-    e[o] && (t = Te(e[o])) && (r && (r += " "), r += t);
+    e[o] && (t = _e(e[o])) && (r && (r += " "), r += t);
   return r;
 };
 function tt(e, ...t) {
   let r, o, i, s = n;
-  function n(f) {
-    const h = t.reduce((x, _) => _(x), e());
-    return r = Ke(h), o = r.cache.get, i = r.cache.set, s = l, l(f);
+  function n(h) {
+    const b = t.reduce((x, N) => N(x), e());
+    return r = Ke(b), o = r.cache.get, i = r.cache.set, s = l, l(h);
   }
-  function l(f) {
-    const h = o(f);
-    if (h)
-      return h;
-    const x = Qe(f, r);
-    return i(f, x), x;
+  function l(h) {
+    const b = o(h);
+    if (b)
+      return b;
+    const x = Qe(h, r);
+    return i(h, x), x;
   }
   return function() {
     return s(et.apply(null, arguments));
   };
 }
-const m = (e) => {
+const y = (e) => {
   const t = (r) => r[e] || [];
   return t.isThemeGetter = !0, t;
-}, Ae = /^\[(?:([a-z-]+):)?(.+)\]$/i, rt = /^\d+\/\d+$/, ot = /* @__PURE__ */ new Set(["px", "full", "screen"]), nt = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, st = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, it = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, at = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, lt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, $ = (e) => J(e) || ot.has(e) || rt.test(e), O = (e) => Y(e, "length", gt), J = (e) => !!e && !Number.isNaN(Number(e)), de = (e) => Y(e, "number", J), ee = (e) => !!e && Number.isInteger(Number(e)), ct = (e) => e.endsWith("%") && J(e.slice(0, -1)), c = (e) => Ae.test(e), W = (e) => nt.test(e), dt = /* @__PURE__ */ new Set(["length", "size", "percentage"]), ut = (e) => Y(e, dt, Re), pt = (e) => Y(e, "position", Re), ft = /* @__PURE__ */ new Set(["image", "url"]), ht = (e) => Y(e, ft, yt), bt = (e) => Y(e, "", mt), te = () => !0, Y = (e, t, r) => {
+}, Ae = /^\[(?:([a-z-]+):)?(.+)\]$/i, rt = /^\d+\/\d+$/, ot = /* @__PURE__ */ new Set(["px", "full", "screen"]), nt = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, st = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, it = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, at = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, lt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, P = (e) => X(e) || ot.has(e) || rt.test(e), O = (e) => q(e, "length", gt), X = (e) => !!e && !Number.isNaN(Number(e)), ue = (e) => q(e, "number", X), re = (e) => !!e && Number.isInteger(Number(e)), ct = (e) => e.endsWith("%") && X(e.slice(0, -1)), c = (e) => Ae.test(e), W = (e) => nt.test(e), dt = /* @__PURE__ */ new Set(["length", "size", "percentage"]), ut = (e) => q(e, dt, Re), pt = (e) => q(e, "position", Re), ft = /* @__PURE__ */ new Set(["image", "url"]), ht = (e) => q(e, ft, yt), bt = (e) => q(e, "", mt), oe = () => !0, q = (e, t, r) => {
   const o = Ae.exec(e);
   return o ? o[1] ? typeof t == "string" ? o[1] === t : t.has(o[1]) : r(o[2]) : !1;
 }, gt = (e) => (
@@ -269,36 +269,36 @@ const m = (e) => {
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
   st.test(e) && !it.test(e)
 ), Re = () => !1, mt = (e) => at.test(e), yt = (e) => lt.test(e), wt = () => {
-  const e = m("colors"), t = m("spacing"), r = m("blur"), o = m("brightness"), i = m("borderColor"), s = m("borderRadius"), n = m("borderSpacing"), l = m("borderWidth"), f = m("contrast"), h = m("grayscale"), x = m("hueRotate"), _ = m("invert"), S = m("gap"), v = m("gradientColorStops"), R = m("gradientColorStopPositions"), w = m("inset"), p = m("margin"), g = m("opacity"), k = m("padding"), N = m("saturate"), T = m("scale"), G = m("sepia"), D = m("skew"), X = m("space"), C = m("translate"), I = () => ["auto", "contain", "none"], B = () => ["auto", "hidden", "clip", "visible", "scroll"], q = () => ["auto", c, t], b = () => [c, t], ne = () => ["", $, O], M = () => ["auto", J, c], V = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], U = () => ["solid", "dashed", "dotted", "double", "none"], K = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], F = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], P = () => ["", "0", c], Z = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], A = () => [J, c];
+  const e = y("colors"), t = y("spacing"), r = y("blur"), o = y("brightness"), i = y("borderColor"), s = y("borderRadius"), n = y("borderSpacing"), l = y("borderWidth"), h = y("contrast"), b = y("grayscale"), x = y("hueRotate"), N = y("invert"), S = y("gap"), v = y("gradientColorStops"), R = y("gradientColorStopPositions"), w = y("inset"), p = y("margin"), m = y("opacity"), k = y("padding"), z = y("saturate"), T = y("scale"), G = y("sepia"), U = y("skew"), K = y("space"), C = y("translate"), I = () => ["auto", "contain", "none"], B = () => ["auto", "hidden", "clip", "visible", "scroll"], Z = () => ["auto", c, t], g = () => [c, t], se = () => ["", P, O], M = () => ["auto", X, c], V = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], H = () => ["solid", "dashed", "dotted", "double", "none"], Q = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], F = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], $ = () => ["", "0", c], ee = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], _ = () => [X, c];
   return {
     cacheSize: 500,
     separator: ":",
     theme: {
-      colors: [te],
-      spacing: [$, O],
+      colors: [oe],
+      spacing: [P, O],
       blur: ["none", "", W, c],
-      brightness: A(),
+      brightness: _(),
       borderColor: [e],
       borderRadius: ["none", "", "full", W, c],
-      borderSpacing: b(),
-      borderWidth: ne(),
-      contrast: A(),
-      grayscale: P(),
-      hueRotate: A(),
-      invert: P(),
-      gap: b(),
+      borderSpacing: g(),
+      borderWidth: se(),
+      contrast: _(),
+      grayscale: $(),
+      hueRotate: _(),
+      invert: $(),
+      gap: g(),
       gradientColorStops: [e],
       gradientColorStopPositions: [ct, O],
-      inset: q(),
-      margin: q(),
-      opacity: A(),
-      padding: b(),
-      saturate: A(),
-      scale: A(),
-      sepia: P(),
-      skew: A(),
-      space: b(),
-      translate: b()
+      inset: Z(),
+      margin: Z(),
+      opacity: _(),
+      padding: g(),
+      saturate: _(),
+      scale: _(),
+      sepia: $(),
+      skew: _(),
+      space: g(),
+      translate: g()
     },
     classGroups: {
       // Layout
@@ -326,14 +326,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/break-after
        */
       "break-after": [{
-        "break-after": Z()
+        "break-after": ee()
       }],
       /**
        * Break Before
        * @see https://tailwindcss.com/docs/break-before
        */
       "break-before": [{
-        "break-before": Z()
+        "break-before": ee()
       }],
       /**
        * Break Inside
@@ -514,7 +514,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/z-index
        */
       z: [{
-        z: ["auto", ee, c]
+        z: ["auto", re, c]
       }],
       // Flexbox and Grid
       /**
@@ -522,7 +522,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/flex-basis
        */
       basis: [{
-        basis: q()
+        basis: Z()
       }],
       /**
        * Flex Direction
@@ -550,28 +550,28 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/flex-grow
        */
       grow: [{
-        grow: P()
+        grow: $()
       }],
       /**
        * Flex Shrink
        * @see https://tailwindcss.com/docs/flex-shrink
        */
       shrink: [{
-        shrink: P()
+        shrink: $()
       }],
       /**
        * Order
        * @see https://tailwindcss.com/docs/order
        */
       order: [{
-        order: ["first", "last", "none", ee, c]
+        order: ["first", "last", "none", re, c]
       }],
       /**
        * Grid Template Columns
        * @see https://tailwindcss.com/docs/grid-template-columns
        */
       "grid-cols": [{
-        "grid-cols": [te]
+        "grid-cols": [oe]
       }],
       /**
        * Grid Column Start / End
@@ -579,7 +579,7 @@ const m = (e) => {
        */
       "col-start-end": [{
         col: ["auto", {
-          span: ["full", ee, c]
+          span: ["full", re, c]
         }, c]
       }],
       /**
@@ -601,7 +601,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/grid-template-rows
        */
       "grid-rows": [{
-        "grid-rows": [te]
+        "grid-rows": [oe]
       }],
       /**
        * Grid Row Start / End
@@ -609,7 +609,7 @@ const m = (e) => {
        */
       "row-start-end": [{
         row: ["auto", {
-          span: [ee, c]
+          span: [re, c]
         }, c]
       }],
       /**
@@ -863,7 +863,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/space
        */
       "space-x": [{
-        "space-x": [X]
+        "space-x": [K]
       }],
       /**
        * Space Between X Reverse
@@ -875,7 +875,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/space
        */
       "space-y": [{
-        "space-y": [X]
+        "space-y": [K]
       }],
       /**
        * Space Between Y Reverse
@@ -957,14 +957,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/font-weight
        */
       "font-weight": [{
-        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", de]
+        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", ue]
       }],
       /**
        * Font Family
        * @see https://tailwindcss.com/docs/font-family
        */
       "font-family": [{
-        font: [te]
+        font: [oe]
       }],
       /**
        * Font Variant Numeric
@@ -1008,14 +1008,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/line-clamp
        */
       "line-clamp": [{
-        "line-clamp": ["none", J, de]
+        "line-clamp": ["none", X, ue]
       }],
       /**
        * Line Height
        * @see https://tailwindcss.com/docs/line-height
        */
       leading: [{
-        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", $, c]
+        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", P, c]
       }],
       /**
        * List Style Image
@@ -1051,7 +1051,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/placeholder-opacity
        */
       "placeholder-opacity": [{
-        "placeholder-opacity": [g]
+        "placeholder-opacity": [m]
       }],
       /**
        * Text Alignment
@@ -1072,7 +1072,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/text-opacity
        */
       "text-opacity": [{
-        "text-opacity": [g]
+        "text-opacity": [m]
       }],
       /**
        * Text Decoration
@@ -1084,21 +1084,21 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/text-decoration-style
        */
       "text-decoration-style": [{
-        decoration: [...U(), "wavy"]
+        decoration: [...H(), "wavy"]
       }],
       /**
        * Text Decoration Thickness
        * @see https://tailwindcss.com/docs/text-decoration-thickness
        */
       "text-decoration-thickness": [{
-        decoration: ["auto", "from-font", $, O]
+        decoration: ["auto", "from-font", P, O]
       }],
       /**
        * Text Underline Offset
        * @see https://tailwindcss.com/docs/text-underline-offset
        */
       "underline-offset": [{
-        "underline-offset": ["auto", $, c]
+        "underline-offset": ["auto", P, c]
       }],
       /**
        * Text Decoration Color
@@ -1129,7 +1129,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/text-indent
        */
       indent: [{
-        indent: b()
+        indent: g()
       }],
       /**
        * Vertical Alignment
@@ -1187,7 +1187,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/background-opacity
        */
       "bg-opacity": [{
-        "bg-opacity": [g]
+        "bg-opacity": [m]
       }],
       /**
        * Background Origin
@@ -1451,14 +1451,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/border-opacity
        */
       "border-opacity": [{
-        "border-opacity": [g]
+        "border-opacity": [m]
       }],
       /**
        * Border Style
        * @see https://tailwindcss.com/docs/border-style
        */
       "border-style": [{
-        border: [...U(), "hidden"]
+        border: [...H(), "hidden"]
       }],
       /**
        * Divide Width X
@@ -1489,14 +1489,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/divide-opacity
        */
       "divide-opacity": [{
-        "divide-opacity": [g]
+        "divide-opacity": [m]
       }],
       /**
        * Divide Style
        * @see https://tailwindcss.com/docs/divide-style
        */
       "divide-style": [{
-        divide: U()
+        divide: H()
       }],
       /**
        * Border Color
@@ -1573,21 +1573,21 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/outline-style
        */
       "outline-style": [{
-        outline: ["", ...U()]
+        outline: ["", ...H()]
       }],
       /**
        * Outline Offset
        * @see https://tailwindcss.com/docs/outline-offset
        */
       "outline-offset": [{
-        "outline-offset": [$, c]
+        "outline-offset": [P, c]
       }],
       /**
        * Outline Width
        * @see https://tailwindcss.com/docs/outline-width
        */
       "outline-w": [{
-        outline: [$, O]
+        outline: [P, O]
       }],
       /**
        * Outline Color
@@ -1601,7 +1601,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/ring-width
        */
       "ring-w": [{
-        ring: ne()
+        ring: se()
       }],
       /**
        * Ring Width Inset
@@ -1620,14 +1620,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/ring-opacity
        */
       "ring-opacity": [{
-        "ring-opacity": [g]
+        "ring-opacity": [m]
       }],
       /**
        * Ring Offset Width
        * @see https://tailwindcss.com/docs/ring-offset-width
        */
       "ring-offset-w": [{
-        "ring-offset": [$, O]
+        "ring-offset": [P, O]
       }],
       /**
        * Ring Offset Color
@@ -1649,28 +1649,28 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/box-shadow-color
        */
       "shadow-color": [{
-        shadow: [te]
+        shadow: [oe]
       }],
       /**
        * Opacity
        * @see https://tailwindcss.com/docs/opacity
        */
       opacity: [{
-        opacity: [g]
+        opacity: [m]
       }],
       /**
        * Mix Blend Mode
        * @see https://tailwindcss.com/docs/mix-blend-mode
        */
       "mix-blend": [{
-        "mix-blend": [...K(), "plus-lighter", "plus-darker"]
+        "mix-blend": [...Q(), "plus-lighter", "plus-darker"]
       }],
       /**
        * Background Blend Mode
        * @see https://tailwindcss.com/docs/background-blend-mode
        */
       "bg-blend": [{
-        "bg-blend": K()
+        "bg-blend": Q()
       }],
       // Filters
       /**
@@ -1700,7 +1700,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/contrast
        */
       contrast: [{
-        contrast: [f]
+        contrast: [h]
       }],
       /**
        * Drop Shadow
@@ -1714,7 +1714,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/grayscale
        */
       grayscale: [{
-        grayscale: [h]
+        grayscale: [b]
       }],
       /**
        * Hue Rotate
@@ -1728,14 +1728,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/invert
        */
       invert: [{
-        invert: [_]
+        invert: [N]
       }],
       /**
        * Saturate
        * @see https://tailwindcss.com/docs/saturate
        */
       saturate: [{
-        saturate: [N]
+        saturate: [z]
       }],
       /**
        * Sepia
@@ -1771,14 +1771,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-contrast
        */
       "backdrop-contrast": [{
-        "backdrop-contrast": [f]
+        "backdrop-contrast": [h]
       }],
       /**
        * Backdrop Grayscale
        * @see https://tailwindcss.com/docs/backdrop-grayscale
        */
       "backdrop-grayscale": [{
-        "backdrop-grayscale": [h]
+        "backdrop-grayscale": [b]
       }],
       /**
        * Backdrop Hue Rotate
@@ -1792,21 +1792,21 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-invert
        */
       "backdrop-invert": [{
-        "backdrop-invert": [_]
+        "backdrop-invert": [N]
       }],
       /**
        * Backdrop Opacity
        * @see https://tailwindcss.com/docs/backdrop-opacity
        */
       "backdrop-opacity": [{
-        "backdrop-opacity": [g]
+        "backdrop-opacity": [m]
       }],
       /**
        * Backdrop Saturate
        * @see https://tailwindcss.com/docs/backdrop-saturate
        */
       "backdrop-saturate": [{
-        "backdrop-saturate": [N]
+        "backdrop-saturate": [z]
       }],
       /**
        * Backdrop Sepia
@@ -1871,7 +1871,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/transition-duration
        */
       duration: [{
-        duration: A()
+        duration: _()
       }],
       /**
        * Transition Timing Function
@@ -1885,7 +1885,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/transition-delay
        */
       delay: [{
-        delay: A()
+        delay: _()
       }],
       /**
        * Animation
@@ -1928,7 +1928,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/rotate
        */
       rotate: [{
-        rotate: [ee, c]
+        rotate: [re, c]
       }],
       /**
        * Translate X
@@ -1949,14 +1949,14 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/skew
        */
       "skew-x": [{
-        "skew-x": [D]
+        "skew-x": [U]
       }],
       /**
        * Skew Y
        * @see https://tailwindcss.com/docs/skew
        */
       "skew-y": [{
-        "skew-y": [D]
+        "skew-y": [U]
       }],
       /**
        * Transform Origin
@@ -2020,126 +2020,126 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-m": [{
-        "scroll-m": b()
+        "scroll-m": g()
       }],
       /**
        * Scroll Margin X
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mx": [{
-        "scroll-mx": b()
+        "scroll-mx": g()
       }],
       /**
        * Scroll Margin Y
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-my": [{
-        "scroll-my": b()
+        "scroll-my": g()
       }],
       /**
        * Scroll Margin Start
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-ms": [{
-        "scroll-ms": b()
+        "scroll-ms": g()
       }],
       /**
        * Scroll Margin End
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-me": [{
-        "scroll-me": b()
+        "scroll-me": g()
       }],
       /**
        * Scroll Margin Top
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mt": [{
-        "scroll-mt": b()
+        "scroll-mt": g()
       }],
       /**
        * Scroll Margin Right
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mr": [{
-        "scroll-mr": b()
+        "scroll-mr": g()
       }],
       /**
        * Scroll Margin Bottom
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mb": [{
-        "scroll-mb": b()
+        "scroll-mb": g()
       }],
       /**
        * Scroll Margin Left
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-ml": [{
-        "scroll-ml": b()
+        "scroll-ml": g()
       }],
       /**
        * Scroll Padding
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-p": [{
-        "scroll-p": b()
+        "scroll-p": g()
       }],
       /**
        * Scroll Padding X
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-px": [{
-        "scroll-px": b()
+        "scroll-px": g()
       }],
       /**
        * Scroll Padding Y
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-py": [{
-        "scroll-py": b()
+        "scroll-py": g()
       }],
       /**
        * Scroll Padding Start
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-ps": [{
-        "scroll-ps": b()
+        "scroll-ps": g()
       }],
       /**
        * Scroll Padding End
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pe": [{
-        "scroll-pe": b()
+        "scroll-pe": g()
       }],
       /**
        * Scroll Padding Top
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pt": [{
-        "scroll-pt": b()
+        "scroll-pt": g()
       }],
       /**
        * Scroll Padding Right
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pr": [{
-        "scroll-pr": b()
+        "scroll-pr": g()
       }],
       /**
        * Scroll Padding Bottom
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pb": [{
-        "scroll-pb": b()
+        "scroll-pb": g()
       }],
       /**
        * Scroll Padding Left
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pl": [{
-        "scroll-pl": b()
+        "scroll-pl": g()
       }],
       /**
        * Scroll Snap Align
@@ -2222,7 +2222,7 @@ const m = (e) => {
        * @see https://tailwindcss.com/docs/stroke-width
        */
       "stroke-w": [{
-        stroke: [$, O, de]
+        stroke: [P, O, ue]
       }],
       /**
        * Stroke
@@ -2319,7 +2319,7 @@ function zt() {
 function Nt() {
   return zt()?.isWindowed === !0;
 }
-function _t({ children: e, className: t, constrained: r = !1 }) {
+function Tt({ children: e, className: t, constrained: r = !1 }) {
   const { theme: o } = Me(), i = Nt(), s = o === "dark", n = !i && !St();
   return /* @__PURE__ */ u(
     "div",
@@ -2344,7 +2344,7 @@ class we extends Error {
     this.code = r, this.status = i, this.details = s;
   }
 }
-async function re(e, t = {}) {
+async function Y(e, t = {}) {
   const r = typeof window < "u" ? localStorage.getItem("copanel_token") : null, o = {
     "Content-Type": "application/json",
     ...t.headers || {}
@@ -2368,8 +2368,8 @@ async function re(e, t = {}) {
   if (t.raw)
     return n;
   if (!s.ok) {
-    const f = n && typeof n == "object" && n.error ? n.error : { code: `HTTP_${s.status}`, message: typeof n == "string" ? n : n?.detail || s.statusText };
-    throw new we(f.code || `HTTP_${s.status}`, f.message || "Request failed", s.status, f.details);
+    const h = n && typeof n == "object" && n.error ? n.error : { code: `HTTP_${s.status}`, message: typeof n == "string" ? n : n?.detail || s.statusText };
+    throw new we(h.code || `HTTP_${s.status}`, h.message || "Request failed", s.status, h.details);
   }
   if (n && typeof n == "object" && "status" in n) {
     if (n.status === "success")
@@ -2379,23 +2379,23 @@ async function re(e, t = {}) {
   }
   return n;
 }
-function le() {
+function ce() {
   return typeof localStorage > "u" ? null : localStorage.getItem("copanel_token");
 }
-function Tt(e) {
+function _t(e) {
   const t = {};
   e && new Headers(e).forEach((i, s) => {
     t[s] = i;
   });
-  const r = le();
+  const r = ce();
   return r && (t.Authorization = `Bearer ${r}`), t;
 }
 function At(e, t = {}) {
-  const r = Tt(t.headers);
+  const r = _t(t.headers);
   return fetch(e, { ...t, headers: r });
 }
 async function Rt() {
-  if (!le()) return null;
+  if (!ce()) return null;
   try {
     const e = await At("/api/auth/stream-ticket", { method: "POST" });
     if (!e.ok) return null;
@@ -2405,12 +2405,12 @@ async function Rt() {
     return null;
   }
 }
-const It = "copanel-platform-sse-degraded", oe = 2e3, Et = 6e4, jt = 3;
-class $t {
+const It = "copanel-platform-sse-degraded", ne = 2e3, Et = 6e4, jt = 3;
+class Pt {
   constructor() {
     E(this, "source", null);
     E(this, "handlers", /* @__PURE__ */ new Map());
-    E(this, "retryDelay", oe);
+    E(this, "retryDelay", ne);
     E(this, "retryTimer", null);
     E(this, "failureCount", 0);
     E(this, "connecting", !1);
@@ -2432,7 +2432,7 @@ class $t {
     });
   }
   async buildUrl() {
-    if (!le()) return null;
+    if (!ce()) return null;
     const t = await Rt();
     return t ? `/api/platform/events?${new URLSearchParams({
       topics: "jobs,notifications",
@@ -2440,7 +2440,7 @@ class $t {
     }).toString()}` : null;
   }
   ensureConnected() {
-    this.source || this.connecting || typeof document < "u" && document.hidden || le() && (this.connecting = !0, this.buildUrl().then((t) => {
+    this.source || this.connecting || typeof document < "u" && document.hidden || ce() && (this.connecting = !0, this.buildUrl().then((t) => {
       if (this.connecting = !1, !(this.source || this.handlers.size === 0)) {
         if (!t) {
           this.failureCount += 1, this.scheduleRetry();
@@ -2460,7 +2460,7 @@ class $t {
       return;
     }
     this.source.addEventListener("open", () => {
-      this.failureCount = 0, this.retryDelay = oe;
+      this.failureCount = 0, this.retryDelay = ne;
     }), this.source.addEventListener("jobs", (r) => {
       this.onStreamMessage(), this.parseAndEmit("jobs", r.data);
     }), this.source.addEventListener("notifications", (r) => {
@@ -2472,7 +2472,7 @@ class $t {
     };
   }
   onStreamMessage() {
-    this.failureCount = 0, this.retryDelay = oe;
+    this.failureCount = 0, this.retryDelay = ne;
   }
   parseAndEmit(t, r) {
     try {
@@ -2489,19 +2489,19 @@ class $t {
     }, t);
   }
   teardownIfIdle() {
-    this.handlers.size > 0 || (this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null), this.failureCount = 0, this.retryDelay = oe);
+    this.handlers.size > 0 || (this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null), this.failureCount = 0, this.retryDelay = ne);
   }
   /** Drop the SSE connection and open a new one if handlers exist and a token is present. */
   reconnect() {
-    this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = oe, this.handlers.size > 0 && this.ensureConnected();
+    this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = ne, this.handlers.size > 0 && this.ensureConnected();
   }
 }
-const he = new $t();
-function Pt() {
-  he.reconnect();
+const be = new Pt();
+function $t() {
+  be.reconnect();
 }
 typeof document < "u" && document.addEventListener("visibilitychange", () => {
-  document.hidden || Pt();
+  document.hidden || $t();
 });
 function Ie(e) {
   let t = e;
@@ -2532,7 +2532,7 @@ function xe(e, t) {
     if (typeof e == "object") return e[t] || e.en || e.vi || e.default;
   }
 }
-function H(e, t, r) {
+function J(e, t, r) {
   if (!e || typeof e != "object") return;
   const o = xe(e[t], r);
   if (o) return o;
@@ -2549,9 +2549,9 @@ function Ot(e) {
   const t = Lt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
   return {
     ...e,
-    title: H(e, "title", t) || H(r, "title", t) || e?.title || "",
-    message: H(e, "message", t) || H(r, "message", t) || e?.message,
-    error: H(e, "error", t) || H(r, "error", t) || e?.error || null
+    title: J(e, "title", t) || J(r, "title", t) || e?.title || "",
+    message: J(e, "message", t) || J(r, "message", t) || e?.message,
+    error: J(e, "error", t) || J(r, "error", t) || e?.error || null
   };
 }
 function ve(e) {
@@ -2562,7 +2562,7 @@ function ve(e) {
     return i.includes(t.id) || (i = [t.id, ...i].slice(0, 200)), { jobs: o, order: i };
   });
 }
-he.on("jobs", (e) => {
+be.on("jobs", (e) => {
   if (e?.job) {
     ve(e.job);
     return;
@@ -2577,7 +2577,7 @@ he.on("jobs", (e) => {
     });
   }
 });
-const pe = Ie({ inbox: [], unread: 0, toasts: [] }), Wt = 6e3;
+const fe = Ie({ inbox: [], unread: 0, toasts: [] }), Wt = 6e3;
 function Gt() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
@@ -2588,7 +2588,7 @@ function Ce(e, t) {
       return e[t] || e.en || e.vi || e.default;
   }
 }
-function ae(e, t, r) {
+function le(e, t, r) {
   if (!e || typeof e != "object") return;
   const o = Ce(e[t], r);
   if (o) return o;
@@ -2602,7 +2602,7 @@ function ae(e, t, r) {
   if (typeof l == "string" && l) return l;
 }
 function Bt(e) {
-  const t = Gt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, o = ae(e, "title", t) || ae(r, "title", t) || e?.title || "", i = ae(e, "body", t) || ae(r, "body", t) || e?.body || null;
+  const t = Gt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, o = le(e, "title", t) || le(r, "title", t) || e?.title || "", i = le(e, "body", t) || le(r, "body", t) || e?.body || null;
   return {
     ...e,
     title: o,
@@ -2610,25 +2610,33 @@ function Bt(e) {
   };
 }
 function Vt(e) {
-  pe.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
-    pe.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
+  fe.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
+    fe.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
   }, Wt);
 }
-he.on("notifications", (e) => {
+be.on("notifications", (e) => {
   if (e?.event === "new" && e.notification) {
     const t = Bt(e.notification);
-    Vt({ ...t, ephemeral: !0 }), pe.setState((r) => ({
+    Vt({ ...t, ephemeral: !0 }), fe.setState((r) => ({
       inbox: [t, ...r.inbox].slice(0, 200),
       unread: r.unread + 1
     }));
   }
 });
-function Ft() {
-  const e = localStorage.getItem("copanel_token") || "", t = window.location.protocol === "https:" ? "wss:" : "ws:", r = window.location.hostname, o = window.location.port ? `:${window.location.port}` : "", i = new URLSearchParams({ access_token: e });
+async function Ft() {
+  try {
+    const e = await Y("/api/auth/stream-ticket", { method: "POST" });
+    return typeof e?.ticket == "string" ? e.ticket : null;
+  } catch {
+    return null;
+  }
+}
+function Dt(e) {
+  const t = window.location.protocol === "https:" ? "wss:" : "ws:", r = window.location.hostname, o = window.location.port ? `:${window.location.port}` : "", i = new URLSearchParams({ ticket: e });
   return `${t}//${r}${o}/api/web_browser/ws?${i.toString()}`;
 }
-function Yt() {
-  const { theme: e, language: t } = Me(), r = e === "dark", [o, i] = L(null), [s, n] = L("http://192.168.1.1"), [l, f] = L(null), [h, x] = L("idle"), [_, S] = L(""), [v, R] = L(null), [w, p] = L(!1), [g, k] = L(null), N = Q(null), T = Q(null), G = Q(null), D = Q({ width: 1280, height: 720 }), X = Q({ x: 0, y: 0, left: 0, top: 0 }), C = {
+function Xt() {
+  const { theme: e, language: t } = Me(), r = e === "dark", [o, i] = L(null), [s, n] = L("http://192.168.1.1"), [l, h] = L(null), [b, x] = L("idle"), [N, S] = L(""), [v, R] = L(null), [w, p] = L(!1), [m, k] = L(null), z = te(null), T = te(null), G = te(null), U = te({ width: 1280, height: 720 }), K = te({ x: 0, y: 0, left: 0, top: 0 }), C = {
     en: {
       title: "Web Browser",
       desc: "Headless Chromium runs on this VPS and can reach LAN services (router, internal apps) that your PC cannot. Superadmin only. One shared session.",
@@ -2669,24 +2677,24 @@ function Yt() {
       superadminOnly: "Chỉ superadmin.",
       focusHint: "Click vùng xem, gõ phím. Dùng thanh công cụ để điều hướng."
     }
-  }[t === "vi" ? "vi" : "en"], I = ce(async () => {
+  }[t === "vi" ? "vi" : "en"], I = de(async () => {
     try {
-      const a = await re("/api/web_browser/status");
+      const a = await Y("/api/web_browser/status");
       i(a), a.current_url && n(a.current_url);
     } catch (a) {
       S(a?.message || "Failed to load status"), i(null);
     }
   }, []);
-  se(() => {
+  ie(() => {
     I();
   }, [I]);
-  const B = ce(async (a) => {
-    const y = await re(
+  const B = de(async (a) => {
+    const f = await Y(
       `/api/web_browser/install?job_id=${encodeURIComponent(a)}`
     );
-    return y.job && R(y.job), y.chromium_installed ? (await I(), !0) : y.job?.status === "success" || y.job?.status === "failed";
+    return f.job && R(f.job), f.chromium_installed ? (await I(), !0) : f.job?.status === "success" || f.job?.status === "failed";
   }, [I]);
-  se(() => {
+  ie(() => {
     if (!v || ["success", "failed", "cancelled"].includes(v.status)) return;
     const a = setInterval(async () => {
       try {
@@ -2697,20 +2705,20 @@ function Yt() {
     }, 2e3);
     return () => clearInterval(a);
   }, [v, B]);
-  const q = async () => {
+  const Z = async () => {
     p(!0);
     try {
-      const a = await re("/api/web_browser/install", { method: "POST" });
+      const a = await Y("/api/web_browser/install", { method: "POST" });
       await B(a.job_id);
     } catch (a) {
       S(a?.message || "Install failed");
     } finally {
       p(!1);
     }
-  }, b = async () => {
+  }, g = async () => {
     p(!0);
     try {
-      const a = await re("/api/web_browser/start", {
+      const a = await Y("/api/web_browser/start", {
         method: "POST",
         body: { width: 1280, height: 720, url: s }
       });
@@ -2720,90 +2728,95 @@ function Yt() {
     } finally {
       p(!1);
     }
-  }, ne = async () => {
-    K(), p(!0);
+  }, se = async () => {
+    Q(), p(!0);
     try {
-      await re("/api/web_browser/stop", { method: "POST" }), f(null), await I();
+      await Y("/api/web_browser/stop", { method: "POST" }), h(null), await I();
     } catch (a) {
       S(a?.message || "Stop failed");
     } finally {
       p(!1);
     }
   }, M = (a) => {
-    N.current?.readyState === WebSocket.OPEN && N.current.send(JSON.stringify(a));
-  }, V = ce(() => {
+    z.current?.readyState === WebSocket.OPEN && z.current.send(JSON.stringify(a));
+  }, V = de(() => {
     const a = T.current;
     if (!a) return;
-    const y = Math.max(320, Math.min(Math.round(a.clientWidth), 1920)), d = Math.max(240, Math.min(Math.round(a.clientHeight), 1080));
-    D.current = { width: y, height: d }, M({ type: "resize", width: y, height: d });
-  }, []), U = () => {
-    N.current && (N.current.close(), N.current = null), x("connecting");
-    const a = new WebSocket(Ft());
-    N.current = a, a.onopen = () => {
+    const f = Math.max(320, Math.min(Math.round(a.clientWidth), 1920)), A = Math.max(240, Math.min(Math.round(a.clientHeight), 1080));
+    U.current = { width: f, height: A }, M({ type: "resize", width: f, height: A });
+  }, []), H = async () => {
+    z.current && (z.current.close(), z.current = null), x("connecting");
+    const a = await Ft();
+    if (!a) {
+      x("error");
+      return;
+    }
+    const f = new WebSocket(Dt(a));
+    z.current = f, f.onopen = () => {
       x("open"), V();
-    }, a.onclose = () => x("closed"), a.onerror = () => x("error"), a.onmessage = (y) => {
+    }, f.onclose = () => x("closed"), f.onerror = () => x("error"), f.onmessage = (A) => {
       try {
-        const d = JSON.parse(y.data);
+        const d = JSON.parse(A.data);
         if (d.type === "frame" && d.data)
-          f(`data:image/jpeg;base64,${d.data}`);
+          h(`data:image/jpeg;base64,${d.data}`);
         else if (d.type === "url" && d.url)
           n(d.url);
         else if (d.type === "select") {
-          const z = X.current;
+          const D = K.current;
           k({
-            x: d.x ?? z.x,
-            y: d.y ?? z.y,
-            left: z.left,
-            top: z.top,
+            x: d.x ?? D.x,
+            y: d.y ?? D.y,
+            left: D.left,
+            top: D.top,
             selectedIndex: d.selectedIndex ?? -1,
             options: Array.isArray(d.options) ? d.options : []
           });
-        } else d.type === "error" ? S(d.message || "Stream error") : d.type === "ready" && (d.url && n(d.url), d.viewport?.width && d.viewport?.height && (D.current = { width: d.viewport.width, height: d.viewport.height }), V());
+        } else d.type === "error" ? S(d.message || "Stream error") : d.type === "ready" && (d.url && n(d.url), d.viewport?.width && d.viewport?.height && (U.current = { width: d.viewport.width, height: d.viewport.height }), V());
       } catch {
       }
     };
-  }, K = () => {
-    N.current?.close(), N.current = null, x("idle"), k(null);
+  }, Q = () => {
+    z.current?.close(), z.current = null, x("idle"), k(null);
   };
-  se(() => () => {
-    N.current?.close();
-  }, []), se(() => {
-    if (h !== "open") return;
+  ie(() => () => {
+    z.current?.close();
+  }, []), ie(() => {
+    if (b !== "open") return;
     const a = new ResizeObserver(() => V());
     return T.current && a.observe(T.current), () => a.disconnect();
-  }, [h, V]);
-  const F = (a, y) => {
-    const d = G.current;
-    if (!d) return { x: 0, y: 0 };
-    const z = d.getBoundingClientRect();
-    if (z.width === 0 || z.height === 0) return { x: 0, y: 0 };
-    const { width: be, height: ge } = D.current, je = (a - z.left) / z.width * be, $e = (y - z.top) / z.height * ge;
+  }, [b, V]);
+  const F = (a, f) => {
+    const A = G.current;
+    if (!A) return { x: 0, y: 0 };
+    const d = A.getBoundingClientRect();
+    if (d.width === 0 || d.height === 0) return { x: 0, y: 0 };
+    const { width: D, height: ge } = U.current, je = (a - d.left) / d.width * D, Pe = (f - d.top) / d.height * ge;
     return {
-      x: Math.max(0, Math.min(je, be - 1)),
-      y: Math.max(0, Math.min($e, ge - 1))
+      x: Math.max(0, Math.min(je, D - 1)),
+      y: Math.max(0, Math.min(Pe, ge - 1))
     };
-  }, P = () => {
-    h === "open" ? M({ type: "navigate", url: s }) : b();
-  }, Z = !!(o && !o.playwright_installed), A = !!(o && o.playwright_installed && !o.chromium_installed);
-  return /* @__PURE__ */ u(_t, { constrained: !0, children: /* @__PURE__ */ j("div", { className: `flex flex-col h-full min-h-0 p-4 md:p-6 space-y-4 ${r ? "text-slate-100" : "text-slate-900"}`, children: [
+  }, $ = () => {
+    b === "open" ? M({ type: "navigate", url: s }) : g();
+  }, ee = !!(o && !o.playwright_installed), _ = !!(o && o.playwright_installed && !o.chromium_installed);
+  return /* @__PURE__ */ u(Tt, { constrained: !0, children: /* @__PURE__ */ j("div", { className: `flex flex-col h-full min-h-0 p-4 md:p-6 space-y-4 ${r ? "text-slate-100" : "text-slate-900"}`, children: [
     /* @__PURE__ */ j("div", { children: [
       /* @__PURE__ */ j("h1", { className: "text-2xl font-bold flex items-center gap-2", children: [
-        /* @__PURE__ */ u(ie.Globe, { className: "w-7 h-7 text-blue-500" }),
+        /* @__PURE__ */ u(ae.Globe, { className: "w-7 h-7 text-blue-500" }),
         C.title
       ] }),
       /* @__PURE__ */ u("p", { className: `mt-1 text-sm ${r ? "text-slate-400" : "text-slate-600"}`, children: C.desc }),
       /* @__PURE__ */ u("p", { className: `text-xs mt-1 ${r ? "text-amber-400/90" : "text-amber-700"}`, children: C.superadminOnly })
     ] }),
-    _ && /* @__PURE__ */ u("div", { className: `text-sm px-3 py-2 rounded-lg ${r ? "bg-red-950/50 text-red-300" : "bg-red-50 text-red-700"}`, children: _ }),
-    Z && /* @__PURE__ */ u("div", { className: `rounded-xl border p-4 ${r ? "border-slate-700 bg-slate-900" : "border-slate-200 bg-white"}`, children: /* @__PURE__ */ u("p", { children: C.installPlaywright }) }),
-    A && /* @__PURE__ */ j("div", { className: `rounded-xl border p-4 space-y-3 ${r ? "border-slate-700 bg-slate-900" : "border-slate-200 bg-white"}`, children: [
+    N && /* @__PURE__ */ u("div", { className: `text-sm px-3 py-2 rounded-lg ${r ? "bg-red-950/50 text-red-300" : "bg-red-50 text-red-700"}`, children: N }),
+    ee && /* @__PURE__ */ u("div", { className: `rounded-xl border p-4 ${r ? "border-slate-700 bg-slate-900" : "border-slate-200 bg-white"}`, children: /* @__PURE__ */ u("p", { children: C.installPlaywright }) }),
+    _ && /* @__PURE__ */ j("div", { className: `rounded-xl border p-4 space-y-3 ${r ? "border-slate-700 bg-slate-900" : "border-slate-200 bg-white"}`, children: [
       /* @__PURE__ */ u("p", { children: C.notReady }),
       /* @__PURE__ */ u(
         "button",
         {
           type: "button",
           disabled: w,
-          onClick: q,
+          onClick: Z,
           className: "px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-500 disabled:opacity-50",
           children: w ? C.installing : C.installChromium
         }
@@ -2819,42 +2832,42 @@ function Yt() {
         v.error && /* @__PURE__ */ u("div", { className: "text-red-400", children: v.error })
       ] })
     ] }),
-    o && !Z && /* @__PURE__ */ j("div", { className: "flex flex-col flex-1 min-h-0 gap-4", children: [
+    o && !ee && /* @__PURE__ */ j("div", { className: "flex flex-col flex-1 min-h-0 gap-4", children: [
       /* @__PURE__ */ j("div", { className: `flex flex-wrap gap-2 items-center rounded-xl border p-3 ${r ? "border-slate-700 bg-slate-900" : "border-slate-200 bg-white"}`, children: [
-        /* @__PURE__ */ u("button", { type: "button", onClick: () => M({ type: "back" }), className: "p-2 rounded-lg hover:bg-slate-800/50", title: C.back, children: /* @__PURE__ */ u(ie.ArrowLeft, { className: "w-4 h-4" }) }),
-        /* @__PURE__ */ u("button", { type: "button", onClick: () => M({ type: "forward" }), className: "p-2 rounded-lg hover:bg-slate-800/50", title: C.forward, children: /* @__PURE__ */ u(ie.ArrowRight, { className: "w-4 h-4" }) }),
-        /* @__PURE__ */ u("button", { type: "button", onClick: () => M({ type: "reload" }), className: "p-2 rounded-lg hover:bg-slate-800/50", title: C.reload, children: /* @__PURE__ */ u(ie.RotateCw, { className: "w-4 h-4" }) }),
+        /* @__PURE__ */ u("button", { type: "button", onClick: () => M({ type: "back" }), className: "p-2 rounded-lg hover:bg-slate-800/50", title: C.back, children: /* @__PURE__ */ u(ae.ArrowLeft, { className: "w-4 h-4" }) }),
+        /* @__PURE__ */ u("button", { type: "button", onClick: () => M({ type: "forward" }), className: "p-2 rounded-lg hover:bg-slate-800/50", title: C.forward, children: /* @__PURE__ */ u(ae.ArrowRight, { className: "w-4 h-4" }) }),
+        /* @__PURE__ */ u("button", { type: "button", onClick: () => M({ type: "reload" }), className: "p-2 rounded-lg hover:bg-slate-800/50", title: C.reload, children: /* @__PURE__ */ u(ae.RotateCw, { className: "w-4 h-4" }) }),
         /* @__PURE__ */ u(
           "input",
           {
             className: `flex-1 min-w-[12rem] px-3 py-2 rounded-lg text-sm border ${r ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-300"}`,
             value: s,
             onChange: (a) => n(a.target.value),
-            onKeyDown: (a) => a.key === "Enter" && P()
+            onKeyDown: (a) => a.key === "Enter" && $()
           }
         ),
         /* @__PURE__ */ u(
           "button",
           {
             type: "button",
-            onClick: P,
-            disabled: w || A,
+            onClick: $,
+            disabled: w || _,
             className: "px-3 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-500 disabled:opacity-50",
             children: C.go
           }
         ),
-        o.running ? /* @__PURE__ */ u("button", { type: "button", onClick: ne, disabled: w, className: "px-3 py-2 rounded-lg border text-sm", children: C.stop }) : /* @__PURE__ */ u("button", { type: "button", onClick: b, disabled: w || A, className: "px-3 py-2 rounded-lg border text-sm", children: C.start }),
-        h === "open" ? /* @__PURE__ */ u("button", { type: "button", onClick: K, className: "px-3 py-2 rounded-lg border text-sm", children: C.disconnect }) : /* @__PURE__ */ u(
+        o.running ? /* @__PURE__ */ u("button", { type: "button", onClick: se, disabled: w, className: "px-3 py-2 rounded-lg border text-sm", children: C.stop }) : /* @__PURE__ */ u("button", { type: "button", onClick: g, disabled: w || _, className: "px-3 py-2 rounded-lg border text-sm", children: C.start }),
+        b === "open" ? /* @__PURE__ */ u("button", { type: "button", onClick: Q, className: "px-3 py-2 rounded-lg border text-sm", children: C.disconnect }) : /* @__PURE__ */ u(
           "button",
           {
             type: "button",
-            onClick: U,
-            disabled: !o.running || A,
+            onClick: H,
+            disabled: !o.running || _,
             className: "px-3 py-2 rounded-lg border text-sm",
             children: C.connect
           }
         ),
-        /* @__PURE__ */ u("span", { className: `text-xs ${h === "open" ? "text-green-500" : "text-slate-500"}`, children: h === "open" ? C.wsOpen : C.wsClosed })
+        /* @__PURE__ */ u("span", { className: `text-xs ${b === "open" ? "text-green-500" : "text-slate-500"}`, children: b === "open" ? C.wsOpen : C.wsClosed })
       ] }),
       /* @__PURE__ */ u("p", { className: "text-xs text-slate-500", children: C.focusHint }),
       /* @__PURE__ */ j(
@@ -2864,31 +2877,31 @@ function Yt() {
           tabIndex: 0,
           className: `relative w-full flex-1 min-h-[320px] rounded-xl border overflow-hidden flex items-center justify-center ${r ? "border-slate-700 bg-black" : "border-slate-300 bg-slate-100"}`,
           onMouseDown: (a) => {
-            if (h !== "open") return;
-            T.current?.focus(), g && k(null);
-            const { x: y, y: d } = F(a.clientX, a.clientY), z = T.current?.getBoundingClientRect();
-            X.current = {
-              x: y,
-              y: d,
-              left: z ? a.clientX - z.left : 0,
-              top: z ? a.clientY - z.top : 0
-            }, M({ type: "click", x: y, y: d, button: a.button === 2 ? "right" : "left" });
+            if (b !== "open") return;
+            T.current?.focus(), m && k(null);
+            const { x: f, y: A } = F(a.clientX, a.clientY), d = T.current?.getBoundingClientRect();
+            K.current = {
+              x: f,
+              y: A,
+              left: d ? a.clientX - d.left : 0,
+              top: d ? a.clientY - d.top : 0
+            }, M({ type: "click", x: f, y: A, button: a.button === 2 ? "right" : "left" });
           },
           onContextMenu: (a) => a.preventDefault(),
           onMouseMove: (a) => {
-            if (h !== "open" || a.buttons === 0) return;
-            const { x: y, y: d } = F(a.clientX, a.clientY);
-            M({ type: "mousemove", x: y, y: d });
+            if (b !== "open" || a.buttons === 0) return;
+            const { x: f, y: A } = F(a.clientX, a.clientY);
+            M({ type: "mousemove", x: f, y: A });
           },
           onWheel: (a) => {
-            if (h !== "open") return;
+            if (b !== "open") return;
             a.preventDefault();
-            const { x: y, y: d } = F(a.clientX, a.clientY);
-            M({ type: "wheel", x: y, y: d, deltaY: a.deltaY });
+            const { x: f, y: A } = F(a.clientX, a.clientY);
+            M({ type: "wheel", x: f, y: A, deltaY: a.deltaY });
           },
           onKeyDown: (a) => {
-            if (h === "open") {
-              if (g) {
+            if (b === "open") {
+              if (m) {
                 a.preventDefault(), a.key === "Escape" && k(null);
                 return;
               }
@@ -2897,24 +2910,24 @@ function Yt() {
           },
           children: [
             l ? /* @__PURE__ */ u("img", { ref: G, src: l, alt: "Remote browser", className: "max-w-full max-h-full object-contain select-none", draggable: !1 }) : /* @__PURE__ */ u("div", { className: "text-sm text-slate-500", children: o.running ? "Connect stream to view" : "Start browser first" }),
-            g && /* @__PURE__ */ u(
+            m && /* @__PURE__ */ u(
               "div",
               {
                 className: `absolute z-20 max-h-64 overflow-auto rounded-md border shadow-xl text-sm ${r ? "bg-slate-900 border-slate-600" : "bg-white border-slate-300"}`,
-                style: { left: g.left, top: g.top, minWidth: 160 },
+                style: { left: m.left, top: m.top, minWidth: 160 },
                 onMouseDown: (a) => a.stopPropagation(),
-                children: g.options.map((a, y) => /* @__PURE__ */ u(
+                children: m.options.map((a, f) => /* @__PURE__ */ u(
                   "button",
                   {
                     type: "button",
                     disabled: a.disabled,
                     onClick: () => {
-                      M({ type: "select_option", x: g.x, y: g.y, index: y }), k(null);
+                      M({ type: "select_option", x: m.x, y: m.y, index: f }), k(null);
                     },
-                    className: `block w-full text-left px-3 py-1.5 whitespace-nowrap disabled:opacity-40 ${y === g.selectedIndex ? "bg-blue-600 text-white" : r ? "hover:bg-slate-700 text-slate-200" : "hover:bg-slate-100 text-slate-800"}`,
+                    className: `block w-full text-left px-3 py-1.5 whitespace-nowrap disabled:opacity-40 ${f === m.selectedIndex ? "bg-blue-600 text-white" : r ? "hover:bg-slate-700 text-slate-200" : "hover:bg-slate-100 text-slate-800"}`,
                     children: a.text || " "
                   },
-                  y
+                  f
                 ))
               }
             )
@@ -2925,5 +2938,5 @@ function Yt() {
   ] }) });
 }
 export {
-  Yt as default
+  Xt as default
 };

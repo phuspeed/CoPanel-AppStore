@@ -73,5 +73,16 @@ def main() -> None:
     print(f"updated packages.json ({built} core ZIPs built)")
 
 
+
+def _refresh_sha256() -> None:
+    """packages.json must carry the sha256 of every ZIP (CoPanel 1.1.15+)."""
+    import subprocess as _sp
+    import sys as _sys
+    from pathlib import Path as _P
+
+    _sp.run([_sys.executable, str(_P(__file__).resolve().parent / "update_catalog_sha256.py")], check=True)
+
+
 if __name__ == "__main__":
     main()
+    _refresh_sha256()
