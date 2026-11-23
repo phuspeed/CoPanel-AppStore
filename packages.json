@@ -140,9 +140,9 @@
     "id": "ftp_manager",
     "name": "FTP Manager",
     "description": "Manage external FTP, FTPS, and SFTP connections: browse remotes and transfer files via Task Center. Optional companion to File Manager for remote servers.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icon": "Server",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ftp_manager.v1.0.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ftp_manager.v1.0.3.zip",
     "is_core": false,
     "system_packages": [
       "openssh-client"
@@ -150,8 +150,8 @@
     "pip_packages": [
       "paramiko==3.4.0"
     ],
-    "changelog_en": "v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: UI polish \u2014 Cloud Sync\u2013style sidebar, single empty-state CTA, cleaner connection form (advanced collapsed), shorter nav name. v1.0.0: Initial release.",
-    "changelog_vi": "v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chinh UI \u2014 sidebar kieu Cloud Sync, empty state 1 CTA, form ket noi gon (nang cao thu gon), ten nav ngan. v1.0.0: Ban dau.",
+    "changelog_en": "v1.0.3: Fix Add/Edit connection, transfer, and delete dialogs rendering behind the desktop window. Modals now attach to the window viewport instead of document.body (AppStore bundles cannot share the panel's WindowViewportContext). v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: UI polish \u2014 Cloud Sync\u2013style sidebar, single empty-state CTA, cleaner connection form (advanced collapsed), shorter nav name. v1.0.0: Initial release.",
+    "changelog_vi": "v1.0.3: Sua hop thoai Them/Sua ket noi, chuyen file va xoa bi khuat sau cua so desktop. Modal gan vao khung cua so thay vi document.body (bundle AppStore khong chia se WindowViewportContext cua panel). v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chinh UI \u2014 sidebar kieu Cloud Sync, empty state 1 CTA, form ket noi gon (nang cao thu gon), ten nav ngan. v1.0.0: Ban dau.",
     "frontend_install": "prebuilt"
   },
   {

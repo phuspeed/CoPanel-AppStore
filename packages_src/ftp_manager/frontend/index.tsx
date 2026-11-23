@@ -8,7 +8,7 @@ import { useAppShellContext } from '../../core/hooks/useAppShellContext';
 import { useIsWindowedModule } from '../../core/shell/WindowViewportContext';
 import ModuleViewport from '../../core/shell/ModuleViewport';
 import ModuleSidebarLayout from '../../core/shell/ModuleSidebarLayout';
-import WindowModal from '../../core/shell/WindowModal';
+import WindowModal from './ScopedWindowModal';
 import { cn } from '../../lib/utils';
 import * as Icons from 'lucide-react';
 import { api } from '../../core/platform';
