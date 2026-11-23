@@ -1,16 +1,16 @@
-var jt = Object.defineProperty;
-var Ot = (e, t, r) => t in e ? jt(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var I = (e, t, r) => Ot(e, typeof t != "symbol" ? t + "" : t, r);
-import { jsx as o, jsxs as p } from "react/jsx-runtime";
-import { createContext as dt, useContext as ut, useState as y, useEffect as q, useMemo as Bt, useCallback as Ht } from "react";
-import { useOutletContext as $t, useSearchParams as Gt } from "react-router-dom";
-import * as P from "lucide-react";
-import { createPortal as nt } from "react-dom";
-const Wt = dt(null);
-function Ft() {
-  return ut(Wt);
+var It = Object.defineProperty;
+var jt = (e, t, r) => t in e ? It(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var L = (e, t, r) => jt(e, typeof t != "symbol" ? t + "" : t, r);
+import { jsx as o, jsxs as p, Fragment as Ot } from "react/jsx-runtime";
+import { createContext as ct, useContext as dt, useState as y, useEffect as q, useRef as Bt, useLayoutEffect as Ht, useMemo as $t, useCallback as Gt } from "react";
+import { useOutletContext as Wt, useSearchParams as Ft } from "react-router-dom";
+import * as _ from "lucide-react";
+import { createPortal as Vt } from "react-dom";
+const Ut = ct(null);
+function qt() {
+  return dt(Ut);
 }
-const Vt = {
+const Jt = {
   theme: localStorage.getItem("copanel_theme") || "light",
   setTheme: () => {
   },
@@ -19,7 +19,7 @@ const Vt = {
   }
 };
 function Ae() {
-  const e = Ft(), t = $t();
+  const e = qt(), t = Wt();
   return e || (t?.theme ? {
     theme: t.theme,
     setTheme: t.setTheme ?? (() => {
@@ -27,62 +27,62 @@ function Ae() {
     language: t.language ?? "en",
     setLanguage: t.setLanguage ?? (() => {
     })
-  } : Vt);
+  } : Jt);
 }
-const Ut = dt(null);
-function pt() {
-  return ut(Ut);
+const Xt = ct(null);
+function ut() {
+  return dt(Xt);
 }
-function Ie() {
-  return pt()?.isWindowed === !0;
+function Le() {
+  return ut()?.isWindowed === !0;
 }
-function ht(e) {
+function pt(e) {
   var t, r, n = "";
   if (typeof e == "string" || typeof e == "number") n += e;
   else if (typeof e == "object") if (Array.isArray(e)) {
     var i = e.length;
-    for (t = 0; t < i; t++) e[t] && (r = ht(e[t])) && (n && (n += " "), n += r);
+    for (t = 0; t < i; t++) e[t] && (r = pt(e[t])) && (n && (n += " "), n += r);
   } else for (r in e) e[r] && (n && (n += " "), n += r);
   return n;
 }
-function qt() {
-  for (var e, t, r = 0, n = "", i = arguments.length; r < i; r++) (e = arguments[r]) && (t = ht(e)) && (n && (n += " "), n += t);
+function Qt() {
+  for (var e, t, r = 0, n = "", i = arguments.length; r < i; r++) (e = arguments[r]) && (t = pt(e)) && (n && (n += " "), n += t);
   return n;
 }
-const Le = "-", Jt = (e) => {
-  const t = Qt(e), {
+const Ie = "-", Kt = (e) => {
+  const t = Zt(e), {
     conflictingClassGroups: r,
     conflictingClassGroupModifiers: n
   } = e;
   return {
     getClassGroupId: (l) => {
-      const d = l.split(Le);
-      return d[0] === "" && d.length !== 1 && d.shift(), mt(d, t) || Xt(l);
+      const d = l.split(Ie);
+      return d[0] === "" && d.length !== 1 && d.shift(), ht(d, t) || Yt(l);
     },
     getConflictingClassGroupIds: (l, d) => {
       const h = r[l] || [];
       return d && n[l] ? [...h, ...n[l]] : h;
     }
   };
-}, mt = (e, t) => {
+}, ht = (e, t) => {
   if (e.length === 0)
     return t.classGroupId;
-  const r = e[0], n = t.nextPart.get(r), i = n ? mt(e.slice(1), n) : void 0;
+  const r = e[0], n = t.nextPart.get(r), i = n ? ht(e.slice(1), n) : void 0;
   if (i)
     return i;
   if (t.validators.length === 0)
     return;
-  const a = e.join(Le);
+  const a = e.join(Ie);
   return t.validators.find(({
     validator: l
   }) => l(a))?.classGroupId;
-}, ot = /^\[(.+)\]$/, Xt = (e) => {
-  if (ot.test(e)) {
-    const t = ot.exec(e)[1], r = t?.substring(0, t.indexOf(":"));
+}, nt = /^\[(.+)\]$/, Yt = (e) => {
+  if (nt.test(e)) {
+    const t = nt.exec(e)[1], r = t?.substring(0, t.indexOf(":"));
     if (r)
       return "arbitrary.." + r;
   }
-}, Qt = (e) => {
+}, Zt = (e) => {
   const {
     theme: t,
     prefix: r
@@ -90,18 +90,18 @@ const Le = "-", Jt = (e) => {
     nextPart: /* @__PURE__ */ new Map(),
     validators: []
   };
-  return Yt(Object.entries(e.classGroups), r).forEach(([a, l]) => {
+  return tr(Object.entries(e.classGroups), r).forEach(([a, l]) => {
     Re(l, n, a, t);
   }), n;
 }, Re = (e, t, r, n) => {
   e.forEach((i) => {
     if (typeof i == "string") {
-      const a = i === "" ? t : st(t, i);
+      const a = i === "" ? t : ot(t, i);
       a.classGroupId = r;
       return;
     }
     if (typeof i == "function") {
-      if (Kt(i)) {
+      if (er(i)) {
         Re(i(n), t, r, n);
         return;
       }
@@ -112,21 +112,21 @@ const Le = "-", Jt = (e) => {
       return;
     }
     Object.entries(i).forEach(([a, l]) => {
-      Re(l, st(t, a), r, n);
+      Re(l, ot(t, a), r, n);
     });
   });
-}, st = (e, t) => {
+}, ot = (e, t) => {
   let r = e;
-  return t.split(Le).forEach((n) => {
+  return t.split(Ie).forEach((n) => {
     r.nextPart.has(n) || r.nextPart.set(n, {
       nextPart: /* @__PURE__ */ new Map(),
       validators: []
     }), r = r.nextPart.get(n);
   }), r;
-}, Kt = (e) => e.isThemeGetter, Yt = (e, t) => t ? e.map(([r, n]) => {
+}, er = (e) => e.isThemeGetter, tr = (e, t) => t ? e.map(([r, n]) => {
   const i = n.map((a) => typeof a == "string" ? t + a : typeof a == "object" ? Object.fromEntries(Object.entries(a).map(([l, d]) => [t + l, d])) : a);
   return [r, i];
-}) : e, Zt = (e) => {
+}) : e, rr = (e) => {
   if (e < 1)
     return {
       get: () => {
@@ -150,40 +150,40 @@ const Le = "-", Jt = (e) => {
       r.has(a) ? r.set(a, l) : i(a, l);
     }
   };
-}, bt = "!", er = (e) => {
+}, mt = "!", nr = (e) => {
   const {
     separator: t,
     experimentalParseClassName: r
   } = e, n = t.length === 1, i = t[0], a = t.length, l = (d) => {
     const h = [];
-    let b = 0, v = 0, w;
-    for (let S = 0; S < d.length; S++) {
-      let _ = d[S];
+    let b = 0, w = 0, v;
+    for (let N = 0; N < d.length; N++) {
+      let T = d[N];
       if (b === 0) {
-        if (_ === i && (n || d.slice(S, S + a) === t)) {
-          h.push(d.slice(v, S)), v = S + a;
+        if (T === i && (n || d.slice(N, N + a) === t)) {
+          h.push(d.slice(w, N)), w = N + a;
           continue;
         }
-        if (_ === "/") {
-          w = S;
+        if (T === "/") {
+          v = N;
           continue;
         }
       }
-      _ === "[" ? b++ : _ === "]" && b--;
+      T === "[" ? b++ : T === "]" && b--;
     }
-    const T = h.length === 0 ? d : d.substring(v), R = T.startsWith(bt), E = R ? T.substring(1) : T, C = w && w > v ? w - v : void 0;
+    const P = h.length === 0 ? d : d.substring(w), M = P.startsWith(mt), E = M ? P.substring(1) : P, k = v && v > w ? v - w : void 0;
     return {
       modifiers: h,
-      hasImportantModifier: R,
+      hasImportantModifier: M,
       baseClassName: E,
-      maybePostfixModifierPosition: C
+      maybePostfixModifierPosition: k
     };
   };
   return r ? (d) => r({
     className: d,
     parseClassName: l
   }) : l;
-}, tr = (e) => {
+}, or = (e) => {
   if (e.length <= 1)
     return e;
   const t = [];
@@ -191,93 +191,93 @@ const Le = "-", Jt = (e) => {
   return e.forEach((n) => {
     n[0] === "[" ? (t.push(...r.sort(), n), r = []) : r.push(n);
   }), t.push(...r.sort()), t;
-}, rr = (e) => ({
-  cache: Zt(e.cacheSize),
-  parseClassName: er(e),
-  ...Jt(e)
-}), nr = /\s+/, or = (e, t) => {
+}, sr = (e) => ({
+  cache: rr(e.cacheSize),
+  parseClassName: nr(e),
+  ...Kt(e)
+}), ar = /\s+/, lr = (e, t) => {
   const {
     parseClassName: r,
     getClassGroupId: n,
     getConflictingClassGroupIds: i
-  } = t, a = [], l = e.trim().split(nr);
+  } = t, a = [], l = e.trim().split(ar);
   let d = "";
   for (let h = l.length - 1; h >= 0; h -= 1) {
     const b = l[h], {
-      modifiers: v,
-      hasImportantModifier: w,
-      baseClassName: T,
-      maybePostfixModifierPosition: R
+      modifiers: w,
+      hasImportantModifier: v,
+      baseClassName: P,
+      maybePostfixModifierPosition: M
     } = r(b);
-    let E = !!R, C = n(E ? T.substring(0, R) : T);
-    if (!C) {
+    let E = !!M, k = n(E ? P.substring(0, M) : P);
+    if (!k) {
       if (!E) {
         d = b + (d.length > 0 ? " " + d : d);
         continue;
       }
-      if (C = n(T), !C) {
+      if (k = n(P), !k) {
         d = b + (d.length > 0 ? " " + d : d);
         continue;
       }
       E = !1;
     }
-    const S = tr(v).join(":"), _ = w ? S + bt : S, M = _ + C;
-    if (a.includes(M))
+    const N = or(w).join(":"), T = v ? N + mt : N, R = T + k;
+    if (a.includes(R))
       continue;
-    a.push(M);
-    const $ = i(C, E);
+    a.push(R);
+    const $ = i(k, E);
     for (let A = 0; A < $.length; ++A) {
       const J = $[A];
-      a.push(_ + J);
+      a.push(T + J);
     }
     d = b + (d.length > 0 ? " " + d : d);
   }
   return d;
 };
-function sr() {
+function ir() {
   let e = 0, t, r, n = "";
   for (; e < arguments.length; )
-    (t = arguments[e++]) && (r = ft(t)) && (n && (n += " "), n += r);
+    (t = arguments[e++]) && (r = bt(t)) && (n && (n += " "), n += r);
   return n;
 }
-const ft = (e) => {
+const bt = (e) => {
   if (typeof e == "string")
     return e;
   let t, r = "";
   for (let n = 0; n < e.length; n++)
-    e[n] && (t = ft(e[n])) && (r && (r += " "), r += t);
+    e[n] && (t = bt(e[n])) && (r && (r += " "), r += t);
   return r;
 };
-function ar(e, ...t) {
+function cr(e, ...t) {
   let r, n, i, a = l;
   function l(h) {
-    const b = t.reduce((v, w) => w(v), e());
-    return r = rr(b), n = r.cache.get, i = r.cache.set, a = d, d(h);
+    const b = t.reduce((w, v) => v(w), e());
+    return r = sr(b), n = r.cache.get, i = r.cache.set, a = d, d(h);
   }
   function d(h) {
     const b = n(h);
     if (b)
       return b;
-    const v = or(h, r);
-    return i(h, v), v;
+    const w = lr(h, r);
+    return i(h, w), w;
   }
   return function() {
-    return a(sr.apply(null, arguments));
+    return a(ir.apply(null, arguments));
   };
 }
-const k = (e) => {
+const C = (e) => {
   const t = (r) => r[e] || [];
   return t.isThemeGetter = !0, t;
-}, gt = /^\[(?:([a-z-]+):)?(.+)\]$/i, lr = /^\d+\/\d+$/, ir = /* @__PURE__ */ new Set(["px", "full", "screen"]), cr = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, dr = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, ur = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, pr = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, hr = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, H = (e) => oe(e) || ir.has(e) || lr.test(e), V = (e) => se(e, "length", wr), oe = (e) => !!e && !Number.isNaN(Number(e)), Te = (e) => se(e, "number", oe), ie = (e) => !!e && Number.isInteger(Number(e)), mr = (e) => e.endsWith("%") && oe(e.slice(0, -1)), m = (e) => gt.test(e), U = (e) => cr.test(e), br = /* @__PURE__ */ new Set(["length", "size", "percentage"]), fr = (e) => se(e, br, yt), gr = (e) => se(e, "position", yt), yr = /* @__PURE__ */ new Set(["image", "url"]), xr = (e) => se(e, yr, Nr), vr = (e) => se(e, "", kr), ce = () => !0, se = (e, t, r) => {
-  const n = gt.exec(e);
+}, ft = /^\[(?:([a-z-]+):)?(.+)\]$/i, dr = /^\d+\/\d+$/, ur = /* @__PURE__ */ new Set(["px", "full", "screen"]), pr = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, hr = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, mr = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, br = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, fr = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, H = (e) => oe(e) || ur.has(e) || dr.test(e), V = (e) => se(e, "length", Cr), oe = (e) => !!e && !Number.isNaN(Number(e)), Te = (e) => se(e, "number", oe), ie = (e) => !!e && Number.isInteger(Number(e)), gr = (e) => e.endsWith("%") && oe(e.slice(0, -1)), m = (e) => ft.test(e), U = (e) => pr.test(e), yr = /* @__PURE__ */ new Set(["length", "size", "percentage"]), xr = (e) => se(e, yr, gt), vr = (e) => se(e, "position", gt), wr = /* @__PURE__ */ new Set(["image", "url"]), kr = (e) => se(e, wr, Pr), Nr = (e) => se(e, "", Sr), ce = () => !0, se = (e, t, r) => {
+  const n = ft.exec(e);
   return n ? n[1] ? typeof t == "string" ? n[1] === t : t.has(n[1]) : r(n[2]) : !1;
-}, wr = (e) => (
+}, Cr = (e) => (
   // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
   // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-  dr.test(e) && !ur.test(e)
-), yt = () => !1, kr = (e) => pr.test(e), Nr = (e) => hr.test(e), Cr = () => {
-  const e = k("colors"), t = k("spacing"), r = k("blur"), n = k("brightness"), i = k("borderColor"), a = k("borderRadius"), l = k("borderSpacing"), d = k("borderWidth"), h = k("contrast"), b = k("grayscale"), v = k("hueRotate"), w = k("invert"), T = k("gap"), R = k("gradientColorStops"), E = k("gradientColorStopPositions"), C = k("inset"), S = k("margin"), _ = k("opacity"), M = k("padding"), $ = k("saturate"), A = k("scale"), J = k("sepia"), ue = k("skew"), pe = k("space"), he = k("translate"), j = () => ["auto", "contain", "none"], Y = () => ["auto", "hidden", "clip", "visible", "scroll"], O = () => ["auto", m, t], x = () => [m, t], Z = () => ["", H, V], ee = () => ["auto", oe, m], te = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], G = () => ["solid", "dashed", "dotted", "double", "none"], X = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], Q = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], B = () => ["", "0", m], ae = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], f = () => [oe, m];
+  hr.test(e) && !mr.test(e)
+), gt = () => !1, Sr = (e) => br.test(e), Pr = (e) => fr.test(e), Tr = () => {
+  const e = C("colors"), t = C("spacing"), r = C("blur"), n = C("brightness"), i = C("borderColor"), a = C("borderRadius"), l = C("borderSpacing"), d = C("borderWidth"), h = C("contrast"), b = C("grayscale"), w = C("hueRotate"), v = C("invert"), P = C("gap"), M = C("gradientColorStops"), E = C("gradientColorStopPositions"), k = C("inset"), N = C("margin"), T = C("opacity"), R = C("padding"), $ = C("saturate"), A = C("scale"), J = C("sepia"), ue = C("skew"), pe = C("space"), he = C("translate"), j = () => ["auto", "contain", "none"], Y = () => ["auto", "hidden", "clip", "visible", "scroll"], O = () => ["auto", m, t], x = () => [m, t], Z = () => ["", H, V], ee = () => ["auto", oe, m], te = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], G = () => ["solid", "dashed", "dotted", "double", "none"], X = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], Q = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], B = () => ["", "0", m], ae = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], f = () => [oe, m];
   return {
     cacheSize: 500,
     separator: ":",
@@ -296,7 +296,7 @@ const k = (e) => {
       invert: B(),
       gap: x(),
       gradientColorStops: [e],
-      gradientColorStopPositions: [mr, V],
+      gradientColorStopPositions: [gr, V],
       inset: O(),
       margin: O(),
       opacity: f(),
@@ -454,63 +454,63 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       inset: [{
-        inset: [C]
+        inset: [k]
       }],
       /**
        * Right / Left
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       "inset-x": [{
-        "inset-x": [C]
+        "inset-x": [k]
       }],
       /**
        * Top / Bottom
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       "inset-y": [{
-        "inset-y": [C]
+        "inset-y": [k]
       }],
       /**
        * Start
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       start: [{
-        start: [C]
+        start: [k]
       }],
       /**
        * End
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       end: [{
-        end: [C]
+        end: [k]
       }],
       /**
        * Top
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       top: [{
-        top: [C]
+        top: [k]
       }],
       /**
        * Right
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       right: [{
-        right: [C]
+        right: [k]
       }],
       /**
        * Bottom
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       bottom: [{
-        bottom: [C]
+        bottom: [k]
       }],
       /**
        * Left
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       left: [{
-        left: [C]
+        left: [k]
       }],
       /**
        * Visibility
@@ -660,21 +660,21 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/gap
        */
       gap: [{
-        gap: [T]
+        gap: [P]
       }],
       /**
        * Gap X
        * @see https://tailwindcss.com/docs/gap
        */
       "gap-x": [{
-        "gap-x": [T]
+        "gap-x": [P]
       }],
       /**
        * Gap Y
        * @see https://tailwindcss.com/docs/gap
        */
       "gap-y": [{
-        "gap-y": [T]
+        "gap-y": [P]
       }],
       /**
        * Justify Content
@@ -745,126 +745,126 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/padding
        */
       p: [{
-        p: [M]
+        p: [R]
       }],
       /**
        * Padding X
        * @see https://tailwindcss.com/docs/padding
        */
       px: [{
-        px: [M]
+        px: [R]
       }],
       /**
        * Padding Y
        * @see https://tailwindcss.com/docs/padding
        */
       py: [{
-        py: [M]
+        py: [R]
       }],
       /**
        * Padding Start
        * @see https://tailwindcss.com/docs/padding
        */
       ps: [{
-        ps: [M]
+        ps: [R]
       }],
       /**
        * Padding End
        * @see https://tailwindcss.com/docs/padding
        */
       pe: [{
-        pe: [M]
+        pe: [R]
       }],
       /**
        * Padding Top
        * @see https://tailwindcss.com/docs/padding
        */
       pt: [{
-        pt: [M]
+        pt: [R]
       }],
       /**
        * Padding Right
        * @see https://tailwindcss.com/docs/padding
        */
       pr: [{
-        pr: [M]
+        pr: [R]
       }],
       /**
        * Padding Bottom
        * @see https://tailwindcss.com/docs/padding
        */
       pb: [{
-        pb: [M]
+        pb: [R]
       }],
       /**
        * Padding Left
        * @see https://tailwindcss.com/docs/padding
        */
       pl: [{
-        pl: [M]
+        pl: [R]
       }],
       /**
        * Margin
        * @see https://tailwindcss.com/docs/margin
        */
       m: [{
-        m: [S]
+        m: [N]
       }],
       /**
        * Margin X
        * @see https://tailwindcss.com/docs/margin
        */
       mx: [{
-        mx: [S]
+        mx: [N]
       }],
       /**
        * Margin Y
        * @see https://tailwindcss.com/docs/margin
        */
       my: [{
-        my: [S]
+        my: [N]
       }],
       /**
        * Margin Start
        * @see https://tailwindcss.com/docs/margin
        */
       ms: [{
-        ms: [S]
+        ms: [N]
       }],
       /**
        * Margin End
        * @see https://tailwindcss.com/docs/margin
        */
       me: [{
-        me: [S]
+        me: [N]
       }],
       /**
        * Margin Top
        * @see https://tailwindcss.com/docs/margin
        */
       mt: [{
-        mt: [S]
+        mt: [N]
       }],
       /**
        * Margin Right
        * @see https://tailwindcss.com/docs/margin
        */
       mr: [{
-        mr: [S]
+        mr: [N]
       }],
       /**
        * Margin Bottom
        * @see https://tailwindcss.com/docs/margin
        */
       mb: [{
-        mb: [S]
+        mb: [N]
       }],
       /**
        * Margin Left
        * @see https://tailwindcss.com/docs/margin
        */
       ml: [{
-        ml: [S]
+        ml: [N]
       }],
       /**
        * Space Between X
@@ -1059,7 +1059,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/placeholder-opacity
        */
       "placeholder-opacity": [{
-        "placeholder-opacity": [_]
+        "placeholder-opacity": [T]
       }],
       /**
        * Text Alignment
@@ -1080,7 +1080,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/text-opacity
        */
       "text-opacity": [{
-        "text-opacity": [_]
+        "text-opacity": [T]
       }],
       /**
        * Text Decoration
@@ -1195,7 +1195,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/background-opacity
        */
       "bg-opacity": [{
-        "bg-opacity": [_]
+        "bg-opacity": [T]
       }],
       /**
        * Background Origin
@@ -1209,7 +1209,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/background-position
        */
       "bg-position": [{
-        bg: [...te(), gr]
+        bg: [...te(), vr]
       }],
       /**
        * Background Repeat
@@ -1225,7 +1225,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/background-size
        */
       "bg-size": [{
-        bg: ["auto", "cover", "contain", fr]
+        bg: ["auto", "cover", "contain", xr]
       }],
       /**
        * Background Image
@@ -1234,7 +1234,7 @@ const k = (e) => {
       "bg-image": [{
         bg: ["none", {
           "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
-        }, xr]
+        }, kr]
       }],
       /**
        * Background Color
@@ -1269,21 +1269,21 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-from": [{
-        from: [R]
+        from: [M]
       }],
       /**
        * Gradient Color Stops Via
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-via": [{
-        via: [R]
+        via: [M]
       }],
       /**
        * Gradient Color Stops To
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-to": [{
-        to: [R]
+        to: [M]
       }],
       // Borders
       /**
@@ -1459,7 +1459,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/border-opacity
        */
       "border-opacity": [{
-        "border-opacity": [_]
+        "border-opacity": [T]
       }],
       /**
        * Border Style
@@ -1497,7 +1497,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/divide-opacity
        */
       "divide-opacity": [{
-        "divide-opacity": [_]
+        "divide-opacity": [T]
       }],
       /**
        * Divide Style
@@ -1628,7 +1628,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/ring-opacity
        */
       "ring-opacity": [{
-        "ring-opacity": [_]
+        "ring-opacity": [T]
       }],
       /**
        * Ring Offset Width
@@ -1650,7 +1650,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/box-shadow
        */
       shadow: [{
-        shadow: ["", "inner", "none", U, vr]
+        shadow: ["", "inner", "none", U, Nr]
       }],
       /**
        * Box Shadow Color
@@ -1664,7 +1664,7 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/opacity
        */
       opacity: [{
-        opacity: [_]
+        opacity: [T]
       }],
       /**
        * Mix Blend Mode
@@ -1729,14 +1729,14 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/hue-rotate
        */
       "hue-rotate": [{
-        "hue-rotate": [v]
+        "hue-rotate": [w]
       }],
       /**
        * Invert
        * @see https://tailwindcss.com/docs/invert
        */
       invert: [{
-        invert: [w]
+        invert: [v]
       }],
       /**
        * Saturate
@@ -1793,21 +1793,21 @@ const k = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-hue-rotate
        */
       "backdrop-hue-rotate": [{
-        "backdrop-hue-rotate": [v]
+        "backdrop-hue-rotate": [w]
       }],
       /**
        * Backdrop Invert
        * @see https://tailwindcss.com/docs/backdrop-invert
        */
       "backdrop-invert": [{
-        "backdrop-invert": [w]
+        "backdrop-invert": [v]
       }],
       /**
        * Backdrop Opacity
        * @see https://tailwindcss.com/docs/backdrop-opacity
        */
       "backdrop-opacity": [{
-        "backdrop-opacity": [_]
+        "backdrop-opacity": [T]
       }],
       /**
        * Backdrop Saturate
@@ -2305,23 +2305,23 @@ const k = (e) => {
       "font-size": ["leading"]
     }
   };
-}, Sr = /* @__PURE__ */ ar(Cr);
+}, _r = /* @__PURE__ */ cr(Tr);
 function u(...e) {
-  return Sr(qt(e));
+  return _r(Qt(e));
 }
-const Pr = "copanel_mobile_desktop_site";
-function Tr() {
+const Rr = "copanel_mobile_desktop_site";
+function Mr() {
   try {
-    return localStorage.getItem(Pr) === "1";
+    return localStorage.getItem(Rr) === "1";
   } catch {
     return !1;
   }
 }
 function Me(e = window.innerWidth) {
-  return Tr() || e >= 1024;
+  return Mr() || e >= 1024;
 }
-function _r({ children: e, className: t, constrained: r = !1 }) {
-  const { theme: n } = Ae(), i = Ie(), a = n === "dark", l = !i && !Me();
+function Er({ children: e, className: t, constrained: r = !1 }) {
+  const { theme: n } = Ae(), i = Le(), a = n === "dark", l = !i && !Me();
   return /* @__PURE__ */ o(
     "div",
     {
@@ -2336,24 +2336,24 @@ function _r({ children: e, className: t, constrained: r = !1 }) {
     }
   );
 }
-function Rr({
+function Dr({
   isDark: e,
   sidebar: t,
   children: r,
   mobileTitle: n,
   className: i
 }) {
-  const a = Ie(), [l, d] = y(!1), [h, b] = y(() => Me());
+  const a = Le(), [l, d] = y(!1), [h, b] = y(() => Me());
   q(() => {
-    const T = () => b(Me());
-    return window.addEventListener("resize", T), () => window.removeEventListener("resize", T);
+    const P = () => b(Me());
+    return window.addEventListener("resize", P), () => window.removeEventListener("resize", P);
   }, []);
-  const v = !a && !h;
+  const w = !a && !h;
   q(() => {
     h && d(!1);
   }, [h]);
-  const w = () => d(!1);
-  return v ? /* @__PURE__ */ p("div", { className: u("relative flex h-full min-h-0 flex-1 flex-col overflow-hidden", i), children: [
+  const v = () => d(!1);
+  return w ? /* @__PURE__ */ p("div", { className: u("relative flex h-full min-h-0 flex-1 flex-col overflow-hidden", i), children: [
     /* @__PURE__ */ p(
       "div",
       {
@@ -2372,7 +2372,7 @@ function Rr({
                 e ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-100"
               ),
               "aria-label": "Open module menu",
-              children: /* @__PURE__ */ o(P.PanelLeft, { className: "h-5 w-5" })
+              children: /* @__PURE__ */ o(_.PanelLeft, { className: "h-5 w-5" })
             }
           ),
           n ? /* @__PURE__ */ o("span", { className: u("truncate text-sm font-semibold", e ? "text-slate-100" : "text-slate-900"), children: n }) : null
@@ -2385,7 +2385,7 @@ function Rr({
         type: "button",
         className: "fixed inset-0 z-[60] bg-black/45",
         "aria-label": "Close module menu",
-        onClick: w
+        onClick: v
       }
     ) : null,
     /* @__PURE__ */ o(
@@ -2395,7 +2395,7 @@ function Rr({
           "fixed inset-y-0 left-0 z-[61] flex max-w-[min(85vw,280px)] transform shadow-xl transition-transform duration-200 ease-out",
           l ? "translate-x-0" : "-translate-x-full pointer-events-none"
         ),
-        onClick: w,
+        onClick: v,
         children: t
       }
     ),
@@ -2405,7 +2405,7 @@ function Rr({
     /* @__PURE__ */ o("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: r })
   ] });
 }
-const Mr = {
+const zr = {
   sm: "max-w-sm",
   md: "max-w-md",
   lg: "max-w-lg",
@@ -2414,7 +2414,7 @@ const Mr = {
   "4xl": "max-w-4xl",
   "5xl": "max-w-5xl"
 };
-function Er({
+function Ar({
   open: e,
   onClose: t,
   children: r,
@@ -2423,14 +2423,20 @@ function Er({
   maxWidth: a = "lg",
   closeOnBackdropClick: l = !0
 }) {
-  const { theme: d } = Ae(), h = d === "dark", b = pt();
-  if (!e) return null;
-  const v = /* @__PURE__ */ o(
+  const { theme: d } = Ae(), h = d === "dark", b = ut(), w = Bt(null), [v, P] = y(null);
+  Ht(() => {
+    if (b?.isWindowed) return;
+    const R = w.current?.closest(".module-window-viewport");
+    P(R instanceof HTMLElement ? R : null);
+  }, [b?.isWindowed, e]);
+  const M = /* @__PURE__ */ o("span", { ref: w, hidden: !0, "aria-hidden": "true" });
+  if (!e) return M;
+  const E = !!(b?.isWindowed || v), k = /* @__PURE__ */ o(
     "div",
     {
       className: u(
         "z-[80] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm",
-        b?.isWindowed ? "absolute inset-0" : "fixed inset-0"
+        E ? "absolute inset-0" : "fixed inset-0"
       ),
       onClick: l ? t : void 0,
       children: /* @__PURE__ */ p(
@@ -2438,11 +2444,11 @@ function Er({
         {
           className: u(
             "flex w-full flex-col overflow-hidden rounded-2xl border shadow-2xl",
-            Mr[a],
+            zr[a],
             h ? "border-slate-700 bg-slate-900 text-slate-100" : "border-slate-200 bg-white text-slate-900",
             i
           ),
-          onClick: (w) => w.stopPropagation(),
+          onClick: (R) => R.stopPropagation(),
           children: [
             n && /* @__PURE__ */ p(
               "div",
@@ -2453,7 +2459,7 @@ function Er({
                 ),
                 children: [
                   /* @__PURE__ */ o("h3", { className: "text-sm font-bold", children: n }),
-                  /* @__PURE__ */ o("button", { type: "button", onClick: t, className: "rounded-lg p-1 hover:bg-slate-800/50", "aria-label": "Close", children: /* @__PURE__ */ o(P.X, { className: "h-4 w-4" }) })
+                  /* @__PURE__ */ o("button", { type: "button", onClick: t, className: "rounded-lg p-1 hover:bg-slate-800/50", "aria-label": "Close", children: /* @__PURE__ */ o(_.X, { className: "h-4 w-4" }) })
                 ]
               }
             ),
@@ -2462,10 +2468,13 @@ function Er({
         }
       )
     }
-  );
-  return b?.isWindowed && b.viewportRef.current ? nt(v, b.viewportRef.current) : nt(v, document.body);
+  ), N = (b?.isWindowed ? b.viewportRef.current : null) || v || document.body, T = Vt(k, N);
+  return /* @__PURE__ */ p(Ot, { children: [
+    M,
+    T
+  ] });
 }
-const xt = {
+const yt = {
   blue: {
     border: { dark: "border-blue-500", light: "border-blue-600" },
     icon: "text-blue-500",
@@ -2515,47 +2524,47 @@ const xt = {
     }
   }
 };
-function Dr(e, t = "md") {
+function Lr(e, t = "md") {
   return u(
     "flex h-full shrink-0 flex-col border-r",
     t === "sm" ? "w-[200px]" : "w-[220px]",
     e ? "border-slate-800 bg-slate-950/95" : "border-slate-200 bg-[#f4f6f8]"
   );
 }
-function zr(e) {
+function Ir(e) {
   return u("border-b px-4 py-3.5", e ? "border-slate-800" : "border-slate-200");
 }
-function Ar(e) {
+function jr(e) {
   return u(
     "flex h-9 w-9 items-center justify-center rounded-lg",
     e ? "bg-slate-800" : "border border-slate-200 bg-white shadow-sm"
   );
 }
-function Ir(e) {
+function Or(e) {
   return u("truncate text-sm font-semibold", e ? "text-slate-100" : "text-slate-900");
 }
-function Lr(e) {
+function Br(e) {
   return u("line-clamp-2 text-[11px] leading-snug", "text-slate-500");
 }
-function jr() {
+function Hr() {
   return "flex-1 space-y-0.5 overflow-y-auto p-2";
 }
-function Or(e, t, r = "blue") {
-  const n = xt[r];
+function $r(e, t, r = "blue") {
+  const n = yt[r];
   return u(
     "flex w-full items-center gap-2.5 rounded-md border-l-2 py-2.5 pl-[10px] pr-3 text-left text-sm transition-colors",
     t ? e ? u(n.border.dark, "bg-slate-800/90 text-white") : u(n.border.light, "bg-white text-slate-900 shadow-sm") : e ? "border-transparent text-slate-300 hover:bg-slate-900/70" : "border-transparent text-slate-700 hover:bg-white/90"
   );
 }
-function Br(e, t, r = "blue") {
-  return u("h-4 w-4 shrink-0", t ? xt[r].icon : e ? "text-slate-500" : "text-slate-400");
+function Gr(e, t, r = "blue") {
+  return u("h-4 w-4 shrink-0", t ? yt[r].icon : e ? "text-slate-500" : "text-slate-400");
 }
-class at extends Error {
+class st extends Error {
   constructor(r, n, i, a) {
     super(n);
-    I(this, "code");
-    I(this, "status");
-    I(this, "details");
+    L(this, "code");
+    L(this, "status");
+    L(this, "details");
     this.code = r, this.status = i, this.details = a;
   }
 }
@@ -2584,20 +2593,20 @@ async function z(e, t = {}) {
     return l;
   if (!a.ok) {
     const h = l && typeof l == "object" && l.error ? l.error : { code: `HTTP_${a.status}`, message: typeof l == "string" ? l : l?.detail || a.statusText };
-    throw new at(h.code || `HTTP_${a.status}`, h.message || "Request failed", a.status, h.details);
+    throw new st(h.code || `HTTP_${a.status}`, h.message || "Request failed", a.status, h.details);
   }
   if (l && typeof l == "object" && "status" in l) {
     if (l.status === "success")
       return l.data !== void 0 ? l.data : l;
     if (l.status === "error" && l.error)
-      throw new at(l.error.code, l.error.message, a.status, l.error.details);
+      throw new st(l.error.code, l.error.message, a.status, l.error.details);
   }
   return l;
 }
 function ye() {
   return typeof localStorage > "u" ? null : localStorage.getItem("copanel_token");
 }
-function Hr(e) {
+function Wr(e) {
   const t = {};
   e && new Headers(e).forEach((i, a) => {
     t[a] = i;
@@ -2605,14 +2614,14 @@ function Hr(e) {
   const r = ye();
   return r && (t.Authorization = `Bearer ${r}`), t;
 }
-function $r(e, t = {}) {
-  const r = Hr(t.headers);
+function Fr(e, t = {}) {
+  const r = Wr(t.headers);
   return fetch(e, { ...t, headers: r });
 }
-async function Gr() {
+async function Vr() {
   if (!ye()) return null;
   try {
-    const e = await $r("/api/auth/stream-ticket", { method: "POST" });
+    const e = await Fr("/api/auth/stream-ticket", { method: "POST" });
     if (!e.ok) return null;
     const t = await e.json();
     return typeof t?.ticket == "string" ? t.ticket : null;
@@ -2620,15 +2629,15 @@ async function Gr() {
     return null;
   }
 }
-const Wr = "copanel-platform-sse-degraded", de = 2e3, Fr = 6e4, Vr = 3;
-class Ur {
+const Ur = "copanel-platform-sse-degraded", de = 2e3, qr = 6e4, Jr = 3;
+class Xr {
   constructor() {
-    I(this, "source", null);
-    I(this, "handlers", /* @__PURE__ */ new Map());
-    I(this, "retryDelay", de);
-    I(this, "retryTimer", null);
-    I(this, "failureCount", 0);
-    I(this, "connecting", !1);
+    L(this, "source", null);
+    L(this, "handlers", /* @__PURE__ */ new Map());
+    L(this, "retryDelay", de);
+    L(this, "retryTimer", null);
+    L(this, "failureCount", 0);
+    L(this, "connecting", !1);
   }
   on(t, r) {
     let n = this.handlers.get(t);
@@ -2648,7 +2657,7 @@ class Ur {
   }
   async buildUrl() {
     if (!ye()) return null;
-    const t = await Gr();
+    const t = await Vr();
     return t ? `/api/platform/events?${new URLSearchParams({
       topics: "jobs,notifications",
       ticket: t
@@ -2683,7 +2692,7 @@ class Ur {
     }), this.source.addEventListener("message", () => {
       this.onStreamMessage();
     }), this.source.onerror = () => {
-      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= Vr && window.dispatchEvent(new CustomEvent(Wr)), this.scheduleRetry();
+      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= Jr && window.dispatchEvent(new CustomEvent(Ur)), this.scheduleRetry();
     };
   }
   onStreamMessage() {
@@ -2699,7 +2708,7 @@ class Ur {
   scheduleRetry() {
     if (this.retryTimer || this.handlers.size === 0) return;
     const t = this.retryDelay;
-    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), Fr), this.retryTimer = setTimeout(() => {
+    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), qr), this.retryTimer = setTimeout(() => {
       this.retryTimer = null, this.ensureConnected();
     }, t);
   }
@@ -2711,14 +2720,14 @@ class Ur {
     this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = de, this.handlers.size > 0 && this.ensureConnected();
   }
 }
-const je = new Ur();
-function qr() {
+const je = new Xr();
+function Qr() {
   je.reconnect();
 }
 typeof document < "u" && document.addEventListener("visibilitychange", () => {
-  document.hidden || qr();
+  document.hidden || Qr();
 });
-function vt(e) {
+function xt(e) {
   let t = e;
   const r = /* @__PURE__ */ new Set();
   return {
@@ -2737,15 +2746,15 @@ function vt(e) {
     subscribe: (n) => (r.add(n), () => r.delete(n))
   };
 }
-function Jr(e, t) {
+function Kr(e, t) {
   const [r, n] = y(() => e.getState());
   return q(() => e.subscribe(() => n(e.getState())), [e]), t(r);
 }
-const xe = vt({ jobs: {}, order: [], lastFetch: 0 });
-function Xr() {
+const xe = xt({ jobs: {}, order: [], lastFetch: 0 });
+function Yr() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
-function lt(e, t) {
+function at(e, t) {
   if (e) {
     if (typeof e == "string") return e;
     if (typeof e == "object") return e[t] || e.en || e.vi || e.default;
@@ -2753,9 +2762,9 @@ function lt(e, t) {
 }
 function re(e, t, r) {
   if (!e || typeof e != "object") return;
-  const n = lt(e[t], r);
+  const n = at(e[t], r);
   if (n) return n;
-  const i = lt(e[`${t}_i18n`], r);
+  const i = at(e[`${t}_i18n`], r);
   if (i) return i;
   const a = e[`${t}_${r}`];
   if (typeof a == "string" && a) return a;
@@ -2765,7 +2774,7 @@ function re(e, t, r) {
   if (typeof d == "string" && d) return d;
 }
 function Ee(e) {
-  const t = Xr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
+  const t = Yr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
   return {
     ...e,
     title: re(e, "title", t) || re(r, "title", t) || e?.title || "",
@@ -2817,14 +2826,14 @@ const _e = {
     return z(`/api/platform/jobs/${e}/cancel`, { method: "POST" });
   }
 };
-function Qr(e) {
-  return Jr(xe, (t) => e ? t.jobs[e] : void 0);
+function Zr(e) {
+  return Kr(xe, (t) => e ? t.jobs[e] : void 0);
 }
-const ze = vt({ inbox: [], unread: 0, toasts: [] }), Kr = 6e3;
-function Yr() {
+const ze = xt({ inbox: [], unread: 0, toasts: [] }), en = 6e3;
+function tn() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
-function it(e, t) {
+function lt(e, t) {
   if (e) {
     if (typeof e == "string") return e;
     if (typeof e == "object")
@@ -2833,9 +2842,9 @@ function it(e, t) {
 }
 function ge(e, t, r) {
   if (!e || typeof e != "object") return;
-  const n = it(e[t], r);
+  const n = lt(e[t], r);
   if (n) return n;
-  const i = it(e[`${t}_i18n`], r);
+  const i = lt(e[`${t}_i18n`], r);
   if (i) return i;
   const a = e[`${t}_${r}`];
   if (typeof a == "string" && a) return a;
@@ -2844,38 +2853,38 @@ function ge(e, t, r) {
   const d = e[`${t}_vi`];
   if (typeof d == "string" && d) return d;
 }
-function Zr(e) {
-  const t = Yr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, n = ge(e, "title", t) || ge(r, "title", t) || e?.title || "", i = ge(e, "body", t) || ge(r, "body", t) || e?.body || null;
+function rn(e) {
+  const t = tn(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, n = ge(e, "title", t) || ge(r, "title", t) || e?.title || "", i = ge(e, "body", t) || ge(r, "body", t) || e?.body || null;
   return {
     ...e,
     title: n,
     body: i
   };
 }
-function en(e) {
+function nn(e) {
   ze.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
     ze.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
-  }, Kr);
+  }, en);
 }
 je.on("notifications", (e) => {
   if (e?.event === "new" && e.notification) {
-    const t = Zr(e.notification);
-    en({ ...t, ephemeral: !0 }), ze.setState((r) => ({
+    const t = rn(e.notification);
+    nn({ ...t, ephemeral: !0 }), ze.setState((r) => ({
       inbox: [t, ...r.inbox].slice(0, 200),
       unread: r.unread + 1
     }));
   }
 });
-const ne = ["mode", "target", "detect", "scope", "review", "done"], tn = {
-  mode: P.Layers,
-  target: P.Server,
-  detect: P.ShieldCheck,
-  scope: P.FolderSync,
-  review: P.ClipboardCheck,
-  done: P.Flag
+const ne = ["mode", "target", "detect", "scope", "review", "done"], on = {
+  mode: _.Layers,
+  target: _.Server,
+  detect: _.ShieldCheck,
+  scope: _.FolderSync,
+  review: _.ClipboardCheck,
+  done: _.Flag
 };
-function hn() {
-  const { theme: e, language: t } = Ae(), r = e === "dark", n = t === "vi" ? "vi" : "en", i = Ie(), [a, l] = Gt(), [d, h] = y("mode"), [b, v] = y("clone"), [w, T] = y(""), [R, E] = y("22"), [C, S] = y("root"), [_, M] = y(""), [$, A] = y([]), [J, ue] = y({}), [pe, he] = y("copanel"), [j, Y] = y("/opt/copanel"), [O, x] = y("/opt/copanel"), [Z, ee] = y(!1), [te, G] = y(""), [X, Q] = y(!1), [B, ae] = y(""), [f, ve] = y(null), [we, Oe] = y(!1), [Be, He] = y(!1), [$e, Ge] = y(!1), [ke, We] = y(!1), [Fe, W] = y(null), [wt, le] = y(!1), [me, Ve] = y(!0), [K, Ne] = y(a.get("job")), be = Qr(K), [Ce, Ue] = y([]), [qe, Je] = y({}), c = Bt(() => an[n], [n]), kt = {
+function fn() {
+  const { theme: e, language: t } = Ae(), r = e === "dark", n = t === "vi" ? "vi" : "en", i = Le(), [a, l] = Ft(), [d, h] = y("mode"), [b, w] = y("clone"), [v, P] = y(""), [M, E] = y("22"), [k, N] = y("root"), [T, R] = y(""), [$, A] = y([]), [J, ue] = y({}), [pe, he] = y("copanel"), [j, Y] = y("/opt/copanel"), [O, x] = y("/opt/copanel"), [Z, ee] = y(!1), [te, G] = y(""), [X, Q] = y(!1), [B, ae] = y(""), [f, ve] = y(null), [we, Oe] = y(!1), [Be, He] = y(!1), [$e, Ge] = y(!1), [ke, We] = y(!1), [Fe, W] = y(null), [vt, le] = y(!1), [me, Ve] = y(!0), [K, Ne] = y(a.get("job")), be = Zr(K), [Ce, Ue] = y([]), [qe, Je] = y({}), c = $t(() => dn[n], [n]), wt = {
     mode: c.stepMode,
     target: c.stepTarget,
     detect: c.stepDetect,
@@ -2889,7 +2898,7 @@ function hn() {
     scope: { title: c.scopeTitle, desc: c.scopeDesc },
     review: { title: c.reviewTitle, desc: c.reviewDesc },
     done: { title: c.doneTitle, desc: c.doneDesc }
-  }, Qe = Ht(() => {
+  }, Qe = Gt(() => {
     z("/api/rsync_manager/presets").then((s) => {
       ue(s || {});
       const g = s?.copanel;
@@ -2913,7 +2922,7 @@ function hn() {
   }, [K]), q(() => {
     be?.status === "success" && (h("done"), Ze());
   }, [be?.status]);
-  const Nt = (s) => {
+  const kt = (s) => {
     he(s);
     const g = J[s];
     g && (g.local_path && Y(g.local_path), g.remote_path && x(g.remote_path), G((g.excludes || []).join(`
@@ -2922,10 +2931,10 @@ function hn() {
     const s = [{ local_path: j.trim(), remote_path: O.trim() }];
     return Z && s.push({ local_path: "/var/www", remote_path: "/var/www" }), s;
   }, Se = () => ({
-    host: w.trim(),
-    port: parseInt(R, 10) || 22,
-    user: C.trim(),
-    identity_file: _.trim() || null
+    host: v.trim(),
+    port: parseInt(M, 10) || 22,
+    user: k.trim(),
+    identity_file: T.trim() || null
   }), Pe = async () => {
     W(null), Oe(!0), ve(null);
     try {
@@ -2943,7 +2952,7 @@ function hn() {
     } finally {
       Oe(!1);
     }
-  }, Ct = async () => {
+  }, Nt = async () => {
     W(null), He(!0);
     try {
       const s = await z("/api/rsync_manager/install_rsync", {
@@ -2985,7 +2994,7 @@ function hn() {
     } catch {
       Ue([]);
     }
-  }, St = async (s) => {
+  }, Ct = async (s) => {
     W(null), We(!0), le(!1);
     try {
       if (!s && f?.can_proceed !== !0)
@@ -3012,7 +3021,7 @@ function hn() {
     }
   }, et = () => {
     Ne(null), l({}), h("mode"), ve(null), Je({}), W(null);
-  }, fe = ne.indexOf(d), Pt = () => d === "mode" ? !0 : d === "target" ? !!w.trim() && !!C.trim() : d === "detect" ? f?.can_proceed === !0 : d === "scope" ? !!j.trim() && !!O.trim() : !0, Tt = async () => {
+  }, fe = ne.indexOf(d), St = () => d === "mode" ? !0 : d === "target" ? !!v.trim() && !!k.trim() : d === "detect" ? f?.can_proceed === !0 : d === "scope" ? !!j.trim() && !!O.trim() : !0, Pt = async () => {
     if (d === "detect" && !f) {
       await Pe();
       return;
@@ -3028,16 +3037,16 @@ function hn() {
       need_rsync: c.scenarioNeed,
       blocked: c.scenarioBlocked
     }[s] || s : null;
-  }, _t = u(
+  }, Tt = u(
     "rounded-2xl border p-4 md:p-5 space-y-4",
     r ? "bg-slate-900/60 border-slate-800" : "bg-white border-slate-200"
-  ), N = r ? "text-slate-400" : "text-slate-500", F = u(
+  ), S = r ? "text-slate-400" : "text-slate-500", F = u(
     "w-full rounded-xl border px-3 py-2 text-sm font-mono",
     r ? "bg-slate-950 border-slate-700 text-slate-100" : "bg-slate-50 border-slate-200 text-slate-900"
-  ), Rt = () => /* @__PURE__ */ o("div", { className: "grid gap-3 md:grid-cols-3", children: [
-    { id: "clone", icon: P.Copy, title: c.cloneTitle, desc: c.cloneDesc },
-    { id: "sync", icon: P.RefreshCw, title: c.syncTitle, desc: c.syncDesc },
-    { id: "move", icon: P.ArrowRightLeft, title: c.moveTitle, desc: c.moveDesc }
+  ), _t = () => /* @__PURE__ */ o("div", { className: "grid gap-3 md:grid-cols-3", children: [
+    { id: "clone", icon: _.Copy, title: c.cloneTitle, desc: c.cloneDesc },
+    { id: "sync", icon: _.RefreshCw, title: c.syncTitle, desc: c.syncDesc },
+    { id: "move", icon: _.ArrowRightLeft, title: c.moveTitle, desc: c.moveDesc }
   ].map((s) => {
     const g = b === s.id, D = s.icon;
     return /* @__PURE__ */ p(
@@ -3045,75 +3054,75 @@ function hn() {
       {
         type: "button",
         onClick: () => {
-          v(s.id), s.id === "clone" && Q(!1);
+          w(s.id), s.id === "clone" && Q(!1);
         },
         className: u(
           "text-left rounded-2xl border p-4 transition-colors",
           g ? r ? "border-sky-500/60 bg-sky-500/10" : "border-sky-400 bg-sky-50" : r ? "border-slate-800 hover:border-slate-700" : "border-slate-200 hover:border-slate-300"
         ),
         children: [
-          /* @__PURE__ */ o(D, { className: u("w-6 h-6 mb-2", g ? "text-sky-500" : N) }),
+          /* @__PURE__ */ o(D, { className: u("w-6 h-6 mb-2", g ? "text-sky-500" : S) }),
           /* @__PURE__ */ o("div", { className: "font-bold text-sm", children: s.title }),
-          /* @__PURE__ */ o("p", { className: u("text-xs mt-1 leading-relaxed", N), children: s.desc })
+          /* @__PURE__ */ o("p", { className: u("text-xs mt-1 leading-relaxed", S), children: s.desc })
         ]
       },
       s.id
     );
-  }) }), Mt = () => /* @__PURE__ */ p("div", { className: "space-y-4", children: [
+  }) }), Rt = () => /* @__PURE__ */ p("div", { className: "space-y-4", children: [
     /* @__PURE__ */ p("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: [
       /* @__PURE__ */ p("label", { className: "space-y-1", children: [
-        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.host }),
-        /* @__PURE__ */ o("input", { value: w, onChange: (s) => T(s.target.value), className: F, placeholder: "203.0.113.10" })
+        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.host }),
+        /* @__PURE__ */ o("input", { value: v, onChange: (s) => P(s.target.value), className: F, placeholder: "203.0.113.10" })
       ] }),
       /* @__PURE__ */ p("label", { className: "space-y-1", children: [
-        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.port }),
-        /* @__PURE__ */ o("input", { value: R, onChange: (s) => E(s.target.value), className: F })
+        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.port }),
+        /* @__PURE__ */ o("input", { value: M, onChange: (s) => E(s.target.value), className: F })
       ] }),
       /* @__PURE__ */ p("label", { className: "space-y-1 md:col-span-2", children: [
-        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.user }),
-        /* @__PURE__ */ o("input", { value: C, onChange: (s) => S(s.target.value), className: F })
+        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.user }),
+        /* @__PURE__ */ o("input", { value: k, onChange: (s) => N(s.target.value), className: F })
       ] }),
       /* @__PURE__ */ p("label", { className: "space-y-1 md:col-span-2", children: [
-        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.identity }),
+        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.identity }),
         /* @__PURE__ */ o(
           "input",
           {
-            value: _,
-            onChange: (s) => M(s.target.value),
+            value: T,
+            onChange: (s) => R(s.target.value),
             className: F,
             placeholder: "/root/.ssh/id_ed25519"
           }
         ),
-        /* @__PURE__ */ o("span", { className: u("text-[10px]", N), children: c.identityHint })
+        /* @__PURE__ */ o("span", { className: u("text-[10px]", S), children: c.identityHint })
       ] })
     ] }),
     $.length > 0 && /* @__PURE__ */ p("div", { className: u("rounded-xl border p-3 space-y-2", r ? "border-slate-800 bg-slate-950/50" : "border-slate-200 bg-slate-50"), children: [
-      /* @__PURE__ */ o("p", { className: u("text-xs font-bold", N), children: c.keyHints }),
+      /* @__PURE__ */ o("p", { className: u("text-xs font-bold", S), children: c.keyHints }),
       $.slice(0, 3).map((s) => /* @__PURE__ */ p("div", { className: "space-y-1", children: [
         /* @__PURE__ */ o(
           "button",
           {
             type: "button",
             className: u("text-xs font-mono underline", r ? "text-sky-400" : "text-sky-700"),
-            onClick: () => M(s.identity_file),
+            onClick: () => R(s.identity_file),
             children: s.identity_file
           }
         ),
-        s.public_key && /* @__PURE__ */ o("pre", { className: u("text-[10px] font-mono overflow-x-auto whitespace-pre-wrap break-all", N), children: s.public_key })
+        s.public_key && /* @__PURE__ */ o("pre", { className: u("text-[10px] font-mono overflow-x-auto whitespace-pre-wrap break-all", S), children: s.public_key })
       ] }, s.identity_file)),
-      /* @__PURE__ */ o("p", { className: u("text-[10px]", N), children: c.keyAuthHint })
+      /* @__PURE__ */ o("p", { className: u("text-[10px]", S), children: c.keyAuthHint })
     ] })
-  ] }), Et = () => /* @__PURE__ */ p("div", { className: "space-y-4", children: [
+  ] }), Mt = () => /* @__PURE__ */ p("div", { className: "space-y-4", children: [
     /* @__PURE__ */ p("div", { className: "flex flex-wrap gap-2", children: [
       /* @__PURE__ */ p(
         "button",
         {
           type: "button",
           onClick: () => void Pe(),
-          disabled: we || !w.trim(),
+          disabled: we || !v.trim(),
           className: "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white bg-sky-600 hover:bg-sky-500 disabled:opacity-50",
           children: [
-            we ? /* @__PURE__ */ o(P.Loader, { className: "w-4 h-4 animate-spin" }) : /* @__PURE__ */ o(P.ShieldCheck, { className: "w-4 h-4" }),
+            we ? /* @__PURE__ */ o(_.Loader, { className: "w-4 h-4 animate-spin" }) : /* @__PURE__ */ o(_.ShieldCheck, { className: "w-4 h-4" }),
             we ? c.checking : c.check
           ]
         }
@@ -3122,11 +3131,11 @@ function hn() {
         "button",
         {
           type: "button",
-          onClick: () => void Ct(),
+          onClick: () => void Nt(),
           disabled: Be,
           className: "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white bg-amber-600 hover:bg-amber-500 disabled:opacity-50",
           children: [
-            Be ? /* @__PURE__ */ o(P.Loader, { className: "w-4 h-4 animate-spin" }) : /* @__PURE__ */ o(P.Download, { className: "w-4 h-4" }),
+            Be ? /* @__PURE__ */ o(_.Loader, { className: "w-4 h-4 animate-spin" }) : /* @__PURE__ */ o(_.Download, { className: "w-4 h-4" }),
             c.installRsync
           ]
         }
@@ -3139,7 +3148,7 @@ function hn() {
             f.can_proceed ? r ? "bg-emerald-950/50 text-emerald-300" : "bg-emerald-100 text-emerald-800" : r ? "bg-red-950/50 text-red-300" : "bg-red-100 text-red-800"
           ),
           children: [
-            f.can_proceed ? /* @__PURE__ */ o(P.Check, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ o(P.X, { className: "w-3.5 h-3.5" }),
+            f.can_proceed ? /* @__PURE__ */ o(_.Check, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ o(_.X, { className: "w-3.5 h-3.5" }),
             f.can_proceed ? c.canProceed : c.cannotProceed
           ]
         }
@@ -3148,7 +3157,7 @@ function hn() {
     ] }),
     f && /* @__PURE__ */ p("div", { className: "grid gap-2 md:grid-cols-2", children: [
       /* @__PURE__ */ o(
-        ct,
+        it,
         {
           isDark: r,
           label: c.sourcePanel,
@@ -3157,7 +3166,7 @@ function hn() {
         }
       ),
       /* @__PURE__ */ o(
-        ct,
+        it,
         {
           isDark: r,
           label: c.targetPanel,
@@ -3176,19 +3185,19 @@ function hn() {
       /* @__PURE__ */ o("tbody", { children: f.items.map((s) => /* @__PURE__ */ p("tr", { className: "border-t border-slate-700/20", children: [
         /* @__PURE__ */ p("td", { className: "p-2 align-top", children: [
           /* @__PURE__ */ o("span", { className: "font-mono font-bold", children: s.id }),
-          /* @__PURE__ */ o("div", { className: u("mt-1", N), children: s.message })
+          /* @__PURE__ */ o("div", { className: u("mt-1", S), children: s.message })
         ] }),
         /* @__PURE__ */ o("td", { className: "p-2 font-mono align-top break-all", children: s.source || "—" }),
         /* @__PURE__ */ o("td", { className: "p-2 font-mono align-top break-all", children: s.target || "—" }),
-        /* @__PURE__ */ o("td", { className: u("p-2 font-bold align-top", rn(s.severity, r)), children: s.severity })
+        /* @__PURE__ */ o("td", { className: u("p-2 font-bold align-top", sn(s.severity, r)), children: s.severity })
       ] }, s.id)) })
-    ] }) }) : /* @__PURE__ */ o("p", { className: u("text-sm", N), children: c.detectHint })
-  ] }), Dt = () => /* @__PURE__ */ p("div", { className: "space-y-4", children: [
+    ] }) }) : /* @__PURE__ */ o("p", { className: u("text-sm", S), children: c.detectHint })
+  ] }), Et = () => /* @__PURE__ */ p("div", { className: "space-y-4", children: [
     /* @__PURE__ */ o("div", { className: "flex flex-wrap gap-2", children: Object.values(J).map((s) => /* @__PURE__ */ o(
       "button",
       {
         type: "button",
-        onClick: () => Nt(s.id),
+        onClick: () => kt(s.id),
         className: u(
           "rounded-xl border px-3 py-1.5 text-xs font-bold",
           pe === s.id ? "border-sky-500 text-sky-600 bg-sky-500/10" : r ? "border-slate-700 text-slate-300" : "border-slate-200 text-slate-600"
@@ -3198,11 +3207,11 @@ function hn() {
       s.id
     )) }),
     /* @__PURE__ */ p("label", { className: "space-y-1 block", children: [
-      /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.localPath }),
+      /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.localPath }),
       /* @__PURE__ */ o("input", { value: j, onChange: (s) => Y(s.target.value), className: F })
     ] }),
     /* @__PURE__ */ p("label", { className: "space-y-1 block", children: [
-      /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.remotePath }),
+      /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.remotePath }),
       /* @__PURE__ */ o("input", { value: O, onChange: (s) => x(s.target.value), className: F })
     ] }),
     /* @__PURE__ */ p("label", { className: "inline-flex items-center gap-2 text-sm cursor-pointer", children: [
@@ -3210,7 +3219,7 @@ function hn() {
       c.alsoWeb
     ] }),
     /* @__PURE__ */ p("label", { className: "space-y-1 block", children: [
-      /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.excludes }),
+      /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.excludes }),
       /* @__PURE__ */ o(
         "textarea",
         {
@@ -3221,7 +3230,7 @@ function hn() {
           className: u(F, "text-xs")
         }
       ),
-      /* @__PURE__ */ o("span", { className: u("text-[10px]", N), children: c.excludesHint })
+      /* @__PURE__ */ o("span", { className: u("text-[10px]", S), children: c.excludesHint })
     ] }),
     b !== "clone" && /* @__PURE__ */ p("label", { className: "inline-flex items-start gap-2 text-sm cursor-pointer", children: [
       /* @__PURE__ */ o(
@@ -3235,12 +3244,12 @@ function hn() {
       ),
       /* @__PURE__ */ p("span", { children: [
         /* @__PURE__ */ o("span", { className: "font-bold", children: c.deleteOpt }),
-        /* @__PURE__ */ o("span", { className: u("block text-xs", N), children: c.deleteHint })
+        /* @__PURE__ */ o("span", { className: u("block text-xs", S), children: c.deleteHint })
       ] })
     ] }),
     /* @__PURE__ */ p("div", { className: "flex flex-wrap items-end gap-3", children: [
       /* @__PURE__ */ p("label", { className: "space-y-1 block max-w-xs", children: [
-        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", N), children: c.estimateGb }),
+        /* @__PURE__ */ o("span", { className: u("text-xs font-bold", S), children: c.estimateGb }),
         /* @__PURE__ */ o("input", { value: B, onChange: (s) => ae(s.target.value), className: F, placeholder: "20" })
       ] }),
       /* @__PURE__ */ o(
@@ -3254,17 +3263,17 @@ function hn() {
         }
       )
     ] })
-  ] }), zt = () => K ? /* @__PURE__ */ o(nn, { job: be, isDark: r, onReset: et, tr: c }) : /* @__PURE__ */ p("div", { className: "space-y-3 text-sm", children: [
-    /* @__PURE__ */ o(L, { k: c.modeLabel, v: b, isDark: r }),
-    /* @__PURE__ */ o(L, { k: "SSH", v: `${C}@${w}:${R}`, isDark: r, mono: !0 }),
-    /* @__PURE__ */ o(L, { k: c.localPath, v: j, isDark: r, mono: !0 }),
-    /* @__PURE__ */ o(L, { k: c.remotePath, v: O, isDark: r, mono: !0 }),
-    Z && /* @__PURE__ */ o(L, { k: "Extra", v: "/var/www → /var/www", isDark: r, mono: !0 }),
-    /* @__PURE__ */ o(L, { k: "--delete", v: X && b !== "clone" ? "yes" : "no", isDark: r }),
-    /* @__PURE__ */ o(L, { k: c.scenario, v: tt() || "—", isDark: r }),
-    /* @__PURE__ */ o("p", { className: u("text-xs", N), children: c.warnDocker }),
-    /* @__PURE__ */ o("p", { className: u("text-xs", N), children: c.sqlNote })
-  ] }), At = () => /* @__PURE__ */ p("div", { className: "space-y-3", children: [
+  ] }), Dt = () => K ? /* @__PURE__ */ o(an, { job: be, isDark: r, onReset: et, tr: c }) : /* @__PURE__ */ p("div", { className: "space-y-3 text-sm", children: [
+    /* @__PURE__ */ o(I, { k: c.modeLabel, v: b, isDark: r }),
+    /* @__PURE__ */ o(I, { k: "SSH", v: `${k}@${v}:${M}`, isDark: r, mono: !0 }),
+    /* @__PURE__ */ o(I, { k: c.localPath, v: j, isDark: r, mono: !0 }),
+    /* @__PURE__ */ o(I, { k: c.remotePath, v: O, isDark: r, mono: !0 }),
+    Z && /* @__PURE__ */ o(I, { k: "Extra", v: "/var/www → /var/www", isDark: r, mono: !0 }),
+    /* @__PURE__ */ o(I, { k: "--delete", v: X && b !== "clone" ? "yes" : "no", isDark: r }),
+    /* @__PURE__ */ o(I, { k: c.scenario, v: tt() || "—", isDark: r }),
+    /* @__PURE__ */ o("p", { className: u("text-xs", S), children: c.warnDocker }),
+    /* @__PURE__ */ o("p", { className: u("text-xs", S), children: c.sqlNote })
+  ] }), zt = () => /* @__PURE__ */ p("div", { className: "space-y-3", children: [
     be?.status === "success" && /* @__PURE__ */ o("p", { className: u("text-sm font-semibold", r ? "text-emerald-400" : "text-emerald-700"), children: c.jobSuccess }),
     (Ce.length ? Ce : []).map((s) => /* @__PURE__ */ p(
       "label",
@@ -3286,13 +3295,13 @@ function hn() {
           ),
           /* @__PURE__ */ p("span", { children: [
             /* @__PURE__ */ o("span", { className: "text-sm font-bold block", children: s.title }),
-            /* @__PURE__ */ o("span", { className: u("text-xs", N), children: s.detail })
+            /* @__PURE__ */ o("span", { className: u("text-xs", S), children: s.detail })
           ] })
         ]
       },
       s.id
     )),
-    !Ce.length && /* @__PURE__ */ o("p", { className: u("text-sm", N), children: c.doneHint }),
+    !Ce.length && /* @__PURE__ */ o("p", { className: u("text-sm", S), children: c.doneHint }),
     /* @__PURE__ */ p(
       "button",
       {
@@ -3300,58 +3309,58 @@ function hn() {
         onClick: et,
         className: "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold border border-slate-300 dark:border-slate-700",
         children: [
-          /* @__PURE__ */ o(P.RotateCcw, { className: "w-4 h-4" }),
+          /* @__PURE__ */ o(_.RotateCcw, { className: "w-4 h-4" }),
           c.startOver
         ]
       }
     )
-  ] }), It = () => {
+  ] }), At = () => {
     switch (d) {
       case "mode":
-        return Rt();
+        return _t();
       case "target":
-        return Mt();
+        return Rt();
       case "detect":
-        return Et();
+        return Mt();
       case "scope":
-        return Dt();
+        return Et();
       case "review":
-        return zt();
+        return Dt();
       case "done":
-        return At();
+        return zt();
       default:
         return null;
     }
-  }, Lt = /* @__PURE__ */ p("aside", { className: Dr(r), children: [
-    /* @__PURE__ */ o("div", { className: zr(r), children: /* @__PURE__ */ p("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ o("div", { className: Ar(r), children: /* @__PURE__ */ o(P.RefreshCw, { className: "h-5 w-5 text-sky-500" }) }),
+  }, Lt = /* @__PURE__ */ p("aside", { className: Lr(r), children: [
+    /* @__PURE__ */ o("div", { className: Ir(r), children: /* @__PURE__ */ p("div", { className: "flex items-center gap-3", children: [
+      /* @__PURE__ */ o("div", { className: jr(r), children: /* @__PURE__ */ o(_.RefreshCw, { className: "h-5 w-5 text-sky-500" }) }),
       /* @__PURE__ */ p("div", { className: "min-w-0", children: [
-        /* @__PURE__ */ o("h1", { className: Ir(r), children: c.title }),
-        /* @__PURE__ */ o("p", { className: Lr(r), children: c.subtitle })
+        /* @__PURE__ */ o("h1", { className: Or(r), children: c.title }),
+        /* @__PURE__ */ o("p", { className: Br(r), children: c.subtitle })
       ] })
     ] }) }),
-    /* @__PURE__ */ o("nav", { className: jr(), "aria-label": "Rsync wizard steps", children: ne.map((s) => {
-      const g = tn[s], D = d === s, rt = ne.indexOf(s) < fe;
+    /* @__PURE__ */ o("nav", { className: Hr(), "aria-label": "Rsync wizard steps", children: ne.map((s) => {
+      const g = on[s], D = d === s, rt = ne.indexOf(s) < fe;
       return /* @__PURE__ */ p(
         "button",
         {
           type: "button",
           disabled: !!K && s !== "review" && s !== "done",
           onClick: () => h(s),
-          className: u(Or(r, D, "sky"), "disabled:opacity-50"),
+          className: u($r(r, D, "sky"), "disabled:opacity-50"),
           children: [
-            /* @__PURE__ */ o(g, { className: u(Br(r, D, "sky"), !D && rt && "text-emerald-500") }),
-            /* @__PURE__ */ o("span", { className: "flex-1 truncate font-medium", children: kt[s] }),
-            rt && !D && /* @__PURE__ */ o(P.Check, { className: "h-3.5 w-3.5 shrink-0 text-emerald-500" })
+            /* @__PURE__ */ o(g, { className: u(Gr(r, D, "sky"), !D && rt && "text-emerald-500") }),
+            /* @__PURE__ */ o("span", { className: "flex-1 truncate font-medium", children: wt[s] }),
+            rt && !D && /* @__PURE__ */ o(_.Check, { className: "h-3.5 w-3.5 shrink-0 text-emerald-500" })
           ]
         },
         s
       );
     }) })
   ] });
-  return /* @__PURE__ */ p(_r, { className: "flex min-h-0 flex-col overflow-hidden", children: [
+  return /* @__PURE__ */ p(Er, { className: "flex min-h-0 flex-col overflow-hidden", children: [
     /* @__PURE__ */ o(
-      Rr,
+      Dr,
       {
         isDark: r,
         mobileTitle: c.title,
@@ -3361,11 +3370,11 @@ function hn() {
           /* @__PURE__ */ p("main", { className: u("min-h-0 flex-1 overflow-y-auto", i ? "p-5" : "p-5 md:p-8"), children: [
             /* @__PURE__ */ p("header", { className: "mb-6 space-y-1.5", children: [
               /* @__PURE__ */ o("h2", { className: u("text-lg font-bold", r ? "text-slate-100" : "text-slate-900"), children: Xe[d].title }),
-              /* @__PURE__ */ o("p", { className: u("text-xs max-w-2xl", N), children: Xe[d].desc })
+              /* @__PURE__ */ o("p", { className: u("text-xs max-w-2xl", S), children: Xe[d].desc })
             ] }),
-            /* @__PURE__ */ o("div", { className: _t, children: It() }),
+            /* @__PURE__ */ o("div", { className: Tt, children: At() }),
             Fe && /* @__PURE__ */ p("p", { className: "mt-3 text-sm text-red-500 flex items-center gap-2", children: [
-              /* @__PURE__ */ o(P.AlertCircle, { className: "w-4 h-4" }),
+              /* @__PURE__ */ o(_.AlertCircle, { className: "w-4 h-4" }),
               " ",
               Fe
             ] })
@@ -3420,8 +3429,8 @@ function hn() {
                   "button",
                   {
                     type: "button",
-                    onClick: () => void Tt(),
-                    disabled: !Pt() && d !== "detect",
+                    onClick: () => void Pt(),
+                    disabled: !St() && d !== "detect",
                     className: "px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-bold disabled:opacity-50",
                     children: d === "detect" && !f ? c.check : c.next
                   }
@@ -3433,18 +3442,18 @@ function hn() {
       }
     ),
     /* @__PURE__ */ o(
-      Er,
+      Ar,
       {
-        open: wt,
+        open: vt,
         onClose: () => le(!1),
         title: me ? c.confirmDryTitle : c.confirmRealTitle,
         maxWidth: "md",
         children: /* @__PURE__ */ p("div", { className: "space-y-4 p-4", children: [
-          /* @__PURE__ */ o("p", { className: u("text-sm", N), children: me ? c.confirmDryBody : c.confirmRealBody }),
+          /* @__PURE__ */ o("p", { className: u("text-sm", S), children: me ? c.confirmDryBody : c.confirmRealBody }),
           /* @__PURE__ */ p("div", { className: u("rounded-xl border p-3 text-xs space-y-1", r ? "border-slate-800 bg-slate-950" : "border-slate-200 bg-slate-50"), children: [
-            /* @__PURE__ */ o(L, { k: "Mode", v: b, isDark: r }),
-            /* @__PURE__ */ o(L, { k: "Target", v: `${C}@${w}`, isDark: r, mono: !0 }),
-            /* @__PURE__ */ o(L, { k: "Paths", v: String(Ke().length), isDark: r }),
+            /* @__PURE__ */ o(I, { k: "Mode", v: b, isDark: r }),
+            /* @__PURE__ */ o(I, { k: "Target", v: `${k}@${v}`, isDark: r, mono: !0 }),
+            /* @__PURE__ */ o(I, { k: "Paths", v: String(Ke().length), isDark: r }),
             !me && X && b !== "clone" && /* @__PURE__ */ o("p", { className: "text-amber-600 font-bold", children: "--delete enabled" })
           ] }),
           /* @__PURE__ */ p("div", { className: "flex justify-end gap-2", children: [
@@ -3461,7 +3470,7 @@ function hn() {
               "button",
               {
                 type: "button",
-                onClick: () => void St(me),
+                onClick: () => void Ct(me),
                 disabled: ke,
                 className: "px-4 py-2 rounded-xl bg-sky-600 text-white text-sm font-bold",
                 children: c.confirm
@@ -3473,10 +3482,10 @@ function hn() {
     )
   ] });
 }
-function rn(e, t) {
+function sn(e, t) {
   return e === "block" ? t ? "text-red-400" : "text-red-600" : e === "warn" ? t ? "text-amber-400" : "text-amber-700" : t ? "text-emerald-400" : "text-emerald-700";
 }
-function ct({
+function it({
   label: e,
   value: t,
   ok: r,
@@ -3496,13 +3505,13 @@ function ct({
     }
   );
 }
-function L({ k: e, v: t, isDark: r, mono: n }) {
+function I({ k: e, v: t, isDark: r, mono: n }) {
   return /* @__PURE__ */ p("div", { className: "flex gap-3 text-xs", children: [
     /* @__PURE__ */ o("span", { className: u("w-28 shrink-0 font-bold", r ? "text-slate-400" : "text-slate-500"), children: e }),
     /* @__PURE__ */ o("span", { className: u("min-w-0 break-all", n && "font-mono"), children: t })
   ] });
 }
-function nn({
+function an({
   job: e,
   isDark: t,
   onReset: r,
@@ -3512,21 +3521,21 @@ function nn({
   if (q(() => {
     if (!e?.id) return;
     let b = !1;
-    const v = () => {
+    const w = () => {
       z(
         `/api/platform/jobs/${e.id}`
-      ).then((T) => {
-        b || Array.isArray(T.logs) && T.logs.length && a(
-          T.logs.slice(-100).map((R) => R.line || "").filter(Boolean).join(`
+      ).then((P) => {
+        b || Array.isArray(P.logs) && P.logs.length && a(
+          P.logs.slice(-100).map((M) => M.line || "").filter(Boolean).join(`
 `)
         );
       }).catch(() => {
       });
     };
-    v();
-    const w = setInterval(v, 2e3);
+    w();
+    const v = setInterval(w, 2e3);
     return () => {
-      b = !0, clearInterval(w);
+      b = !0, clearInterval(v);
     };
   }, [e?.id, e?.status, e?.progress]), !e)
     return /* @__PURE__ */ o("p", { className: u("text-sm", t ? "text-slate-400" : "text-slate-500"), children: n.submitting });
@@ -3561,7 +3570,7 @@ function nn({
     )
   ] });
 }
-const on = {
+const ln = {
   title: "Rsync Manager",
   subtitle: "Move · Clone · Sync VPS",
   stepMode: "Mode",
@@ -3642,7 +3651,7 @@ const on = {
   confirmRealTitle: "Start real sync?",
   confirmRealBody: "Files will be copied over SSH. Ensure detection passed and excludes look correct.",
   submitting: "Submitting job…"
-}, sn = {
+}, cn = {
   title: "Rsync Manager",
   subtitle: "Move · Clone · Sync VPS",
   stepMode: "Chế độ",
@@ -3723,7 +3732,7 @@ const on = {
   confirmRealTitle: "Chạy sync thật?",
   confirmRealBody: "File sẽ được copy qua SSH. Đảm bảo đã detect OK và excludes đúng.",
   submitting: "Đang gửi job…"
-}, an = { en: on, vi: sn };
+}, dn = { en: ln, vi: cn };
 export {
-  hn as default
+  fn as default
 };

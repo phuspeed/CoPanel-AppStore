@@ -1,13 +1,13 @@
-import { jsx as e, jsxs as r, Fragment as oe } from "react/jsx-runtime";
-import { createContext as fa, useContext as va, useState as p, useEffect as Le, useRef as ya, useCallback as K, useMemo as fe } from "react";
+import { jsx as e, jsxs as r, Fragment as J } from "react/jsx-runtime";
+import { createContext as fa, useContext as va, useState as p, useEffect as Le, useRef as Kt, useLayoutEffect as Ua, useCallback as K, useMemo as fe } from "react";
 import { useOutletContext as qa } from "react-router-dom";
 import * as $ from "lucide-react";
-import { createPortal as oa } from "react-dom";
-const Qa = fa(null);
-function Xa() {
-  return va(Qa);
+import { createPortal as Qa } from "react-dom";
+const Xa = fa(null);
+function Ya() {
+  return va(Xa);
 }
-const Ya = {
+const Za = {
   theme: localStorage.getItem("copanel_theme") || "light",
   setTheme: () => {
   },
@@ -15,8 +15,8 @@ const Ya = {
   setLanguage: () => {
   }
 };
-function Kt() {
-  const a = Xa(), i = qa();
+function Ut() {
+  const a = Ya(), i = qa();
   return a || (i?.theme ? {
     theme: i.theme,
     setTheme: i.setTheme ?? (() => {
@@ -24,30 +24,30 @@ function Kt() {
     language: i.language ?? "en",
     setLanguage: i.setLanguage ?? (() => {
     })
-  } : Ya);
+  } : Za);
 }
-function Na(a) {
+function ya(a) {
   var i, n, o = "";
   if (typeof a == "string" || typeof a == "number") o += a;
   else if (typeof a == "object") if (Array.isArray(a)) {
     var c = a.length;
-    for (i = 0; i < c; i++) a[i] && (n = Na(a[i])) && (o && (o += " "), o += n);
+    for (i = 0; i < c; i++) a[i] && (n = ya(a[i])) && (o && (o += " "), o += n);
   } else for (n in a) a[n] && (o && (o += " "), o += n);
   return o;
 }
-function Za() {
-  for (var a, i, n = 0, o = "", c = arguments.length; n < c; n++) (a = arguments[n]) && (i = Na(a)) && (o && (o += " "), o += i);
+function Ja() {
+  for (var a, i, n = 0, o = "", c = arguments.length; n < c; n++) (a = arguments[n]) && (i = ya(a)) && (o && (o += " "), o += i);
   return o;
 }
-const Ut = "-", Ja = (a) => {
-  const i = tn(a), {
+const qt = "-", en = (a) => {
+  const i = an(a), {
     conflictingClassGroups: n,
     conflictingClassGroupModifiers: o
   } = a;
   return {
     getClassGroupId: (b) => {
-      const h = b.split(Ut);
-      return h[0] === "" && h.length !== 1 && h.shift(), wa(h, i) || en(b);
+      const h = b.split(qt);
+      return h[0] === "" && h.length !== 1 && h.shift(), wa(h, i) || tn(b);
     },
     getConflictingClassGroupIds: (b, h) => {
       const C = n[b] || [];
@@ -62,17 +62,17 @@ const Ut = "-", Ja = (a) => {
     return c;
   if (i.validators.length === 0)
     return;
-  const m = a.join(Ut);
+  const m = a.join(qt);
   return i.validators.find(({
     validator: b
   }) => b(m))?.classGroupId;
-}, ia = /^\[(.+)\]$/, en = (a) => {
+}, ia = /^\[(.+)\]$/, tn = (a) => {
   if (ia.test(a)) {
     const i = ia.exec(a)[1], n = i?.substring(0, i.indexOf(":"));
     if (n)
       return "arbitrary.." + n;
   }
-}, tn = (a) => {
+}, an = (a) => {
   const {
     theme: i,
     prefix: n
@@ -80,7 +80,7 @@ const Ut = "-", Ja = (a) => {
     nextPart: /* @__PURE__ */ new Map(),
     validators: []
   };
-  return nn(Object.entries(a.classGroups), n).forEach(([m, b]) => {
+  return rn(Object.entries(a.classGroups), n).forEach(([m, b]) => {
     Dt(b, o, m, i);
   }), o;
 }, Dt = (a, i, n, o) => {
@@ -91,7 +91,7 @@ const Ut = "-", Ja = (a) => {
       return;
     }
     if (typeof c == "function") {
-      if (an(c)) {
+      if (nn(c)) {
         Dt(c(o), i, n, o);
         return;
       }
@@ -107,16 +107,16 @@ const Ut = "-", Ja = (a) => {
   });
 }, da = (a, i) => {
   let n = a;
-  return i.split(Ut).forEach((o) => {
+  return i.split(qt).forEach((o) => {
     n.nextPart.has(o) || n.nextPart.set(o, {
       nextPart: /* @__PURE__ */ new Map(),
       validators: []
     }), n = n.nextPart.get(o);
   }), n;
-}, an = (a) => a.isThemeGetter, nn = (a, i) => i ? a.map(([n, o]) => {
+}, nn = (a) => a.isThemeGetter, rn = (a, i) => i ? a.map(([n, o]) => {
   const c = o.map((m) => typeof m == "string" ? i + m : typeof m == "object" ? Object.fromEntries(Object.entries(m).map(([b, h]) => [i + b, h])) : m);
   return [n, c];
-}) : a, rn = (a) => {
+}) : a, ln = (a) => {
   if (a < 1)
     return {
       get: () => {
@@ -140,31 +140,31 @@ const Ut = "-", Ja = (a) => {
       n.has(m) ? n.set(m, b) : c(m, b);
     }
   };
-}, ka = "!", ln = (a) => {
+}, Na = "!", sn = (a) => {
   const {
     separator: i,
     experimentalParseClassName: n
   } = a, o = i.length === 1, c = i[0], m = i.length, b = (h) => {
     const C = [];
     let x = 0, s = 0, g;
-    for (let P = 0; P < h.length; P++) {
-      let L = h[P];
+    for (let _ = 0; _ < h.length; _++) {
+      let L = h[_];
       if (x === 0) {
-        if (L === c && (o || h.slice(P, P + m) === i)) {
-          C.push(h.slice(s, P)), s = P + m;
+        if (L === c && (o || h.slice(_, _ + m) === i)) {
+          C.push(h.slice(s, _)), s = _ + m;
           continue;
         }
         if (L === "/") {
-          g = P;
+          g = _;
           continue;
         }
       }
       L === "[" ? x++ : L === "]" && x--;
     }
-    const w = C.length === 0 ? h : h.substring(s), N = w.startsWith(ka), T = N ? w.substring(1) : w, k = g && g > s ? g - s : void 0;
+    const N = C.length === 0 ? h : h.substring(s), f = N.startsWith(Na), T = f ? N.substring(1) : N, k = g && g > s ? g - s : void 0;
     return {
       modifiers: C,
-      hasImportantModifier: N,
+      hasImportantModifier: f,
       baseClassName: T,
       maybePostfixModifierPosition: k
     };
@@ -173,7 +173,7 @@ const Ut = "-", Ja = (a) => {
     className: h,
     parseClassName: b
   }) : b;
-}, sn = (a) => {
+}, on = (a) => {
   if (a.length <= 1)
     return a;
   const i = [];
@@ -181,122 +181,122 @@ const Ut = "-", Ja = (a) => {
   return a.forEach((o) => {
     o[0] === "[" ? (i.push(...n.sort(), o), n = []) : n.push(o);
   }), i.push(...n.sort()), i;
-}, on = (a) => ({
-  cache: rn(a.cacheSize),
-  parseClassName: ln(a),
-  ...Ja(a)
-}), dn = /\s+/, cn = (a, i) => {
+}, dn = (a) => ({
+  cache: ln(a.cacheSize),
+  parseClassName: sn(a),
+  ...en(a)
+}), cn = /\s+/, mn = (a, i) => {
   const {
     parseClassName: n,
     getClassGroupId: o,
     getConflictingClassGroupIds: c
-  } = i, m = [], b = a.trim().split(dn);
+  } = i, m = [], b = a.trim().split(cn);
   let h = "";
   for (let C = b.length - 1; C >= 0; C -= 1) {
     const x = b[C], {
       modifiers: s,
       hasImportantModifier: g,
-      baseClassName: w,
-      maybePostfixModifierPosition: N
+      baseClassName: N,
+      maybePostfixModifierPosition: f
     } = n(x);
-    let T = !!N, k = o(T ? w.substring(0, N) : w);
+    let T = !!f, k = o(T ? N.substring(0, f) : N);
     if (!k) {
       if (!T) {
         h = x + (h.length > 0 ? " " + h : h);
         continue;
       }
-      if (k = o(w), !k) {
+      if (k = o(N), !k) {
         h = x + (h.length > 0 ? " " + h : h);
         continue;
       }
       T = !1;
     }
-    const P = sn(s).join(":"), L = g ? P + ka : P, E = L + k;
+    const _ = on(s).join(":"), L = g ? _ + Na : _, E = L + k;
     if (m.includes(E))
       continue;
     m.push(E);
     const j = c(k, T);
     for (let M = 0; M < j.length; ++M) {
-      const f = j[M];
-      m.push(L + f);
+      const v = j[M];
+      m.push(L + v);
     }
     h = x + (h.length > 0 ? " " + h : h);
   }
   return h;
 };
-function mn() {
+function pn() {
   let a = 0, i, n, o = "";
   for (; a < arguments.length; )
-    (i = arguments[a++]) && (n = Ca(i)) && (o && (o += " "), o += n);
+    (i = arguments[a++]) && (n = ka(i)) && (o && (o += " "), o += n);
   return o;
 }
-const Ca = (a) => {
+const ka = (a) => {
   if (typeof a == "string")
     return a;
   let i, n = "";
   for (let o = 0; o < a.length; o++)
-    a[o] && (i = Ca(a[o])) && (n && (n += " "), n += i);
+    a[o] && (i = ka(a[o])) && (n && (n += " "), n += i);
   return n;
 };
-function pn(a, ...i) {
+function un(a, ...i) {
   let n, o, c, m = b;
   function b(C) {
     const x = i.reduce((s, g) => g(s), a());
-    return n = on(x), o = n.cache.get, c = n.cache.set, m = h, h(C);
+    return n = dn(x), o = n.cache.get, c = n.cache.set, m = h, h(C);
   }
   function h(C) {
     const x = o(C);
     if (x)
       return x;
-    const s = cn(C, n);
+    const s = mn(C, n);
     return c(C, s), s;
   }
   return function() {
-    return m(mn.apply(null, arguments));
+    return m(pn.apply(null, arguments));
   };
 }
 const B = (a) => {
   const i = (n) => n[a] || [];
   return i.isThemeGetter = !0, i;
-}, $a = /^\[(?:([a-z-]+):)?(.+)\]$/i, un = /^\d+\/\d+$/, bn = /* @__PURE__ */ new Set(["px", "full", "screen"]), hn = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, gn = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, xn = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, fn = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, vn = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, Ne = (a) => Qe(a) || bn.has(a) || un.test(a), Ce = (a) => Xe(a, "length", Sn), Qe = (a) => !!a && !Number.isNaN(Number(a)), Ot = (a) => Xe(a, "number", Qe), ut = (a) => !!a && Number.isInteger(Number(a)), yn = (a) => a.endsWith("%") && Qe(a.slice(0, -1)), _ = (a) => $a.test(a), $e = (a) => hn.test(a), Nn = /* @__PURE__ */ new Set(["length", "size", "percentage"]), wn = (a) => Xe(a, Nn, _a), kn = (a) => Xe(a, "position", _a), Cn = /* @__PURE__ */ new Set(["image", "url"]), $n = (a) => Xe(a, Cn, Tn), _n = (a) => Xe(a, "", Pn), bt = () => !0, Xe = (a, i, n) => {
-  const o = $a.exec(a);
+}, Ca = /^\[(?:([a-z-]+):)?(.+)\]$/i, bn = /^\d+\/\d+$/, hn = /* @__PURE__ */ new Set(["px", "full", "screen"]), gn = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, xn = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, fn = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, vn = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, yn = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, we = (a) => Qe(a) || hn.has(a) || bn.test(a), Ce = (a) => Xe(a, "length", Pn), Qe = (a) => !!a && !Number.isNaN(Number(a)), Ot = (a) => Xe(a, "number", Qe), ut = (a) => !!a && Number.isInteger(Number(a)), wn = (a) => a.endsWith("%") && Qe(a.slice(0, -1)), S = (a) => Ca.test(a), $e = (a) => gn.test(a), Nn = /* @__PURE__ */ new Set(["length", "size", "percentage"]), kn = (a) => Xe(a, Nn, $a), Cn = (a) => Xe(a, "position", $a), $n = /* @__PURE__ */ new Set(["image", "url"]), _n = (a) => Xe(a, $n, Mn), Sn = (a) => Xe(a, "", Tn), bt = () => !0, Xe = (a, i, n) => {
+  const o = Ca.exec(a);
   return o ? o[1] ? typeof i == "string" ? o[1] === i : i.has(o[1]) : n(o[2]) : !1;
-}, Sn = (a) => (
+}, Pn = (a) => (
   // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
   // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-  gn.test(a) && !xn.test(a)
-), _a = () => !1, Pn = (a) => fn.test(a), Tn = (a) => vn.test(a), Mn = () => {
-  const a = B("colors"), i = B("spacing"), n = B("blur"), o = B("brightness"), c = B("borderColor"), m = B("borderRadius"), b = B("borderSpacing"), h = B("borderWidth"), C = B("contrast"), x = B("grayscale"), s = B("hueRotate"), g = B("invert"), w = B("gap"), N = B("gradientColorStops"), T = B("gradientColorStopPositions"), k = B("inset"), P = B("margin"), L = B("opacity"), E = B("padding"), j = B("saturate"), M = B("scale"), f = B("sepia"), A = B("skew"), O = B("space"), F = B("translate"), G = () => ["auto", "contain", "none"], J = () => ["auto", "hidden", "clip", "visible", "scroll"], U = () => ["auto", _, i], S = () => [_, i], ee = () => ["", Ne, Ce], te = () => ["auto", Qe, _], pe = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], ue = () => ["solid", "dashed", "dotted", "double", "none"], be = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], he = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], ie = () => ["", "0", _], _e = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], q = () => [Qe, _];
+  xn.test(a) && !fn.test(a)
+), $a = () => !1, Tn = (a) => vn.test(a), Mn = (a) => yn.test(a), zn = () => {
+  const a = B("colors"), i = B("spacing"), n = B("blur"), o = B("brightness"), c = B("borderColor"), m = B("borderRadius"), b = B("borderSpacing"), h = B("borderWidth"), C = B("contrast"), x = B("grayscale"), s = B("hueRotate"), g = B("invert"), N = B("gap"), f = B("gradientColorStops"), T = B("gradientColorStopPositions"), k = B("inset"), _ = B("margin"), L = B("opacity"), E = B("padding"), j = B("saturate"), M = B("scale"), v = B("sepia"), A = B("skew"), O = B("space"), F = B("translate"), G = () => ["auto", "contain", "none"], ee = () => ["auto", "hidden", "clip", "visible", "scroll"], U = () => ["auto", S, i], P = () => [S, i], te = () => ["", we, Ce], ae = () => ["auto", Qe, S], pe = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], ue = () => ["solid", "dashed", "dotted", "double", "none"], be = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], he = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], ie = () => ["", "0", S], _e = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], q = () => [Qe, S];
   return {
     cacheSize: 500,
     separator: ":",
     theme: {
       colors: [bt],
-      spacing: [Ne, Ce],
-      blur: ["none", "", $e, _],
+      spacing: [we, Ce],
+      blur: ["none", "", $e, S],
       brightness: q(),
       borderColor: [a],
-      borderRadius: ["none", "", "full", $e, _],
-      borderSpacing: S(),
-      borderWidth: ee(),
+      borderRadius: ["none", "", "full", $e, S],
+      borderSpacing: P(),
+      borderWidth: te(),
       contrast: q(),
       grayscale: ie(),
       hueRotate: q(),
       invert: ie(),
-      gap: S(),
+      gap: P(),
       gradientColorStops: [a],
-      gradientColorStopPositions: [yn, Ce],
+      gradientColorStopPositions: [wn, Ce],
       inset: U(),
       margin: U(),
       opacity: q(),
-      padding: S(),
+      padding: P(),
       saturate: q(),
       scale: q(),
       sepia: ie(),
       skew: q(),
-      space: S(),
-      translate: S()
+      space: P(),
+      translate: P()
     },
     classGroups: {
       // Layout
@@ -305,7 +305,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/aspect-ratio
        */
       aspect: [{
-        aspect: ["auto", "square", "video", _]
+        aspect: ["auto", "square", "video", S]
       }],
       /**
        * Container
@@ -390,28 +390,28 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/object-position
        */
       "object-position": [{
-        object: [...pe(), _]
+        object: [...pe(), S]
       }],
       /**
        * Overflow
        * @see https://tailwindcss.com/docs/overflow
        */
       overflow: [{
-        overflow: J()
+        overflow: ee()
       }],
       /**
        * Overflow X
        * @see https://tailwindcss.com/docs/overflow
        */
       "overflow-x": [{
-        "overflow-x": J()
+        "overflow-x": ee()
       }],
       /**
        * Overflow Y
        * @see https://tailwindcss.com/docs/overflow
        */
       "overflow-y": [{
-        "overflow-y": J()
+        "overflow-y": ee()
       }],
       /**
        * Overscroll Behavior
@@ -512,7 +512,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/z-index
        */
       z: [{
-        z: ["auto", ut, _]
+        z: ["auto", ut, S]
       }],
       // Flexbox and Grid
       /**
@@ -541,7 +541,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/flex
        */
       flex: [{
-        flex: ["1", "auto", "initial", "none", _]
+        flex: ["1", "auto", "initial", "none", S]
       }],
       /**
        * Flex Grow
@@ -562,7 +562,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/order
        */
       order: [{
-        order: ["first", "last", "none", ut, _]
+        order: ["first", "last", "none", ut, S]
       }],
       /**
        * Grid Template Columns
@@ -577,22 +577,22 @@ const B = (a) => {
        */
       "col-start-end": [{
         col: ["auto", {
-          span: ["full", ut, _]
-        }, _]
+          span: ["full", ut, S]
+        }, S]
       }],
       /**
        * Grid Column Start
        * @see https://tailwindcss.com/docs/grid-column
        */
       "col-start": [{
-        "col-start": te()
+        "col-start": ae()
       }],
       /**
        * Grid Column End
        * @see https://tailwindcss.com/docs/grid-column
        */
       "col-end": [{
-        "col-end": te()
+        "col-end": ae()
       }],
       /**
        * Grid Template Rows
@@ -607,22 +607,22 @@ const B = (a) => {
        */
       "row-start-end": [{
         row: ["auto", {
-          span: [ut, _]
-        }, _]
+          span: [ut, S]
+        }, S]
       }],
       /**
        * Grid Row Start
        * @see https://tailwindcss.com/docs/grid-row
        */
       "row-start": [{
-        "row-start": te()
+        "row-start": ae()
       }],
       /**
        * Grid Row End
        * @see https://tailwindcss.com/docs/grid-row
        */
       "row-end": [{
-        "row-end": te()
+        "row-end": ae()
       }],
       /**
        * Grid Auto Flow
@@ -636,35 +636,35 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/grid-auto-columns
        */
       "auto-cols": [{
-        "auto-cols": ["auto", "min", "max", "fr", _]
+        "auto-cols": ["auto", "min", "max", "fr", S]
       }],
       /**
        * Grid Auto Rows
        * @see https://tailwindcss.com/docs/grid-auto-rows
        */
       "auto-rows": [{
-        "auto-rows": ["auto", "min", "max", "fr", _]
+        "auto-rows": ["auto", "min", "max", "fr", S]
       }],
       /**
        * Gap
        * @see https://tailwindcss.com/docs/gap
        */
       gap: [{
-        gap: [w]
+        gap: [N]
       }],
       /**
        * Gap X
        * @see https://tailwindcss.com/docs/gap
        */
       "gap-x": [{
-        "gap-x": [w]
+        "gap-x": [N]
       }],
       /**
        * Gap Y
        * @see https://tailwindcss.com/docs/gap
        */
       "gap-y": [{
-        "gap-y": [w]
+        "gap-y": [N]
       }],
       /**
        * Justify Content
@@ -798,63 +798,63 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/margin
        */
       m: [{
-        m: [P]
+        m: [_]
       }],
       /**
        * Margin X
        * @see https://tailwindcss.com/docs/margin
        */
       mx: [{
-        mx: [P]
+        mx: [_]
       }],
       /**
        * Margin Y
        * @see https://tailwindcss.com/docs/margin
        */
       my: [{
-        my: [P]
+        my: [_]
       }],
       /**
        * Margin Start
        * @see https://tailwindcss.com/docs/margin
        */
       ms: [{
-        ms: [P]
+        ms: [_]
       }],
       /**
        * Margin End
        * @see https://tailwindcss.com/docs/margin
        */
       me: [{
-        me: [P]
+        me: [_]
       }],
       /**
        * Margin Top
        * @see https://tailwindcss.com/docs/margin
        */
       mt: [{
-        mt: [P]
+        mt: [_]
       }],
       /**
        * Margin Right
        * @see https://tailwindcss.com/docs/margin
        */
       mr: [{
-        mr: [P]
+        mr: [_]
       }],
       /**
        * Margin Bottom
        * @see https://tailwindcss.com/docs/margin
        */
       mb: [{
-        mb: [P]
+        mb: [_]
       }],
       /**
        * Margin Left
        * @see https://tailwindcss.com/docs/margin
        */
       ml: [{
-        ml: [P]
+        ml: [_]
       }],
       /**
        * Space Between X
@@ -886,21 +886,21 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/width
        */
       w: [{
-        w: ["auto", "min", "max", "fit", "svw", "lvw", "dvw", _, i]
+        w: ["auto", "min", "max", "fit", "svw", "lvw", "dvw", S, i]
       }],
       /**
        * Min-Width
        * @see https://tailwindcss.com/docs/min-width
        */
       "min-w": [{
-        "min-w": [_, i, "min", "max", "fit"]
+        "min-w": [S, i, "min", "max", "fit"]
       }],
       /**
        * Max-Width
        * @see https://tailwindcss.com/docs/max-width
        */
       "max-w": [{
-        "max-w": [_, i, "none", "full", "min", "max", "fit", "prose", {
+        "max-w": [S, i, "none", "full", "min", "max", "fit", "prose", {
           screen: [$e]
         }, $e]
       }],
@@ -909,28 +909,28 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/height
        */
       h: [{
-        h: [_, i, "auto", "min", "max", "fit", "svh", "lvh", "dvh"]
+        h: [S, i, "auto", "min", "max", "fit", "svh", "lvh", "dvh"]
       }],
       /**
        * Min-Height
        * @see https://tailwindcss.com/docs/min-height
        */
       "min-h": [{
-        "min-h": [_, i, "min", "max", "fit", "svh", "lvh", "dvh"]
+        "min-h": [S, i, "min", "max", "fit", "svh", "lvh", "dvh"]
       }],
       /**
        * Max-Height
        * @see https://tailwindcss.com/docs/max-height
        */
       "max-h": [{
-        "max-h": [_, i, "min", "max", "fit", "svh", "lvh", "dvh"]
+        "max-h": [S, i, "min", "max", "fit", "svh", "lvh", "dvh"]
       }],
       /**
        * Size
        * @see https://tailwindcss.com/docs/size
        */
       size: [{
-        size: [_, i, "auto", "min", "max", "fit"]
+        size: [S, i, "auto", "min", "max", "fit"]
       }],
       // Typography
       /**
@@ -999,7 +999,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/letter-spacing
        */
       tracking: [{
-        tracking: ["tighter", "tight", "normal", "wide", "wider", "widest", _]
+        tracking: ["tighter", "tight", "normal", "wide", "wider", "widest", S]
       }],
       /**
        * Line Clamp
@@ -1013,21 +1013,21 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/line-height
        */
       leading: [{
-        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", Ne, _]
+        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", we, S]
       }],
       /**
        * List Style Image
        * @see https://tailwindcss.com/docs/list-style-image
        */
       "list-image": [{
-        "list-image": ["none", _]
+        "list-image": ["none", S]
       }],
       /**
        * List Style Type
        * @see https://tailwindcss.com/docs/list-style-type
        */
       "list-style-type": [{
-        list: ["none", "disc", "decimal", _]
+        list: ["none", "disc", "decimal", S]
       }],
       /**
        * List Style Position
@@ -1089,14 +1089,14 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/text-decoration-thickness
        */
       "text-decoration-thickness": [{
-        decoration: ["auto", "from-font", Ne, Ce]
+        decoration: ["auto", "from-font", we, Ce]
       }],
       /**
        * Text Underline Offset
        * @see https://tailwindcss.com/docs/text-underline-offset
        */
       "underline-offset": [{
-        "underline-offset": ["auto", Ne, _]
+        "underline-offset": ["auto", we, S]
       }],
       /**
        * Text Decoration Color
@@ -1127,14 +1127,14 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/text-indent
        */
       indent: [{
-        indent: S()
+        indent: P()
       }],
       /**
        * Vertical Alignment
        * @see https://tailwindcss.com/docs/vertical-align
        */
       "vertical-align": [{
-        align: ["baseline", "top", "middle", "bottom", "text-top", "text-bottom", "sub", "super", _]
+        align: ["baseline", "top", "middle", "bottom", "text-top", "text-bottom", "sub", "super", S]
       }],
       /**
        * Whitespace
@@ -1162,7 +1162,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/content
        */
       content: [{
-        content: ["none", _]
+        content: ["none", S]
       }],
       // Backgrounds
       /**
@@ -1199,7 +1199,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/background-position
        */
       "bg-position": [{
-        bg: [...pe(), kn]
+        bg: [...pe(), Cn]
       }],
       /**
        * Background Repeat
@@ -1215,7 +1215,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/background-size
        */
       "bg-size": [{
-        bg: ["auto", "cover", "contain", wn]
+        bg: ["auto", "cover", "contain", kn]
       }],
       /**
        * Background Image
@@ -1224,7 +1224,7 @@ const B = (a) => {
       "bg-image": [{
         bg: ["none", {
           "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
-        }, $n]
+        }, _n]
       }],
       /**
        * Background Color
@@ -1259,21 +1259,21 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-from": [{
-        from: [N]
+        from: [f]
       }],
       /**
        * Gradient Color Stops Via
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-via": [{
-        via: [N]
+        via: [f]
       }],
       /**
        * Gradient Color Stops To
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-to": [{
-        to: [N]
+        to: [f]
       }],
       // Borders
       /**
@@ -1578,14 +1578,14 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/outline-offset
        */
       "outline-offset": [{
-        "outline-offset": [Ne, _]
+        "outline-offset": [we, S]
       }],
       /**
        * Outline Width
        * @see https://tailwindcss.com/docs/outline-width
        */
       "outline-w": [{
-        outline: [Ne, Ce]
+        outline: [we, Ce]
       }],
       /**
        * Outline Color
@@ -1599,7 +1599,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/ring-width
        */
       "ring-w": [{
-        ring: ee()
+        ring: te()
       }],
       /**
        * Ring Width Inset
@@ -1625,7 +1625,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/ring-offset-width
        */
       "ring-offset-w": [{
-        "ring-offset": [Ne, Ce]
+        "ring-offset": [we, Ce]
       }],
       /**
        * Ring Offset Color
@@ -1640,7 +1640,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/box-shadow
        */
       shadow: [{
-        shadow: ["", "inner", "none", $e, _n]
+        shadow: ["", "inner", "none", $e, Sn]
       }],
       /**
        * Box Shadow Color
@@ -1705,7 +1705,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/drop-shadow
        */
       "drop-shadow": [{
-        "drop-shadow": ["", "none", $e, _]
+        "drop-shadow": ["", "none", $e, S]
       }],
       /**
        * Grayscale
@@ -1740,7 +1740,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/sepia
        */
       sepia: [{
-        sepia: [f]
+        sepia: [v]
       }],
       /**
        * Backdrop Filter
@@ -1811,7 +1811,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/backdrop-sepia
        */
       "backdrop-sepia": [{
-        "backdrop-sepia": [f]
+        "backdrop-sepia": [v]
       }],
       // Tables
       /**
@@ -1862,7 +1862,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/transition-property
        */
       transition: [{
-        transition: ["none", "all", "", "colors", "opacity", "shadow", "transform", _]
+        transition: ["none", "all", "", "colors", "opacity", "shadow", "transform", S]
       }],
       /**
        * Transition Duration
@@ -1876,7 +1876,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/transition-timing-function
        */
       ease: [{
-        ease: ["linear", "in", "out", "in-out", _]
+        ease: ["linear", "in", "out", "in-out", S]
       }],
       /**
        * Transition Delay
@@ -1890,7 +1890,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/animation
        */
       animate: [{
-        animate: ["none", "spin", "ping", "pulse", "bounce", _]
+        animate: ["none", "spin", "ping", "pulse", "bounce", S]
       }],
       // Transforms
       /**
@@ -1926,7 +1926,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/rotate
        */
       rotate: [{
-        rotate: [ut, _]
+        rotate: [ut, S]
       }],
       /**
        * Translate X
@@ -1961,7 +1961,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/transform-origin
        */
       "transform-origin": [{
-        origin: ["center", "top", "top-right", "right", "bottom-right", "bottom", "bottom-left", "left", "top-left", _]
+        origin: ["center", "top", "top-right", "right", "bottom-right", "bottom", "bottom-left", "left", "top-left", S]
       }],
       // Interactivity
       /**
@@ -1983,7 +1983,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/cursor
        */
       cursor: [{
-        cursor: ["auto", "default", "pointer", "wait", "text", "move", "help", "not-allowed", "none", "context-menu", "progress", "cell", "crosshair", "vertical-text", "alias", "copy", "no-drop", "grab", "grabbing", "all-scroll", "col-resize", "row-resize", "n-resize", "e-resize", "s-resize", "w-resize", "ne-resize", "nw-resize", "se-resize", "sw-resize", "ew-resize", "ns-resize", "nesw-resize", "nwse-resize", "zoom-in", "zoom-out", _]
+        cursor: ["auto", "default", "pointer", "wait", "text", "move", "help", "not-allowed", "none", "context-menu", "progress", "cell", "crosshair", "vertical-text", "alias", "copy", "no-drop", "grab", "grabbing", "all-scroll", "col-resize", "row-resize", "n-resize", "e-resize", "s-resize", "w-resize", "ne-resize", "nw-resize", "se-resize", "sw-resize", "ew-resize", "ns-resize", "nesw-resize", "nwse-resize", "zoom-in", "zoom-out", S]
       }],
       /**
        * Caret Color
@@ -2018,126 +2018,126 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-m": [{
-        "scroll-m": S()
+        "scroll-m": P()
       }],
       /**
        * Scroll Margin X
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mx": [{
-        "scroll-mx": S()
+        "scroll-mx": P()
       }],
       /**
        * Scroll Margin Y
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-my": [{
-        "scroll-my": S()
+        "scroll-my": P()
       }],
       /**
        * Scroll Margin Start
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-ms": [{
-        "scroll-ms": S()
+        "scroll-ms": P()
       }],
       /**
        * Scroll Margin End
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-me": [{
-        "scroll-me": S()
+        "scroll-me": P()
       }],
       /**
        * Scroll Margin Top
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mt": [{
-        "scroll-mt": S()
+        "scroll-mt": P()
       }],
       /**
        * Scroll Margin Right
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mr": [{
-        "scroll-mr": S()
+        "scroll-mr": P()
       }],
       /**
        * Scroll Margin Bottom
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-mb": [{
-        "scroll-mb": S()
+        "scroll-mb": P()
       }],
       /**
        * Scroll Margin Left
        * @see https://tailwindcss.com/docs/scroll-margin
        */
       "scroll-ml": [{
-        "scroll-ml": S()
+        "scroll-ml": P()
       }],
       /**
        * Scroll Padding
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-p": [{
-        "scroll-p": S()
+        "scroll-p": P()
       }],
       /**
        * Scroll Padding X
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-px": [{
-        "scroll-px": S()
+        "scroll-px": P()
       }],
       /**
        * Scroll Padding Y
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-py": [{
-        "scroll-py": S()
+        "scroll-py": P()
       }],
       /**
        * Scroll Padding Start
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-ps": [{
-        "scroll-ps": S()
+        "scroll-ps": P()
       }],
       /**
        * Scroll Padding End
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pe": [{
-        "scroll-pe": S()
+        "scroll-pe": P()
       }],
       /**
        * Scroll Padding Top
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pt": [{
-        "scroll-pt": S()
+        "scroll-pt": P()
       }],
       /**
        * Scroll Padding Right
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pr": [{
-        "scroll-pr": S()
+        "scroll-pr": P()
       }],
       /**
        * Scroll Padding Bottom
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pb": [{
-        "scroll-pb": S()
+        "scroll-pb": P()
       }],
       /**
        * Scroll Padding Left
        * @see https://tailwindcss.com/docs/scroll-padding
        */
       "scroll-pl": [{
-        "scroll-pl": S()
+        "scroll-pl": P()
       }],
       /**
        * Scroll Snap Align
@@ -2205,7 +2205,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/will-change
        */
       "will-change": [{
-        "will-change": ["auto", "scroll", "contents", "transform", _]
+        "will-change": ["auto", "scroll", "contents", "transform", S]
       }],
       // SVG
       /**
@@ -2220,7 +2220,7 @@ const B = (a) => {
        * @see https://tailwindcss.com/docs/stroke-width
        */
       "stroke-w": [{
-        stroke: [Ne, Ce, Ot]
+        stroke: [we, Ce, Ot]
       }],
       /**
        * Stroke
@@ -2295,30 +2295,30 @@ const B = (a) => {
       "font-size": ["leading"]
     }
   };
-}, zn = /* @__PURE__ */ pn(Mn);
+}, Rn = /* @__PURE__ */ un(zn);
 function ve(...a) {
-  return zn(Za(a));
+  return Rn(Ja(a));
 }
-const Rn = "copanel_mobile_desktop_site";
-function An() {
+const An = "copanel_mobile_desktop_site";
+function Fn() {
   try {
-    return localStorage.getItem(Rn) === "1";
+    return localStorage.getItem(An) === "1";
   } catch {
     return !1;
   }
 }
 function jt(a = window.innerWidth) {
-  return An() || a >= 1024;
+  return Fn() || a >= 1024;
 }
-const Fn = fa(null);
-function Sa() {
-  return va(Fn);
+const Ln = fa(null);
+function _a() {
+  return va(Ln);
 }
-function qt() {
-  return Sa()?.isWindowed === !0;
+function Qt() {
+  return _a()?.isWindowed === !0;
 }
-function Ln({ children: a, className: i, constrained: n = !1 }) {
-  const { theme: o } = Kt(), c = qt(), m = o === "dark", b = !c && !jt();
+function En({ children: a, className: i, constrained: n = !1 }) {
+  const { theme: o } = Ut(), c = Qt(), m = o === "dark", b = !c && !jt();
   return /* @__PURE__ */ e(
     "div",
     {
@@ -2340,10 +2340,10 @@ function Bn({
   mobileTitle: o,
   className: c
 }) {
-  const m = qt(), [b, h] = p(!1), [C, x] = p(() => jt());
+  const m = Qt(), [b, h] = p(!1), [C, x] = p(() => jt());
   Le(() => {
-    const w = () => x(jt());
-    return window.addEventListener("resize", w), () => window.removeEventListener("resize", w);
+    const N = () => x(jt());
+    return window.addEventListener("resize", N), () => window.removeEventListener("resize", N);
   }, []);
   const s = !m && !C;
   Le(() => {
@@ -2402,7 +2402,7 @@ function Bn({
     /* @__PURE__ */ e("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: n })
   ] });
 }
-const En = {
+const In = {
   sm: "max-w-sm",
   md: "max-w-md",
   lg: "max-w-lg",
@@ -2411,7 +2411,7 @@ const En = {
   "4xl": "max-w-4xl",
   "5xl": "max-w-5xl"
 };
-function In({
+function Vn({
   open: a,
   onClose: i,
   children: n,
@@ -2420,14 +2420,20 @@ function In({
   maxWidth: m = "lg",
   closeOnBackdropClick: b = !0
 }) {
-  const { theme: h } = Kt(), C = h === "dark", x = Sa();
-  if (!a) return null;
-  const s = /* @__PURE__ */ e(
+  const { theme: h } = Ut(), C = h === "dark", x = _a(), s = Kt(null), [g, N] = p(null);
+  Ua(() => {
+    if (x?.isWindowed) return;
+    const E = s.current?.closest(".module-window-viewport");
+    N(E instanceof HTMLElement ? E : null);
+  }, [x?.isWindowed, a]);
+  const f = /* @__PURE__ */ e("span", { ref: s, hidden: !0, "aria-hidden": "true" });
+  if (!a) return f;
+  const T = !!(x?.isWindowed || g), k = /* @__PURE__ */ e(
     "div",
     {
       className: ve(
         "z-[80] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm",
-        x?.isWindowed ? "absolute inset-0" : "fixed inset-0"
+        T ? "absolute inset-0" : "fixed inset-0"
       ),
       onClick: b ? i : void 0,
       children: /* @__PURE__ */ r(
@@ -2435,11 +2441,11 @@ function In({
         {
           className: ve(
             "flex w-full flex-col overflow-hidden rounded-2xl border shadow-2xl",
-            En[m],
+            In[m],
             C ? "border-slate-700 bg-slate-900 text-slate-100" : "border-slate-200 bg-white text-slate-900",
             c
           ),
-          onClick: (g) => g.stopPropagation(),
+          onClick: (E) => E.stopPropagation(),
           children: [
             o && /* @__PURE__ */ r(
               "div",
@@ -2459,10 +2465,13 @@ function In({
         }
       )
     }
-  );
-  return x?.isWindowed && x.viewportRef.current ? oa(s, x.viewportRef.current) : oa(s, document.body);
+  ), _ = (x?.isWindowed ? x.viewportRef.current : null) || g || document.body, L = Qa(k, _);
+  return /* @__PURE__ */ r(J, { children: [
+    f,
+    L
+  ] });
 }
-function Vn({
+function Gn({
   queue: a,
   log: i,
   isDark: n,
@@ -2478,22 +2487,22 @@ function Vn({
   return /* @__PURE__ */ r("aside", { className: `flex w-full shrink-0 flex-col border-t lg:w-52 lg:border-l lg:border-t-0 xl:w-56 ${s} ${n ? "bg-slate-950/25" : "bg-[#ececf0]/35"}`, children: [
     /* @__PURE__ */ r("div", { className: `p-3 border-b ${s}`, children: [
       /* @__PURE__ */ e("p", { className: `text-[10px] font-bold uppercase tracking-wider mb-2 ${g}`, children: m.pendingOps }),
-      a.length === 0 ? /* @__PURE__ */ e("p", { className: `text-[11px] ${g}`, children: m.pendingEmpty }) : /* @__PURE__ */ e("ul", { className: "space-y-1.5 max-h-40 overflow-y-auto", children: a.map((w, N) => /* @__PURE__ */ r(
+      a.length === 0 ? /* @__PURE__ */ e("p", { className: `text-[11px] ${g}`, children: m.pendingEmpty }) : /* @__PURE__ */ e("ul", { className: "space-y-1.5 max-h-40 overflow-y-auto", children: a.map((N, f) => /* @__PURE__ */ r(
         "li",
         {
           className: `flex items-start gap-1.5 rounded-lg border px-2 py-1.5 text-[10px] ${n ? "border-slate-700 bg-slate-900/60" : "border-slate-200 bg-white"}`,
           children: [
             /* @__PURE__ */ r("span", { className: `shrink-0 font-mono font-bold ${n ? "text-cyan-400" : "text-cyan-700"}`, children: [
-              N + 1,
+              f + 1,
               "."
             ] }),
-            /* @__PURE__ */ e("span", { className: "flex-1 leading-snug break-words", children: w.summary }),
+            /* @__PURE__ */ e("span", { className: "flex-1 leading-snug break-words", children: N.summary }),
             /* @__PURE__ */ e(
               "button",
               {
                 type: "button",
                 disabled: o,
-                onClick: () => b(w.id),
+                onClick: () => b(N.id),
                 className: `shrink-0 p-0.5 rounded ${n ? "hover:bg-slate-800 text-slate-400" : "hover:bg-slate-100 text-slate-500"}`,
                 title: m.remove,
                 children: /* @__PURE__ */ e($.X, { className: "w-3 h-3" })
@@ -2501,7 +2510,7 @@ function Vn({
             )
           ]
         },
-        w.id
+        N.id
       )) }),
       /* @__PURE__ */ r("div", { className: "flex flex-col gap-1.5 mt-3", children: [
         /* @__PURE__ */ e(
@@ -2539,18 +2548,18 @@ function Vn({
     ] }),
     /* @__PURE__ */ r("div", { className: "flex-1 p-3 min-h-[120px] overflow-y-auto", children: [
       /* @__PURE__ */ e("p", { className: `text-[10px] font-bold uppercase tracking-wider mb-2 ${g}`, children: m.operationLog }),
-      i.length === 0 ? /* @__PURE__ */ e("p", { className: `text-[11px] ${g}`, children: m.logEmpty }) : /* @__PURE__ */ e("ul", { className: "space-y-2", children: i.map((w) => /* @__PURE__ */ r("li", { className: "text-[10px] leading-relaxed", children: [
+      i.length === 0 ? /* @__PURE__ */ e("p", { className: `text-[11px] ${g}`, children: m.logEmpty }) : /* @__PURE__ */ e("ul", { className: "space-y-2", children: i.map((N) => /* @__PURE__ */ r("li", { className: "text-[10px] leading-relaxed", children: [
         /* @__PURE__ */ r("div", { className: "flex items-center gap-1.5", children: [
-          w.status === "success" ? /* @__PURE__ */ e($.CheckCircle2, { className: "w-3 h-3 text-emerald-500 shrink-0" }) : w.status === "failed" ? /* @__PURE__ */ e($.XCircle, { className: "w-3 h-3 text-red-500 shrink-0" }) : /* @__PURE__ */ e($.Circle, { className: "w-3 h-3 text-slate-400 shrink-0" }),
-          /* @__PURE__ */ e("span", { className: "font-mono font-bold", children: w.op })
+          N.status === "success" ? /* @__PURE__ */ e($.CheckCircle2, { className: "w-3 h-3 text-emerald-500 shrink-0" }) : N.status === "failed" ? /* @__PURE__ */ e($.XCircle, { className: "w-3 h-3 text-red-500 shrink-0" }) : /* @__PURE__ */ e($.Circle, { className: "w-3 h-3 text-slate-400 shrink-0" }),
+          /* @__PURE__ */ e("span", { className: "font-mono font-bold", children: N.op })
         ] }),
-        w.preview && /* @__PURE__ */ e("p", { className: `font-mono mt-0.5 pl-4 truncate ${g}`, children: w.preview }),
-        /* @__PURE__ */ e("p", { className: `pl-4 ${w.status === "failed" ? "text-red-500" : g}`, children: w.message })
-      ] }, `${w.index}-${w.preview}`)) })
+        N.preview && /* @__PURE__ */ e("p", { className: `font-mono mt-0.5 pl-4 truncate ${g}`, children: N.preview }),
+        /* @__PURE__ */ e("p", { className: `pl-4 ${N.status === "failed" ? "text-red-500" : g}`, children: N.message })
+      ] }, `${N.index}-${N.preview}`)) })
     ] })
   ] });
 }
-const Gn = /* @__PURE__ */ new Set(["ext4", "ext3", "ext2", "ntfs"]);
+const On = /* @__PURE__ */ new Set(["ext4", "ext3", "ext2", "ntfs"]);
 function ca(a, i) {
   const n = a.start_mib ?? 1, o = a.end_mib ?? n;
   let m = i.size_bytes / (1024 * 1024);
@@ -2560,27 +2569,27 @@ function ca(a, i) {
     k > o + 0.5 && k < m + 0.5 && (m = k - 1);
   }
   for (const T of i.unallocated || []) {
-    const k = T.start_mib, P = T.end_mib;
-    P <= o + 0.5 || k <= o + 1 && P > o && (m = Math.max(m, P));
+    const k = T.start_mib, _ = T.end_mib;
+    _ <= o + 0.5 || k <= o + 1 && _ > o && (m = Math.max(m, _));
   }
-  const b = a.used_bytes ? Math.ceil(a.used_bytes / (1024 * 1024)) : 0, h = n + Math.max(64, Math.ceil(b * 1.12) + 32), C = (a.fstype || "").toLowerCase(), x = !C || Gn.has(C), s = !!(!a.is_mounted && x && h < o - 1), g = Math.floor(m), w = s ? Math.floor(h) : Math.ceil(o), N = g > o + 0.5;
+  const b = a.used_bytes ? Math.ceil(a.used_bytes / (1024 * 1024)) : 0, h = n + Math.max(64, Math.ceil(b * 1.12) + 32), C = (a.fstype || "").toLowerCase(), x = !C || On.has(C), s = !!(!a.is_mounted && x && h < o - 1), g = Math.floor(m), N = s ? Math.floor(h) : Math.ceil(o), f = g > o + 0.5;
   return {
-    minEndMib: w,
+    minEndMib: N,
     maxEndMib: g,
     currentEndMib: o,
-    canExtend: N,
+    canExtend: f,
     canShrink: s,
-    canResize: N || s
+    canResize: f || s
   };
 }
-function On(a, i, n) {
+function Wn(a, i, n) {
   const o = (a - i.left) / Math.max(1, i.width);
   return Math.round(Math.max(1, Math.min(n, o * n)));
 }
-function Wn(a, i) {
+function Hn(a, i) {
   return Math.max(i.minEndMib, Math.min(i.maxEndMib, Math.round(a)));
 }
-function Hn(a, i) {
+function Dn(a, i) {
   return i < a - 0.5;
 }
 const ma = {
@@ -2595,14 +2604,14 @@ const ma = {
   lvm2: "bg-amber-500",
   unknown: "bg-slate-500"
 };
-function Dn(a) {
+function jn(a) {
   const i = (a || "unknown").toLowerCase();
   return ma[i] || ma.unknown;
 }
 function pa(a) {
   return a.label ? a.label : a.mountpoint ? a.mountpoint : a.name ? a.name : `#${a.number}`;
 }
-function jn({
+function Kn({
   layout: a,
   mapSegments: i,
   selectedPath: n,
@@ -2615,16 +2624,16 @@ function jn({
   diskPath: x,
   tr: s,
   onSelectPartition: g,
-  onClickFree: w,
-  onDragResizeEnd: N
+  onClickFree: N,
+  onDragResizeEnd: f
 }) {
-  const T = ya(null), [k, P] = p(null), L = a.size_bytes / (1024 * 1024), E = K(
-    (M, f) => {
-      if (!o || !f.path || f.is_mounted) return;
-      const A = ca(f, a);
-      A.canResize && (M.stopPropagation(), M.preventDefault(), M.currentTarget.setPointerCapture(M.pointerId), P({
-        partPath: f.path,
-        previewEndMib: f.end_mib ?? A.minEndMib,
+  const T = Kt(null), [k, _] = p(null), L = a.size_bytes / (1024 * 1024), E = K(
+    (M, v) => {
+      if (!o || !v.path || v.is_mounted) return;
+      const A = ca(v, a);
+      A.canResize && (M.stopPropagation(), M.preventDefault(), M.currentTarget.setPointerCapture(M.pointerId), _({
+        partPath: v.path,
+        previewEndMib: v.end_mib ?? A.minEndMib,
         bounds: A
       }));
     },
@@ -2634,23 +2643,23 @@ function jn({
     if (!k) return;
     const M = (A) => {
       if (!T.current) return;
-      const O = T.current.getBoundingClientRect(), F = On(A.clientX, O, L);
-      P(
-        (G) => G ? { ...G, previewEndMib: Wn(F, G.bounds) } : null
+      const O = T.current.getBoundingClientRect(), F = Wn(A.clientX, O, L);
+      _(
+        (G) => G ? { ...G, previewEndMib: Hn(F, G.bounds) } : null
       );
-    }, f = () => {
-      P((A) => {
+    }, v = () => {
+      _((A) => {
         if (A) {
           const O = a.partitions.find((G) => G.path === A.partPath), F = O?.end_mib ?? 0;
-          O && Math.abs(A.previewEndMib - F) > 0.5 && N(O, A.previewEndMib);
+          O && Math.abs(A.previewEndMib - F) > 0.5 && f(O, A.previewEndMib);
         }
         return null;
       });
     };
-    return window.addEventListener("pointermove", M), window.addEventListener("pointerup", f), () => {
-      window.removeEventListener("pointermove", M), window.removeEventListener("pointerup", f);
+    return window.addEventListener("pointermove", M), window.addEventListener("pointerup", v), () => {
+      window.removeEventListener("pointermove", M), window.removeEventListener("pointerup", v);
     };
-  }, [k, L, a.partitions, N]);
+  }, [k, L, a.partitions, f]);
   const j = k ? a.partitions.find((M) => M.path === k.partPath) : null;
   return /* @__PURE__ */ r("div", { children: [
     /* @__PURE__ */ r(
@@ -2661,26 +2670,26 @@ function jn({
         children: [
           /* @__PURE__ */ e("div", { className: "flex h-16 gap-0.5 overflow-hidden rounded-lg relative", children: i.map((M) => {
             if (M.kind === "free") {
-              const S = M.gap;
+              const P = M.gap;
               return /* @__PURE__ */ e(
                 "button",
                 {
                   type: "button",
-                  disabled: !c || !S,
-                  onClick: () => S && w(S.start_mib, S.end_mib),
+                  disabled: !c || !P,
+                  onClick: () => P && N(P.start_mib, P.end_mib),
                   style: { width: `${M.widthPct}%` },
-                  className: `relative min-w-[2px] h-full flex items-center justify-center text-[9px] font-bold border border-dashed transition ${c && S ? b ? "bg-slate-900 border-cyan-700/50 text-cyan-400 hover:bg-cyan-950/50 cursor-pointer" : "bg-slate-100 border-cyan-300 text-cyan-700 hover:bg-cyan-50 cursor-pointer" : b ? "bg-slate-900 border-slate-600 text-slate-500" : "bg-slate-100 border-slate-300 text-slate-400"}`,
+                  className: `relative min-w-[2px] h-full flex items-center justify-center text-[9px] font-bold border border-dashed transition ${c && P ? b ? "bg-slate-900 border-cyan-700/50 text-cyan-400 hover:bg-cyan-950/50 cursor-pointer" : "bg-slate-100 border-cyan-300 text-cyan-700 hover:bg-cyan-50 cursor-pointer" : b ? "bg-slate-900 border-slate-600 text-slate-500" : "bg-slate-100 border-slate-300 text-slate-400"}`,
                   title: m ? s.rawDiskLabel : s.unallocated,
                   children: /* @__PURE__ */ e("span", { className: "truncate px-0.5 hidden sm:inline", children: m ? s.rawDiskLabel : s.unallocated })
                 },
                 M.key
               );
             }
-            const f = M.part, A = f.path === n, O = f.used_percent ?? 0, F = k?.partPath === f.path, G = ca(f, a), J = A && o && !f.is_mounted && G.canResize;
+            const v = M.part, A = v.path === n, O = v.used_percent ?? 0, F = k?.partPath === v.path, G = ca(v, a), ee = A && o && !v.is_mounted && G.canResize;
             let U = M.widthPct;
             if (F && j && k && a.size_bytes) {
-              const S = k.previewEndMib * 1024 * 1024, ee = (f.start_mib ?? 0) * 1024 * 1024;
-              U = Math.max(0.5, (S - ee) / a.size_bytes * 100);
+              const P = k.previewEndMib * 1024 * 1024, te = (v.start_mib ?? 0) * 1024 * 1024;
+              U = Math.max(0.5, (P - te) / a.size_bytes * 100);
             }
             return /* @__PURE__ */ r(
               "div",
@@ -2692,11 +2701,11 @@ function jn({
                     "button",
                     {
                       type: "button",
-                      onClick: () => f.path && g(f.path),
+                      onClick: () => v.path && g(v.path),
                       className: `relative w-full h-full text-left overflow-hidden transition ring-2 ${A ? "ring-amber-400 z-10" : "ring-transparent hover:ring-cyan-500/50"} ${b ? "bg-slate-800" : "bg-slate-100"} ${F ? "ring-cyan-400" : ""}`,
-                      title: `${pa(f)} · ${f.fstype_label || f.fstype || "—"}`,
+                      title: `${pa(v)} · ${v.fstype_label || v.fstype || "—"}`,
                       children: [
-                        /* @__PURE__ */ e("div", { className: `absolute inset-x-0 bottom-0 h-1.5 ${Dn(f.fstype)} opacity-80` }),
+                        /* @__PURE__ */ e("div", { className: `absolute inset-x-0 bottom-0 h-1.5 ${jn(v.fstype)} opacity-80` }),
                         /* @__PURE__ */ e(
                           "div",
                           {
@@ -2705,22 +2714,22 @@ function jn({
                           }
                         ),
                         /* @__PURE__ */ r("div", { className: "relative p-1 h-full flex flex-col justify-between", children: [
-                          /* @__PURE__ */ e("span", { className: `text-[9px] font-bold truncate leading-tight ${b ? "text-white" : "text-slate-800"}`, children: pa(f) }),
+                          /* @__PURE__ */ e("span", { className: `text-[9px] font-bold truncate leading-tight ${b ? "text-white" : "text-slate-800"}`, children: pa(v) }),
                           /* @__PURE__ */ r("span", { className: `text-[8px] font-mono truncate ${b ? "text-slate-400" : "text-slate-500"}`, children: [
-                            f.fstype_label || f.fstype || "—",
-                            f.size_bytes ? ` · ${h(f.size_bytes, C)}` : ""
+                            v.fstype_label || v.fstype || "—",
+                            v.size_bytes ? ` · ${h(v.size_bytes, C)}` : ""
                           ] }),
-                          f.is_boot && /* @__PURE__ */ e($.Flag, { className: "absolute top-1 right-1 w-2.5 h-2.5 text-amber-400" })
+                          v.is_boot && /* @__PURE__ */ e($.Flag, { className: "absolute top-1 right-1 w-2.5 h-2.5 text-amber-400" })
                         ] })
                       ]
                     }
                   ),
-                  J && /* @__PURE__ */ e(
+                  ee && /* @__PURE__ */ e(
                     "div",
                     {
                       role: "separator",
                       "aria-orientation": "vertical",
-                      onPointerDown: (S) => E(S, f),
+                      onPointerDown: (P) => E(P, v),
                       className: `absolute top-0 right-0 w-2 h-full cursor-ew-resize z-30 flex items-center justify-center ${b ? "hover:bg-cyan-500/40" : "hover:bg-cyan-500/30"}`,
                       title: s.dragResizeHint,
                       children: /* @__PURE__ */ e("div", { className: `w-0.5 h-8 rounded-full ${b ? "bg-cyan-400" : "bg-cyan-600"}` })
@@ -2737,7 +2746,7 @@ function jn({
               " · ",
               h(a.size_bytes, C)
             ] }),
-            k && j && /* @__PURE__ */ e("span", { className: b ? "text-cyan-400" : "text-cyan-700", children: Hn(j.end_mib ?? 0, k.previewEndMib) ? s.shrinkPreview(k.previewEndMib) : s.extendPreview(k.previewEndMib) })
+            k && j && /* @__PURE__ */ e("span", { className: b ? "text-cyan-400" : "text-cyan-700", children: Dn(j.end_mib ?? 0, k.previewEndMib) ? s.shrinkPreview(k.previewEndMib) : s.extendPreview(k.previewEndMib) })
           ] })
         ]
       }
@@ -2745,7 +2754,7 @@ function jn({
     o && !k && /* @__PURE__ */ e("p", { className: `mt-1 text-[9px] ${b ? "text-slate-500" : "text-slate-400"}`, children: s.dragResizeHint })
   ] });
 }
-function Kn() {
+function Un() {
   return `op-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 function ua(a) {
@@ -2778,12 +2787,12 @@ function Ht(a, i, n) {
   const c = o.partitions || [];
   let m = 1;
   const b = c.map((x, s) => {
-    const g = n.find((k) => k.device === x.path), w = x.size_bytes / (1024 * 1024), N = m, T = N + w;
+    const g = n.find((k) => k.device === x.path), N = x.size_bytes / (1024 * 1024), f = m, T = f + N;
     return m = T, {
       number: s + 1,
       name: x.name,
       path: x.path,
-      start_mib: N,
+      start_mib: f,
       end_mib: T,
       size_bytes: x.size_bytes,
       fstype: x.fstype,
@@ -2809,14 +2818,14 @@ function Ht(a, i, n) {
     unallocated: C
   };
 }
-function Un(a) {
+function qn(a) {
   const i = a instanceof Error ? a.message : String(a), n = i.toLowerCase();
   return n.includes("could not resolve partition number") || n.includes("confirmation must match") ? !1 : i === "Not Found" || i.includes("API route not found") || n.includes("service unavailable") || n.includes("parted") && n.includes("not found");
 }
-function qn(a) {
+function Qn(a) {
   return a.label ? a.label : a.mountpoint ? a.mountpoint : a.name ? a.name : `#${a.number}`;
 }
-function Qn({
+function Xn({
   disks: a,
   volumes: i,
   language: n,
@@ -2829,19 +2838,19 @@ function Qn({
   postJson: x,
   tr: s
 }) {
-  const [g, w] = p(""), [N, T] = p(null), [k, P] = p(!1), [L, E] = p(null), [j, M] = p(null), [f, A] = p(null), [O, F] = p("1MiB"), [G, J] = p("100%"), [U, S] = p("linux"), [ee, te] = p("gpt"), [pe, ue] = p(""), [be, he] = p(""), [ie, _e] = p("ext4"), [q, Ye] = p(""), [Se, Pe] = p(""), [Be, Ze] = p("100%"), [Je, ht] = p(!0), [et, tt] = p(!0), [Te, Ee] = p(""), [we, Ie] = p(""), [Me, at] = p(""), [ze, nt] = p(""), [Re, rt] = p(""), [Ve, Ge] = p("/mnt/data"), [gt, lt] = p("ntfs"), [xt, Q] = p(!0), st = ya(null), [ae, Oe] = p([]), [We, St] = p([]), [ot, He] = p(!1), [De, de] = p(null), Y = K((d) => {
-    Oe((v) => [...v, { ...d, id: Kn() }]), de(null), A(null);
+  const [g, N] = p(""), [f, T] = p(null), [k, _] = p(!1), [L, E] = p(null), [j, M] = p(null), [v, A] = p(null), [O, F] = p("1MiB"), [G, ee] = p("100%"), [U, P] = p("linux"), [te, ae] = p("gpt"), [pe, ue] = p(""), [be, he] = p(""), [ie, _e] = p("ext4"), [q, Ye] = p(""), [Se, Pe] = p(""), [Ee, Ze] = p("100%"), [Je, ht] = p(!0), [et, tt] = p(!0), [Te, Be] = p(""), [Ne, Ie] = p(""), [Me, at] = p(""), [ze, nt] = p(""), [Re, rt] = p(""), [Ve, Ge] = p("/mnt/data"), [gt, lt] = p("ntfs"), [xt, Q] = p(!0), st = Kt(null), [ne, Oe] = p([]), [We, St] = p([]), [ot, He] = p(!1), [De, de] = p(null), Y = K((d) => {
+    Oe((y) => [...y, { ...d, id: Un() }]), de(null), A(null);
   }, []), Pt = K((d) => {
-    Oe((v) => v.filter((R) => R.id !== d)), de(null);
+    Oe((y) => y.filter((R) => R.id !== d)), de(null);
   }, []), ft = K(() => {
     Oe([]), de(null);
   }, []), Tt = K(async () => {
-    if (ae.length !== 0) {
+    if (ne.length !== 0) {
       He(!0), de(null);
       try {
         const d = await x(
           "/api/storage_manager/operations/validate",
-          { operations: ae.map(ua) }
+          { operations: ne.map(ua) }
         );
         de(
           d.valid ? `${s.queue.validationOk} — ${d.summary}` : `${s.queue.validationFailed} — ${d.summary}`
@@ -2852,34 +2861,34 @@ function Qn({
         He(!1);
       }
     }
-  }, [ae, x, s.queue.validationFailed, s.queue.validationOk]), it = K((d) => {
+  }, [ne, x, s.queue.validationFailed, s.queue.validationOk]), it = K((d) => {
     he(d);
-    const v = N?.unallocated?.[0];
-    v ? (F(`${Math.ceil(v.start_mib)}MiB`), J(`${Math.floor(v.end_mib)}MiB`)) : (F("1MiB"), J("100%"));
-  }, [a, N]);
+    const y = f?.unallocated?.[0];
+    y ? (F(`${Math.ceil(y.start_mib)}MiB`), ee(`${Math.floor(y.end_mib)}MiB`)) : (F("1MiB"), ee("100%"));
+  }, [a, f]);
   Le(() => {
-    !g && a.length > 0 && w(a[0].name);
+    !g && a.length > 0 && N(a[0].name);
   }, [a, g]);
   const Ae = K(async (d) => {
     if (d) {
-      if (P(!0), E(null), st.current === !1) {
-        const v = Ht(d, a, i);
-        T(v ?? null), v || E("Failed to load layout"), P(!1);
+      if (_(!0), E(null), st.current === !1) {
+        const y = Ht(d, a, i);
+        T(y ?? null), y || E("Failed to load layout"), _(!1);
         return;
       }
       try {
-        const v = await h(
+        const y = await h(
           `/api/storage_manager/disks/${encodeURIComponent(d)}/partitions`
         );
         st.current = !0;
-        const R = a.find((Ue) => Ue.name === d), I = (v.partitions?.length ?? 0) === 0, mt = (R?.partitions?.length ?? 0) > 0;
+        const R = a.find((Ue) => Ue.name === d), I = (y.partitions?.length ?? 0) === 0, mt = (R?.partitions?.length ?? 0) > 0;
         if (I && mt) {
           const Ue = Ht(d, a, i);
-          T(Ue ?? v);
+          T(Ue ?? y);
         } else
-          T(v);
-      } catch (v) {
-        if (Un(v)) {
+          T(y);
+      } catch (y) {
+        if (qn(y)) {
           st.current = !1;
           const R = Ht(d, a, i);
           if (R) {
@@ -2887,9 +2896,9 @@ function Qn({
             return;
           }
         }
-        T(null), E(v instanceof Error ? v.message : "Failed to load layout");
+        T(null), E(y instanceof Error ? y.message : "Failed to load layout");
       } finally {
-        P(!1);
+        _(!1);
       }
     }
   }, [h, a, i]);
@@ -2897,56 +2906,56 @@ function Qn({
     g && (M(null), Ae(g));
   }, [g, Ae]);
   const u = fe(
-    () => N?.partitions.find((d) => d.path === j) ?? null,
-    [N, j]
+    () => f?.partitions.find((d) => d.path === j) ?? null,
+    [f, j]
   ), je = fe(
     () => a.find((d) => d.name === g),
     [a, g]
-  ), H = N && !N.is_system_disk, dt = N?.disk_state ?? (!N?.partition_table && !N?.partitions?.length ? "uninitialized" : N?.partitions?.length ? "partitioned" : "empty_table"), ce = dt === "uninitialized", Mt = dt === "empty_table", ct = H && !ce, ge = !!(u?.path && u?.name), ne = (d) => {
+  ), H = f && !f.is_system_disk, dt = f?.disk_state ?? (!f?.partition_table && !f?.partitions?.length ? "uninitialized" : f?.partitions?.length ? "partitioned" : "empty_table"), ce = dt === "uninitialized", Mt = dt === "empty_table", ct = H && !ce, ge = !!(u?.path && u?.name), re = (d) => {
     if (d === "initDisk") {
       if (!H) return;
-      ue(""), te("gpt"), A(d);
+      ue(""), ae("gpt"), A(d);
       return;
     }
-    if (!(!H && d !== "mount" && d !== "unmount") && !(d === "create" && ce) && !(d !== "create" && !ge) && (A(d), u?.name && (Pe(""), nt(""), Ee(""), at(""), rt(""), Ze("100%"), Ie(u.label || "")), d === "create" && (it(g), S("linux")), d === "mount" && u)) {
-      const v = u.fstype || "ntfs";
-      lt(Wt.some((I) => I.value === v) ? v : "ntfs");
+    if (!(!H && d !== "mount" && d !== "unmount") && !(d === "create" && ce) && !(d !== "create" && !ge) && (A(d), u?.name && (Pe(""), nt(""), Be(""), at(""), rt(""), Ze("100%"), Ie(u.label || "")), d === "create" && (it(g), P("linux")), d === "mount" && u)) {
+      const y = u.fstype || "ntfs";
+      lt(Wt.some((I) => I.value === y) ? y : "ntfs");
       const R = u.name || u.path?.replace("/dev/", "") || "data";
       Ge(`/mnt/${R}`), Q(!1);
     }
-  }, re = () => A(null), vt = K((d, v) => {
-    !H || ce || (F(`${Math.ceil(d)}MiB`), J(`${Math.floor(v)}MiB`), he(g), S("linux"), A("create"));
-  }, [g, H, ce]), zt = K((d, v) => {
+  }, le = () => A(null), vt = K((d, y) => {
+    !H || ce || (F(`${Math.ceil(d)}MiB`), ee(`${Math.floor(y)}MiB`), he(g), P("linux"), A("create"));
+  }, [g, H, ce]), zt = K((d, y) => {
     if (!d.name || !d.path) return;
-    const R = d.end_mib ?? 0, I = v < R - 0.5;
+    const R = d.end_mib ?? 0, I = y < R - 0.5;
     Y({
       op: "resize",
       device: d.path,
       confirm_token: d.name,
       params: {
-        end: `${v}MiB`,
+        end: `${y}MiB`,
         grow_filesystem: !I,
         shrink_filesystem: I
       },
-      summary: I ? `${s.shrinkPartition}: ${d.name} → ${v}MiB` : `${s.resizePartition}: ${d.name} → ${v}MiB`
+      summary: I ? `${s.shrinkPartition}: ${d.name} → ${y}MiB` : `${s.resizePartition}: ${d.name} → ${y}MiB`
     }), M(d.path);
   }, [Y, s.resizePartition, s.shrinkPartition]), Ke = K(async () => {
-    if (ae.length !== 0) {
+    if (ne.length !== 0) {
       He(!0), de(null);
       try {
         const d = await x("/api/storage_manager/operations/apply", {
-          operations: ae.map(ua)
+          operations: ne.map(ua)
         });
         St(
-          (d.log || []).map((v) => ({
-            index: v.index,
-            op: v.op,
-            status: v.status === "success" ? "success" : "failed",
-            preview: v.preview,
-            message: v.message
+          (d.log || []).map((y) => ({
+            index: y.index,
+            op: y.op,
+            status: y.status === "success" ? "success" : "failed",
+            preview: y.preview,
+            message: y.message
           }))
         ), d.completed ? (Oe([]), de(s.queue.validationOk), await Ae(g)) : de(
-          `${s.queue.validationFailed} — ${d.applied}/${ae.length}`
+          `${s.queue.validationFailed} — ${d.applied}/${ne.length}`
         );
       } catch (d) {
         de(d instanceof Error ? d.message : String(d));
@@ -2954,7 +2963,7 @@ function Qn({
         He(!1);
       }
     }
-  }, [g, Ae, ae, x, s.queue.validationFailed, s.queue.validationOk]), Rt = fe(() => f ? {
+  }, [g, Ae, ne, x, s.queue.validationFailed, s.queue.validationOk]), Rt = fe(() => v ? {
     initDisk: s.initializeDiskTitle,
     create: s.createPartition,
     format: s.formatPartition,
@@ -2964,28 +2973,28 @@ function Qn({
     boot: s.setBoot,
     mount: s.mountVolume,
     unmount: s.unmountVolume
-  }[f] : void 0, [f, s]), le = async (d) => {
+  }[v] : void 0, [v, s]), se = async (d) => {
     await C(async () => {
       const R = await d();
       return await Ae(g), R;
-    }) && re();
+    }) && le();
   }, At = fe(() => {
-    if (!N || !N.size_bytes) return [];
-    const d = N.size_bytes, v = [];
-    for (const R of N.partitions) {
+    if (!f || !f.size_bytes) return [];
+    const d = f.size_bytes, y = [];
+    for (const R of f.partitions) {
       const I = R.size_bytes || 0;
-      v.push({
+      y.push({
         key: R.path || `p${R.number}`,
         kind: "part",
         start: R.start_mib ?? 0,
         widthPct: Math.max(0.5, I / d * 100),
         part: R,
-        label: qn(R)
+        label: Qn(R)
       });
     }
-    for (const R of N.unallocated || []) {
+    for (const R of f.unallocated || []) {
       const I = R.size_mib * 1024 * 1024;
-      v.push({
+      y.push({
         key: `free-${R.start_mib}`,
         kind: "free",
         start: R.start_mib,
@@ -2994,8 +3003,8 @@ function Qn({
         label: ce ? s.rawDiskLabel : s.unallocated
       });
     }
-    return v.sort((R, I) => R.start - I.start);
-  }, [N, s.unallocated, s.rawDiskLabel, ce]), D = (d, v, R, I, mt) => /* @__PURE__ */ r(
+    return y.sort((R, I) => R.start - I.start);
+  }, [f, s.unallocated, s.rawDiskLabel, ce]), D = (d, y, R, I, mt) => /* @__PURE__ */ r(
     "button",
     {
       type: "button",
@@ -3004,23 +3013,23 @@ function Qn({
       className: `flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[11px] font-medium transition ${I ? o ? "cursor-not-allowed opacity-40 text-slate-500" : "cursor-not-allowed opacity-40 text-slate-400" : mt ? o ? "text-red-300 hover:bg-red-950/40" : "text-red-600 hover:bg-red-50" : o ? "text-slate-200 hover:bg-slate-800/70" : "text-slate-700 hover:bg-black/[0.04]"}`,
       children: [
         d,
-        /* @__PURE__ */ e("span", { children: v })
+        /* @__PURE__ */ e("span", { children: y })
       ]
     }
   );
   return a.length === 0 ? /* @__PURE__ */ e("p", { className: `p-8 text-center text-xs ${o ? "text-slate-500" : "text-slate-400"}`, children: s.noDisks }) : /* @__PURE__ */ r("div", { className: "flex h-full min-h-0 flex-col", children: [
     /* @__PURE__ */ e("div", { className: `shrink-0 border-b px-3 py-2 ${o ? "border-slate-800 bg-slate-950/30" : "border-slate-200/90 bg-[#ececf0]/50"}`, children: /* @__PURE__ */ e("div", { className: `inline-flex max-w-full flex-wrap gap-0.5 rounded-lg p-0.5 ${o ? "bg-slate-900/80" : "bg-black/[0.06]"}`, children: a.map((d) => {
-      const v = d.name === g;
+      const y = d.name === g;
       return /* @__PURE__ */ r(
         "button",
         {
           type: "button",
-          onClick: () => w(d.name),
-          className: `rounded-md px-3 py-1.5 text-[11px] font-medium transition ${v ? o ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm" : o ? "text-slate-400 hover:text-slate-200" : "text-slate-600 hover:text-slate-900"}`,
+          onClick: () => N(d.name),
+          className: `rounded-md px-3 py-1.5 text-[11px] font-medium transition ${y ? o ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm" : o ? "text-slate-400 hover:text-slate-200" : "text-slate-600 hover:text-slate-900"}`,
           children: [
             /* @__PURE__ */ e("span", { className: "font-mono font-semibold", children: d.name }),
             /* @__PURE__ */ e("span", { className: "ml-1.5 font-normal opacity-70", children: b(d.size_bytes, n) }),
-            d.is_system_disk && /* @__PURE__ */ e("span", { className: `ml-1 rounded px-1 text-[9px] ${v ? o ? "bg-white/15" : "bg-slate-100" : o ? "bg-blue-500/20 text-blue-300" : "bg-blue-100 text-blue-700"}`, children: s.systemDisk })
+            d.is_system_disk && /* @__PURE__ */ e("span", { className: `ml-1 rounded px-1 text-[9px] ${y ? o ? "bg-white/15" : "bg-slate-100" : o ? "bg-blue-500/20 text-blue-300" : "bg-blue-100 text-blue-700"}`, children: s.systemDisk })
           ]
         },
         d.name
@@ -3032,20 +3041,20 @@ function Qn({
         D(
           /* @__PURE__ */ e($.HardDrive, { className: "w-3.5 h-3.5" }),
           s.initializeDisk,
-          () => ne("initDisk"),
+          () => re("initDisk"),
           !H || dt === "partitioned",
           !1
         ),
         /* @__PURE__ */ e("p", { className: `text-[10px] font-bold uppercase tracking-wider mb-2 mt-3 pt-2 border-t ${o ? "text-slate-500 border-slate-800" : "text-slate-400 border-slate-200"}`, children: s.operations }),
-        D(/* @__PURE__ */ e($.Plus, { className: "w-3.5 h-3.5" }), s.createPartition, () => ne("create"), !ct),
-        D(/* @__PURE__ */ e($.Eraser, { className: "w-3.5 h-3.5" }), s.formatPartition, () => ne("format"), !H || !ge || u?.is_mounted),
-        D(/* @__PURE__ */ e($.Trash2, { className: "w-3.5 h-3.5" }), s.deletePartition, () => ne("delete"), !H || !ge || u?.is_mounted, !0),
-        D(/* @__PURE__ */ e($.MoveHorizontal, { className: "w-3.5 h-3.5" }), s.resizePartition, () => ne("resize"), !H || !ge),
-        D(/* @__PURE__ */ e($.Tag, { className: "w-3.5 h-3.5" }), s.changeLabel, () => ne("label"), !H || !ge || !u?.fstype),
-        D(/* @__PURE__ */ e($.Flag, { className: "w-3.5 h-3.5" }), s.setBoot, () => ne("boot"), !H || !ge),
-        D(/* @__PURE__ */ e($.FolderOpen, { className: "w-3.5 h-3.5" }), s.mountVolume, () => ne("mount"), !ge || u?.is_mounted || u?.mountable === !1),
-        D(/* @__PURE__ */ e($.FolderMinus, { className: "w-3.5 h-3.5" }), s.unmountVolume, () => ne("unmount"), !ge || !u?.is_mounted),
-        N?.is_system_disk && /* @__PURE__ */ e("p", { className: `text-[10px] mt-3 px-1 ${o ? "text-amber-400/80" : "text-amber-700"}`, children: s.protectedNote })
+        D(/* @__PURE__ */ e($.Plus, { className: "w-3.5 h-3.5" }), s.createPartition, () => re("create"), !ct),
+        D(/* @__PURE__ */ e($.Eraser, { className: "w-3.5 h-3.5" }), s.formatPartition, () => re("format"), !H || !ge || u?.is_mounted),
+        D(/* @__PURE__ */ e($.Trash2, { className: "w-3.5 h-3.5" }), s.deletePartition, () => re("delete"), !H || !ge || u?.is_mounted, !0),
+        D(/* @__PURE__ */ e($.MoveHorizontal, { className: "w-3.5 h-3.5" }), s.resizePartition, () => re("resize"), !H || !ge),
+        D(/* @__PURE__ */ e($.Tag, { className: "w-3.5 h-3.5" }), s.changeLabel, () => re("label"), !H || !ge || !u?.fstype),
+        D(/* @__PURE__ */ e($.Flag, { className: "w-3.5 h-3.5" }), s.setBoot, () => re("boot"), !H || !ge),
+        D(/* @__PURE__ */ e($.FolderOpen, { className: "w-3.5 h-3.5" }), s.mountVolume, () => re("mount"), !ge || u?.is_mounted || u?.mountable === !1),
+        D(/* @__PURE__ */ e($.FolderMinus, { className: "w-3.5 h-3.5" }), s.unmountVolume, () => re("unmount"), !ge || !u?.is_mounted),
+        f?.is_system_disk && /* @__PURE__ */ e("p", { className: `text-[10px] mt-3 px-1 ${o ? "text-amber-400/80" : "text-amber-700"}`, children: s.protectedNote })
       ] }),
       /* @__PURE__ */ r("div", { className: "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden", children: [
         /* @__PURE__ */ r("div", { className: `shrink-0 border-b p-3 ${o ? "border-slate-800" : "border-slate-200/90"}`, children: [
@@ -3054,7 +3063,7 @@ function Qn({
             je && /* @__PURE__ */ r("span", { className: `text-[10px] truncate ${o ? "text-slate-400" : "text-slate-500"}`, children: [
               je.model,
               " · ",
-              ce ? s.rawDiskLabel : N?.partition_table?.toUpperCase() || "—"
+              ce ? s.rawDiskLabel : f?.partition_table?.toUpperCase() || "—"
             ] })
           ] }),
           !k && !L && ce && /* @__PURE__ */ r("div", { className: `mb-3 rounded-xl border px-3 py-2.5 text-[11px] leading-relaxed ${o ? "border-amber-500/40 bg-amber-950/30 text-amber-100" : "border-amber-200 bg-amber-50 text-amber-900"}`, children: [
@@ -3062,10 +3071,10 @@ function Qn({
             /* @__PURE__ */ e("p", { className: "opacity-90 mt-1", children: s.uninitializedStep })
           ] }),
           !k && !L && Mt && /* @__PURE__ */ e("div", { className: `mb-3 rounded-xl border px-3 py-2.5 text-[11px] ${o ? "border-cyan-500/30 bg-cyan-950/20 text-cyan-100" : "border-cyan-200 bg-cyan-50 text-cyan-900"}`, children: s.emptyTableStep }),
-          k ? /* @__PURE__ */ e("p", { className: `text-xs ${o ? "text-slate-500" : "text-slate-400"}`, children: s.loadingLayout }) : L ? /* @__PURE__ */ e("p", { className: "text-xs text-red-500", children: L }) : N && /* @__PURE__ */ e(
-            jn,
+          k ? /* @__PURE__ */ e("p", { className: `text-xs ${o ? "text-slate-500" : "text-slate-400"}`, children: s.loadingLayout }) : L ? /* @__PURE__ */ e("p", { className: "text-xs text-red-500", children: L }) : f && /* @__PURE__ */ e(
+            Kn,
             {
-              layout: N,
+              layout: f,
               mapSegments: At,
               selectedPath: j,
               canMutate: !!H,
@@ -3099,13 +3108,13 @@ function Qn({
               /* @__PURE__ */ e("th", { className: "p-2", children: s.type }),
               /* @__PURE__ */ e("th", { className: "p-2", children: s.status })
             ] }) }),
-            /* @__PURE__ */ e("tbody", { className: `divide-y ${o ? "divide-slate-800" : "divide-slate-100"}`, children: (N?.partitions || []).map((d) => {
-              const v = d.path === j, R = d.used_percent;
+            /* @__PURE__ */ e("tbody", { className: `divide-y ${o ? "divide-slate-800" : "divide-slate-100"}`, children: (f?.partitions || []).map((d) => {
+              const y = d.path === j, R = d.used_percent;
               return /* @__PURE__ */ r(
                 "tr",
                 {
                   onClick: () => M(d.path || null),
-                  className: `cursor-pointer transition ${v ? o ? "bg-cyan-950/40" : "bg-cyan-50" : o ? "hover:bg-slate-800/40" : "hover:bg-slate-50"}`,
+                  className: `cursor-pointer transition ${y ? o ? "bg-cyan-950/40" : "bg-cyan-50" : o ? "hover:bg-slate-800/40" : "hover:bg-slate-50"}`,
                   children: [
                     /* @__PURE__ */ r("td", { className: "p-2 pl-4 font-mono font-bold", children: [
                       d.label || d.name || d.number,
@@ -3131,7 +3140,7 @@ function Qn({
               );
             }) })
           ] }),
-          !k && (N?.partitions.length || 0) === 0 && /* @__PURE__ */ e("p", { className: `p-4 text-xs ${o ? "text-slate-500" : "text-slate-400"}`, children: s.selectPartition })
+          !k && (f?.partitions.length || 0) === 0 && /* @__PURE__ */ e("p", { className: `p-4 text-xs ${o ? "text-slate-500" : "text-slate-400"}`, children: s.selectPartition })
         ] }),
         u && /* @__PURE__ */ r("div", { className: `grid shrink-0 grid-cols-2 gap-2 border-t px-3 py-2 text-[11px] md:grid-cols-4 ${o ? "border-slate-800 bg-slate-950/30" : "border-slate-200/90 bg-[#ececf0]/30"}`, children: [
           /* @__PURE__ */ r("div", { children: [
@@ -3148,7 +3157,7 @@ function Qn({
               ":"
             ] }),
             " ",
-            N?.partition_table || "—"
+            f?.partition_table || "—"
           ] }),
           /* @__PURE__ */ r("div", { children: [
             /* @__PURE__ */ r("span", { className: "opacity-60", children: [
@@ -3166,9 +3175,9 @@ function Qn({
         ] })
       ] }),
       /* @__PURE__ */ e(
-        Vn,
+        Gn,
         {
-          queue: ae,
+          queue: ne,
           log: We,
           isDark: o,
           busy: ot || c,
@@ -3181,22 +3190,22 @@ function Qn({
         }
       )
     ] }),
-    /* @__PURE__ */ e(In, { open: !!f, onClose: re, title: Rt, maxWidth: "md", children: /* @__PURE__ */ r("div", { className: "space-y-4 p-5 max-h-[70vh] overflow-y-auto text-sm", children: [
-      f === "initDisk" && /* @__PURE__ */ r(oe, { children: [
+    /* @__PURE__ */ e(Vn, { open: !!v, onClose: le, title: Rt, maxWidth: "md", children: /* @__PURE__ */ r("div", { className: "space-y-4 p-5 max-h-[70vh] overflow-y-auto text-sm", children: [
+      v === "initDisk" && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("p", { className: "text-[11px] opacity-70", children: s.initializeDiskHint }),
         /* @__PURE__ */ r("p", { className: "text-[11px] font-mono", children: [
           je?.path,
           " · ",
-          b(N?.size_bytes || 0, n)
+          b(f?.size_bytes || 0, n)
         ] }),
         /* @__PURE__ */ e("p", { className: "text-[11px] text-red-500", children: s.initWipeWarning }),
         /* @__PURE__ */ r("fieldset", { className: "space-y-2 text-[11px]", children: [
           /* @__PURE__ */ r("label", { className: "flex items-center gap-2 cursor-pointer", children: [
-            /* @__PURE__ */ e("input", { type: "radio", name: "tableType", checked: ee === "gpt", onChange: () => te("gpt") }),
+            /* @__PURE__ */ e("input", { type: "radio", name: "tableType", checked: te === "gpt", onChange: () => ae("gpt") }),
             s.tableGpt
           ] }),
           /* @__PURE__ */ r("label", { className: "flex items-center gap-2 cursor-pointer", children: [
-            /* @__PURE__ */ e("input", { type: "radio", name: "tableType", checked: ee === "msdos", onChange: () => te("msdos") }),
+            /* @__PURE__ */ e("input", { type: "radio", name: "tableType", checked: te === "msdos", onChange: () => ae("msdos") }),
             s.tableMbr
           ] })
         ] }),
@@ -3211,7 +3220,7 @@ function Qn({
         ] }),
         m && /* @__PURE__ */ e("p", { className: "text-[11px] text-red-500 whitespace-pre-wrap", children: m }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
@@ -3221,8 +3230,8 @@ function Qn({
                 op: "initialize",
                 disk_name: g,
                 confirm_token: pe.trim(),
-                params: { table_type: ee },
-                summary: `${s.initializeDisk}: ${g} (${ee.toUpperCase()})`
+                params: { table_type: te },
+                summary: `${s.initializeDisk}: ${g} (${te.toUpperCase()})`
               }),
               className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-amber-700 text-amber-300" : "border-amber-300 text-amber-800"}`,
               children: s.addToQueue
@@ -3233,9 +3242,9 @@ function Qn({
             {
               type: "button",
               disabled: c || pe.trim() !== g,
-              onClick: () => le(() => x(`/api/storage_manager/disks/${encodeURIComponent(g)}/initialize`, {
+              onClick: () => se(() => x(`/api/storage_manager/disks/${encodeURIComponent(g)}/initialize`, {
                 disk_name: g,
-                table_type: ee,
+                table_type: te,
                 confirm_token: pe.trim()
               })),
               className: "flex-1 py-2 rounded-xl text-xs font-bold bg-amber-600 text-white disabled:opacity-50",
@@ -3244,7 +3253,7 @@ function Qn({
           )
         ] })
       ] }),
-      f === "create" && /* @__PURE__ */ r(oe, { children: [
+      v === "create" && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.createPartition }),
         /* @__PURE__ */ r("p", { className: "text-[11px] opacity-70", children: [
           s.selectDisk,
@@ -3257,7 +3266,7 @@ function Qn({
         ] }),
         /* @__PURE__ */ r("label", { className: "block text-[11px] space-y-1", children: [
           s.end,
-          /* @__PURE__ */ e("input", { value: G, onChange: (d) => J(d.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` })
+          /* @__PURE__ */ e("input", { value: G, onChange: (d) => ee(d.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` })
         ] }),
         /* @__PURE__ */ r("label", { className: "block text-[11px] space-y-1", children: [
           s.partitionType,
@@ -3265,7 +3274,7 @@ function Qn({
             "select",
             {
               value: U,
-              onChange: (d) => S(d.target.value),
+              onChange: (d) => P(d.target.value),
               className: `w-full rounded-lg border px-3 py-2 text-xs ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}`,
               children: ba.map((d) => /* @__PURE__ */ e("option", { value: d.value, children: s[d.labelKey] }, d.value))
             }
@@ -3276,7 +3285,7 @@ function Qn({
           /* @__PURE__ */ e("input", { value: be, onChange: (d) => he(d.target.value), placeholder: g, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` })
         ] }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
@@ -3298,7 +3307,7 @@ function Qn({
             {
               type: "button",
               disabled: c || be !== g,
-              onClick: () => le(() => x("/api/storage_manager/partitions/create", {
+              onClick: () => se(() => x("/api/storage_manager/partitions/create", {
                 disk_name: g,
                 start: O,
                 end: G,
@@ -3312,7 +3321,7 @@ function Qn({
           )
         ] })
       ] }),
-      f === "format" && u && /* @__PURE__ */ r(oe, { children: [
+      v === "format" && u && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.formatPartition }),
         /* @__PURE__ */ e("p", { className: "text-[11px] text-red-500", children: s.dataLossWarning }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.path }),
@@ -3320,7 +3329,7 @@ function Qn({
         /* @__PURE__ */ e("input", { value: q, onChange: (d) => Ye(d.target.value), placeholder: s.labelOptional, className: `w-full rounded-lg border px-3 py-2 text-xs ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
         /* @__PURE__ */ e("input", { value: Se, onChange: (d) => Pe(d.target.value), placeholder: s.confirmPartName, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
@@ -3342,7 +3351,7 @@ function Qn({
             {
               type: "button",
               disabled: c || Se !== u.name,
-              onClick: () => le(() => x("/api/storage_manager/format", {
+              onClick: () => se(() => x("/api/storage_manager/format", {
                 device: u.path,
                 fstype: ie,
                 label: q || void 0,
@@ -3354,7 +3363,7 @@ function Qn({
           )
         ] })
       ] }),
-      f === "delete" && u && /* @__PURE__ */ r(oe, { children: [
+      v === "delete" && u && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold text-red-500", children: s.deletePartition }),
         /* @__PURE__ */ e("p", { className: "text-[11px]", children: s.deleteWarning }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.path }),
@@ -3366,7 +3375,7 @@ function Qn({
         ] }),
         m && /* @__PURE__ */ e("p", { className: "text-[11px] text-red-500 whitespace-pre-wrap", children: m }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
@@ -3388,7 +3397,7 @@ function Qn({
             {
               type: "button",
               disabled: c || ze.trim() !== (u.name || ""),
-              onClick: () => le(() => x("/api/storage_manager/partitions/delete", {
+              onClick: () => se(() => x("/api/storage_manager/partitions/delete", {
                 device: u.path,
                 confirm_token: ze.trim(),
                 partition_number: u.number || null
@@ -3399,13 +3408,13 @@ function Qn({
           )
         ] })
       ] }),
-      f === "resize" && u && /* @__PURE__ */ r(oe, { children: [
+      v === "resize" && u && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.resizePartition }),
         /* @__PURE__ */ e("p", { className: "text-[11px] opacity-70", children: s.resizeHint }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.path }),
         /* @__PURE__ */ r("label", { className: "block text-[11px] space-y-1", children: [
           s.end,
-          /* @__PURE__ */ e("input", { value: Be, onChange: (d) => Ze(d.target.value), placeholder: "100%", className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` })
+          /* @__PURE__ */ e("input", { value: Ee, onChange: (d) => Ze(d.target.value), placeholder: "100%", className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` })
         ] }),
         /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-[11px]", children: [
           /* @__PURE__ */ e("input", { type: "checkbox", checked: Je, onChange: (d) => ht(d.target.checked) }),
@@ -3416,9 +3425,9 @@ function Qn({
           s.shrinkFilesystem
         ] }),
         /* @__PURE__ */ e("p", { className: "text-[10px] opacity-60", children: s.shrinkHint }),
-        /* @__PURE__ */ e("input", { value: Te, onChange: (d) => Ee(d.target.value), placeholder: s.confirmPartName, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
+        /* @__PURE__ */ e("input", { value: Te, onChange: (d) => Be(d.target.value), placeholder: s.confirmPartName, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
@@ -3428,8 +3437,8 @@ function Qn({
                 op: "resize",
                 device: u.path,
                 confirm_token: Te,
-                params: { end: Be, grow_filesystem: Je, shrink_filesystem: et },
-                summary: `${s.resizePartition}: ${u.name} → ${Be}`
+                params: { end: Ee, grow_filesystem: Je, shrink_filesystem: et },
+                summary: `${s.resizePartition}: ${u.name} → ${Ee}`
               }),
               className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-cyan-700 text-cyan-300" : "border-cyan-300 text-cyan-800"}`,
               children: s.addToQueue
@@ -3440,9 +3449,9 @@ function Qn({
             {
               type: "button",
               disabled: c || Te !== u.name,
-              onClick: () => le(() => x("/api/storage_manager/partitions/resize", {
+              onClick: () => se(() => x("/api/storage_manager/partitions/resize", {
                 device: u.path,
-                end: Be,
+                end: Ee,
                 grow_filesystem: Je,
                 shrink_filesystem: et,
                 confirm_token: Te
@@ -3453,24 +3462,24 @@ function Qn({
           )
         ] })
       ] }),
-      f === "label" && u && /* @__PURE__ */ r(oe, { children: [
+      v === "label" && u && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.changeLabel }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.path }),
-        /* @__PURE__ */ e("input", { value: we, onChange: (d) => Ie(d.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
+        /* @__PURE__ */ e("input", { value: Ne, onChange: (d) => Ie(d.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
         /* @__PURE__ */ e("input", { value: Me, onChange: (d) => at(d.target.value), placeholder: s.confirmPartName, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${o ? "bg-slate-950 border-slate-700" : "border-slate-200"}` }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
               type: "button",
-              disabled: c || Me !== u.name || !we.trim(),
+              disabled: c || Me !== u.name || !Ne.trim(),
               onClick: () => Y({
                 op: "label",
                 device: u.path,
                 confirm_token: Me,
-                params: { label: we.trim() },
-                summary: `${s.changeLabel}: ${u.name} → ${we.trim()}`
+                params: { label: Ne.trim() },
+                summary: `${s.changeLabel}: ${u.name} → ${Ne.trim()}`
               }),
               className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-cyan-700 text-cyan-300" : "border-cyan-300 text-cyan-800"}`,
               children: s.addToQueue
@@ -3480,10 +3489,10 @@ function Qn({
             "button",
             {
               type: "button",
-              disabled: c || Me !== u.name || !we.trim(),
-              onClick: () => le(() => x("/api/storage_manager/partitions/label", {
+              disabled: c || Me !== u.name || !Ne.trim(),
+              onClick: () => se(() => x("/api/storage_manager/partitions/label", {
                 device: u.path,
-                label: we.trim(),
+                label: Ne.trim(),
                 confirm_token: Me
               })),
               className: "flex-1 py-2 rounded-xl text-xs font-bold bg-cyan-600 text-white disabled:opacity-50",
@@ -3492,7 +3501,7 @@ function Qn({
           )
         ] })
       ] }),
-      f === "boot" && u && /* @__PURE__ */ r(oe, { children: [
+      v === "boot" && u && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.setBoot }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.path }),
         /* @__PURE__ */ e("p", { className: "text-[10px] opacity-70", children: n === "vi" ? "GPT: FAT32 → EFI (esp), ext4/xfs/btrfs → legacy_boot. exFAT/NTFS không hỗ trợ." : "GPT: FAT32 → EFI (esp), ext4/xfs/btrfs → legacy_boot. exFAT/NTFS not supported." }),
@@ -3504,7 +3513,7 @@ function Qn({
         ] }),
         m && /* @__PURE__ */ e("p", { className: "text-[11px] text-red-500 whitespace-pre-wrap", children: m }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
@@ -3526,7 +3535,7 @@ function Qn({
             {
               type: "button",
               disabled: c || Re.trim() !== (u.name || ""),
-              onClick: () => le(() => x("/api/storage_manager/partitions/boot", {
+              onClick: () => se(() => x("/api/storage_manager/partitions/boot", {
                 device: u.path,
                 active: !0,
                 confirm_token: Re.trim(),
@@ -3538,7 +3547,7 @@ function Qn({
           )
         ] })
       ] }),
-      f === "mount" && u && /* @__PURE__ */ r(oe, { children: [
+      v === "mount" && u && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.mountVolume }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.path }),
         u.parttype_label && !u.fstype && /* @__PURE__ */ r("p", { className: "text-[11px] text-amber-600 dark:text-amber-400", children: [
@@ -3564,13 +3573,13 @@ function Qn({
           s.persistFstab
         ] }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
               type: "button",
               disabled: c || !Ve.trim() || !Ve.trim().startsWith("/"),
-              onClick: () => le(() => x("/api/storage_manager/mount", {
+              onClick: () => se(() => x("/api/storage_manager/mount", {
                 device: u.path,
                 mountpoint: Ve.trim(),
                 fstype: gt,
@@ -3583,17 +3592,17 @@ function Qn({
           )
         ] })
       ] }),
-      f === "unmount" && u?.mountpoint && /* @__PURE__ */ r(oe, { children: [
+      v === "unmount" && u?.mountpoint && /* @__PURE__ */ r(J, { children: [
         /* @__PURE__ */ e("h3", { className: "font-bold", children: s.unmountVolume }),
         /* @__PURE__ */ e("p", { className: "text-[11px] font-mono", children: u.mountpoint }),
         /* @__PURE__ */ r("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ e("button", { type: "button", onClick: re, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
+          /* @__PURE__ */ e("button", { type: "button", onClick: le, className: `flex-1 py-2 rounded-xl text-xs font-bold border ${o ? "border-slate-700" : "border-slate-200"}`, children: s.cancel }),
           /* @__PURE__ */ e(
             "button",
             {
               type: "button",
               disabled: c,
-              onClick: () => le(() => x("/api/storage_manager/unmount", {
+              onClick: () => se(() => x("/api/storage_manager/unmount", {
                 mountpoint: u.mountpoint,
                 remove_fstab: !1
               })),
@@ -3606,7 +3615,7 @@ function Qn({
     ] }) })
   ] });
 }
-function Xn(a) {
+function Yn(a) {
   return {
     panel: a ? "bg-slate-900 border-slate-700/80 text-slate-100" : "bg-[#f5f5f7] border-slate-200/90 text-slate-900",
     muted: a ? "text-slate-400" : "text-slate-500",
@@ -3620,7 +3629,7 @@ function Xn(a) {
     sidebar: a ? "bg-slate-950/40 border-slate-800" : "bg-[#ececf0]/80 border-slate-200/90"
   };
 }
-const Pa = [
+const Sa = [
   { value: "ext4", label: "ext4 (Linux)" },
   { value: "xfs", label: "XFS (Linux)" },
   { value: "btrfs", label: "Btrfs (Linux)" },
@@ -3628,14 +3637,14 @@ const Pa = [
   { value: "exfat", label: "exFAT" },
   { value: "ntfs", label: "NTFS (Windows)" },
   { value: "hfsplus", label: "HFS+ (macOS)" }
-], Yn = [
-  ...Pa,
+], Zn = [
+  ...Sa,
   { value: "apfs", label: "APFS (Apple, read-only)" }
 ];
 function ha(a) {
   return a.fstype_label || a.fstype || "—";
 }
-function Zn(a, i) {
+function Jn(a, i) {
   if (a == null) return "—";
   const n = Math.floor(a / 24);
   return i === "vi" ? `${a.toLocaleString("vi-VN")} giờ (~${n.toLocaleString("vi-VN")} ngày)` : `${a.toLocaleString("en-US")} h (~${n.toLocaleString("en-US")} days)`;
@@ -3643,10 +3652,10 @@ function Zn(a, i) {
 function ga(a) {
   return a == null ? "—" : a >= 1024 ? `${(a / 1024).toFixed(2)} TB` : `${a.toFixed(2)} GB`;
 }
-function Jn(a) {
+function er(a) {
   return a == null ? "—" : `${a.toFixed(1)} MiB/s`;
 }
-const er = ["/", "/boot", "/boot/efi", "/usr", "/var"], tr = [
+const tr = ["/", "/boot", "/boot/efi", "/usr", "/var"], ar = [
   "/api/storage_manager/version",
   "/api/storage_manager/partitions/delete",
   "/api/storage_manager/partitions/create",
@@ -3656,8 +3665,8 @@ const er = ["/", "/boot", "/boot/efi", "/usr", "/var"], tr = [
   "/api/storage_manager/operations/validate",
   "/api/storage_manager/operations/apply"
 ];
-function ar(a) {
-  return !!(er.includes(a) || a.startsWith("/opt/copanel"));
+function nr(a) {
+  return !!(tr.includes(a) || a.startsWith("/opt/copanel"));
 }
 function xa(a, i) {
   const n = a.error;
@@ -3671,7 +3680,7 @@ function xe(a, i) {
     o /= 1024, c += 1;
   return `${o >= 100 || c === 0 ? o.toFixed(0) : o.toFixed(1)} ${n[c]}`;
 }
-function nr(a, i) {
+function rr(a, i) {
   return a === "critical" ? {
     ring: i ? "border-red-500/40 bg-red-950/30" : "border-red-200 bg-red-50",
     icon: i ? "text-red-400" : "text-red-600",
@@ -3689,12 +3698,12 @@ function nr(a, i) {
     badge: "bg-emerald-500/15 border-emerald-500/30 text-emerald-500"
   };
 }
-function rr(a, i) {
+function lr(a, i) {
   const n = a?.status || "unknown";
   return n === "healthy" || a?.passed === !0 ? { label: "Healthy", cls: i ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" : "text-emerald-700 bg-emerald-50 border-emerald-200" } : n === "critical" || a?.passed === !1 ? { label: "Critical", cls: i ? "text-red-400 bg-red-500/10 border-red-500/20" : "text-red-700 bg-red-50 border-red-200" } : { label: "Unknown", cls: i ? "text-slate-400 bg-slate-800/60 border-slate-700" : "text-slate-600 bg-slate-100 border-slate-200" };
 }
-function mr() {
-  const { theme: a, language: i } = Kt(), n = a === "dark", o = localStorage.getItem("copanel_token"), [c, m] = p("disks"), [b, h] = p(!0), [C, x] = p(null), [s, g] = p(null), [w, N] = p([]), [T, k] = p([]), [P, L] = p(null), [E, j] = p([]), [M, f] = p(null), [A, O] = p(null), [F, G] = p(!1), [J, U] = p(null), [S, ee] = p(!1), [te, pe] = p(""), [ue, be] = p("1MiB"), [he, ie] = p("100%"), [_e, q] = p(!1), [Ye, Se] = p(""), [Pe, Be] = p(""), [Ze, Je] = p("ext4"), [ht, et] = p(""), [tt, Te] = p(""), [Ee, we] = p(""), [Ie, Me] = p("/mnt/data"), [at, ze] = p("ext4"), [nt, Re] = p("defaults"), [rt, Ve] = p(!0), [Ge, gt] = p(""), [lt, xt] = p(!1), [Q, st] = p(null), [ae, Oe] = p("data-vg"), [We, St] = p([]), [ot, He] = p(""), [De, de] = p(""), [Y, Pt] = p("data-lv"), [ft, Tt] = p("100%FREE"), [it, Ae] = p(""), [u, je] = p(""), [H, dt] = p(""), [ce, Mt] = p("100%FREE"), [ct, ge] = p(!0), [ne, re] = p(""), [vt, zt] = p(1), [Ke, Rt] = p([]), [le, At] = p(""), [D, d] = p(null), [v, R] = p([]), [I, mt] = p(""), [Ue, Ta] = p("short"), [Ft, Ma] = p(""), [Lt, za] = p(""), [yt, Ra] = p(""), [Bt, Aa] = p(!1), [Et, Fa] = p(""), [La, Ba] = p({}), [Ea, Qt] = p(null), [Ia, Va] = p(null), [Ga, Nt] = p(null), [It, Oa] = p("quick"), l = {
+function pr() {
+  const { theme: a, language: i } = Ut(), n = a === "dark", o = localStorage.getItem("copanel_token"), [c, m] = p("disks"), [b, h] = p(!0), [C, x] = p(null), [s, g] = p(null), [N, f] = p([]), [T, k] = p([]), [_, L] = p(null), [E, j] = p([]), [M, v] = p(null), [A, O] = p(null), [F, G] = p(!1), [ee, U] = p(null), [P, te] = p(!1), [ae, pe] = p(""), [ue, be] = p("1MiB"), [he, ie] = p("100%"), [_e, q] = p(!1), [Ye, Se] = p(""), [Pe, Ee] = p(""), [Ze, Je] = p("ext4"), [ht, et] = p(""), [tt, Te] = p(""), [Be, Ne] = p(""), [Ie, Me] = p("/mnt/data"), [at, ze] = p("ext4"), [nt, Re] = p("defaults"), [rt, Ve] = p(!0), [Ge, gt] = p(""), [lt, xt] = p(!1), [Q, st] = p(null), [ne, Oe] = p("data-vg"), [We, St] = p([]), [ot, He] = p(""), [De, de] = p(""), [Y, Pt] = p("data-lv"), [ft, Tt] = p("100%FREE"), [it, Ae] = p(""), [u, je] = p(""), [H, dt] = p(""), [ce, Mt] = p("100%FREE"), [ct, ge] = p(!0), [re, le] = p(""), [vt, zt] = p(1), [Ke, Rt] = p([]), [se, At] = p(""), [D, d] = p(null), [y, R] = p([]), [I, mt] = p(""), [Ue, Pa] = p("short"), [Ft, Ta] = p(""), [Lt, Ma] = p(""), [yt, za] = p(""), [Et, Ra] = p(!1), [Bt, Aa] = p(""), [Fa, La] = p({}), [Ea, Xt] = p(null), [Ba, Ia] = p(null), [Va, wt] = p(null), [It, Ga] = p("quick"), l = {
     en: {
       title: "Storage Manager",
       desc: "Monitor physical drives, mounted volumes, and SMART disk health on this server.",
@@ -4087,22 +4096,22 @@ function mr() {
     const t = {};
     return o && (t.Authorization = `Bearer ${o}`), t;
   }, [o]), Z = K(async (t) => {
-    const y = await fetch(t, { headers: qe }), z = await y.json().catch(() => ({}));
-    if (!y.ok)
-      throw new Error(xa(z, y.status));
+    const w = await fetch(t, { headers: qe }), z = await w.json().catch(() => ({}));
+    if (!w.ok)
+      throw new Error(xa(z, w.status));
     return z.data;
-  }, [qe]), X = K(async (t, y) => {
+  }, [qe]), X = K(async (t, w) => {
     const z = await fetch(t, {
       method: "POST",
       headers: { ...qe, "Content-Type": "application/json" },
-      body: JSON.stringify(y)
+      body: JSON.stringify(w)
     }), V = await z.json().catch(() => ({}));
     if (!z.ok)
       throw new Error(xa(V, z.status));
     return V.data;
-  }, [qe]), wt = K(async () => {
+  }, [qe]), Nt = K(async () => {
     h(!0), x(null);
-    const t = [], y = await Promise.allSettled([
+    const t = [], w = await Promise.allSettled([
       Z("/api/storage_manager/overview"),
       Z("/api/storage_manager/disks"),
       Z("/api/storage_manager/volumes"),
@@ -4110,96 +4119,96 @@ function mr() {
       Z("/api/storage_manager/pools"),
       Z("/api/storage_manager/maintenance"),
       Z("/api/storage_manager/alerts")
-    ]), [z, V, Fe, me, na, ra, la] = y;
-    z.status === "fulfilled" ? g(z.value) : t.push(z.reason instanceof Error ? z.reason.message : "overview failed"), V.status === "fulfilled" ? N(V.value) : (N([]), t.push(V.reason instanceof Error ? V.reason.message : "disks failed")), Fe.status === "fulfilled" ? k(Fe.value) : (k([]), t.push(Fe.reason instanceof Error ? Fe.reason.message : "volumes failed")), j(me.status === "fulfilled" ? me.value : []), st(na.status === "fulfilled" ? na.value : null), d(ra.status === "fulfilled" ? ra.value : null), R(la.status === "fulfilled" ? la.value?.alerts || [] : []), t.length > 0 && x(t.join(" · "));
+    ]), [z, V, Fe, me, ra, la, sa] = w;
+    z.status === "fulfilled" ? g(z.value) : t.push(z.reason instanceof Error ? z.reason.message : "overview failed"), V.status === "fulfilled" ? f(V.value) : (f([]), t.push(V.reason instanceof Error ? V.reason.message : "disks failed")), Fe.status === "fulfilled" ? k(Fe.value) : (k([]), t.push(Fe.reason instanceof Error ? Fe.reason.message : "volumes failed")), j(me.status === "fulfilled" ? me.value : []), st(ra.status === "fulfilled" ? ra.value : null), d(la.status === "fulfilled" ? la.value : null), R(sa.status === "fulfilled" ? sa.value?.alerts || [] : []), t.length > 0 && x(t.join(" · "));
     try {
       const [Gt, ke] = await Promise.allSettled([
         Z("/api/storage_manager/version"),
         fetch("/api/modules", { headers: qe }).then(async (_t) => {
-          const Ua = await _t.json().catch(() => ({}));
+          const Ka = await _t.json().catch(() => ({}));
           if (!_t.ok) throw new Error("modules list failed");
-          return Ua;
+          return Ka;
         })
       ]);
       Gt.status === "fulfilled" ? U(Gt.value.version) : U(null);
-      const sa = ke.status === "fulfilled" ? ke.value.modules?.storage_manager?.routes || [] : [], Da = ke.status === "fulfilled" ? ke.value.modules?.storage_manager?.route_count ?? sa.length : 0, ja = ke.status === "fulfilled" && ke.value.modules?.storage_manager != null && typeof ke.value.modules == "object" && !Array.isArray(ke.value.modules) && Da > 0 ? tr.some((_t) => !sa.includes(_t)) : !1, Ka = Gt.status !== "fulfilled";
-      ee(Ka || ja);
+      const oa = ke.status === "fulfilled" ? ke.value.modules?.storage_manager?.routes || [] : [], Ha = ke.status === "fulfilled" ? ke.value.modules?.storage_manager?.route_count ?? oa.length : 0, Da = ke.status === "fulfilled" && ke.value.modules?.storage_manager != null && typeof ke.value.modules == "object" && !Array.isArray(ke.value.modules) && Ha > 0 ? ar.some((_t) => !oa.includes(_t)) : !1, ja = Gt.status !== "fulfilled";
+      te(ja || Da);
     } catch {
-      U(null), ee(!0);
+      U(null), te(!0);
     }
     h(!1);
   }, [Z, qe]);
   Le(() => {
-    wt();
-  }, [wt, i]);
+    Nt();
+  }, [Nt, i]);
   const Vt = K(async (t) => {
-    Qt(t);
+    Xt(t);
     try {
-      const y = await Z(`/api/storage_manager/disks/${encodeURIComponent(t)}/smart`);
-      Ba((z) => ({ ...z, [t]: y }));
+      const w = await Z(`/api/storage_manager/disks/${encodeURIComponent(t)}/smart`);
+      La((z) => ({ ...z, [t]: w }));
     } catch {
     } finally {
-      Qt(null);
+      Xt(null);
     }
   }, [Z]);
   Le(() => {
-    P && Vt(P);
-  }, [P, Vt]);
-  const Xt = K(async (t) => {
-    const y = await Z(
+    _ && Vt(_);
+  }, [_, Vt]);
+  const Yt = K(async (t) => {
+    const w = await Z(
       `/api/storage_manager/disks/${encodeURIComponent(t)}/benchmark`
     );
-    return Nt(y), y;
-  }, [Z]), Wa = K(async (t) => {
-    Va(t), Nt({ status: "running", progress: 5 });
+    return wt(w), w;
+  }, [Z]), Oa = K(async (t) => {
+    Ia(t), wt({ status: "running", progress: 5 });
     try {
       await X(`/api/storage_manager/disks/${encodeURIComponent(t)}/benchmark`, {
         profile: It
       });
-      const y = async () => {
+      const w = async () => {
         try {
-          (await Xt(t)).status === "running" && window.setTimeout(y, 1500);
+          (await Yt(t)).status === "running" && window.setTimeout(w, 1500);
         } catch (z) {
-          Nt({
+          wt({
             status: "failed",
             error: z instanceof Error ? z.message : "Benchmark poll failed"
           });
         }
       };
-      y();
-    } catch (y) {
-      Nt({
+      w();
+    } catch (w) {
+      wt({
         status: "failed",
-        error: y instanceof Error ? y.message : "Failed to start benchmark"
+        error: w instanceof Error ? w.message : "Failed to start benchmark"
       });
     }
-  }, [It, Xt, X]), ye = s?.health || "healthy", pt = nr(ye, n), Yt = ye === "critical" ? l.critical : ye === "warning" ? l.warning : l.healthy, Ha = [
+  }, [It, Yt, X]), ye = s?.health || "healthy", pt = rr(ye, n), Zt = ye === "critical" ? l.critical : ye === "warning" ? l.warning : l.healthy, Wa = [
     { id: "overview", label: l.overview, icon: $.LayoutDashboard },
     { id: "disks", label: l.disks, icon: $.HardDrive },
     { id: "volumes", label: l.volumes, icon: $.Database },
     { id: "pools", label: l.pools, icon: $.Layers },
     { id: "maintenance", label: l.maintenance, icon: $.Stethoscope },
     { id: "manage", label: l.manage, icon: $.Settings2 }
-  ], Zt = fe(
+  ], Jt = fe(
     () => new Set((Q?.lvm.physical_volumes || []).map((t) => t.pv_name)),
     [Q]
-  ), Jt = (t, y, z) => {
-    z(y.includes(t) ? y.filter((V) => V !== t) : [...y, t]);
-  }, kt = fe(() => w.filter((t) => !t.is_system_disk), [w]), Ct = fe(() => kt.flatMap(
-    (t) => t.partitions.filter((y) => !y.mountpoint).map((y) => ({ ...y, diskName: t.name }))
-  ), [kt]), ea = fe(
-    () => Ct.filter((t) => !Zt.has(t.path)),
-    [Ct, Zt]
-  ), ta = fe(
-    () => T.filter((t) => !ar(t.mountpoint)),
+  ), ea = (t, w, z) => {
+    z(w.includes(t) ? w.filter((V) => V !== t) : [...w, t]);
+  }, kt = fe(() => N.filter((t) => !t.is_system_disk), [N]), Ct = fe(() => kt.flatMap(
+    (t) => t.partitions.filter((w) => !w.mountpoint).map((w) => ({ ...w, diskName: t.name }))
+  ), [kt]), ta = fe(
+    () => Ct.filter((t) => !Jt.has(t.path)),
+    [Ct, Jt]
+  ), aa = fe(
+    () => T.filter((t) => !nr(t.mountpoint)),
     [T]
-  ), se = async (t) => {
-    G(!0), O(null), f(null);
+  ), oe = async (t) => {
+    G(!0), O(null), v(null);
     try {
-      const y = await t();
-      return f(y.message || l.success), await wt(), !0;
-    } catch (y) {
-      return O(y instanceof Error ? y.message : "Action failed"), !1;
+      const w = await t();
+      return v(w.message || l.success), await Nt(), !0;
+    } catch (w) {
+      return O(w instanceof Error ? w.message : "Action failed"), !1;
     } finally {
       G(!1);
     }
@@ -4209,16 +4218,16 @@ function mr() {
     s.tools.parted === !1 ? l.parted : null,
     s.tools.lvm === !1 ? l.lvm : null,
     s.tools.mdadm === !1 ? l.mdadm : null
-  ].filter(Boolean) : [], aa = qt(), W = Xn(n);
+  ].filter(Boolean) : [], na = Qt(), W = Yn(n);
   return /* @__PURE__ */ e(
-    Ln,
+    En,
     {
       constrained: !0,
-      className: `h-full min-h-0 ${aa ? "p-0" : "p-3 md:p-4"}`,
+      className: `h-full min-h-0 ${na ? "p-0" : "p-3 md:p-4"}`,
       children: /* @__PURE__ */ r(
         "div",
         {
-          className: `flex h-full min-h-0 flex-col overflow-hidden border ${W.panel} ${aa ? "rounded-none border-0" : "rounded-xl shadow-sm"}`,
+          className: `flex h-full min-h-0 flex-col overflow-hidden border ${W.panel} ${na ? "rounded-none border-0" : "rounded-xl shadow-sm"}`,
           children: [
             /* @__PURE__ */ r("header", { className: `flex shrink-0 items-center gap-3 border-b px-4 py-2.5 ${W.headerBorder}`, children: [
               /* @__PURE__ */ e("div", { className: `flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${n ? "bg-cyan-500/15" : "bg-cyan-50"}`, children: /* @__PURE__ */ e($.HardDrive, { className: `h-5 w-5 ${n ? "text-cyan-400" : "text-cyan-600"}` }) }),
@@ -4233,7 +4242,7 @@ function mr() {
                     className: `inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold ${pt.ring}`,
                     children: [
                       /* @__PURE__ */ e("span", { className: `h-1.5 w-1.5 rounded-full ${ye === "healthy" ? "bg-emerald-500" : ye === "warning" ? "bg-amber-500" : "bg-red-500"}` }),
-                      Yt
+                      Zt
                     ]
                   }
                 ),
@@ -4251,7 +4260,7 @@ function mr() {
                 "button",
                 {
                   type: "button",
-                  onClick: wt,
+                  onClick: Nt,
                   disabled: b,
                   className: `flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[11px] font-semibold transition ${W.btn}`,
                   children: [
@@ -4261,7 +4270,7 @@ function mr() {
                 }
               )
             ] }),
-            S && /* @__PURE__ */ e("div", { className: `shrink-0 border-b px-4 py-2 text-[11px] ${n ? "border-red-900/40 bg-red-950/30 text-red-200" : "border-red-200 bg-red-50 text-red-800"}`, children: l.apiStaleBanner }),
+            P && /* @__PURE__ */ e("div", { className: `shrink-0 border-b px-4 py-2 text-[11px] ${n ? "border-red-900/40 bg-red-950/30 text-red-200" : "border-red-200 bg-red-50 text-red-800"}`, children: l.apiStaleBanner }),
             C && /* @__PURE__ */ r("div", { className: `mx-3 mt-2 flex shrink-0 items-center gap-2 rounded-lg border px-3 py-2 text-[11px] ${n ? "border-red-800/50 bg-red-950/30 text-red-300" : "border-red-200 bg-red-50 text-red-700"}`, children: [
               /* @__PURE__ */ e($.AlertCircle, { className: "h-3.5 w-3.5 shrink-0" }),
               /* @__PURE__ */ e("span", { className: "flex-1", children: C }),
@@ -4273,8 +4282,8 @@ function mr() {
                 isDark: n,
                 mobileTitle: l.title,
                 sidebar: /* @__PURE__ */ r("aside", { className: `flex h-full w-48 shrink-0 flex-col border-r xl:w-52 ${W.sidebar}`, children: [
-                  /* @__PURE__ */ e("nav", { className: "flex-1 space-y-0.5 overflow-y-auto p-2", children: Ha.map((t) => {
-                    const y = t.icon, z = c === t.id;
+                  /* @__PURE__ */ e("nav", { className: "flex-1 space-y-0.5 overflow-y-auto p-2", children: Wa.map((t) => {
+                    const w = t.icon, z = c === t.id;
                     return /* @__PURE__ */ r(
                       "button",
                       {
@@ -4282,7 +4291,7 @@ function mr() {
                         onClick: () => m(t.id),
                         className: `flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[12px] font-medium transition ${z ? W.activeNav : `${W.muted} ${W.hoverNav}`}`,
                         children: [
-                          /* @__PURE__ */ e(y, { className: `h-4 w-4 shrink-0 ${z ? n ? "text-cyan-400" : "text-cyan-600" : ""}` }),
+                          /* @__PURE__ */ e(w, { className: `h-4 w-4 shrink-0 ${z ? n ? "text-cyan-400" : "text-cyan-600" : ""}` }),
                           /* @__PURE__ */ e("span", { className: "truncate", children: t.label })
                         ]
                       },
@@ -4291,7 +4300,7 @@ function mr() {
                   }) }),
                   /* @__PURE__ */ r("div", { className: `shrink-0 border-t p-2 text-[10px] leading-snug ${W.headerBorder} ${W.muted}`, children: [
                     /* @__PURE__ */ e("p", { children: l.adminNote }),
-                    J && /* @__PURE__ */ e("p", { className: "mt-1 font-mono opacity-70", children: l.backendVersionLabel(J) }),
+                    ee && /* @__PURE__ */ e("p", { className: "mt-1 font-mono opacity-70", children: l.backendVersionLabel(ee) }),
                     $t.length > 0 && /* @__PURE__ */ r("p", { className: `mt-1 ${n ? "text-amber-400/90" : "text-amber-700"}`, children: [
                       l.toolsMissing,
                       " ",
@@ -4308,7 +4317,7 @@ function mr() {
                       /* @__PURE__ */ e("div", { className: `w-16 h-16 rounded-full border-4 flex items-center justify-center shrink-0 ${ye === "healthy" ? n ? "border-emerald-500/50 bg-emerald-500/10" : "border-emerald-400 bg-emerald-100" : ye === "warning" ? n ? "border-amber-500/50 bg-amber-500/10" : "border-amber-400 bg-amber-100" : n ? "border-red-500/50 bg-red-500/10" : "border-red-400 bg-red-100"}`, children: ye === "healthy" ? /* @__PURE__ */ e($.CheckCircle2, { className: `w-8 h-8 ${pt.icon}` }) : /* @__PURE__ */ e($.AlertTriangle, { className: `w-8 h-8 ${pt.icon}` }) }),
                       /* @__PURE__ */ r("div", { className: "min-w-0 flex-1", children: [
                         /* @__PURE__ */ r("div", { className: "flex items-center gap-2 flex-wrap", children: [
-                          /* @__PURE__ */ e("h2", { className: `text-xl font-extrabold ${pt.text}`, children: Yt }),
+                          /* @__PURE__ */ e("h2", { className: `text-xl font-extrabold ${pt.text}`, children: Zt }),
                           /* @__PURE__ */ e("span", { className: `text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${pt.badge}`, children: ye })
                         ] }),
                         /* @__PURE__ */ e("p", { className: `text-sm mt-1 ${n ? "text-slate-300" : "text-slate-600"}`, children: s.message || l.systemHealthy }),
@@ -4324,11 +4333,11 @@ function mr() {
                       { label: l.totalCapacity, value: xe(s.total_disk_bytes, i || "en"), icon: $.Layers },
                       { label: l.smartMonitored, value: `${s.smart_passed}/${s.smart_monitored}`, icon: $.Activity }
                     ].map((t) => {
-                      const y = t.icon;
+                      const w = t.icon;
                       return /* @__PURE__ */ r("div", { className: `rounded-xl border p-4 ${W.section}`, children: [
                         /* @__PURE__ */ r("div", { className: "flex items-center justify-between mb-2", children: [
                           /* @__PURE__ */ e("p", { className: `text-[10px] uppercase font-bold tracking-wider ${n ? "text-slate-500" : "text-slate-400"}`, children: t.label }),
-                          /* @__PURE__ */ e(y, { className: `w-4 h-4 ${n ? "text-cyan-400" : "text-cyan-600"}` })
+                          /* @__PURE__ */ e(w, { className: `w-4 h-4 ${n ? "text-cyan-400" : "text-cyan-600"}` })
                         ] }),
                         /* @__PURE__ */ e("p", { className: `text-lg font-extrabold ${n ? "text-white" : "text-slate-800"}`, children: t.value })
                       ] }, t.label);
@@ -4375,9 +4384,9 @@ function mr() {
                   ] }),
                   c === "disks" && /* @__PURE__ */ r("div", { className: "flex min-h-0 flex-1 flex-col", children: [
                     /* @__PURE__ */ e("div", { className: "flex min-h-0 flex-1 flex-col overflow-hidden", children: /* @__PURE__ */ e(
-                      Qn,
+                      Xn,
                       {
-                        disks: w,
+                        disks: N,
                         volumes: T,
                         language: i || "en",
                         isDark: n,
@@ -4385,7 +4394,7 @@ function mr() {
                         actionErr: A,
                         formatBytes: xe,
                         fetchJson: Z,
-                        runAction: se,
+                        runAction: oe,
                         postJson: X,
                         tr: {
                           diskMap: l.diskMap,
@@ -4459,7 +4468,7 @@ function mr() {
                         }
                       }
                     ) }),
-                    w.length > 0 && /* @__PURE__ */ r("div", { className: `shrink-0 border-t ${W.headerBorder} ${W.section}`, children: [
+                    N.length > 0 && /* @__PURE__ */ r("div", { className: `shrink-0 border-t ${W.headerBorder} ${W.section}`, children: [
                       /* @__PURE__ */ r("div", { className: `px-4 py-3 border-b flex flex-wrap items-center justify-between gap-2 ${n ? "border-slate-800" : "border-slate-200"}`, children: [
                         /* @__PURE__ */ r("p", { className: "text-xs font-bold uppercase tracking-wider opacity-70", children: [
                           "SMART & ",
@@ -4468,10 +4477,10 @@ function mr() {
                         /* @__PURE__ */ e(
                           "select",
                           {
-                            value: P || w[0]?.name || "",
+                            value: _ || N[0]?.name || "",
                             onChange: (t) => L(t.target.value),
                             className: `rounded-lg border px-3 py-1.5 text-[11px] font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-white border-slate-200"}`,
-                            children: w.map((t) => /* @__PURE__ */ r("option", { value: t.name, children: [
+                            children: N.map((t) => /* @__PURE__ */ r("option", { value: t.name, children: [
                               t.name,
                               " — ",
                               t.model
@@ -4480,23 +4489,23 @@ function mr() {
                         )
                       ] }),
                       (() => {
-                        const t = P || w[0]?.name, y = w.find((me) => me.name === t);
-                        if (!y) return null;
-                        const z = La[y.name] || y.smart, V = Ia === y.name ? Ga : null, Fe = rr(y.smart, n);
+                        const t = _ || N[0]?.name, w = N.find((me) => me.name === t);
+                        if (!w) return null;
+                        const z = Fa[w.name] || w.smart, V = Ba === w.name ? Va : null, Fe = lr(w.smart, n);
                         return /* @__PURE__ */ r("div", { className: "p-4 grid grid-cols-1 lg:grid-cols-3 gap-4", children: [
                           /* @__PURE__ */ r("div", { className: `rounded-xl border p-3 space-y-3 lg:col-span-2 ${n ? "border-slate-800" : "border-slate-200"}`, children: [
                             /* @__PURE__ */ r("div", { className: "flex items-center justify-between gap-2", children: [
                               /* @__PURE__ */ r("div", { className: "flex items-center gap-2", children: [
                                 /* @__PURE__ */ e("span", { className: `inline-flex px-2 py-0.5 rounded-full border text-[10px] font-bold ${Fe.cls}`, children: Fe.label }),
-                                /* @__PURE__ */ e("span", { className: "font-mono text-xs font-bold", children: y.name })
+                                /* @__PURE__ */ e("span", { className: "font-mono text-xs font-bold", children: w.name })
                               ] }),
                               /* @__PURE__ */ e(
                                 "button",
                                 {
                                   type: "button",
-                                  onClick: () => Vt(y.name),
+                                  onClick: () => Vt(w.name),
                                   className: `text-[10px] font-bold px-2 py-1 rounded-lg border ${n ? "border-slate-700 hover:bg-slate-800" : "border-slate-200 hover:bg-slate-100"}`,
-                                  children: Ea === y.name ? "…" : l.refreshSmart
+                                  children: Ea === w.name ? "…" : l.refreshSmart
                                 }
                               )
                             ] }),
@@ -4531,7 +4540,7 @@ function mr() {
                                   ":"
                                 ] }),
                                 " ",
-                                Zn(z.power_on_hours, i || "en")
+                                Jn(z.power_on_hours, i || "en")
                               ] }),
                               /* @__PURE__ */ r("div", { children: [
                                 /* @__PURE__ */ r("span", { className: "opacity-60", children: [
@@ -4577,7 +4586,7 @@ function mr() {
                                 "select",
                                 {
                                   value: It,
-                                  onChange: (me) => Oa(me.target.value),
+                                  onChange: (me) => Ga(me.target.value),
                                   className: `rounded-lg border px-3 py-1.5 text-[11px] ${n ? "bg-slate-950 border-slate-700" : "bg-white border-slate-200"}`,
                                   children: [
                                     /* @__PURE__ */ e("option", { value: "quick", children: l.profileQuick }),
@@ -4590,7 +4599,7 @@ function mr() {
                                 {
                                   type: "button",
                                   disabled: F || V?.status === "running",
-                                  onClick: () => Wa(y.name),
+                                  onClick: () => Oa(w.name),
                                   className: "px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-[11px] font-bold",
                                   children: V?.status === "running" ? l.benchmarkRunning : l.runBenchmark
                                 }
@@ -4603,7 +4612,7 @@ function mr() {
                               { label: l.rand4kWrite, val: V.results?.rand4k_write_mibs, skip: V.results?.rand4k_write_skipped }
                             ].map((me) => /* @__PURE__ */ r("div", { className: `rounded-lg border p-2 ${n ? "border-slate-800 bg-slate-950/50" : "border-slate-200 bg-white"}`, children: [
                               /* @__PURE__ */ e("div", { className: "opacity-60 text-[10px]", children: me.label }),
-                              /* @__PURE__ */ e("div", { className: "font-mono font-bold text-sm mt-0.5", children: me.skip ? l.benchmarkSkipped : Jn(me.val ?? null) })
+                              /* @__PURE__ */ e("div", { className: "font-mono font-bold text-sm mt-0.5", children: me.skip ? l.benchmarkSkipped : er(me.val ?? null) })
                             ] }, me.label)) })
                           ] })
                         ] });
@@ -4631,7 +4640,7 @@ function mr() {
                       ] }) })
                     ] }, `${t.device}-${t.mountpoint}`)) })
                   ] }) }) }),
-                  c === "pools" && /* @__PURE__ */ e("div", { className: "space-y-4", children: Q ? /* @__PURE__ */ r(oe, { children: [
+                  c === "pools" && /* @__PURE__ */ e("div", { className: "space-y-4", children: Q ? /* @__PURE__ */ r(J, { children: [
                     (M || A) && /* @__PURE__ */ e("div", { className: `p-3 rounded-xl border text-xs ${A ? n ? "bg-red-950/30 border-red-800 text-red-300" : "bg-red-50 border-red-200 text-red-700" : n ? "bg-emerald-950/30 border-emerald-800 text-emerald-300" : "bg-emerald-50 border-emerald-200 text-emerald-800"}`, children: A || M }),
                     /* @__PURE__ */ r("div", { className: "grid grid-cols-1 xl:grid-cols-2 gap-4", children: [
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-4 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
@@ -4695,14 +4704,14 @@ function mr() {
                     /* @__PURE__ */ r("div", { className: "grid grid-cols-1 xl:grid-cols-2 gap-4", children: [
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-3 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                         /* @__PURE__ */ e("h4", { className: "text-xs font-bold", children: l.createVg }),
-                        /* @__PURE__ */ e("input", { value: ae, onChange: (t) => Oe(t.target.value), placeholder: l.vgName, className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
+                        /* @__PURE__ */ e("input", { value: ne, onChange: (t) => Oe(t.target.value), placeholder: l.vgName, className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                         /* @__PURE__ */ e("p", { className: "text-[11px] opacity-60", children: l.selectDevices }),
-                        /* @__PURE__ */ e("div", { className: "max-h-28 overflow-y-auto space-y-1", children: ea.map((t) => /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-xs font-mono", children: [
-                          /* @__PURE__ */ e("input", { type: "checkbox", checked: We.includes(t.path), onChange: () => Jt(t.path, We, St) }),
+                        /* @__PURE__ */ e("div", { className: "max-h-28 overflow-y-auto space-y-1", children: ta.map((t) => /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-xs font-mono", children: [
+                          /* @__PURE__ */ e("input", { type: "checkbox", checked: We.includes(t.path), onChange: () => ea(t.path, We, St) }),
                           t.path
                         ] }, t.path)) }),
                         /* @__PURE__ */ e("input", { value: ot, onChange: (t) => He(t.target.value), placeholder: l.confirmVgName, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
-                        /* @__PURE__ */ e("button", { disabled: F || !ae || We.length === 0 || ot !== ae, onClick: () => se(() => X("/api/storage_manager/pools/lvm/vg/create", { vg_name: ae, devices: We, confirm_token: ot })), className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
+                        /* @__PURE__ */ e("button", { disabled: F || !ne || We.length === 0 || ot !== ne, onClick: () => oe(() => X("/api/storage_manager/pools/lvm/vg/create", { vg_name: ne, devices: We, confirm_token: ot })), className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
                       ] }),
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-3 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                         /* @__PURE__ */ e("h4", { className: "text-xs font-bold", children: l.createLv }),
@@ -4713,7 +4722,7 @@ function mr() {
                         /* @__PURE__ */ e("input", { value: Y, onChange: (t) => Pt(t.target.value), placeholder: l.lvName, className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                         /* @__PURE__ */ e("input", { value: ft, onChange: (t) => Tt(t.target.value), placeholder: l.lvSize, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                         /* @__PURE__ */ e("input", { value: it, onChange: (t) => Ae(t.target.value), placeholder: l.confirmLvPath, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
-                        /* @__PURE__ */ e("button", { disabled: F || !De || !Y || it !== `${De}/${Y}`, onClick: () => se(() => X("/api/storage_manager/pools/lvm/lv/create", { vg_name: De, lv_name: Y, size: ft, confirm_token: it })), className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
+                        /* @__PURE__ */ e("button", { disabled: F || !De || !Y || it !== `${De}/${Y}`, onClick: () => oe(() => X("/api/storage_manager/pools/lvm/lv/create", { vg_name: De, lv_name: Y, size: ft, confirm_token: it })), className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
                       ] }),
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-3 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                         /* @__PURE__ */ e("h4", { className: "text-xs font-bold", children: l.extendLv }),
@@ -4730,8 +4739,8 @@ function mr() {
                           /* @__PURE__ */ e("input", { type: "checkbox", checked: ct, onChange: (t) => ge(t.target.checked) }),
                           l.growFilesystem
                         ] }),
-                        /* @__PURE__ */ e("input", { value: ne, onChange: (t) => re(t.target.value), placeholder: l.confirmLvPath, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
-                        /* @__PURE__ */ e("button", { disabled: F || !u || !H || ne !== `${u}/${H}`, onClick: () => se(() => X("/api/storage_manager/pools/lvm/lv/extend", { vg_name: u, lv_name: H, size: ce, grow_filesystem: ct, confirm_token: ne })), className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
+                        /* @__PURE__ */ e("input", { value: re, onChange: (t) => le(t.target.value), placeholder: l.confirmLvPath, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
+                        /* @__PURE__ */ e("button", { disabled: F || !u || !H || re !== `${u}/${H}`, onClick: () => oe(() => X("/api/storage_manager/pools/lvm/lv/extend", { vg_name: u, lv_name: H, size: ce, grow_filesystem: ct, confirm_token: re })), className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
                       ] }),
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-3 ${n ? "border-red-900/40 bg-red-950/10" : "border-red-200 bg-red-50/40"}`, children: [
                         /* @__PURE__ */ e("h4", { className: "text-xs font-bold text-red-500", children: l.createRaid }),
@@ -4741,12 +4750,12 @@ function mr() {
                           /* @__PURE__ */ e("option", { value: 5, children: "RAID 5" }),
                           /* @__PURE__ */ e("option", { value: 10, children: "RAID 10" })
                         ] }),
-                        /* @__PURE__ */ e("div", { className: "max-h-28 overflow-y-auto space-y-1", children: ea.map((t) => /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-xs font-mono", children: [
-                          /* @__PURE__ */ e("input", { type: "checkbox", checked: Ke.includes(t.path), onChange: () => Jt(t.path, Ke, Rt) }),
+                        /* @__PURE__ */ e("div", { className: "max-h-28 overflow-y-auto space-y-1", children: ta.map((t) => /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-xs font-mono", children: [
+                          /* @__PURE__ */ e("input", { type: "checkbox", checked: Ke.includes(t.path), onChange: () => ea(t.path, Ke, Rt) }),
                           t.path
                         ] }, `raid-${t.path}`)) }),
-                        /* @__PURE__ */ e("input", { value: le, onChange: (t) => At(t.target.value), placeholder: l.confirmRaid, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
-                        /* @__PURE__ */ e("button", { disabled: F || Ke.length < 2 || le !== "CREATE-RAID", onClick: () => se(() => X("/api/storage_manager/pools/raid/create", { level: vt, devices: Ke, confirm_token: le })), className: "w-full bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
+                        /* @__PURE__ */ e("input", { value: se, onChange: (t) => At(t.target.value), placeholder: l.confirmRaid, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
+                        /* @__PURE__ */ e("button", { disabled: F || Ke.length < 2 || se !== "CREATE-RAID", onClick: () => oe(() => X("/api/storage_manager/pools/raid/create", { level: vt, devices: Ke, confirm_token: se })), className: "w-full bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl", children: l.runAction })
                       ] })
                     ] })
                   ] }) : /* @__PURE__ */ e("p", { className: `text-xs ${n ? "text-slate-500" : "text-slate-400"}`, children: l.loading }) }),
@@ -4754,10 +4763,10 @@ function mr() {
                     (M || A) && /* @__PURE__ */ e("div", { className: `p-3 rounded-xl border text-xs ${A ? n ? "bg-red-950/30 border-red-800 text-red-300" : "bg-red-50 border-red-200 text-red-700" : n ? "bg-emerald-950/30 border-emerald-800 text-emerald-300" : "bg-emerald-50 border-emerald-200 text-emerald-800"}`, children: A || M }),
                     /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                       /* @__PURE__ */ e("h3", { className: "text-sm font-bold mb-2", children: l.activeAlerts }),
-                      v.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noAlerts }) : /* @__PURE__ */ e("ul", { className: "space-y-1.5 text-xs", children: v.map((t, y) => /* @__PURE__ */ r("li", { className: `flex gap-2 ${t.level === "critical" ? "text-red-500" : "text-amber-500"}`, children: [
+                      y.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noAlerts }) : /* @__PURE__ */ e("ul", { className: "space-y-1.5 text-xs", children: y.map((t, w) => /* @__PURE__ */ r("li", { className: `flex gap-2 ${t.level === "critical" ? "text-red-500" : "text-amber-500"}`, children: [
                         /* @__PURE__ */ e($.AlertTriangle, { className: "w-3.5 h-3.5 shrink-0 mt-0.5" }),
                         /* @__PURE__ */ e("span", { children: t.message })
-                      ] }, `${t.message}-${y}`)) })
+                      ] }, `${t.message}-${w}`)) })
                     ] }),
                     /* @__PURE__ */ e("p", { className: `text-xs ${n ? "text-slate-400" : "text-slate-500"}`, children: l.maintenanceTitle }),
                     /* @__PURE__ */ r("div", { className: "grid grid-cols-1 xl:grid-cols-2 gap-4", children: [
@@ -4771,7 +4780,7 @@ function mr() {
                             t.model
                           ] }, t.name))
                         ] }),
-                        /* @__PURE__ */ r("select", { value: Ue, onChange: (t) => Ta(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
+                        /* @__PURE__ */ r("select", { value: Ue, onChange: (t) => Pa(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                           /* @__PURE__ */ e("option", { value: "short", children: l.smartShort }),
                           /* @__PURE__ */ e("option", { value: "long", children: l.smartLong })
                         ] }),
@@ -4779,7 +4788,7 @@ function mr() {
                           "button",
                           {
                             disabled: F || !I,
-                            onClick: () => se(() => X("/api/storage_manager/maintenance/smart-test", { disk_name: I, test_type: Ue })),
+                            onClick: () => oe(() => X("/api/storage_manager/maintenance/smart-test", { disk_name: I, test_type: Ue })),
                             className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl",
                             children: l.runTest
                           }
@@ -4787,7 +4796,7 @@ function mr() {
                       ] }),
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-3 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                         /* @__PURE__ */ e("h4", { className: "text-xs font-bold", children: l.btrfsScrub }),
-                        /* @__PURE__ */ r("select", { value: Ft, onChange: (t) => Ma(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
+                        /* @__PURE__ */ r("select", { value: Ft, onChange: (t) => Ta(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                           /* @__PURE__ */ e("option", { value: "", children: l.mount }),
                           (D?.targets.btrfs_volumes || []).map((t) => /* @__PURE__ */ e("option", { value: t.mountpoint, children: t.mountpoint }, t.mountpoint))
                         ] }),
@@ -4795,7 +4804,7 @@ function mr() {
                           "button",
                           {
                             disabled: F || !Ft,
-                            onClick: () => se(() => X("/api/storage_manager/maintenance/scrub/btrfs", { mountpoint: Ft })),
+                            onClick: () => oe(() => X("/api/storage_manager/maintenance/scrub/btrfs", { mountpoint: Ft })),
                             className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl",
                             children: l.runScrub
                           }
@@ -4803,7 +4812,7 @@ function mr() {
                       ] }),
                       /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 space-y-3 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                         /* @__PURE__ */ e("h4", { className: "text-xs font-bold", children: l.raidCheck }),
-                        /* @__PURE__ */ r("select", { value: Lt, onChange: (t) => za(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
+                        /* @__PURE__ */ r("select", { value: Lt, onChange: (t) => Ma(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                           /* @__PURE__ */ e("option", { value: "", children: "RAID" }),
                           (D?.targets.raid_arrays || []).map((t) => /* @__PURE__ */ r("option", { value: t.path, children: [
                             t.path,
@@ -4816,7 +4825,7 @@ function mr() {
                           "button",
                           {
                             disabled: F || !Lt,
-                            onClick: () => se(() => X("/api/storage_manager/maintenance/scrub/raid", { md_device: Lt })),
+                            onClick: () => oe(() => X("/api/storage_manager/maintenance/scrub/raid", { md_device: Lt })),
                             className: "w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl",
                             children: l.runRaidCheck
                           }
@@ -4828,12 +4837,12 @@ function mr() {
                           l.fsckTitle
                         ] }),
                         /* @__PURE__ */ e("p", { className: "text-[11px] opacity-70", children: l.fsckUnmountNote }),
-                        (D?.targets.fsck_partitions || []).length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noFsckCandidates }) : /* @__PURE__ */ r(oe, { children: [
+                        (D?.targets.fsck_partitions || []).length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noFsckCandidates }) : /* @__PURE__ */ r(J, { children: [
                           /* @__PURE__ */ r(
                             "select",
                             {
                               value: yt,
-                              onChange: (t) => Ra(t.target.value),
+                              onChange: (t) => za(t.target.value),
                               className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`,
                               children: [
                                 /* @__PURE__ */ e("option", { value: "", children: l.selectPartitionFsck }),
@@ -4846,15 +4855,15 @@ function mr() {
                             }
                           ),
                           /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-xs", children: [
-                            /* @__PURE__ */ e("input", { type: "checkbox", checked: Bt, onChange: (t) => Aa(t.target.checked) }),
+                            /* @__PURE__ */ e("input", { type: "checkbox", checked: Et, onChange: (t) => Ra(t.target.checked) }),
                             l.fsckRepair
                           ] }),
-                          !Bt && /* @__PURE__ */ e("p", { className: "text-[10px] opacity-60", children: l.fsckCheck }),
+                          !Et && /* @__PURE__ */ e("p", { className: "text-[10px] opacity-60", children: l.fsckCheck }),
                           /* @__PURE__ */ e(
                             "input",
                             {
-                              value: Et,
-                              onChange: (t) => Fa(t.target.value),
+                              value: Bt,
+                              onChange: (t) => Aa(t.target.value),
                               placeholder: l.fsckConfirm,
                               className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`
                             }
@@ -4862,11 +4871,11 @@ function mr() {
                           /* @__PURE__ */ e(
                             "button",
                             {
-                              disabled: F || !yt || Et !== yt.replace("/dev/", ""),
-                              onClick: () => se(() => X("/api/storage_manager/maintenance/fsck", {
+                              disabled: F || !yt || Bt !== yt.replace("/dev/", ""),
+                              onClick: () => oe(() => X("/api/storage_manager/maintenance/fsck", {
                                 device: yt,
-                                repair: Bt,
-                                confirm_token: Et
+                                repair: Et,
+                                confirm_token: Bt
                               })),
                               className: "w-full bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-white text-xs font-bold py-2 rounded-xl",
                               children: l.runFsck
@@ -4877,13 +4886,13 @@ function mr() {
                     ] }),
                     /* @__PURE__ */ r("div", { className: `rounded-2xl border p-4 ${n ? "border-slate-800 bg-slate-900/40" : "border-slate-200 bg-white"}`, children: [
                       /* @__PURE__ */ e("h4", { className: "text-sm font-bold mb-3", children: l.maintenanceHistory }),
-                      D?.history?.length ? /* @__PURE__ */ e("div", { className: "space-y-2 max-h-48 overflow-y-auto", children: D.history.map((t, y) => /* @__PURE__ */ r("div", { className: `text-[11px] font-mono border-b pb-2 ${n ? "border-slate-800 text-slate-400" : "border-slate-100 text-slate-600"}`, children: [
+                      D?.history?.length ? /* @__PURE__ */ e("div", { className: "space-y-2 max-h-48 overflow-y-auto", children: D.history.map((t, w) => /* @__PURE__ */ r("div", { className: `text-[11px] font-mono border-b pb-2 ${n ? "border-slate-800 text-slate-400" : "border-slate-100 text-slate-600"}`, children: [
                         /* @__PURE__ */ e("span", { className: "font-bold", children: t.action }),
                         " · ",
                         t.target,
                         " — ",
                         t.result
-                      ] }, `${t.at}-${y}`)) }) : /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noHistory })
+                      ] }, `${t.at}-${w}`)) }) : /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noHistory })
                     ] })
                   ] }),
                   c === "manage" && /* @__PURE__ */ r("div", { className: "space-y-4", children: [
@@ -4895,8 +4904,8 @@ function mr() {
                           l.createPartition
                         ] }),
                         /* @__PURE__ */ e("p", { className: `text-[11px] ${n ? "text-slate-500" : "text-slate-400"}`, children: l.adminOnly }),
-                        kt.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noCandidateDisk }) : /* @__PURE__ */ r(oe, { children: [
-                          /* @__PURE__ */ r("select", { value: te, onChange: (t) => pe(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
+                        kt.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noCandidateDisk }) : /* @__PURE__ */ r(J, { children: [
+                          /* @__PURE__ */ r("select", { value: ae, onChange: (t) => pe(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                             /* @__PURE__ */ e("option", { value: "", children: l.selectDisk }),
                             kt.map((t) => /* @__PURE__ */ r("option", { value: t.name, children: [
                               t.name,
@@ -4916,9 +4925,9 @@ function mr() {
                           /* @__PURE__ */ e(
                             "button",
                             {
-                              disabled: F || !te || Ye !== te,
-                              onClick: () => se(() => X("/api/storage_manager/partitions/create", {
-                                disk_name: te,
+                              disabled: F || !ae || Ye !== ae,
+                              onClick: () => oe(() => X("/api/storage_manager/partitions/create", {
+                                disk_name: ae,
                                 start: ue,
                                 end: he,
                                 initialize_gpt: _e,
@@ -4936,19 +4945,19 @@ function mr() {
                           l.formatPartition
                         ] }),
                         /* @__PURE__ */ e("p", { className: "text-[11px] text-red-500", children: l.dataLossWarning }),
-                        Ct.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noCandidatePart }) : /* @__PURE__ */ r(oe, { children: [
-                          /* @__PURE__ */ r("select", { value: Pe, onChange: (t) => Be(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
+                        Ct.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noCandidatePart }) : /* @__PURE__ */ r(J, { children: [
+                          /* @__PURE__ */ r("select", { value: Pe, onChange: (t) => Ee(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                             /* @__PURE__ */ e("option", { value: "", children: l.selectPartition }),
                             Ct.map((t) => /* @__PURE__ */ e("option", { value: t.path, children: t.path }, t.path))
                           ] }),
-                          /* @__PURE__ */ e("select", { value: Ze, onChange: (t) => Je(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: Pa.map((t) => /* @__PURE__ */ e("option", { value: t.value, children: t.label }, t.value)) }),
+                          /* @__PURE__ */ e("select", { value: Ze, onChange: (t) => Je(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: Sa.map((t) => /* @__PURE__ */ e("option", { value: t.value, children: t.label }, t.value)) }),
                           /* @__PURE__ */ e("input", { value: ht, onChange: (t) => et(t.target.value), placeholder: l.labelOptional, className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                           /* @__PURE__ */ e("input", { value: tt, onChange: (t) => Te(t.target.value), placeholder: l.confirmPartName, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                           /* @__PURE__ */ e(
                             "button",
                             {
                               disabled: F || !Pe || tt !== Pe.replace("/dev/", ""),
-                              onClick: () => se(() => X("/api/storage_manager/format", {
+                              onClick: () => oe(() => X("/api/storage_manager/format", {
                                 device: Pe,
                                 fstype: Ze,
                                 label: ht || null,
@@ -4965,14 +4974,14 @@ function mr() {
                           /* @__PURE__ */ e($.FolderInput, { className: "w-4 h-4" }),
                           l.mountVolume
                         ] }),
-                        /* @__PURE__ */ e("input", { value: Ee, onChange: (t) => we(t.target.value), placeholder: "/dev/sdb1", className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
+                        /* @__PURE__ */ e("input", { value: Be, onChange: (t) => Ne(t.target.value), placeholder: "/dev/sdb1", className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                         /* @__PURE__ */ e("input", { value: Ie, onChange: (t) => Me(t.target.value), placeholder: l.mountpoint, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                         /* @__PURE__ */ r("select", { value: at, onChange: (t) => ze(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                           /* @__PURE__ */ r("option", { value: "", children: [
                             l.fstype,
                             " (auto)"
                           ] }),
-                          Yn.map((t) => /* @__PURE__ */ e("option", { value: t.value, children: t.label }, t.value))
+                          Zn.map((t) => /* @__PURE__ */ e("option", { value: t.value, children: t.label }, t.value))
                         ] }),
                         /* @__PURE__ */ e("input", { value: nt, onChange: (t) => Re(t.target.value), placeholder: l.options, className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}` }),
                         /* @__PURE__ */ r("label", { className: "flex items-center gap-2 text-xs", children: [
@@ -4982,9 +4991,9 @@ function mr() {
                         /* @__PURE__ */ e(
                           "button",
                           {
-                            disabled: F || !Ee || !Ie,
-                            onClick: () => se(() => X("/api/storage_manager/mount", {
-                              device: Ee,
+                            disabled: F || !Be || !Ie,
+                            onClick: () => oe(() => X("/api/storage_manager/mount", {
+                              device: Be,
                               mountpoint: Ie,
                               fstype: at || null,
                               options: nt,
@@ -5000,9 +5009,9 @@ function mr() {
                           /* @__PURE__ */ e($.FolderOutput, { className: "w-4 h-4" }),
                           l.unmountVolume
                         ] }),
-                        ta.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noVolumes }) : /* @__PURE__ */ r("select", { value: Ge, onChange: (t) => gt(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
+                        aa.length === 0 ? /* @__PURE__ */ e("p", { className: "text-xs opacity-60", children: l.noVolumes }) : /* @__PURE__ */ r("select", { value: Ge, onChange: (t) => gt(t.target.value), className: `w-full rounded-lg border px-3 py-2 text-xs font-mono ${n ? "bg-slate-950 border-slate-700" : "bg-slate-50 border-slate-200"}`, children: [
                           /* @__PURE__ */ e("option", { value: "", children: l.selectMount }),
-                          ta.map((t) => /* @__PURE__ */ r("option", { value: t.mountpoint, children: [
+                          aa.map((t) => /* @__PURE__ */ r("option", { value: t.mountpoint, children: [
                             t.mountpoint,
                             " (",
                             t.device,
@@ -5017,7 +5026,7 @@ function mr() {
                           "button",
                           {
                             disabled: F || !Ge,
-                            onClick: () => se(() => X("/api/storage_manager/unmount", {
+                            onClick: () => oe(() => X("/api/storage_manager/unmount", {
                               mountpoint: Ge,
                               remove_fstab: lt
                             })),
@@ -5055,5 +5064,5 @@ function mr() {
   );
 }
 export {
-  mr as default
+  pr as default
 };
