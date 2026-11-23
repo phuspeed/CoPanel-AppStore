@@ -367,6 +367,7 @@ export default function DownloadManager() {
 
   useEffect(() => {
     function onOAuthMessage(ev: MessageEvent) {
+      if (ev.origin !== window.location.origin) return;
       if (!ev.data || ev.data.type !== 'copanel_dm_google_oauth') return;
       if (ev.data.ok) {
         loadSettings();

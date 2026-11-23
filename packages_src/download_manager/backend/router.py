@@ -2,17 +2,18 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, File, Query, UploadFile
-from fastapi.responses import HTMLResponse
 
 from core.api import ApiError, ok
 from core.audit import record_audit
 from core.auth import require_module
 
 from . import logic
+from ._oauth_page import oauth_result_page, safe_error_code
 from .google_oauth import GoogleOAuthService, GoogleOAuthStore
 from .schemas import (
     CreateHostingAccountRequest,
@@ -25,6 +26,7 @@ from .schemas import (
     UpdateHostingProfileRequest,
 )
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -374,22 +376,33 @@ def oauth_google_start(
 
 @router.get("/oauth/google/callback")
 def oauth_google_callback(code: str = "", state: str = "", error: str = ""):
+    """Public OAuth popup callback. Never reflects request text as HTML."""
+    kind = "copanel_dm_google_oauth"
     if error:
-        payload = {"type": "copanel_dm_google_oauth", "ok": False, "error": error}
-        return HTMLResponse(
-            content=f"<html><body><script>window.opener&&window.opener.postMessage({json.dumps(payload)},'*');window.close();</script>Authorization failed: {error}</body></html>"
+        return oauth_result_page(
+            {"type": kind, "ok": False, "error": safe_error_code(error)},
+            "Authorization failed. You can close this window.",
+            400,
         )
     try:
         result = GoogleOAuthService.exchange_code(code=code, state=state)
-        payload = {"type": "copanel_dm_google_oauth", "ok": True, "account_name": result["account_name"]}
-        return HTMLResponse(
-            content=f"<html><body><script>window.opener&&window.opener.postMessage({json.dumps(payload)},'*');window.close();</script>Google connected.</body></html>"
+        return oauth_result_page(
+            {"type": kind, "ok": True, "account_name": str(result["account_name"])},
+            "Google connected. You can close this window.",
         )
-    except Exception as exc:
-        payload = {"type": "copanel_dm_google_oauth", "ok": False, "error": str(exc)}
-        return HTMLResponse(
-            content=f"<html><body><script>window.opener&&window.opener.postMessage({json.dumps(payload)},'*');window.close();</script>{str(exc)}</body></html>",
-            status_code=400,
+    except ValueError:
+        logger.warning("Download Manager OAuth callback rejected (invalid code/state)")
+        return oauth_result_page(
+            {"type": kind, "ok": False, "error": "invalid_request"},
+            "Authorization failed: the request was invalid or has expired.",
+            400,
+        )
+    except Exception:
+        logger.exception("Download Manager OAuth callback failed")
+        return oauth_result_page(
+            {"type": kind, "ok": False, "error": "server_error"},
+            "OAuth callback failed. Check the CoPanel log.",
+            500,
         )
 
 

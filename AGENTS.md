@@ -34,6 +34,12 @@ Do **not** assume a bad Lucide `icon` string — that still shows a `Grid` fallb
 ```bash
 python scripts/check_module_sources.py
 python scripts/build_versioned_zip.py <module_id> <semver>
+python scripts/update_catalog_sha256.py      # required: CoPanel 1.1.15+ refuses ZIPs without a matching sha256
 ```
+
+`packages.json` entries must have `sha256` of the ZIP and a `download_url` under
+`https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/`. CI
+(`build-prebuilt.sh`) recomputes them; ZIPs are deterministic (fixed timestamps,
+sorted entries), so rebuilding unchanged sources keeps the same hash.
 
 New AppStore-only modules: add id to `scripts/check_module_sources.py` `APPSTORE_ONLY` and to `packages.json` with `is_core: false`. Prefer `frontend_install: rebuild`.

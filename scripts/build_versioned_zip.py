@@ -131,31 +131,34 @@ def create_versioned_zip(mod_name, version):
     source_label = "packages_src" if (appstore_root / "packages_src" / mod_name).is_dir() else "CoPanel"
 
     try:
+        # Deterministic archive: sorted entries, fixed timestamps and modes,
+        # regular files only. Rebuilding unchanged sources gives the same
+        # bytes, so the sha256 in packages.json stays stable.
+        entries = []
+        for prefix, src, skip in (
+            ("backend", backend_src, "__pycache__"),
+            ("frontend", frontend_src, "node_modules"),
+            ("extension", extension_dir, None),
+        ):
+            if not src or not Path(src).is_dir():
+                continue
+            for root, dirs, files in os.walk(src):
+                dirs[:] = sorted(d for d in dirs if d != "__pycache__" and d != "node_modules")
+                if skip and skip in Path(root).parts:
+                    continue
+                for f in files:
+                    file_path = Path(root) / f
+                    if file_path.is_symlink() or not file_path.is_file() or f.endswith(".pyc"):
+                        continue
+                    entries.append(((Path(prefix) / file_path.relative_to(src)).as_posix(), file_path))
+        entries.sort()
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zip_ref:
-            if backend_src.exists():
-                for root, dirs, files in os.walk(backend_src):
-                    if "__pycache__" in root:
-                        continue
-                    for f in files:
-                        file_path = Path(root) / f
-                        rel_path = file_path.relative_to(backend_src)
-                        zip_ref.write(file_path, Path("backend") / rel_path)
-
-            if frontend_src.exists():
-                for root, dirs, files in os.walk(frontend_src):
-                    if "node_modules" in root:
-                        continue
-                    for f in files:
-                        file_path = Path(root) / f
-                        rel_path = file_path.relative_to(frontend_src)
-                        zip_ref.write(file_path, Path("frontend") / rel_path)
-
-            if extension_dir and extension_dir.is_dir():
-                for root, dirs, files in os.walk(extension_dir):
-                    for f in files:
-                        file_path = Path(root) / f
-                        rel_path = file_path.relative_to(extension_dir)
-                        zip_ref.write(file_path, Path("extension") / rel_path)
+            for arcname, file_path in entries:
+                info = zipfile.ZipInfo(arcname, date_time=(1980, 1, 1, 0, 0, 0))
+                mode = 0o755 if os.access(file_path, os.X_OK) and arcname.endswith(".sh") else 0o644
+                info.external_attr = (0o100000 | mode) << 16
+                info.compress_type = zipfile.ZIP_DEFLATED
+                zip_ref.writestr(info, file_path.read_bytes())
 
         print(f"Successfully zipped {mod_name} v{version} from {source_label} -> {zip_path}")
         if frontend_install == "extension":

@@ -22,12 +22,21 @@ interface InstallJob {
   logs?: Array<{ line: string }>;
 }
 
-function wsUrl(): string {
-  const token = localStorage.getItem('copanel_token') || '';
+/** Single-use, short-lived ticket for the WebSocket URL (never the JWT). */
+async function fetchWsTicket(): Promise<string | null> {
+  try {
+    const data = await api<{ ticket?: string }>('/api/auth/stream-ticket', { method: 'POST' });
+    return typeof data?.ticket === 'string' ? data.ticket : null;
+  } catch {
+    return null;
+  }
+}
+
+function wsUrl(ticket: string): string {
   const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   const host = window.location.hostname;
   const port = window.location.port ? `:${window.location.port}` : '';
-  const q = new URLSearchParams({ access_token: token });
+  const q = new URLSearchParams({ ticket });
   return `${proto}//${host}${port}/api/web_browser/ws?${q.toString()}`;
 }
 
@@ -200,13 +209,18 @@ export default function WebBrowser() {
     sendWs({ type: 'resize', width: w, height: h });
   }, []);
 
-  const connectWs = () => {
+  const connectWs = async () => {
     if (wsRef.current) {
       wsRef.current.close();
       wsRef.current = null;
     }
     setWsState('connecting');
-    const ws = new WebSocket(wsUrl());
+    const ticket = await fetchWsTicket();
+    if (!ticket) {
+      setWsState('error');
+      return;
+    }
+    const ws = new WebSocket(wsUrl(ticket));
     wsRef.current = ws;
     ws.onopen = () => {
       setWsState('open');

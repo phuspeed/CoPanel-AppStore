@@ -119,25 +119,89 @@ function fmtTime(sec: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-function streamUrl(path: string): string {
-  const token = localStorage.getItem('copanel_token') || '';
-  const params = new URLSearchParams({
-    path,
-    access_token: token,
-  });
-  // Keep legacy ``token`` for older backend ZIPs during rolling upgrades.
-  params.set('token', token);
-  return `/api/audio_station/stream?${params.toString()}`;
+// <audio>/<img> cannot send Authorization headers. Use reusable, path-scoped
+// media tokens (POST /api/auth/media-token, ~2h) in the URL instead of the
+// long-lived login JWT, which would end up in logs and browser history.
+const STREAM_SCOPE = '/api/audio_station/stream';
+const COVER_SCOPE = '/api/audio_station/cover';
+const mediaTokens: Record<string, { token: string; exp: number }> = {};
+const mediaPending: Record<string, Promise<string> | undefined> = {};
+const mediaListeners = new Set<() => void>();
+
+function fetchMediaToken(scope: string): Promise<string> {
+  const pending = mediaPending[scope];
+  if (pending) return pending;
+  const p = (async () => {
+    try {
+      const auth = localStorage.getItem('copanel_token') || '';
+      const res = await fetch('/api/auth/media-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(auth ? { Authorization: `Bearer ${auth}` } : {}) },
+        body: JSON.stringify({ scope }),
+      });
+      const data = res.ok ? await res.json() : null;
+      if (data && typeof data.token === 'string') {
+        const ttl = Number(data.expires_in) || 3600;
+        mediaTokens[scope] = { token: data.token, exp: Date.now() + ttl * 1000 };
+        mediaListeners.forEach((fn) => fn());
+        return data.token as string;
+      }
+    } catch {
+      /* ignore */
+    } finally {
+      mediaPending[scope] = undefined;
+    }
+    return '';
+  })();
+  mediaPending[scope] = p;
+  return p;
+}
+
+function cachedMediaToken(scope: string): string {
+  const t = mediaTokens[scope];
+  if (!t || t.exp - Date.now() < 10 * 60 * 1000) void fetchMediaToken(scope);
+  return t && t.exp > Date.now() ? t.token : '';
+}
+
+async function mediaToken(scope: string): Promise<string> {
+  const t = mediaTokens[scope];
+  if (t && t.exp - Date.now() > 60 * 1000) return t.token;
+  return fetchMediaToken(scope);
+}
+
+function useMediaTokenVersion(): number {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    const fn = () => setV((x) => x + 1);
+    mediaListeners.add(fn);
+    void mediaToken(COVER_SCOPE);
+    void mediaToken(STREAM_SCOPE);
+    const iv = setInterval(() => {
+      cachedMediaToken(COVER_SCOPE);
+      cachedMediaToken(STREAM_SCOPE);
+    }, 5 * 60 * 1000);
+    return () => {
+      mediaListeners.delete(fn);
+      clearInterval(iv);
+    };
+  }, []);
+  return v;
+}
+
+async function streamUrl(path: string): Promise<string> {
+  const params = new URLSearchParams({ path, media_token: await mediaToken(STREAM_SCOPE) });
+  return `${STREAM_SCOPE}?${params.toString()}`;
 }
 
 function coverUrl(opts: { path?: string; id?: string; hash?: string }): string | null {
   if (!opts.hash && !opts.id && !opts.path) return null;
-  const token = localStorage.getItem('copanel_token') || '';
-  const params = new URLSearchParams({ access_token: token, token });
+  const token = cachedMediaToken(COVER_SCOPE);
+  if (!token) return null;
+  const params = new URLSearchParams({ media_token: token });
   if (opts.hash) params.set('hash', opts.hash);
   else if (opts.id) params.set('id', opts.id);
   else if (opts.path) params.set('path', opts.path);
-  return `/api/audio_station/cover?${params.toString()}`;
+  return `${COVER_SCOPE}?${params.toString()}`;
 }
 
 function broadcastActivity(payload: { playing: boolean; currentTrack?: QueueItem | null }) {
@@ -171,6 +235,7 @@ function CoverThumb({
   album?: AlbumItem | null;
   className?: string;
 }) {
+  useMediaTokenVersion();
   const src =
     coverUrl({ hash: album?.cover_hash || track?.cover_hash || undefined }) ||
     (track?.path ? coverUrl({ path: track.path }) : null) ||
@@ -187,6 +252,7 @@ function CoverThumb({
 
 export default function AudioStation() {
   const { theme, language } = useAppShellContext();
+  useMediaTokenVersion();
   const isDark = theme === 'dark';
 
   const t = useMemo(
@@ -487,9 +553,17 @@ export default function AudioStation() {
   useEffect(() => {
     const el = audioRef.current;
     if (!el || !currentTrack) return;
-    el.src = streamUrl(currentTrack.path);
-    el.load();
-    if (playing) el.play().catch(() => setPlaying(false));
+    let cancelled = false;
+    const path = currentTrack.path;
+    void streamUrl(path).then((url) => {
+      if (cancelled || !audioRef.current) return;
+      audioRef.current.src = url;
+      audioRef.current.load();
+      if (playing) audioRef.current.play().catch(() => setPlaying(false));
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [currentTrack?.path]);
 
   useEffect(() => {

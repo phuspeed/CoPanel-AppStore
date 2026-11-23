@@ -4,13 +4,12 @@ from __future__ import annotations
 import os
 from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, Depends, Header, Query
+from fastapi import APIRouter, Depends, Header, Query, Request
 from fastapi.responses import FileResponse
 
 from core.api import ApiError, ok
 from core.audit import record_audit
 from core.auth import require_module, user_has_module
-from core.security import verify_token
 
 from . import logic
 from .schemas import (
@@ -24,33 +23,30 @@ router = APIRouter()
 
 
 def _auth_user(
+    request: Request,
     authorization: Optional[str] = Header(None),
-    access_token: Optional[str] = Query(None),
-    token: Optional[str] = Query(None),
 ) -> Dict[str, Any]:
-    """Accept Bearer header or query token for HTML5 media requests.
+    """Bearer header, or a path-scoped ``?media_token=`` for <audio>/<img>.
 
-    Browsers cannot attach Authorization headers reliably for <audio>/<img>
-    requests, so audio_station supports both legacy ``?token=`` and the panel's
-    standard ``?access_token=`` query parameter.
+    Browsers cannot attach Authorization headers to media requests. The core
+    middleware (CoPanel 1.1.15+) verifies ``media_token`` for this path and
+    stores the user on ``request.state.stream_user``. The login JWT is never
+    accepted in the URL.
     """
-    from core import user_model
-
-    raw = None
+    user = None
     if authorization:
         parts = authorization.split()
         if len(parts) == 2 and parts[0].lower() == "bearer":
-            raw = parts[1]
-    if not raw:
-        raw = access_token or token
-    if not raw:
-        raise ApiError("UNAUTHORIZED", "Authentication required", http_status=401)
-    payload = verify_token(raw)
-    if not payload or "sub" not in payload:
-        raise ApiError("UNAUTHORIZED", "Invalid token", http_status=401)
-    user = user_model.get_user_by_username(payload["sub"])
+            try:
+                from core.auth import user_from_access_token
+            except ImportError:  # pragma: no cover - very old core
+                user_from_access_token = None
+            if user_from_access_token is not None:
+                user = user_from_access_token(parts[1])
     if not user:
-        raise ApiError("UNAUTHORIZED", "User not found", http_status=401)
+        user = getattr(request.state, "stream_user", None)
+    if not user:
+        raise ApiError("UNAUTHORIZED", "Authentication required", http_status=401)
     if not user_has_module(user, "audio_station"):
         raise ApiError(
             "FORBIDDEN",
@@ -67,14 +63,12 @@ def _is_superadmin(user: Dict[str, Any]) -> bool:
 def _restricted_folder_picker(path: str, user: Dict[str, Any]) -> Dict[str, Any]:
     """Folder picker for non-superadmin users: only inside their permitted folders."""
     try:
-        from core.user_home import ensure_permitted_folders, permitted_folders
+        from core.user_home import permitted_folders
         from modules.file_manager.router import check_safe_path
     except Exception:  # older panel / File Manager missing: deny rather than browse freely
         raise ApiError("FORBIDDEN", "Folder access check unavailable.", http_status=403)
-    try:
-        ensure_permitted_folders(user)
-    except Exception:
-        pass
+    # Read-only: home folders are created at login (CoPanel 1.1.15), never
+    # from a GET as root.
     folders = [os.path.abspath(f) for f in permitted_folders(user)]
     if not folders:
         raise ApiError("FORBIDDEN", "No permitted folders for this user.", http_status=403)

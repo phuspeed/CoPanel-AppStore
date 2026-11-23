@@ -191,6 +191,7 @@ export default function CloudSync() {
 
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
       const data = event.data;
       if (!data || data.type !== 'copanel_google_oauth') return;
       setConnecting(false);
@@ -370,12 +371,27 @@ export default function CloudSync() {
     }
   };
 
-  const startStream = (p: PairItem) => {
+  const startStream = async (p: PairItem) => {
     setStreamingPair(p);
     setStreamLogs([]);
-    const authToken = localStorage.getItem('copanel_token') || '';
-    const streamQs = authToken ? `?access_token=${encodeURIComponent(authToken)}` : '';
-    const es = new EventSource(`/api/cloud_sync/stream_pair/${p.id}${streamQs}`);
+    // Single-use ~60s ticket in the URL, never the long-lived JWT.
+    let ticket = '';
+    try {
+      const authToken = localStorage.getItem('copanel_token') || '';
+      const tr = await fetch('/api/auth/stream-ticket', {
+        method: 'POST',
+        headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
+      });
+      const tj = tr.ok ? await tr.json() : null;
+      ticket = typeof tj?.ticket === 'string' ? tj.ticket : '';
+    } catch {
+      ticket = '';
+    }
+    if (!ticket) {
+      setStreamLogs([{ text: 'Could not start the log stream (please sign in again).', isError: true }]);
+      return;
+    }
+    const es = new EventSource(`/api/cloud_sync/stream_pair/${p.id}?ticket=${encodeURIComponent(ticket)}`);
     es.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);

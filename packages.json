@@ -3,26 +3,28 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.16.zip",
     "is_core": true,
-    "changelog_en": "v1.0.15: Extracting an archive gives the new files and folders the home folder's owner, like upload and create. Synced with CoPanel 1.1.13; update with Panel Update. v1.0.14: Restricted users can create, upload and edit in their own folders: a missing permitted folder is created on first open, new items get the folder owner when it is a non-root account, and the UI shows the server error message. Full effect needs CoPanel 1.1.12. v1.0.13: Security - upload keeps only the file name and re-checks the final path (symlinks resolved) before writing, so uploads cannot land outside the target or permitted folders; copy/move re-check the destination; all File Manager APIs require the file_manager module grant. v1.0.12: Editable path bar - click the pencil/empty space or double-click the breadcrumb, type an absolute or relative path, Enter to open, Esc to cancel; missing or forbidden folders show an error and keep the current folder. v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract \u2014 Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
-    "changelog_vi": "v1.0.15: Giai nen giao quyen so huu file/thu muc moi cho chu thu muc home, giong upload va tao moi. Dong bo CoPanel 1.1.13; cap nhat bang Panel Update. v1.0.14: User bi gioi han tao/tai len/sua duoc trong thu muc cua minh: tu tao thu muc duoc cap khi mo lan dau, file moi thuoc chu so huu thu muc (neu khong phai root), UI hien dung thong bao loi. Can CoPanel 1.1.12 de co day du. v1.0.13: Bao mat - upload chi giu ten file va kiem tra lai duong dan cuoi (ke ca symlink) truoc khi ghi, khong ghi ra ngoai thu muc dich/thu muc duoc cap; copy/di chuyen kiem tra lai dich; moi API File Manager can quyen module file_manager. v1.0.12: Thanh duong dan go duoc - bam but chi/cho trong hoac nhap dup, nhap duong dan tuyet doi hoac tuong doi, Enter de mo, Esc de huy; thu muc khong ton tai hoac khong co quyen se bao loi va giu nguyen thu muc hien tai. v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip \u2014 duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
+    "changelog_en": "Security: symlink-safe file operations for restricted users (needs CoPanel 1.1.15 core; older cores refuse restricted users). v1.0.15: Extracting an archive gives the new files and folders the home folder's owner, like upload and create. Synced with CoPanel 1.1.13; update with Panel Update. v1.0.14: Restricted users can create, upload and edit in their own folders: a missing permitted folder is created on first open, new items get the folder owner when it is a non-root account, and the UI shows the server error message. Full effect needs CoPanel 1.1.12. v1.0.13: Security - upload keeps only the file name and re-checks the final path (symlinks resolved) before writing, so uploads cannot land outside the target or permitted folders; copy/move re-check the destination; all File Manager APIs require the file_manager module grant. v1.0.12: Editable path bar - click the pencil/empty space or double-click the breadcrumb, type an absolute or relative path, Enter to open, Esc to cancel; missing or forbidden folders show an error and keep the current folder. v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract — Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
+    "changelog_vi": "Bảo mật: thao tác file an toàn với symlink cho người dùng bị giới hạn (cần CoPanel 1.1.15). v1.0.15: Giai nen giao quyen so huu file/thu muc moi cho chu thu muc home, giong upload va tao moi. Dong bo CoPanel 1.1.13; cap nhat bang Panel Update. v1.0.14: User bi gioi han tao/tai len/sua duoc trong thu muc cua minh: tu tao thu muc duoc cap khi mo lan dau, file moi thuoc chu so huu thu muc (neu khong phai root), UI hien dung thong bao loi. Can CoPanel 1.1.12 de co day du. v1.0.13: Bao mat - upload chi giu ten file va kiem tra lai duong dan cuoi (ke ca symlink) truoc khi ghi, khong ghi ra ngoai thu muc dich/thu muc duoc cap; copy/di chuyen kiem tra lai dich; moi API File Manager can quyen module file_manager. v1.0.12: Thanh duong dan go duoc - bam but chi/cho trong hoac nhap dup, nhap duong dan tuyet doi hoac tuong doi, Enter de mo, Esc de huy; thu muc khong ton tai hoac khong co quyen se bao loi va giu nguyen thu muc hien tai. v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip — duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell.",
+    "sha256": "a0de04144e7eae80e825890f5c124fd4599c8dd1c528219fb86bffb7a34c033c"
   },
   {
     "id": "web_manager",
     "name": "Web Manager",
     "description": "Nginx and Apache vhosts, LEMP/LAMP stack bootstrap, PHP versions/extensions/php.ini, PHP-FPM overview, and smart DB admin tools.",
-    "version": "1.3.2",
+    "version": "1.3.3",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.3.2.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_manager.v1.3.3.zip",
     "is_core": true,
-    "changelog_en": "v1.3.2: Restricted users: a new site's document root must be inside their permitted folders (403 outside) and a new document root gets the home folder's owner. Synced with CoPanel 1.1.13 core; update with Panel Update. v1.2.4: SSL toggle when creating Nginx reverse-proxy sites (Certbot + auto nginx SSL config); larger edit-config modal for nginx. v1.2.3: Ensure PHP-FPM is started and write a live unix socket into new PHP vhosts (prevents nginx 502). v1.2.2: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.1: Fix PHP version detection \u2014 probe FPM sockets/systemd units and resolve binaries via /usr/bin when service PATH is minimal; PHP Manager no longer shows all versions as uninstalled. v1.2.0: PHP Manager merged into Web Manager sidebar tab.",
-    "changelog_vi": "v1.3.2: User bi gioi han: thu muc goc cua site moi phai nam trong thu muc duoc cap (ngoai ra 403), thu muc moi thuoc chu cua thu muc home. Dong bo CoPanel 1.1.13; cap nhat bang Panel Update. v1.2.4: Nut gat SSL khi tao Nginx Proxy Cong (Certbot + tu dong ghi SSL vao nginx); phong to modal sua cau hinh. v1.2.3: Dam bao PHP-FPM duoc start va ghi dung unix socket vao vhost PHP moi (tranh nginx 502). v1.2.2: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.1: Sua nhan dien phien ban PHP \u2014 quet socket FPM/systemd va tim binary qua /usr/bin khi PATH service hep; PHP Manager khong con hien tat ca la chua cai. v1.2.0: Gop PHP Manager vao tab Web Manager.",
+    "changelog_en": "Security: restricted users' document roots are created without following symlinks (CoPanel 1.1.15). v1.3.2: Restricted users: a new site's document root must be inside their permitted folders (403 outside) and a new document root gets the home folder's owner. Synced with CoPanel 1.1.13 core; update with Panel Update. v1.2.4: SSL toggle when creating Nginx reverse-proxy sites (Certbot + auto nginx SSL config); larger edit-config modal for nginx. v1.2.3: Ensure PHP-FPM is started and write a live unix socket into new PHP vhosts (prevents nginx 502). v1.2.2: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.1: Fix PHP version detection — probe FPM sockets/systemd units and resolve binaries via /usr/bin when service PATH is minimal; PHP Manager no longer shows all versions as uninstalled. v1.2.0: PHP Manager merged into Web Manager sidebar tab.",
+    "changelog_vi": "Bảo mật: tạo thư mục web không đi theo symlink (CoPanel 1.1.15). v1.3.2: User bi gioi han: thu muc goc cua site moi phai nam trong thu muc duoc cap (ngoai ra 403), thu muc moi thuoc chu cua thu muc home. Dong bo CoPanel 1.1.13; cap nhat bang Panel Update. v1.2.4: Nut gat SSL khi tao Nginx Proxy Cong (Certbot + tu dong ghi SSL vao nginx); phong to modal sua cau hinh. v1.2.3: Dam bao PHP-FPM duoc start va ghi dung unix socket vao vhost PHP moi (tranh nginx 502). v1.2.2: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.1: Sua nhan dien phien ban PHP — quet socket FPM/systemd va tim binary qua /usr/bin khi PATH service hep; PHP Manager khong con hien tat ca la chua cai. v1.2.0: Gop PHP Manager vao tab Web Manager.",
     "system_packages": [
       "nginx"
-    ]
+    ],
+    "sha256": "d5169da1896616568044e75134f8dff46128d4d7384c5121a6c07ffac6fb2621"
   },
   {
     "id": "site_wizard",
@@ -32,25 +34,27 @@
     "icon": "Wand2",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/site_wizard.v1.2.0.zip",
     "is_core": true,
-    "changelog_en": "v1.2.0: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.1.6: Fix nginx 502 after WordPress install \u2014 ensure/start PHP-FPM, repair fastcgi_pass socket on vhost reuse, set siteurl/home to https after SSL. v1.1.5: Stabilize WordPress 1-click \u2014 WP-CLI/php install with status files, soft-fail DB bootstrap (site still usable via /wp-admin/install.php), reuse existing nginx vhost on re-run, clearer errors. v1.1.4: Fix WordPress CLI install \u2014 seed HTTP_HOST/SERVER_NAME and WP_HOME before wp_install (fixes Undefined array key HTTP_HOST on PHP 8). v1.1.3: Fix WordPress database connection on install \u2014 sync MySQL password on re-provision, grant user for localhost and 127.0.0.1, verify connectivity and pick working DB_HOST, escape credentials in wp-config. v1.1.2: Fix 1-click WordPress provisioning \u2014 initialize database via wp_install when core files already exist; sync wp-config credentials on re-provision; SSL failure no longer aborts the job (warnings shown); proper HTTPS reachability check. v1.1.1: Desktop UI layout.",
-    "changelog_vi": "v1.2.0: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.1.6: Sua nginx 502 sau cai WordPress \u2014 dam bao PHP-FPM chay, sua fastcgi_pass khi reuse vhost, cap nhat siteurl/home sang https sau SSL. v1.1.5: On dinh cai 1-click WordPress \u2014 WP-CLI/php voi file status, soft-fail neu DB bootstrap loi (van dung duoc qua /wp-admin/install.php), tai su dung nginx vhost khi chay lai, bao loi ro hon. v1.1.4: Sua cai WordPress qua CLI \u2014 gan HTTP_HOST/SERVER_NAME va WP_HOME truoc wp_install (sua loi Undefined array key HTTP_HOST tren PHP 8). v1.1.3: Sua loi ket noi database WordPress khi cai \u2014 dong bo mat khau MySQL khi provision lai, cap quyen cho localhost va 127.0.0.1, kiem tra ket noi va chon DB_HOST phu hop, escape credential trong wp-config. v1.1.2: Sua cai 1-click WordPress \u2014 khoi tao DB qua wp_install; dong bo wp-config; loi SSL khong dung job; kiem tra HTTPS dung. v1.1.1: Bo cuc Desktop UI.",
+    "changelog_en": "v1.2.0: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.1.6: Fix nginx 502 after WordPress install — ensure/start PHP-FPM, repair fastcgi_pass socket on vhost reuse, set siteurl/home to https after SSL. v1.1.5: Stabilize WordPress 1-click — WP-CLI/php install with status files, soft-fail DB bootstrap (site still usable via /wp-admin/install.php), reuse existing nginx vhost on re-run, clearer errors. v1.1.4: Fix WordPress CLI install — seed HTTP_HOST/SERVER_NAME and WP_HOME before wp_install (fixes Undefined array key HTTP_HOST on PHP 8). v1.1.3: Fix WordPress database connection on install — sync MySQL password on re-provision, grant user for localhost and 127.0.0.1, verify connectivity and pick working DB_HOST, escape credentials in wp-config. v1.1.2: Fix 1-click WordPress provisioning — initialize database via wp_install when core files already exist; sync wp-config credentials on re-provision; SSL failure no longer aborts the job (warnings shown); proper HTTPS reachability check. v1.1.1: Desktop UI layout.",
+    "changelog_vi": "v1.2.0: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.1.6: Sua nginx 502 sau cai WordPress — dam bao PHP-FPM chay, sua fastcgi_pass khi reuse vhost, cap nhat siteurl/home sang https sau SSL. v1.1.5: On dinh cai 1-click WordPress — WP-CLI/php voi file status, soft-fail neu DB bootstrap loi (van dung duoc qua /wp-admin/install.php), tai su dung nginx vhost khi chay lai, bao loi ro hon. v1.1.4: Sua cai WordPress qua CLI — gan HTTP_HOST/SERVER_NAME va WP_HOME truoc wp_install (sua loi Undefined array key HTTP_HOST tren PHP 8). v1.1.3: Sua loi ket noi database WordPress khi cai — dong bo mat khau MySQL khi provision lai, cap quyen cho localhost va 127.0.0.1, kiem tra ket noi va chon DB_HOST phu hop, escape credential trong wp-config. v1.1.2: Sua cai 1-click WordPress — khoi tao DB qua wp_install; dong bo wp-config; loi SSL khong dung job; kiem tra HTTPS dung. v1.1.1: Bo cuc Desktop UI.",
     "system_packages": [
       "nginx"
-    ]
+    ],
+    "sha256": "02a4dfdfdcb04039ff5f222d5c2bdec21216c7ab353569fa9f86f07810d82b9e"
   },
   {
     "id": "database_manager",
     "name": "Database Manager",
     "description": "MySQL/MariaDB management and user creation.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "Database",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.1.0.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/database_manager.v1.1.1.zip",
     "is_core": true,
-    "changelog_en": "v1.1.0: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.0.8: Fix create_user on re-provision \u2014 always ALTER USER password and grant for both localhost and 127.0.0.1 (fixes WordPress Site Wizard DB connection errors). v1.0.7: Desktop UI sidebar shell redesign \u2014 engine sidebar (MySQL/Postgres), Databases/Users tabs, flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.1.0: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.0.8: Sua create_user khi provision lai \u2014 luon ALTER USER mat khau va cap quyen cho localhost va 127.0.0.1 (sua loi ket noi DB WordPress Site Wizard). v1.0.7: Thiet ke lai giao dien Desktop sidebar \u2014 chon engine, tab Databases/Users, layout flex scroll, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "changelog_en": "Security: MySQL dumps run without a shell. v1.1.0: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.0.8: Fix create_user on re-provision — always ALTER USER password and grant for both localhost and 127.0.0.1 (fixes WordPress Site Wizard DB connection errors). v1.0.7: Desktop UI sidebar shell redesign — engine sidebar (MySQL/Postgres), Databases/Users tabs, flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "Bảo mật: dump MySQL không dùng shell. v1.1.0: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.0.8: Sua create_user khi provision lai — luon ALTER USER mat khau va cap quyen cho localhost va 127.0.0.1 (sua loi ket noi DB WordPress Site Wizard). v1.0.7: Thiet ke lai giao dien Desktop sidebar — chon engine, tab Databases/Users, layout flex scroll, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
     "system_packages": [
       "mariadb"
-    ]
+    ],
+    "sha256": "a24db7155611ea59015111c09efce1eedb892e58f446d483a404ddbc145fe47e"
   },
   {
     "id": "docker_manager",
@@ -61,15 +65,16 @@
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.19.zip",
     "is_core": true,
     "changelog_en": "v1.0.19: Folder picker uses the directory-only /api/platform/folder-picker, so users with Docker Manager but not File Manager can pick folders inside their permitted folders (needs CoPanel 1.1.11). v1.0.18: Fix React crash on Images tab (DownloadCloud icon). v1.0.17: Check Docker Hub updates + Update to latest.",
-    "changelog_vi": "v1.0.19: Chon thu muc dung API /api/platform/folder-picker (chi liet ke thu muc), user co Docker Manager ma khong co File Manager van chon duoc thu muc trong vung duoc cap (can CoPanel 1.1.11). v1.0.18: Sua crash React o tab Images (icon DownloadCloud). v1.0.17: Kiem tra cap nhat Docker Hub + Cap nhat ban moi."
+    "changelog_vi": "v1.0.19: Chon thu muc dung API /api/platform/folder-picker (chi liet ke thu muc), user co Docker Manager ma khong co File Manager van chon duoc thu muc trong vung duoc cap (can CoPanel 1.1.11). v1.0.18: Sua crash React o tab Images (icon DownloadCloud). v1.0.17: Kiem tra cap nhat Docker Hub + Cap nhat ban moi.",
+    "sha256": "ba2901b1b364ab6ab63425b9b119d1024e76a64c9b56d9d4be469dc93d9b51f6"
   },
   {
     "id": "download_manager",
     "name": "Download Manager",
     "description": "Web download manager: direct links, Google Drive/folders, custom file-hosting (curl/API), BitTorrent via aria2, watched torrent folder, speed limits, and Google OAuth. Now supports yt-dlp.",
-    "version": "0.2.19",
+    "version": "0.2.20",
     "icon": "Download",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.19.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/download_manager.v0.2.20.zip",
     "is_core": false,
     "system_packages": [
       "aria2",
@@ -79,24 +84,26 @@
     "pip_packages": [
       "yt-dlp"
     ],
-    "changelog_en": "v0.2.19: Finished downloads of restricted users are owned by their home folder's owner (only root-owned items in the task's destination; superadmin downloads unchanged). v0.2.18: Restricted users download only into their permitted folders (default <home>/Downloads), browse only their folders, see and control only their own tasks; global settings are admin-only. v0.2.17: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v0.2.16: Fix 404 on DELETE /tasks/completed and POST /tasks/upload-torrent \u2014 register static task routes before /tasks/{id}. v0.2.15: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.2.14: Fix frontend build \u2014 remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
-    "changelog_vi": "v0.2.19: File tai xong cua user bi gioi han thuoc chu thu muc home cua ho (chi doi cac muc dang thuoc root trong thu muc dich; superadmin khong doi). v0.2.18: User bi gioi han chi tai ve trong thu muc duoc cap (mac dinh <home>/Downloads), chi duyet thu muc cua minh, chi thay/quan ly task cua minh; cai dat chung chi admin sua duoc. v0.2.17: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v0.2.16: Sua loi 404 cho DELETE /tasks/completed va POST /tasks/upload-torrent \u2014 khai bao route tinh truoc /tasks/{id}. v0.2.15: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.2.14: Sua loi build frontend \u2014 xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "Security: OAuth callback page fixed (XSS); popup messages checked against the panel origin. v0.2.19: Finished downloads of restricted users are owned by their home folder's owner (only root-owned items in the task's destination; superadmin downloads unchanged). v0.2.18: Restricted users download only into their permitted folders (default <home>/Downloads), browse only their folders, see and control only their own tasks; global settings are admin-only. v0.2.17: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v0.2.16: Fix 404 on DELETE /tasks/completed and POST /tasks/upload-torrent — register static task routes before /tasks/{id}. v0.2.15: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
+    "changelog_vi": "Bảo mật: sửa XSS trang OAuth callback. v0.2.19: File tai xong cua user bi gioi han thuoc chu thu muc home cua ho (chi doi cac muc dang thuoc root trong thu muc dich; superadmin khong doi). v0.2.18: User bi gioi han chi tai ve trong thu muc duoc cap (mac dinh <home>/Downloads), chi duyet thu muc cua minh, chi thay/quan ly task cua minh; cai dat chung chi admin sua duoc. v0.2.17: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v0.2.16: Sua loi 404 cho DELETE /tasks/completed va POST /tasks/upload-torrent — khai bao route tinh truoc /tasks/{id}. v0.2.15: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport.",
+    "frontend_install": "prebuilt",
+    "sha256": "bcd78085a330161b9608b7cdf1435bb04011403aa0b65de10f6c89234457332d"
   },
   {
     "id": "audio_station",
     "name": "Audio Player",
     "description": "CoPanel music library: configurable folders (/home/music default), folder browse, metadata scan, album/artist/genre views, playlists, cover art, and HTML5 streaming playback.",
-    "version": "0.3.10",
+    "version": "0.3.11",
     "icon": "Music",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.10.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/audio_station.v0.3.11.zip",
     "is_core": false,
     "pip_packages": [
       "mutagen==1.47.0"
     ],
-    "changelog_en": "v0.3.10: Restricted users: only a superadmin can change Audio Station settings (library roots are server-wide); the folder picker stays inside the user's permitted folders (403 outside) and no longer creates missing folders. Dialogs open inside the app window. v0.3.9: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v0.3.8: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.3.7: Background playback when minimized (keep-running policy); taskbar play/pause indicator with track name and animated badge. v0.3.6: Accept both ?access_token= and legacy ?token= on audio/cover links; enforce audio_station module permission on media routes to fix 401s after auth hardening. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes \u2014 Classic + Desktop from one ZIP.",
-    "changelog_vi": "v0.3.10: User bi gioi han: chi superadmin doi duoc cai dat Audio Station (thu muc thu vien dung chung); hop chon thu muc chi trong thu muc duoc cap (ngoai ra 403) va khong tu tao thu muc. Hop thoai mo ben trong cua so ung dung. v0.3.9: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v0.3.8: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.3.7: Phat nhac nen khi minimize (keep-running policy); hien icon play/pause va ten bai tren taskbar kem animation. v0.3.6: Ho tro ca ?access_token= va ?token= cu cho link audio/cover; bo sung kiem tra quyen audio_station cho media routes de sua loi 401 sau khi siet auth. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport \u2014 mot ZIP cho Classic va Desktop.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "Security: playback and cover URLs use path-scoped media tokens instead of the login token (needs CoPanel 1.1.15+); folder picker no longer creates folders. v0.3.10: Restricted users: only a superadmin can change Audio Station settings (library roots are server-wide); the folder picker stays inside the user's permitted folders (403 outside) and no longer creates missing folders. Dialogs open inside the app window. v0.3.9: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v0.3.8: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.3.7: Background playback when minimized (keep-running policy); taskbar play/pause indicator with track name and animated badge. v0.3.6: Accept both ?access_token= and legacy ?token= on audio/cover links; enforce audio_station module permission on media routes to fix 401s after auth hardening. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP.",
+    "changelog_vi": "Bảo mật: URL phát nhạc/ảnh bìa dùng media token theo đường dẫn (cần CoPanel 1.1.15+). v0.3.10: User bi gioi han: chi superadmin doi duoc cai dat Audio Station (thu muc thu vien dung chung); hop chon thu muc chi trong thu muc duoc cap (ngoai ra 403) va khong tu tao thu muc. Hop thoai mo ben trong cua so ung dung. v0.3.9: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v0.3.8: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.3.7: Phat nhac nen khi minimize (keep-running policy); hien icon play/pause va ten bai tren taskbar kem animation. v0.3.6: Ho tro ca ?access_token= va ?token= cu cho link audio/cover; bo sung kiem tra quyen audio_station cho media routes de sua loi 401 sau khi siet auth. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop.",
+    "frontend_install": "prebuilt",
+    "sha256": "1cac5c5c1cc2e65052c160ebe4f41978b9ffda227b4b0697b35f2b4805c1df98"
   },
   {
     "id": "ssl_manager",
@@ -106,19 +113,21 @@
     "icon": "Shield",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/ssl_manager.v1.1.4.zip",
     "is_core": true,
-    "changelog_en": "v1.1.4: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.1.2: Fix nginx SSL vhost path \u2014 resolve {domain}.conf correctly when applying Let's Encrypt certificates (previously silent no-op). v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
-    "changelog_vi": "v1.1.4: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.1.2: Sua duong dan vhost SSL nginx \u2014 tim dung file {domain}.conf khi ap dung chung chi Let's Encrypt (truoc do that bai im lang). v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI."
+    "changelog_en": "v1.1.4: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.1.2: Fix nginx SSL vhost path — resolve {domain}.conf correctly when applying Let's Encrypt certificates (previously silent no-op). v1.1.1: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.0: Desktop sidebar UI (certificates, issue LE, custom SSL, auto-renew tab). Auto-renew toggle with daily cron schedule via CoPanel; per-domain renew fix; days_left on certificate list; renew-all from UI.",
+    "changelog_vi": "v1.1.4: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.1.2: Sua duong dan vhost SSL nginx — tim dung file {domain}.conf khi ap dung chung chi Let's Encrypt (truoc do that bai im lang). v1.1.1: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.0: Giao dien Desktop sidebar (chung chi, cap LE, SSL tuy chinh, tab tu gia han). Bat/tat tu gia han voi lich cron hang ngay qua CoPanel; sua gia han tung domain; hien so ngay con lai; gia han tat ca tu UI.",
+    "sha256": "fdf375936d72656940d84df7580902add3afbd77ffae6cf45ec7f90947b418d1"
   },
   {
     "id": "terminal",
     "name": "Terminal",
     "description": "Execute system commands securely in the browser.",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "icon": "Terminal",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/terminal.v1.0.9.zip",
     "is_core": true,
-    "changelog_en": "v1.0.8: Rebuilt from CoPanel 1.1.13 core: WebSocket uses the single-use stream ticket (?ticket=, no JWT in the URL) and the mobile layout. Replaces v1.0.7, which carried older code. Core module: update with Panel Update; on CPUs without AVX the AppStore installs the backend only (panel 1.1.13+). v1.0.7: Fix auth-hardened terminal WebSocket \u2014 remove router-level module dependency from /ws handshake and keep explicit access_token/module check inside the WebSocket handler. v1.0.6: Desktop UI sidebar shell redesign \u2014 compact header, terminal + snippets split pane with flex h-full scroll, useIsWindowedModule. One ZIP for Classic and Desktop floating windows.",
-    "changelog_vi": "v1.0.8: Build lai tu CoPanel 1.1.13: WebSocket dung stream ticket dung 1 lan (?ticket=, khong co JWT tren URL) va giao dien mobile. Thay the v1.0.7 (code cu). Module loi: cap nhat bang Panel Update; CPU khong AVX chi cai backend (panel 1.1.13+). v1.0.7: Sua WebSocket Terminal sau khi siet auth \u2014 bo router-level module dependency khoi /ws handshake va giu kiem tra access_token/quyen module ben trong WebSocket handler. v1.0.6: Thiet ke lai giao dien Desktop \u2014 header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop."
+    "changelog_en": "Security: the terminal closes when the session is revoked (CoPanel 1.1.15). v1.0.8: Rebuilt from CoPanel 1.1.13 core: WebSocket uses the single-use stream ticket (?ticket=, no JWT in the URL) and the mobile layout. Replaces v1.0.7, which carried older code. Core module: update with Panel Update; on CPUs without AVX the AppStore installs the backend only (panel 1.1.13+). v1.0.7: Fix auth-hardened terminal WebSocket — remove router-level module dependency from /ws handshake and keep explicit access_token/module check inside the WebSocket handler. v1.0.6: Desktop UI sidebar shell redesign — compact header, terminal + snippets split pane with flex h-full scroll, useIsWindowedModule. One ZIP for Classic and Desktop floating windows.",
+    "changelog_vi": "Bảo mật: terminal đóng khi phiên bị thu hồi (CoPanel 1.1.15). v1.0.8: Build lai tu CoPanel 1.1.13: WebSocket dung stream ticket dung 1 lan (?ticket=, khong co JWT tren URL) va giao dien mobile. Thay the v1.0.7 (code cu). Module loi: cap nhat bang Panel Update; CPU khong AVX chi cai backend (panel 1.1.13+). v1.0.7: Sua WebSocket Terminal sau khi siet auth — bo router-level module dependency khoi /ws handshake va giu kiem tra access_token/quyen module ben trong WebSocket handler. v1.0.6: Thiet ke lai giao dien Desktop — header gon, terminal + snippet chia panel flex h-full, useIsWindowedModule. Mot ZIP cho Classic va Desktop.",
+    "sha256": "3335b796a42264075ea21cc4925f3098fc632b717258a0b0305cbd9c0527e437"
   },
   {
     "id": "rsync_manager",
@@ -132,9 +141,10 @@
       "rsync",
       "openssh-client"
     ],
-    "changelog_en": "v1.1.4: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.1.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.1.2: POST /sync_job validates destination paths before creating a job (400 instead of failing in Task Center). v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, \u2026); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) \u2014 detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
-    "changelog_vi": "v1.1.4: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.1.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.1.2: POST /sync_job kiem tra duong dich truoc khi tao job (tra 400 thay vi loi trong Task Center). v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, \u2026); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) \u2014 phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "v1.1.4: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.1.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.1.2: POST /sync_job validates destination paths before creating a job (400 instead of failing in Task Center). v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, …); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
+    "changelog_vi": "v1.1.4: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.1.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.1.2: POST /sync_job kiem tra duong dich truoc khi tao job (tra 400 thay vi loi trong Task Center). v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, …); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking.",
+    "frontend_install": "prebuilt",
+    "sha256": "ace35f1771b1e806674de3ab2caede595a3a3bcbec818d86dd1b64054551a899"
   },
   {
     "id": "ftp_manager",
@@ -150,38 +160,41 @@
     "pip_packages": [
       "paramiko==3.4.0"
     ],
-    "changelog_en": "v1.0.3: Fix Add/Edit connection, transfer, and delete dialogs rendering behind the desktop window. Modals now attach to the window viewport instead of document.body (AppStore bundles cannot share the panel's WindowViewportContext). v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: UI polish \u2014 Cloud Sync\u2013style sidebar, single empty-state CTA, cleaner connection form (advanced collapsed), shorter nav name. v1.0.0: Initial release.",
-    "changelog_vi": "v1.0.3: Sua hop thoai Them/Sua ket noi, chuyen file va xoa bi khuat sau cua so desktop. Modal gan vao khung cua so thay vi document.body (bundle AppStore khong chia se WindowViewportContext cua panel). v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chinh UI \u2014 sidebar kieu Cloud Sync, empty state 1 CTA, form ket noi gon (nang cao thu gon), ten nav ngan. v1.0.0: Ban dau.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "v1.0.3: Fix Add/Edit connection, transfer, and delete dialogs rendering behind the desktop window. Modals now attach to the window viewport instead of document.body (AppStore bundles cannot share the panel's WindowViewportContext). v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: UI polish — Cloud Sync–style sidebar, single empty-state CTA, cleaner connection form (advanced collapsed), shorter nav name. v1.0.0: Initial release.",
+    "changelog_vi": "v1.0.3: Sua hop thoai Them/Sua ket noi, chuyen file va xoa bi khuat sau cua so desktop. Modal gan vao khung cua so thay vi document.body (bundle AppStore khong chia se WindowViewportContext cua panel). v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chinh UI — sidebar kieu Cloud Sync, empty state 1 CTA, form ket noi gon (nang cao thu gon), ten nav ngan. v1.0.0: Ban dau.",
+    "frontend_install": "prebuilt",
+    "sha256": "631f01d573c46e189ab5559d6b1844f396927754f4ab31b00e6f47c4637718d9"
   },
   {
     "id": "cloud_sync",
     "name": "Cloud Sync",
-    "description": "Google Drive sync with one\u2011click OAuth popup, account sidebar, and folder sync tasks. One-time Google API setup when the panel has no OAuth credentials.",
-    "version": "1.1.7",
+    "description": "Google Drive sync with one‑click OAuth popup, account sidebar, and folder sync tasks. One-time Google API setup when the panel has no OAuth credentials.",
+    "version": "1.1.8",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.1.7.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cloud_sync.v1.1.8.zip",
     "is_core": false,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.1.7: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.1.6: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.1.5: Fix 503 on /oauth/google/connect when panel OAuth is missing \u2014 one-time Client ID/Secret setup in Cloud Sync UI, then Connect stays one-click popup. GET/POST /oauth/google/config. v1.1.4: SQLite schema init on every request.",
-    "changelog_vi": "v1.1.7: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.1.6: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.1.5: Sua 503 tren /oauth/google/connect khi chua co OAuth tren panel \u2014 cau hinh Client ID/Secret mot lan trong Cloud Sync, sau do Connect van mo popup. GET/POST /oauth/google/config. v1.1.4: Khoi tao SQLite moi request.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "Security: log stream uses a single-use ticket (CoPanel 1.1.15+); OAuth callback page fixed (XSS); OAuth tokens are no longer returned to the browser. v1.1.7: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.1.6: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.1.5: Fix 503 on /oauth/google/connect when panel OAuth is missing — one-time Client ID/Secret setup in Cloud Sync UI, then Connect stays one-click popup. GET/POST /oauth/google/config. v1.1.4: SQLite schema init on every request.",
+    "changelog_vi": "Bảo mật: luồng log dùng ticket (cần CoPanel 1.1.15+); sửa XSS trang OAuth; không trả token OAuth về trình duyệt. v1.1.7: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.1.6: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.1.5: Sua 503 tren /oauth/google/connect khi chua co OAuth tren panel — cau hinh Client ID/Secret mot lan trong Cloud Sync, sau do Connect van mo popup. GET/POST /oauth/google/config. v1.1.4: Khoi tao SQLite moi request.",
+    "frontend_install": "prebuilt",
+    "sha256": "8c19e656ce63d1ccb28fe1678198c936c0bdbe2fa78ee304d0c22518bb1679a5"
   },
   {
     "id": "backup_manager",
     "name": "Backup Manager",
     "description": "Zero-CLI cloud backup manager powered by rclone. Desktop sidebar shell (Profiles / Remotes / Cloud Setup) for Classic + Desktop UI. Guided Google OAuth, cron scheduling, real-time sync, live progress streaming.",
-    "version": "1.2.15",
+    "version": "1.2.16",
     "icon": "Cloud",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.15.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/backup_manager.v1.2.16.zip",
     "is_core": true,
     "system_packages": [
       "rclone"
     ],
-    "changelog_en": "v1.2.15: Fix duplicate i18n key cloudSetup in backup_manager (esbuild warning). v1.2.14: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.13: Desktop sidebar shell \u2014 Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
-    "changelog_vi": "v1.2.15: Sua key i18n cloudSetup trung trong backup_manager (canh bao esbuild). v1.2.14: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.13: Giao dien sidebar Desktop \u2014 tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop."
+    "changelog_en": "Security: OAuth callback page fixed (XSS); MySQL dumps run without a shell. v1.2.15: Fix duplicate i18n key cloudSetup in backup_manager (esbuild warning). v1.2.14: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.2.13: Desktop sidebar shell — Profiles, Cloud Remotes, and Cloud Setup tabs; useIsWindowedModule layout; Cloud Setup moved from modal to sidebar panel. One ZIP for Classic + Desktop UI.",
+    "changelog_vi": "Bảo mật: sửa XSS trang OAuth; dump MySQL không dùng shell. v1.2.15: Sua key i18n cloudSetup trung trong backup_manager (canh bao esbuild). v1.2.14: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.2.13: Giao dien sidebar Desktop — tab Cau hinh, Cloud Remotes, Cloud Setup; layout useIsWindowedModule; Cloud Setup chuyen tu modal sang panel sidebar. Mot ZIP cho Classic + Desktop.",
+    "sha256": "d75c55118a8d68a1bc643ee7528bd1ed02d5ac19479058fc346b0be36723c457"
   },
   {
     "id": "system_monitor",
@@ -191,13 +204,14 @@
     "icon": "Activity",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_monitor.v1.1.7.zip",
     "is_core": true,
-    "changelog_en": "v1.1.7: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.6: Desktop UI sidebar shell redesign \u2014 sidebar nav (Resources / Processes / PM2), compact header, flex scroll layout for Classic + Desktop windows, useIsWindowedModule. v1.1.2: Richer system header \u2014 CPU model, architecture, total RAM, aggregated disk totals.",
-    "changelog_vi": "v1.1.7: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.6: Thiet ke lai giao dien Desktop sidebar \u2014 dieu huong Resources/Tien trinh/PM2, header gon, layout flex scroll cho Classic va Desktop, useIsWindowedModule. v1.1.2: Thong tin he thong day du hon."
+    "changelog_en": "v1.1.7: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.1.6: Desktop UI sidebar shell redesign — sidebar nav (Resources / Processes / PM2), compact header, flex scroll layout for Classic + Desktop windows, useIsWindowedModule. v1.1.2: Richer system header — CPU model, architecture, total RAM, aggregated disk totals.",
+    "changelog_vi": "v1.1.7: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.1.6: Thiet ke lai giao dien Desktop sidebar — dieu huong Resources/Tien trinh/PM2, header gon, layout flex scroll cho Classic va Desktop, useIsWindowedModule. v1.1.2: Thong tin he thong day du hon.",
+    "sha256": "d87e77b0d064cdb4d35044195d0070cdf53a4a7ad3b8653df33cb4e6f564ea18"
   },
   {
     "id": "storage_manager",
     "name": "Storage Manager",
-    "description": "Monitor disks and SMART health \u2014 Desktop UI shell with sidebar nav, GParted-style partition wizard, operation queue, drag resize/shrink, LVM, RAID, benchmarks.",
+    "description": "Monitor disks and SMART health — Desktop UI shell with sidebar nav, GParted-style partition wizard, operation queue, drag resize/shrink, LVM, RAID, benchmarks.",
     "version": "1.6.3",
     "icon": "HardDrive",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/storage_manager.v1.6.3.zip",
@@ -216,9 +230,10 @@
       "dosfstools",
       "hfsprogs"
     ],
-    "changelog_en": "v1.6.3: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.6.2: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.6.1: Fix frontend build \u2014 rename storage UI tokens to avoid clash with shell theme. v1.6.0: Desktop UI redesign \u2014 macOS/Deepin app shell with sidebar nav.",
-    "changelog_vi": "v1.6.3: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.6.2: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.6.1: Sua loi build frontend \u2014 doi ten token UI tranh trung shell theme. v1.6.0: Thiet ke lai Desktop UI \u2014 shell macOS/Deepin voi sidebar.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "v1.6.3: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.6.2: Mobile classic drawer sidebar (ModuleSidebarLayout). v1.6.1: Fix frontend build — rename storage UI tokens to avoid clash with shell theme. v1.6.0: Desktop UI redesign — macOS/Deepin app shell with sidebar nav.",
+    "changelog_vi": "v1.6.3: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.6.2: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v1.6.1: Sua loi build frontend — doi ten token UI tranh trung shell theme. v1.6.0: Thiet ke lai Desktop UI — shell macOS/Deepin voi sidebar.",
+    "frontend_install": "prebuilt",
+    "sha256": "a312c0130577f4a2602a6abfdba070d2812e9cd3ae0f8835b1d2fe93ea7fb2e1"
   },
   {
     "id": "clamav",
@@ -233,20 +248,22 @@
       "clamav",
       "clamav-daemon"
     ],
-    "changelog_en": "v1.0.6: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes \u2014 Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext \u2014 one ZIP for Classic sidebar and Desktop shell. v1.0.3: When clamav-freshclam service is active, restart service only (never spawn a second freshclam). Fallback JobCancelled import for older CoPanel core.",
-    "changelog_vi": "v1.0.6: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport \u2014 mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext \u2014 mot ZIP cho Classic va Desktop. v1.0.3: Khi clamav-freshclam dang chay chi restart service (khong goi freshclam thu hai). Fallback import JobCancelled neu core CoPanel cu.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "v1.0.6: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.3: When clamav-freshclam service is active, restart service only (never spawn a second freshclam). Fallback JobCancelled import for older CoPanel core.",
+    "changelog_vi": "v1.0.6: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.3: Khi clamav-freshclam dang chay chi restart service (khong goi freshclam thu hai). Fallback import JobCancelled neu core CoPanel cu.",
+    "frontend_install": "prebuilt",
+    "sha256": "d1b99942acd7946bb98ca8750df6234f287250ad5c765b306d37ef14fb5cdffa"
   },
   {
     "id": "firewall",
     "name": "Firewall",
     "description": "Visual dashboard for UFW firewall rules and Fail2Ban IDS with correct jail / banned-IP display.",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "icon": "Lock",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/firewall.v1.0.9.zip",
     "is_core": true,
-    "changelog_en": "v1.0.8: Desktop UI sidebar shell redesign \u2014 UFW/Fail2Ban sidebar nav, compact header with status controls, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.0.8: Thiet ke lai giao dien Desktop sidebar \u2014 dieu huong UFW/Fail2Ban, header gon, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop."
+    "changelog_en": "Security: Fail2Ban installs without a shell. v1.0.8: Desktop UI sidebar shell redesign — UFW/Fail2Ban sidebar nav, compact header with status controls, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "Bảo mật: cài Fail2Ban không dùng shell. v1.0.8: Thiet ke lai giao dien Desktop sidebar — dieu huong UFW/Fail2Ban, header gon, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "sha256": "076cd6da6e533579bed61cc9a5fa30b2432ccb7712eb38ffce5f707ceeaf9283"
   },
   {
     "id": "dns_manager",
@@ -256,8 +273,9 @@
     "icon": "Network",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/dns_manager.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.4: Desktop UI sidebar shell redesign \u2014 zone sidebar, flex scroll layout, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic sidebar and Desktop floating windows.",
-    "changelog_vi": "v1.0.4: Thiet ke lai giao dien Desktop sidebar \u2014 danh sach zone ben trai, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi. Mot ZIP cho Classic va Desktop."
+    "changelog_en": "v1.0.4: Desktop UI sidebar shell redesign — zone sidebar, flex scroll layout, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic sidebar and Desktop floating windows.",
+    "changelog_vi": "v1.0.4: Thiet ke lai giao dien Desktop sidebar — danh sach zone ben trai, layout flex scroll, WindowModal xac nhan xoa, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "sha256": "d6021a4ee71e56cb0d67237153253ac4f9f438d14a3975a1610aaaa93aad2eaa"
   },
   {
     "id": "cloudflare_ddns",
@@ -273,9 +291,10 @@
     "pip_packages": [
       "httpx==0.27.0"
     ],
-    "changelog_en": "v1.0.16: Fix run_update.py high-CPU hang/busy loop \u2014 enforce minimum 60s interval with exponential backoff on errors, guard runs with flock single-instance lock, terminate duplicate/orphan workers on startup and cron sync, bound IP lookup reads and subprocess timeouts, and emit valid cron schedules for >=60 min intervals. v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create \u2014 cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP.",
-    "changelog_vi": "v1.0.16: Sua loi run_update.py treo/chay 100% CPU \u2014 ap dung khoang cach toi thieu 60s kem backoff khi loi, khoa flock chong chay trung, don dep tien trinh worker du thua khi khoi dong va sync cron, gioi han timeout mang/subprocess, va sua cu phap cron cho chu ky >=60 phut. v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS \u2014 loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "v1.0.16: Fix run_update.py high-CPU hang/busy loop — enforce minimum 60s interval with exponential backoff on errors, guard runs with flock single-instance lock, terminate duplicate/orphan workers on startup and cron sync, bound IP lookup reads and subprocess timeouts, and emit valid cron schedules for >=60 min intervals. v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create — cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP.",
+    "changelog_vi": "v1.0.16: Sua loi run_update.py treo/chay 100% CPU — ap dung khoang cach toi thieu 60s kem backoff khi loi, khoa flock chong chay trung, don dep tien trinh worker du thua khi khoi dong va sync cron, gioi han timeout mang/subprocess, va sua cu phap cron cho chu ky >=60 phut. v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS — loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare.",
+    "frontend_install": "prebuilt",
+    "sha256": "85daa8a4f69c4c3f60d43389a5bbc276005ed14178e156b485a5cd7784773458"
   },
   {
     "id": "webdav",
@@ -292,9 +311,10 @@
       "wsgidav==4.3.3",
       "cheroot==10.0.1"
     ],
-    "changelog_en": "v1.0.12: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.11: Fix 500 on status/config/SMB diagnostics \u2014 use user_model.pwd_path() instead of removed PWD_PATH. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes \u2014 Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext \u2014 one ZIP for Classic sidebar and Desktop shell. v1.0.8: Fix frontend build \u2014 restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
-    "changelog_vi": "v1.0.12: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.11: Sua loi 500 tren status/config/SMB diagnostics \u2014 dung user_model.pwd_path() thay PWD_PATH da bo. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport \u2014 mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext \u2014 mot ZIP cho Classic va Desktop. v1.0.8: Sua loi build frontend \u2014 khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "v1.0.12: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.11: Fix 500 on status/config/SMB diagnostics — use user_model.pwd_path() instead of removed PWD_PATH. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.8: Fix frontend build — restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
+    "changelog_vi": "v1.0.12: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.11: Sua loi 500 tren status/config/SMB diagnostics — dung user_model.pwd_path() thay PWD_PATH da bo. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.8: Sua loi build frontend — khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/.",
+    "frontend_install": "prebuilt",
+    "sha256": "31ed3d10f80294129cad1b32ff79de05c2421d2fd36add455f0c8bdcfc590814"
   },
   {
     "id": "cron_manager",
@@ -304,31 +324,34 @@
     "icon": "Clock",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/cron_manager.v1.0.9.zip",
     "is_core": true,
-    "changelog_en": "v1.0.9: Desktop UI sidebar shell redesign \u2014 Create Job / Jobs sidebar nav, visual cron builder, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.0.9: Thiet ke lai giao dien Desktop sidebar \u2014 tab Tao Job/Danh sach, cron builder, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop."
+    "changelog_en": "v1.0.9: Desktop UI sidebar shell redesign — Create Job / Jobs sidebar nav, visual cron builder, WindowModal delete confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.9: Thiet ke lai giao dien Desktop sidebar — tab Tao Job/Danh sach, cron builder, WindowModal, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "sha256": "ac45aeb4c6e44fdb072daf82e6f25de101457615355bf97ad5e119c4d29b844c"
   },
   {
     "id": "package_manager",
     "name": "Package Manager",
-    "description": "Install and control Ubuntu system packages, runtimes, and tools \u2014 including Node.js and PM2.",
+    "description": "Install and control Ubuntu system packages, runtimes, and tools — including Node.js and PM2.",
     "version": "1.0.7",
     "icon": "Boxes",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/package_manager.v1.0.7.zip",
     "is_core": true,
-    "changelog_en": "v1.0.7: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.0.5: Distinct dock icon (Boxes) so Packages is not confused with App Store. v1.0.4: Add dedicated PM2 package (npm global install/stop/restart/remove); rename Node.js package; dual-UI polish \u2014 search, status filters, compact Desktop window header, mobile drawer + sticky toolbar. v1.0.2: Real install/start/stop/restart/remove via package manager and systemctl; phpMyAdmin access path/open button.",
-    "changelog_vi": "v1.0.7: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.0.5: Icon dock rieng (Boxes) de phan biet Packages va App Store. v1.0.4: Them goi PM2 rieng (cai npm global, stop/restart/remove); doi ten goi Node.js; toi uu UI dual \u2014 tim kiem, loc trang thai, header Desktop gon, drawer mobile + thanh cong cu sticky. v1.0.2: Thuc thi that install/start/stop/restart/remove; nut mo phpMyAdmin."
+    "changelog_en": "v1.0.7: Synced with CoPanel 1.1.13 core (the panel already ships this version); update with Panel Update. v1.0.5: Distinct dock icon (Boxes) so Packages is not confused with App Store. v1.0.4: Add dedicated PM2 package (npm global install/stop/restart/remove); rename Node.js package; dual-UI polish — search, status filters, compact Desktop window header, mobile drawer + sticky toolbar. v1.0.2: Real install/start/stop/restart/remove via package manager and systemctl; phpMyAdmin access path/open button.",
+    "changelog_vi": "v1.0.7: Dong bo voi CoPanel 1.1.13 (panel da co ban nay); cap nhat bang Panel Update. v1.0.5: Icon dock rieng (Boxes) de phan biet Packages va App Store. v1.0.4: Them goi PM2 rieng (cai npm global, stop/restart/remove); doi ten goi Node.js; toi uu UI dual — tim kiem, loc trang thai, header Desktop gon, drawer mobile + thanh cong cu sticky. v1.0.2: Thuc thi that install/start/stop/restart/remove; nut mo phpMyAdmin.",
+    "sha256": "40fd0b64c3caa283d1e19e4f81b47ff1dee835bcf7c65eb8f3cd18c84ead92a2"
   },
   {
     "id": "appstore_manager",
     "name": "AppStore Manager",
     "description": "Add, remove, and upgrade third-party modules seamlessly.",
-    "version": "1.0.40",
+    "version": "1.0.41",
     "icon": "ShoppingBag",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-AppStore/main/packages/appstore_manager.v1.0.40.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/appstore_manager.v1.0.41.zip",
     "is_core": true,
     "requires_copanel_restart": true,
-    "changelog_en": "v1.0.40: On CPUs without AVX, core-module ZIPs install the backend only (the panel always uses its built-in UI for core modules) instead of failing with the no-AVX error; the catalog's is_core flag is forwarded to the installer. Update with Panel Update to CoPanel 1.1.13. v1.0.38: Fix AppStore extensions (CoAgent/Redis) not appearing after install \u2014 preserve dist/extensions across rebuilds, cache extension artifacts, stop baking extension sources into src/modules. Pair with CoPanel frontend vite import-map fix for no-AVX hosts. v1.0.37: Fix Desktop window scroll \u2014 catalog list scrolls inside the App Store window (featured/categories included in the scroll pane); ModuleSidebarLayout min-h-0 content column. v1.0.36: Dock/config icon ShoppingBag (was Package) \u2014 no longer identical to Packages on the taskbar. v1.0.35: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.34: Batch update all \u2014 install multiple modules with one npm build at the end instead of per-module rebuilds. v1.0.33: Smarter post-install restart \u2014 extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules.",
-    "changelog_vi": "v1.0.40: CPU khong AVX: ZIP module loi chi cai backend (panel luon dung giao dien co san cho module loi) thay vi bao loi no-AVX; co is_core trong catalog duoc gui cho trinh cai. Cap nhat bang Panel Update len CoPanel 1.1.13. v1.0.38: Sua extension AppStore (CoAgent/Redis) khong hien sau cai \u2014 giu dist/extensions khi rebuild, cache artifact, khong copy frontend extension vao src/modules. Can kem ban frontend CoPanel co import map (may no-AVX). v1.0.37: Sua scroll cua so Desktop \u2014 danh sach app cuon trong cua so App Store (featured/danh muc nam trong vung scroll); cot noi dung ModuleSidebarLayout them min-h-0. v1.0.36: Icon dock ShoppingBag (truoc la Package) \u2014 khong con trung Packages tren taskbar. v1.0.35: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.34: Cap nhat hang loat \u2014 cai nhieu module, chi chay npm build mot lan o cuoi thay vi build tung module. v1.0.33: Restart sau cai thong minh hon \u2014 extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi."
+    "changelog_en": "Security: packages are verified (catalog SHA-256, official https source, safe extraction, no shell); install/remove/upload are superadmin-only. v1.0.40: On CPUs without AVX, core-module ZIPs install the backend only (the panel always uses its built-in UI for core modules) instead of failing with the no-AVX error; the catalog's is_core flag is forwarded to the installer. Update with Panel Update to CoPanel 1.1.13. v1.0.38: Fix AppStore extensions (CoAgent/Redis) not appearing after install — preserve dist/extensions across rebuilds, cache extension artifacts, stop baking extension sources into src/modules. Pair with CoPanel frontend vite import-map fix for no-AVX hosts. v1.0.37: Fix Desktop window scroll — catalog list scrolls inside the App Store window (featured/categories included in the scroll pane); ModuleSidebarLayout min-h-0 content column. v1.0.36: Dock/config icon ShoppingBag (was Package) — no longer identical to Packages on the taskbar. v1.0.35: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.34: Batch update all — install multiple modules with one npm build at the end instead of per-module rebuilds. v1.0.33: Smarter post-install restart — extension-only skips restart; backend hot-reload when possible; auto systemd restart for new modules.",
+    "changelog_vi": "Bảo mật: kiểm tra SHA-256 gói, chỉ nguồn chính thức, giải nén an toàn; cài/gỡ chỉ superadmin. v1.0.40: CPU khong AVX: ZIP module loi chi cai backend (panel luon dung giao dien co san cho module loi) thay vi bao loi no-AVX; co is_core trong catalog duoc gui cho trinh cai. Cap nhat bang Panel Update len CoPanel 1.1.13. v1.0.38: Sua extension AppStore (CoAgent/Redis) khong hien sau cai — giu dist/extensions khi rebuild, cache artifact, khong copy frontend extension vao src/modules. Can kem ban frontend CoPanel co import map (may no-AVX). v1.0.37: Sua scroll cua so Desktop — danh sach app cuon trong cua so App Store (featured/danh muc nam trong vung scroll); cot noi dung ModuleSidebarLayout them min-h-0. v1.0.36: Icon dock ShoppingBag (truoc la Package) — khong con trung Packages tren taskbar. v1.0.35: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.34: Cap nhat hang loat — cai nhieu module, chi chay npm build mot lan o cuoi thay vi build tung module. v1.0.33: Restart sau cai thong minh hon — extension-only khong restart; hot-reload backend khi duoc; tu restart systemd cho module moi.",
+    "sha256": "efe3b661ddfb862c6c8057b7e838a7be3473715010a92b73c74de3ab77702425"
   },
   {
     "id": "system_cleaner",
@@ -338,24 +361,26 @@
     "icon": "Trash2",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/system_cleaner.v1.0.4.zip",
     "is_core": true,
-    "changelog_en": "v1.0.4: Desktop UI sidebar shell redesign \u2014 sidebar nav (Junk / Disk / Large Files), flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
-    "changelog_vi": "v1.0.4: Thiet ke lai giao dien Desktop sidebar \u2014 dieu huong Junk/Phan tich o dia/File lon, layout flex scroll, WindowModal xac nhan, i18n en/vi. Mot ZIP cho Classic va Desktop."
+    "changelog_en": "v1.0.4: Desktop UI sidebar shell redesign — sidebar nav (Junk / Disk / Large Files), flex scroll layout, WindowModal confirmations, en/vi i18n. One ZIP for Classic and Desktop.",
+    "changelog_vi": "v1.0.4: Thiet ke lai giao dien Desktop sidebar — dieu huong Junk/Phan tich o dia/File lon, layout flex scroll, WindowModal xac nhan, i18n en/vi. Mot ZIP cho Classic va Desktop.",
+    "sha256": "afda59cd6f6bc748d6c8075ee635b1e663573a3b7d00834714ed3ee4db8d0ef7"
   },
   {
     "id": "web_browser",
     "name": "Web Browser",
     "description": "Remote headless Chromium on the VPS to browse LAN-only services (router UI, internal webapps) from the panel. Superadmin only.",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "icon": "Globe",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.8.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/web_browser.v1.0.9.zip",
     "is_core": false,
     "requires_copanel_restart": true,
     "pip_packages": [
       "playwright==1.49.1"
     ],
-    "changelog_en": "v1.0.8: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes \u2014 Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext \u2014 one ZIP for Classic sidebar and Desktop shell. v1.0.5: Fix TypeScript build (boolean disabled props on toolbar buttons). v1.0.4: Custom native <select> dropdown picker. v1.0.3: Fix click and keyboard input. v1.0.2: Detect browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
-    "changelog_vi": "v1.0.8: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport \u2014 mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext \u2014 mot ZIP cho Classic va Desktop. v1.0.5: Sua loi build TypeScript (thuoc tinh disabled boolean tren nut toolbar). v1.0.4: Menu <select> tuy bien. v1.0.3: Sua click va go phim. v1.0.2: Nhan dien binary. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau.",
-    "frontend_install": "prebuilt"
+    "changelog_en": "Security: WebSocket uses a single-use stream ticket instead of the login token in the URL; closes when the session is revoked (needs CoPanel 1.1.14+). v1.0.8: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Fix TypeScript build (boolean disabled props on toolbar buttons). v1.0.4: Custom native <select> dropdown picker. v1.0.3: Fix click and keyboard input. v1.0.2: Detect browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
+    "changelog_vi": "Bảo mật: WebSocket dùng ticket dùng một lần thay cho token đăng nhập trên URL. v1.0.8: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Sua loi build TypeScript (thuoc tinh disabled boolean tren nut toolbar). v1.0.4: Menu <select> tuy bien. v1.0.3: Sua click va go phim. v1.0.2: Nhan dien binary. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau.",
+    "frontend_install": "prebuilt",
+    "sha256": "86ce589624b39235423e48ce34a6b4e452fca6748a9436d4e6a52b6f8d066dc9"
   },
   {
     "id": "module_redis",
@@ -369,8 +394,9 @@
     "system_packages": [
       "redis"
     ],
-    "changelog_en": "v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes \u2014 Classic + Desktop from one ZIP. v1.0.0: First release. Pre-built extension/ in ZIP \u2014 AppStore install skips npm run build when panel has appstore_manager >= 1.0.32.",
-    "changelog_vi": "v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport \u2014 mot ZIP cho Classic va Desktop. v1.0.0: Phat hanh dau. ZIP co extension/ san \u2014 cai AppStore bo qua npm run build khi panel da co appstore_manager >= 1.0.32."
+    "changelog_en": "v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. v1.0.0: First release. Pre-built extension/ in ZIP — AppStore install skips npm run build when panel has appstore_manager >= 1.0.32.",
+    "changelog_vi": "v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. v1.0.0: Phat hanh dau. ZIP co extension/ san — cai AppStore bo qua npm run build khi panel da co appstore_manager >= 1.0.32.",
+    "sha256": "75532fd5180bbbfc9ab89b80521fc109287734a91ad69e6e9830bf7f81683675"
   },
   {
     "id": "coagent",
@@ -385,19 +411,21 @@
     "pip_packages": [
       "openai>=1.40.0,<2"
     ],
-    "changelog_en": "v1.0.4: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.0.2: Switch to standard AppStore frontend_install=rebuild (copy into src/modules + Vite build) so CoAgent appears in the launcher immediately after install \u2014 same path as other AppStore modules. v1.0.1: Remove react-markdown dependency. v1.0.0: First release.",
-    "changelog_vi": "v1.0.4: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.0.2: Chuyen sang frontend_install=rebuild nhu cac module AppStore khac (copy src/modules + Vite build) de CoAgent hien ngay sau khi cai. v1.0.1: Bo react-markdown. v1.0.0: Phat hanh dau."
+    "changelog_en": "v1.0.4: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.0.2: Switch to standard AppStore frontend_install=rebuild (copy into src/modules + Vite build) so CoAgent appears in the launcher immediately after install — same path as other AppStore modules. v1.0.1: Remove react-markdown dependency. v1.0.0: First release.",
+    "changelog_vi": "v1.0.4: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.0.2: Chuyen sang frontend_install=rebuild nhu cac module AppStore khac (copy src/modules + Vite build) de CoAgent hien ngay sau khi cai. v1.0.1: Bo react-markdown. v1.0.0: Phat hanh dau.",
+    "sha256": "a26253d9f1d95735d4a8b1da4cf6c124e1e1c6f74908b2c22197d16718988e81"
   },
   {
     "id": "speedtest",
     "name": "Speedtest",
-    "description": "Measure this VPS network speed \u2014 latency, download, and upload \u2014 with a live gauge UI like classic Speedtest.",
+    "description": "Measure this VPS network speed — latency, download, and upload — with a live gauge UI like classic Speedtest.",
     "version": "1.0.2",
     "icon": "Gauge",
     "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/speedtest.v1.0.2.zip",
     "is_core": false,
     "frontend_install": "prebuilt",
-    "changelog_en": "v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: Switch to frontend_install=rebuild (copy into src/modules + Vite build) so Speedtest appears in the launcher after install \u2014 same path as other AppStore modules. Extension mode failed to show an icon when the panel lacks React import map / vendor chunks. v1.0.0: First release. VPS-side ping / download / upload via Cloudflare (OVH fallback). Live Mbps gauge, en/vi UI, Dual UI windowMode.",
-    "changelog_vi": "v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chuyen sang frontend_install=rebuild (copy src/modules + Vite build) de Speedtest hien icon tren launcher sau khi cai \u2014 giong cac module AppStore khac. Che do extension khong hien icon khi panel thieu React import map. v1.0.0: Phat hanh dau. Do ping / tai xuong / tai len tren VPS qua Cloudflare (fallback OVH). Dong ho Mbps, UI en/vi, Dual UI windowMode."
+    "changelog_en": "v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: Switch to frontend_install=rebuild (copy into src/modules + Vite build) so Speedtest appears in the launcher after install — same path as other AppStore modules. Extension mode failed to show an icon when the panel lacks React import map / vendor chunks. v1.0.0: First release. VPS-side ping / download / upload via Cloudflare (OVH fallback). Live Mbps gauge, en/vi UI, Dual UI windowMode.",
+    "changelog_vi": "v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chuyen sang frontend_install=rebuild (copy src/modules + Vite build) de Speedtest hien icon tren launcher sau khi cai — giong cac module AppStore khac. Che do extension khong hien icon khi panel thieu React import map. v1.0.0: Phat hanh dau. Do ping / tai xuong / tai len tren VPS qua Cloudflare (fallback OVH). Dong ho Mbps, UI en/vi, Dual UI windowMode.",
+    "sha256": "8e62e1895701ac06e285744161c14ba67e46e86d2820b3a40ce66ceef923fe7f"
   }
 ]

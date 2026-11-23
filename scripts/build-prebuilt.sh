@@ -83,4 +83,8 @@ if [[ "$SKIP_ZIP" != "1" ]]; then
   done
 fi
 
+# CoPanel 1.1.15+ refuses packages without a matching sha256 in packages.json.
+python3 "$ROOT/scripts/update_catalog_sha256.py"
+python3 "$ROOT/scripts/update_catalog_sha256.py" --check
+
 echo "Prebuilt build complete."

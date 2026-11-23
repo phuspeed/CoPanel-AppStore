@@ -2971,7 +2971,7 @@ function Or() {
     return () => clearInterval(a);
   }, [q]), be(() => {
     function a(i) {
-      !i.data || i.data.type !== "copanel_dm_google_oauth" || (i.data.ok ? (oe(), h(null)) : h(i.data.error || "Google OAuth failed"));
+      i.origin === window.location.origin && (!i.data || i.data.type !== "copanel_dm_google_oauth" || (i.data.ok ? (oe(), h(null)) : h(i.data.error || "Google OAuth failed")));
     }
     return window.addEventListener("message", a), () => window.removeEventListener("message", a);
   }, [oe]), be(() => {

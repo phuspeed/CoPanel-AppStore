@@ -6,16 +6,21 @@ import os
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Request
-from fastapi.responses import HTMLResponse, StreamingResponse
+import logging
+
+from fastapi import APIRouter, Body, Depends, Header, HTTPException, Request
+from fastapi.responses import StreamingResponse
 
 from core.api import ApiError, ok
 from core.auth import require_admin, require_module
+
+from ._oauth_page import oauth_result_page, safe_error_code
 
 from .logic import Store, GoogleOAuth, build_rclone_cmd
 from .schemas import SaveOAuthClientRequest, SavePairRequest, UpdatePairRequest
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 MODULE_DIR = Path(__file__).resolve().parent
 
 
@@ -27,9 +32,19 @@ async def on_startup() -> None:
         pass
 
 
-def _oauth_callback_html(payload: Dict[str, Any], body: str = "Done", status: int = 200) -> HTMLResponse:
-    script = f"window.opener && window.opener.postMessage({json.dumps(payload)}, '*');window.close();"
-    return HTMLResponse(content=f"<html><body><script>{script}</script>{body}</body></html>", status_code=status)
+def _stream_user(request: Request, authorization: str = Header(None)) -> Dict[str, Any]:
+    """EventSource auth: Bearer header, or the single-use ``?ticket=`` that the
+    core middleware already consumed (CoPanel 1.1.15+ allows it on this path)."""
+    try:
+        from core.auth import optional_user_sse, user_has_module
+    except ImportError:  # pragma: no cover - very old core
+        raise ApiError("UNAUTHORIZED", "Authentication required.", http_status=401)
+    user = optional_user_sse(request, authorization)
+    if not user:
+        raise ApiError("UNAUTHORIZED", "Authentication required.", http_status=401)
+    if not user_has_module(user, "cloud_sync"):
+        raise ApiError("FORBIDDEN", "You do not have access to this module.", http_status=403)
+    return user
 
 
 def _read_version() -> str:
@@ -194,23 +209,33 @@ def oauth_start(
 
 @router.get("/oauth/google/callback")
 def oauth_callback(code: str = "", state: str = "", error: str = ""):
+    """Public OAuth popup callback. Never reflects request text as HTML."""
+    kind = "copanel_google_oauth"
     if error:
-        return _oauth_callback_html(
-            {"type": "copanel_google_oauth", "ok": False, "error": error},
-            f"Authorization failed: {error}",
+        return oauth_result_page(
+            {"type": kind, "ok": False, "error": safe_error_code(error)},
+            "Authorization failed. You can close this window.",
             400,
         )
     try:
         result = GoogleOAuth.exchange(code=code, state=state)
-        return _oauth_callback_html(
-            {"type": "copanel_google_oauth", "ok": True, "remote_name": result["remote_name"]},
-            "Authorization completed.",
+        return oauth_result_page(
+            {"type": kind, "ok": True, "remote_name": str(result["remote_name"])},
+            "Authorization completed. You can close this window.",
         )
-    except Exception as exc:
-        return _oauth_callback_html(
-            {"type": "copanel_google_oauth", "ok": False, "error": str(exc)},
-            "OAuth callback failed.",
+    except ValueError:
+        logger.warning("Cloud Sync OAuth callback rejected (invalid code/state)")
+        return oauth_result_page(
+            {"type": kind, "ok": False, "error": "invalid_request"},
+            "Authorization failed: the request was invalid or has expired.",
             400,
+        )
+    except Exception:
+        logger.exception("Cloud Sync OAuth callback failed")
+        return oauth_result_page(
+            {"type": kind, "ok": False, "error": "server_error"},
+            "OAuth callback failed. Check the CoPanel log.",
+            500,
         )
 
 
@@ -219,14 +244,16 @@ def oauth_status(remote_name: str = "", user: Dict[str, Any] = Depends(require_m
     Store.init()
     if remote_name:
         row = Store._get_token(remote_name)
-        return ok({"remote_name": remote_name, "connected": bool(row), "token": row})
+        # Never return the OAuth access/refresh token to the browser.
+        expiry = row.get("expiry") if isinstance(row, dict) else None
+        return ok({"remote_name": remote_name, "connected": bool(row), "expiry": expiry})
     return ok(Store.list_oauth_status())
 
 
 @router.get("/stream_pair/{pair_id}")
 async def stream_pair(
     pair_id: int,
-    user: Dict[str, Any] = Depends(require_module("cloud_sync")),
+    user: Dict[str, Any] = Depends(_stream_user),
 ):
     Store.init()
     pairs = [p for p in Store.list_pairs() if p["id"] == pair_id]
