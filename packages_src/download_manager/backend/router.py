@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict
+import os
+from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, File, Query, UploadFile
 from fastapi.responses import HTMLResponse
@@ -27,9 +28,84 @@ from .schemas import (
 router = APIRouter()
 
 
+# ----- Restricted users ----------------------------------------------------
+# Superadmin keeps the global settings / any destination. Other users may only
+# download into their own permitted folders (default: <home>/Downloads), see
+# only their own tasks, and cannot change the global settings.
+
+def _is_admin(user: Dict[str, Any]) -> bool:
+    return user.get("role") == "superadmin"
+
+
+def _check_path(path: str, user: Dict[str, Any]) -> str:
+    """Validate ``path`` against the user's permitted folders (403 outside)."""
+    try:
+        from modules.file_manager.router import check_safe_path
+    except Exception:  # pragma: no cover - File Manager missing: deny
+        raise ApiError("FORBIDDEN", "Folder access check unavailable.", http_status=403)
+    return check_safe_path(path, user)
+
+
+def _ensure_home(user: Dict[str, Any]) -> None:
+    try:
+        from core.user_home import ensure_permitted_folders
+    except Exception:  # older core
+        return
+    ensure_permitted_folders(user)
+
+
+def _chown_new(paths: List[str], user: Dict[str, Any]) -> None:
+    try:
+        from core.user_home import chown_new
+    except Exception:  # older core
+        return
+    chown_new(paths, user)
+
+
+def _user_default_destination(user: Dict[str, Any]) -> str:
+    _ensure_home(user)
+    home = _check_path("", user)  # first permitted folder
+    dest = os.path.join(home, "Downloads")
+    dest = _check_path(dest, user)
+    if not os.path.isdir(dest):
+        os.makedirs(dest, exist_ok=True)
+        _chown_new([dest], user)
+    return dest
+
+
+def _resolve_destination(requested: Optional[str], user: Dict[str, Any]) -> Optional[str]:
+    """None for superadmin without a choice (global default); validated path otherwise."""
+    if _is_admin(user):
+        return requested
+    if requested and requested.strip():
+        dest = _check_path(requested.strip(), user)
+        if not os.path.isdir(dest):
+            os.makedirs(dest, exist_ok=True)
+            _chown_new([dest], user)
+        return dest
+    return _user_default_destination(user)
+
+
+def _owns_task(task: Optional[Dict[str, Any]], user: Dict[str, Any]) -> bool:
+    if not task:
+        return False
+    return _is_admin(user) or (task.get("created_by") or "") == (user.get("username") or "")
+
+
+def _get_own_task(task_id: str, user: Dict[str, Any]) -> Dict[str, Any]:
+    task = logic.get_task(task_id)
+    if not _owns_task(task, user):
+        raise ApiError("NOT_FOUND", "Task not found", http_status=404)
+    return task
+
+
 @router.get("/settings")
 def get_settings(user: Dict[str, Any] = Depends(require_module("download_manager"))) -> Dict[str, Any]:
-    return ok(logic.get_settings())
+    settings = logic.get_settings()
+    if not _is_admin(user):
+        settings = dict(settings)
+        settings["destination_folder"] = _user_default_destination(user)
+    return ok(settings)
 
 
 @router.put("/settings")
@@ -37,6 +113,8 @@ def save_settings(
     req: SaveSettingsRequest,
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
+    if not _is_admin(user):
+        raise ApiError("FORBIDDEN", "Only an administrator can change Download Manager settings.", http_status=403)
     data = req.model_dump(exclude_none=True)
     saved = logic.save_settings(data)
     record_audit("download.settings", module="download_manager", actor=user.get("username"))
@@ -49,7 +127,10 @@ def list_tasks(
     search: str = Query(""),
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
-    return ok(logic.list_tasks(filter_key=filter, search=search))
+    tasks = logic.list_tasks(filter_key=filter, search=search)
+    if not _is_admin(user):
+        tasks = [t for t in tasks if _owns_task(t, user)]
+    return ok(tasks)
 
 
 @router.post("/tasks")
@@ -57,8 +138,10 @@ def create_task(
     req: CreateTaskRequest,
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
+    data = req.model_dump()
+    data["destination"] = _resolve_destination(data.get("destination"), user)
     try:
-        task = logic.create_task(req.model_dump(), username=user.get("username") or "")
+        task = logic.create_task(data, username=user.get("username") or "")
     except ValueError as exc:
         raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
     record_audit(
@@ -77,11 +160,13 @@ async def upload_torrent(
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
     content = await file.read()
+    destination = _resolve_destination(None, user)
     try:
         task = logic.create_task_from_torrent_bytes(
             content,
             file.filename or "upload.torrent",
             username=user.get("username") or "",
+            destination=destination,
         )
     except ValueError as exc:
         raise ApiError("VALIDATION_ERROR", str(exc), http_status=400)
@@ -98,7 +183,13 @@ async def upload_torrent(
 def clear_completed(
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
-    count = logic.clear_completed()
+    if _is_admin(user):
+        count = logic.clear_completed()
+    else:
+        count = 0
+        for t in logic.list_tasks(filter_key="completed", limit=10000):
+            if _owns_task(t, user) and logic.delete_task(t["id"]):
+                count += 1
     record_audit("download.clear_completed", module="download_manager", actor=user.get("username"), meta={"count": count})
     return ok({"deleted": count})
 
@@ -108,10 +199,7 @@ def get_task(
     task_id: str,
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
-    task = logic.get_task(task_id)
-    if not task:
-        raise ApiError("NOT_FOUND", "Task not found", http_status=404)
-    return ok(task)
+    return ok(_get_own_task(task_id, user))
 
 
 @router.get("/engine/status")
@@ -129,6 +217,7 @@ def task_action(
 ) -> Dict[str, Any]:
     if action not in ("pause", "resume", "stop"):
         raise ApiError("VALIDATION_ERROR", f"Unknown action: {action}", http_status=400)
+    _get_own_task(task_id, user)
     try:
         task = logic.set_task_status(task_id, action)
     except ValueError as exc:
@@ -149,6 +238,7 @@ def delete_task(
     task_id: str,
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
+    _get_own_task(task_id, user)
     if not logic.delete_task(task_id):
         raise ApiError("NOT_FOUND", "Task not found", http_status=404)
     record_audit("download.delete", module="download_manager", target=task_id, actor=user.get("username"))
@@ -168,7 +258,22 @@ def browse_folders(
     path: str = Query(""),
     user: Dict[str, Any] = Depends(require_module("download_manager")),
 ) -> Dict[str, Any]:
-    return ok(logic.browse_folders(path))
+    if _is_admin(user):
+        return ok(logic.browse_folders(path))
+    base = _check_path(path, user) if path else _user_default_destination(user)
+    if not os.path.isdir(base):
+        raise ApiError("NOT_FOUND", "Folder not found", http_status=404)
+    data = logic.browse_folders(base)
+    parent = data.get("parent")
+    if parent:
+        try:
+            _check_path(parent, user)
+        except Exception:
+            parent = None
+    data["parent"] = parent
+    home = _check_path("", user)
+    data["volumes"] = [{"label": home, "path": home}]
+    return ok(data)
 
 
 @router.get("/file-hosting")
