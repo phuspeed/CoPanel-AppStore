@@ -3,12 +3,12 @@
     "id": "file_manager",
     "name": "File Manager",
     "description": "High-performance file explorer to manage server directories and files.",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "icon": "Folder",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.12.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/file_manager.v1.0.13.zip",
     "is_core": true,
-    "changelog_en": "v1.0.12: Editable path bar - click the pencil/empty space or double-click the breadcrumb, type an absolute or relative path, Enter to open, Esc to cancel; missing or forbidden folders show an error and keep the current folder. v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract \u2014 Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
-    "changelog_vi": "v1.0.12: Thanh duong dan go duoc - bam but chi/cho trong hoac nhap dup, nhap duong dan tuyet doi hoac tuong doi, Enter de mo, Esc de huy; thu muc khong ton tai hoac khong co quyen se bao loi va giu nguyen thu muc hien tai. v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip \u2014 duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
+    "changelog_en": "v1.0.13: Security - upload keeps only the file name and re-checks the final path (symlinks resolved) before writing, so uploads cannot land outside the target or permitted folders; copy/move re-check the destination; all File Manager APIs require the file_manager module grant. v1.0.12: Editable path bar - click the pencil/empty space or double-click the breadcrumb, type an absolute or relative path, Enter to open, Esc to cancel; missing or forbidden folders show an error and keep the current folder. v1.0.11: Desktop UI layout: shared NAS/ADM chrome sidebars, soft launcher wallpaper, System Monitor 2x2 gauges, App Store featured banner + install card grid. v1.0.10: Fix zip extract \u2014 Windows backslash paths become real folders; zip-slip guard. Context menu delete/cut/copy applies to full multi-selection. v1.0.9: Desktop shell integration.",
+    "changelog_vi": "v1.0.13: Bao mat - upload chi giu ten file va kiem tra lai duong dan cuoi (ke ca symlink) truoc khi ghi, khong ghi ra ngoai thu muc dich/thu muc duoc cap; copy/di chuyen kiem tra lai dich; moi API File Manager can quyen module file_manager. v1.0.12: Thanh duong dan go duoc - bam but chi/cho trong hoac nhap dup, nhap duong dan tuyet doi hoac tuong doi, Enter de mo, Esc de huy; thu muc khong ton tai hoac khong co quyen se bao loi va giu nguyen thu muc hien tai. v1.0.11: Bo cuc Desktop UI: sidebar chrome kieu NAS/ADM, wallpaper launcher, System Monitor gauge 2x2, App Store banner + luoi the Install. v1.0.10: Sua giai nen zip \u2014 duong dan backslash Windows thanh thu muc that; chong zip-slip. Menu chuot phai xoa/cat/sao chep ap dung cho toan bo da chon. v1.0.9: Tich hop Desktop shell."
   },
   {
     "id": "web_manager",
@@ -56,12 +56,12 @@
     "id": "docker_manager",
     "name": "Docker Manager",
     "description": "Manage containers, images, and stacks seamlessly.",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "icon": "Layers",
-    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.18.zip",
+    "download_url": "https://raw.githubusercontent.com/phuspeed/CoPanel-Appstore/main/packages/docker_manager.v1.0.19.zip",
     "is_core": true,
-    "changelog_en": "v1.0.18: Fix React crash on Images tab (DownloadCloud icon). v1.0.17: Check Docker Hub updates + Update to latest.",
-    "changelog_vi": "v1.0.18: Sua crash React o tab Images (icon DownloadCloud). v1.0.17: Kiem tra cap nhat Docker Hub + Cap nhat ban moi."
+    "changelog_en": "v1.0.19: Folder picker uses the directory-only /api/platform/folder-picker, so users with Docker Manager but not File Manager can pick folders inside their permitted folders (needs CoPanel 1.1.11). v1.0.18: Fix React crash on Images tab (DownloadCloud icon). v1.0.17: Check Docker Hub updates + Update to latest.",
+    "changelog_vi": "v1.0.19: Chon thu muc dung API /api/platform/folder-picker (chi liet ke thu muc), user co Docker Manager ma khong co File Manager van chon duoc thu muc trong vung duoc cap (can CoPanel 1.1.11). v1.0.18: Sua crash React o tab Images (icon DownloadCloud). v1.0.17: Kiem tra cap nhat Docker Hub + Cap nhat ban moi."
   },
   {
     "id": "download_manager",
