@@ -87,7 +87,7 @@
     "changelog_en": "Security: OAuth callback page fixed (XSS); popup messages checked against the panel origin. v0.2.19: Finished downloads of restricted users are owned by their home folder's owner (only root-owned items in the task's destination; superadmin downloads unchanged). v0.2.18: Restricted users download only into their permitted folders (default <home>/Downloads), browse only their folders, see and control only their own tasks; global settings are admin-only. v0.2.17: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v0.2.16: Fix 404 on DELETE /tasks/completed and POST /tasks/upload-torrent — register static task routes before /tasks/{id}. v0.2.15: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.2.14: Fix frontend build — remove stray </div> in settings WindowModal (esbuild tag mismatch on install). v0.2.13: Wave C Desktop UI, ModuleViewport fix.",
     "changelog_vi": "Bảo mật: sửa XSS trang OAuth callback. v0.2.19: File tai xong cua user bi gioi han thuoc chu thu muc home cua ho (chi doi cac muc dang thuoc root trong thu muc dich; superadmin khong doi). v0.2.18: User bi gioi han chi tai ve trong thu muc duoc cap (mac dinh <home>/Downloads), chi duyet thu muc cua minh, chi thay/quan ly task cua minh; cai dat chung chi admin sua duoc. v0.2.17: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v0.2.16: Sua loi 404 cho DELETE /tasks/completed va POST /tasks/upload-torrent — khai bao route tinh truoc /tasks/{id}. v0.2.15: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.2.14: Sua loi build frontend — xoa </div> thua trong settings WindowModal (loi esbuild khi cai). v0.2.13: Wave C Desktop UI, sua ModuleViewport.",
     "frontend_install": "prebuilt",
-    "sha256": "bcd78085a330161b9608b7cdf1435bb04011403aa0b65de10f6c89234457332d"
+    "sha256": "d9d07872fe17c2c00002a2b9126d49e341abbd45dd78362d4704df842e8809fb"
   },
   {
     "id": "audio_station",
@@ -103,7 +103,7 @@
     "changelog_en": "Security: playback and cover URLs use path-scoped media tokens instead of the login token (needs CoPanel 1.1.15+); folder picker no longer creates folders. v0.3.10: Restricted users: only a superadmin can change Audio Station settings (library roots are server-wide); the folder picker stays inside the user's permitted folders (403 outside) and no longer creates missing folders. Dialogs open inside the app window. v0.3.9: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v0.3.8: Mobile classic drawer sidebar (ModuleSidebarLayout). v0.3.7: Background playback when minimized (keep-running policy); taskbar play/pause indicator with track name and animated badge. v0.3.6: Accept both ?access_token= and legacy ?token= on audio/cover links; enforce audio_station module permission on media routes to fix 401s after auth hardening. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP.",
     "changelog_vi": "Bảo mật: URL phát nhạc/ảnh bìa dùng media token theo đường dẫn (cần CoPanel 1.1.15+). v0.3.10: User bi gioi han: chi superadmin doi duoc cai dat Audio Station (thu muc thu vien dung chung); hop chon thu muc chi trong thu muc duoc cap (ngoai ra 403) va khong tu tao thu muc. Hop thoai mo ben trong cua so ung dung. v0.3.9: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v0.3.8: Sidebar drawer tren mobile classic (ModuleSidebarLayout). v0.3.7: Phat nhac nen khi minimize (keep-running policy); hien icon play/pause va ten bai tren taskbar kem animation. v0.3.6: Ho tro ca ?access_token= va ?token= cu cho link audio/cover; bo sung kiem tra quyen audio_station cho media routes de sua loi 401 sau khi siet auth. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop.",
     "frontend_install": "prebuilt",
-    "sha256": "1cac5c5c1cc2e65052c160ebe4f41978b9ffda227b4b0697b35f2b4805c1df98"
+    "sha256": "d382449480119e5b2c5c2937c513137e319c46f18369d89b0a88637334811b47"
   },
   {
     "id": "ssl_manager",
@@ -144,7 +144,7 @@
     "changelog_en": "v1.1.4: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.1.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.1.2: POST /sync_job validates destination paths before creating a job (400 instead of failing in Task Center). v1.1.1: Block sync/delete to dangerous system destination roots (/, /etc, /home, …); sync API reports effective delete (false in clone mode). v1.1.0: Full VPS migrate wizard (move/clone/sync) — detect remote CoPanel + rsync, install rsync helper, safer CoPanel/web presets, multi-path, --delete for sync/move, sync as core.jobs with progress2, Desktop windowMode UI + post-migrate checklist. v1.0.0: Initial compatibility + blocking sync.",
     "changelog_vi": "v1.1.4: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.1.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.1.2: POST /sync_job kiem tra duong dich truoc khi tao job (tra 400 thay vi loi trong Task Center). v1.1.1: Chan sync/delete den thu muc he thong nguy hiem (/ , /etc, /home, …); API sync bao effective delete (false o che do clone). v1.1.0: Wizard chuyen VPS day du (move/clone/sync) — phat hien CoPanel + rsync tren dich, cai rsync tu xa, preset an toan, nhieu path, --delete cho sync/move, job Task Center co tien trinh, UI Desktop + checklist sau migrate. v1.0.0: Ban dau kiem tra + sync blocking.",
     "frontend_install": "prebuilt",
-    "sha256": "1230c29bac995fb7ad4da519079ed96cbf41d5b424ab2bdc5a1f2a9ac7bfe29a"
+    "sha256": "5d7d2e567fc7239cfe81f0631b3d381ffeabea7ee732c6374ca696868e61e2f1"
   },
   {
     "id": "ftp_manager",
@@ -163,7 +163,7 @@
     "changelog_en": "v1.0.3: Fix Add/Edit connection, transfer, and delete dialogs rendering behind the desktop window. Modals now attach to the window viewport instead of document.body (AppStore bundles cannot share the panel's WindowViewportContext). v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: UI polish — Cloud Sync–style sidebar, single empty-state CTA, cleaner connection form (advanced collapsed), shorter nav name. v1.0.0: Initial release.",
     "changelog_vi": "v1.0.3: Sua hop thoai Them/Sua ket noi, chuyen file va xoa bi khuat sau cua so desktop. Modal gan vao khung cua so thay vi document.body (bundle AppStore khong chia se WindowViewportContext cua panel). v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chinh UI — sidebar kieu Cloud Sync, empty state 1 CTA, form ket noi gon (nang cao thu gon), ten nav ngan. v1.0.0: Ban dau.",
     "frontend_install": "prebuilt",
-    "sha256": "7a47cdef1895796088cfc495b10edeb42e532b6b529a01595a5f8e1c7a9fa54d"
+    "sha256": "1d71b45488ad701fcec65ec00a6146bb607606de803fa2a64562dc476fde0564"
   },
   {
     "id": "cloud_sync",
@@ -251,7 +251,7 @@
     "changelog_en": "v1.0.6: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.3: When clamav-freshclam service is active, restart service only (never spawn a second freshclam). Fallback JobCancelled import for older CoPanel core.",
     "changelog_vi": "v1.0.6: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.3: Khi clamav-freshclam dang chay chi restart service (khong goi freshclam thu hai). Fallback import JobCancelled neu core CoPanel cu.",
     "frontend_install": "prebuilt",
-    "sha256": "6ab4b36e58d4228135149ed0e8b7af6f6f1026b36d8c559f4589eb8e4d351891"
+    "sha256": "fdbca45836d54ca4d12089b1795a7d1b8a25293ea08b190a02e9e2c4d1a0b310"
   },
   {
     "id": "firewall",
@@ -294,7 +294,7 @@
     "changelog_en": "v1.0.16: Fix run_update.py high-CPU hang/busy loop — enforce minimum 60s interval with exponential backoff on errors, guard runs with flock single-instance lock, terminate duplicate/orphan workers on startup and cron sync, bound IP lookup reads and subprocess timeouts, and emit valid cron schedules for >=60 min intervals. v1.0.15: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.14: Fix DDNS create — cron sync failures no longer abort profile save; validate zone/name in UI; send clean payload; auto-run once after add to update Cloudflare IP.",
     "changelog_vi": "v1.0.16: Sua loi run_update.py treo/chay 100% CPU — ap dung khoang cach toi thieu 60s kem backoff khi loi, khoa flock chong chay trung, don dep tien trinh worker du thua khi khoi dong va sync cron, gioi han timeout mang/subprocess, va sua cu phap cron cho chu ky >=60 phut. v1.0.15: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.14: Sua loi them DDNS — loi sync cron khong con lam that bai tao profile; bao loi khi thieu zone/ten; payload sach; tu chay 1 lan sau khi them de cap nhat IP Cloudflare.",
     "frontend_install": "prebuilt",
-    "sha256": "194ce75f359093979f04575a7846ab4fe25a09db17bca50f176f3452c926691e"
+    "sha256": "d7e753a0fbf8ea5cd04e5cfec5eef30903eaf701735d7e34f9bb1bd8ca44f1f3"
   },
   {
     "id": "webdav",
@@ -314,7 +314,7 @@
     "changelog_en": "v1.0.12: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.11: Fix 500 on status/config/SMB diagnostics — use user_model.pwd_path() instead of removed PWD_PATH. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.8: Fix frontend build — restore missing smbPassword state used for SMB password sync. v1.0.7: Show module version and warn when backend too old to save root mount. v1.0.6: Optional WebDAV root mount at http://IP:port/.",
     "changelog_vi": "v1.0.12: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.11: Sua loi 500 tren status/config/SMB diagnostics — dung user_model.pwd_path() thay PWD_PATH da bo. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.8: Sua loi build frontend — khoi phuc state smbPassword cho dong bo mat khau SMB. v1.0.7: Hien phien ban module, canh bao backend cu khong luu root mount. v1.0.6: WebDAV root mount tai http://IP:port/.",
     "frontend_install": "prebuilt",
-    "sha256": "4e2dbb4754d7d33dfa1dfe4de10c0e71d74acbf32385fd92c52fdec9c3b4b249"
+    "sha256": "e18cc60315a22bd81e27dee01772ce5ceb9dd846a45f4359ec2ea10fddc0a03a"
   },
   {
     "id": "cron_manager",
@@ -380,7 +380,7 @@
     "changelog_en": "Security: WebSocket uses a single-use stream ticket instead of the login token in the URL; closes when the session is revoked (needs CoPanel 1.1.14+). v1.0.8: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. Wave C Desktop UI: windowMode, WindowModal overlays, viewport height fixes — Classic + Desktop from one ZIP. Dual UI: ModuleViewport + useAppShellContext — one ZIP for Classic sidebar and Desktop shell. v1.0.5: Fix TypeScript build (boolean disabled props on toolbar buttons). v1.0.4: Custom native <select> dropdown picker. v1.0.3: Fix click and keyboard input. v1.0.2: Detect browser on disk. v1.0.1: Resilient Chromium install. v1.0.0: First release.",
     "changelog_vi": "Bảo mật: WebSocket dùng ticket dùng một lần thay cho token đăng nhập trên URL. v1.0.8: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. Wave C Desktop UI: windowMode, WindowModal, sua chieu cao viewport — mot ZIP cho Classic va Desktop. Giao dien song song: ModuleViewport + useAppShellContext — mot ZIP cho Classic va Desktop. v1.0.5: Sua loi build TypeScript (thuoc tinh disabled boolean tren nut toolbar). v1.0.4: Menu <select> tuy bien. v1.0.3: Sua click va go phim. v1.0.2: Nhan dien binary. v1.0.1: Cai Chromium on dinh. v1.0.0: Phat hanh dau.",
     "frontend_install": "prebuilt",
-    "sha256": "86ce589624b39235423e48ce34a6b4e452fca6748a9436d4e6a52b6f8d066dc9"
+    "sha256": "746ba9f640d91d2fd235911ca45c91e6b5e37fe8129660587e8166f19b907b9e"
   },
   {
     "id": "module_redis",
@@ -413,7 +413,7 @@
     ],
     "changelog_en": "v1.0.4: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.3: Fix TypeScript i18n typing (en/vi string tables) for frontend build. v1.0.2: Switch to standard AppStore frontend_install=rebuild (copy into src/modules + Vite build) so CoAgent appears in the launcher immediately after install — same path as other AppStore modules. v1.0.1: Remove react-markdown dependency. v1.0.0: First release.",
     "changelog_vi": "v1.0.4: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.3: Sua kieu TypeScript bang dich en/vi cho build frontend. v1.0.2: Chuyen sang frontend_install=rebuild nhu cac module AppStore khac (copy src/modules + Vite build) de CoAgent hien ngay sau khi cai. v1.0.1: Bo react-markdown. v1.0.0: Phat hanh dau.",
-    "sha256": "3118324b5f27792bb9af131e2a44bf67adcc86583e71b84ac4f1fc5dbc9600e8"
+    "sha256": "b2c92854a242f782480ef5d92d1ff1b34084c37d65401ea41018bef715481c96"
   },
   {
     "id": "speedtest",
@@ -426,6 +426,6 @@
     "frontend_install": "prebuilt",
     "changelog_en": "v1.0.2: Ship prebuilt frontend/dist bundle (frontend_install=prebuilt) for no-AVX panels without Vite; frontend source remains in ZIP for rebuild on AVX hosts. v1.0.1: Switch to frontend_install=rebuild (copy into src/modules + Vite build) so Speedtest appears in the launcher after install — same path as other AppStore modules. Extension mode failed to show an icon when the panel lacks React import map / vendor chunks. v1.0.0: First release. VPS-side ping / download / upload via Cloudflare (OVH fallback). Live Mbps gauge, en/vi UI, Dual UI windowMode.",
     "changelog_vi": "v1.0.2: Dong goi frontend/dist san (frontend_install=prebuilt) cho panel no-AVX khong chay Vite; van giu frontend source trong ZIP de rebuild tren may co AVX. v1.0.1: Chuyen sang frontend_install=rebuild (copy src/modules + Vite build) de Speedtest hien icon tren launcher sau khi cai — giong cac module AppStore khac. Che do extension khong hien icon khi panel thieu React import map. v1.0.0: Phat hanh dau. Do ping / tai xuong / tai len tren VPS qua Cloudflare (fallback OVH). Dong ho Mbps, UI en/vi, Dual UI windowMode.",
-    "sha256": "f6b0dbc5155fba6cd19e342fad7dd8c64d99a5421871781d0a0c1b79ff1d2a3c"
+    "sha256": "520252e729a8a15dc1a17612e59c7eedd3b4a3033e10f5ec5cdc652f13be65e2"
   }
 ]

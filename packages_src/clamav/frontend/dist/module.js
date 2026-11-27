@@ -1,15 +1,15 @@
-var Ve = Object.defineProperty;
-var Ue = (e, t, r) => t in e ? Ve(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var R = (e, t, r) => Ue(e, typeof t != "symbol" ? t + "" : t, r);
-import { jsx as o, jsxs as u, Fragment as We } from "react/jsx-runtime";
-import { createContext as ze, useContext as $e, useState as _, useCallback as he, useEffect as ie, useMemo as Be } from "react";
+var We = Object.defineProperty;
+var Qe = (e, t, r) => t in e ? We(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var P = (e, t, r) => Qe(e, typeof t != "symbol" ? t + "" : t, r);
+import { jsx as o, jsxs as u, Fragment as Be } from "react/jsx-runtime";
+import { createContext as Ee, useContext as ze, useState as _, useCallback as me, useEffect as le, useMemo as He } from "react";
 import { useOutletContext as Je } from "react-router-dom";
-import * as re from "lucide-react";
-const He = ze(null);
-function Xe() {
-  return $e(He);
+import * as ne from "lucide-react";
+const Xe = Ee(null);
+function Ye() {
+  return ze(Xe);
 }
-const Ye = {
+const Ze = {
   theme: localStorage.getItem("copanel_theme") || "light",
   setTheme: () => {
   },
@@ -17,8 +17,8 @@ const Ye = {
   setLanguage: () => {
   }
 };
-function Ee() {
-  const e = Xe(), t = Je();
+function $e() {
+  const e = Ye(), t = Je();
   return e || (t?.theme ? {
     theme: t.theme,
     setTheme: t.setTheme ?? (() => {
@@ -26,7 +26,7 @@ function Ee() {
     language: t.language ?? "en",
     setLanguage: t.setLanguage ?? (() => {
     })
-  } : Ye);
+  } : Ze);
 }
 function qe(e) {
   var t, r, s = "";
@@ -37,19 +37,19 @@ function qe(e) {
   } else for (r in e) e[r] && (s && (s += " "), s += r);
   return s;
 }
-function Ze() {
+function Ke() {
   for (var e, t, r = 0, s = "", c = arguments.length; r < c; r++) (e = arguments[r]) && (t = qe(e)) && (s && (s += " "), s += t);
   return s;
 }
-const ye = "-", Ke = (e) => {
-  const t = tt(e), {
+const ve = "-", et = (e) => {
+  const t = rt(e), {
     conflictingClassGroups: r,
     conflictingClassGroupModifiers: s
   } = e;
   return {
     getClassGroupId: (i) => {
-      const l = i.split(ye);
-      return l[0] === "" && l.length !== 1 && l.shift(), Me(l, t) || et(i);
+      const l = i.split(ve);
+      return l[0] === "" && l.length !== 1 && l.shift(), Me(l, t) || tt(i);
     },
     getConflictingClassGroupIds: (i, l) => {
       const m = r[i] || [];
@@ -64,17 +64,17 @@ const ye = "-", Ke = (e) => {
     return c;
   if (t.validators.length === 0)
     return;
-  const a = e.join(ye);
+  const a = e.join(ve);
   return t.validators.find(({
     validator: i
   }) => i(a))?.classGroupId;
-}, Ce = /^\[(.+)\]$/, et = (e) => {
+}, Ce = /^\[(.+)\]$/, tt = (e) => {
   if (Ce.test(e)) {
     const t = Ce.exec(e)[1], r = t?.substring(0, t.indexOf(":"));
     if (r)
       return "arbitrary.." + r;
   }
-}, tt = (e) => {
+}, rt = (e) => {
   const {
     theme: t,
     prefix: r
@@ -82,7 +82,7 @@ const ye = "-", Ke = (e) => {
     nextPart: /* @__PURE__ */ new Map(),
     validators: []
   };
-  return nt(Object.entries(e.classGroups), r).forEach(([a, i]) => {
+  return st(Object.entries(e.classGroups), r).forEach(([a, i]) => {
     ge(i, s, a, t);
   }), s;
 }, ge = (e, t, r, s) => {
@@ -93,7 +93,7 @@ const ye = "-", Ke = (e) => {
       return;
     }
     if (typeof c == "function") {
-      if (rt(c)) {
+      if (nt(c)) {
         ge(c(s), t, r, s);
         return;
       }
@@ -109,16 +109,16 @@ const ye = "-", Ke = (e) => {
   });
 }, _e = (e, t) => {
   let r = e;
-  return t.split(ye).forEach((s) => {
+  return t.split(ve).forEach((s) => {
     r.nextPart.has(s) || r.nextPart.set(s, {
       nextPart: /* @__PURE__ */ new Map(),
       validators: []
     }), r = r.nextPart.get(s);
   }), r;
-}, rt = (e) => e.isThemeGetter, nt = (e, t) => t ? e.map(([r, s]) => {
+}, nt = (e) => e.isThemeGetter, st = (e, t) => t ? e.map(([r, s]) => {
   const c = s.map((a) => typeof a == "string" ? t + a : typeof a == "object" ? Object.fromEntries(Object.entries(a).map(([i, l]) => [t + i, l])) : a);
   return [r, c];
-}) : e, st = (e) => {
+}) : e, at = (e) => {
   if (e < 1)
     return {
       get: () => {
@@ -142,40 +142,40 @@ const ye = "-", Ke = (e) => {
       r.has(a) ? r.set(a, i) : c(a, i);
     }
   };
-}, Le = "!", at = (e) => {
+}, Le = "!", ot = (e) => {
   const {
     separator: t,
     experimentalParseClassName: r
   } = e, s = t.length === 1, c = t[0], a = t.length, i = (l) => {
     const m = [];
-    let v = 0, S = 0, j;
-    for (let f = 0; f < l.length; f++) {
-      let w = l[f];
+    let v = 0, S = 0, A;
+    for (let b = 0; b < l.length; b++) {
+      let w = l[b];
       if (v === 0) {
-        if (w === c && (s || l.slice(f, f + a) === t)) {
-          m.push(l.slice(S, f)), S = f + a;
+        if (w === c && (s || l.slice(b, b + a) === t)) {
+          m.push(l.slice(S, b)), S = b + a;
           continue;
         }
         if (w === "/") {
-          j = f;
+          A = b;
           continue;
         }
       }
       w === "[" ? v++ : w === "]" && v--;
     }
-    const q = m.length === 0 ? l : l.substring(S), g = q.startsWith(Le), A = g ? q.substring(1) : q, b = j && j > S ? j - S : void 0;
+    const q = m.length === 0 ? l : l.substring(S), f = q.startsWith(Le), j = f ? q.substring(1) : q, g = A && A > S ? A - S : void 0;
     return {
       modifiers: m,
-      hasImportantModifier: g,
-      baseClassName: A,
-      maybePostfixModifierPosition: b
+      hasImportantModifier: f,
+      baseClassName: j,
+      maybePostfixModifierPosition: g
     };
   };
   return r ? (l) => r({
     className: l,
     parseClassName: i
   }) : i;
-}, ot = (e) => {
+}, it = (e) => {
   if (e.length <= 1)
     return e;
   const t = [];
@@ -183,119 +183,119 @@ const ye = "-", Ke = (e) => {
   return e.forEach((s) => {
     s[0] === "[" ? (t.push(...r.sort(), s), r = []) : r.push(s);
   }), t.push(...r.sort()), t;
-}, it = (e) => ({
-  cache: st(e.cacheSize),
-  parseClassName: at(e),
-  ...Ke(e)
-}), lt = /\s+/, ct = (e, t) => {
+}, lt = (e) => ({
+  cache: at(e.cacheSize),
+  parseClassName: ot(e),
+  ...et(e)
+}), ct = /\s+/, dt = (e, t) => {
   const {
     parseClassName: r,
     getClassGroupId: s,
     getConflictingClassGroupIds: c
-  } = t, a = [], i = e.trim().split(lt);
+  } = t, a = [], i = e.trim().split(ct);
   let l = "";
   for (let m = i.length - 1; m >= 0; m -= 1) {
     const v = i[m], {
       modifiers: S,
-      hasImportantModifier: j,
+      hasImportantModifier: A,
       baseClassName: q,
-      maybePostfixModifierPosition: g
+      maybePostfixModifierPosition: f
     } = r(v);
-    let A = !!g, b = s(A ? q.substring(0, g) : q);
-    if (!b) {
-      if (!A) {
+    let j = !!f, g = s(j ? q.substring(0, f) : q);
+    if (!g) {
+      if (!j) {
         l = v + (l.length > 0 ? " " + l : l);
         continue;
       }
-      if (b = s(q), !b) {
+      if (g = s(q), !g) {
         l = v + (l.length > 0 ? " " + l : l);
         continue;
       }
-      A = !1;
+      j = !1;
     }
-    const f = ot(S).join(":"), w = j ? f + Le : f, T = w + b;
+    const b = it(S).join(":"), w = A ? b + Le : b, T = w + g;
     if (a.includes(T))
       continue;
     a.push(T);
-    const O = c(b, A);
-    for (let I = 0; I < O.length; ++I) {
-      const Q = O[I];
-      a.push(w + Q);
+    const D = c(g, j);
+    for (let R = 0; R < D.length; ++R) {
+      const U = D[R];
+      a.push(w + U);
     }
     l = v + (l.length > 0 ? " " + l : l);
   }
   return l;
 };
-function dt() {
+function ut() {
   let e = 0, t, r, s = "";
   for (; e < arguments.length; )
-    (t = arguments[e++]) && (r = Ie(t)) && (s && (s += " "), s += r);
+    (t = arguments[e++]) && (r = Pe(t)) && (s && (s += " "), s += r);
   return s;
 }
-const Ie = (e) => {
+const Pe = (e) => {
   if (typeof e == "string")
     return e;
   let t, r = "";
   for (let s = 0; s < e.length; s++)
-    e[s] && (t = Ie(e[s])) && (r && (r += " "), r += t);
+    e[s] && (t = Pe(e[s])) && (r && (r += " "), r += t);
   return r;
 };
-function ut(e, ...t) {
+function pt(e, ...t) {
   let r, s, c, a = i;
   function i(m) {
-    const v = t.reduce((S, j) => j(S), e());
-    return r = it(v), s = r.cache.get, c = r.cache.set, a = l, l(m);
+    const v = t.reduce((S, A) => A(S), e());
+    return r = lt(v), s = r.cache.get, c = r.cache.set, a = l, l(m);
   }
   function l(m) {
     const v = s(m);
     if (v)
       return v;
-    const S = ct(m, r);
+    const S = dt(m, r);
     return c(m, S), S;
   }
   return function() {
-    return a(dt.apply(null, arguments));
+    return a(ut.apply(null, arguments));
   };
 }
-const x = (e) => {
+const y = (e) => {
   const t = (r) => r[e] || [];
   return t.isThemeGetter = !0, t;
-}, Pe = /^\[(?:([a-z-]+):)?(.+)\]$/i, pt = /^\d+\/\d+$/, ht = /* @__PURE__ */ new Set(["px", "full", "screen"]), mt = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, gt = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, bt = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, ft = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, xt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, D = (e) => H(e) || ht.has(e) || pt.test(e), G = (e) => X(e, "length", _t), H = (e) => !!e && !Number.isNaN(Number(e)), me = (e) => X(e, "number", H), ne = (e) => !!e && Number.isInteger(Number(e)), yt = (e) => e.endsWith("%") && H(e.slice(0, -1)), p = (e) => Pe.test(e), F = (e) => mt.test(e), vt = /* @__PURE__ */ new Set(["length", "size", "percentage"]), wt = (e) => X(e, vt, Re), St = (e) => X(e, "position", Re), Nt = /* @__PURE__ */ new Set(["image", "url"]), kt = (e) => X(e, Nt, At), Ct = (e) => X(e, "", jt), se = () => !0, X = (e, t, r) => {
-  const s = Pe.exec(e);
+}, Re = /^\[(?:([a-z-]+):)?(.+)\]$/i, ht = /^\d+\/\d+$/, mt = /* @__PURE__ */ new Set(["px", "full", "screen"]), ft = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, gt = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, bt = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, yt = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, xt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, F = (e) => X(e) || mt.has(e) || ht.test(e), O = (e) => Y(e, "length", At), X = (e) => !!e && !Number.isNaN(Number(e)), fe = (e) => Y(e, "number", X), se = (e) => !!e && Number.isInteger(Number(e)), vt = (e) => e.endsWith("%") && X(e.slice(0, -1)), p = (e) => Re.test(e), G = (e) => ft.test(e), wt = /* @__PURE__ */ new Set(["length", "size", "percentage"]), St = (e) => Y(e, wt, Ie), Nt = (e) => Y(e, "position", Ie), kt = /* @__PURE__ */ new Set(["image", "url"]), Ct = (e) => Y(e, kt, Tt), _t = (e) => Y(e, "", jt), ae = () => !0, Y = (e, t, r) => {
+  const s = Re.exec(e);
   return s ? s[1] ? typeof t == "string" ? s[1] === t : t.has(s[1]) : r(s[2]) : !1;
-}, _t = (e) => (
+}, At = (e) => (
   // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
   // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
   gt.test(e) && !bt.test(e)
-), Re = () => !1, jt = (e) => ft.test(e), At = (e) => xt.test(e), Tt = () => {
-  const e = x("colors"), t = x("spacing"), r = x("blur"), s = x("brightness"), c = x("borderColor"), a = x("borderRadius"), i = x("borderSpacing"), l = x("borderWidth"), m = x("contrast"), v = x("grayscale"), S = x("hueRotate"), j = x("invert"), q = x("gap"), g = x("gradientColorStops"), A = x("gradientColorStopPositions"), b = x("inset"), f = x("margin"), w = x("opacity"), T = x("padding"), O = x("saturate"), I = x("scale"), Q = x("sepia"), Y = x("skew"), Z = x("space"), oe = x("translate"), N = () => ["auto", "contain", "none"], W = () => ["auto", "hidden", "clip", "visible", "scroll"], B = () => ["auto", p, t], h = () => [p, t], K = () => ["", D, G], P = () => ["auto", H, p], M = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], C = () => ["solid", "dashed", "dotted", "double", "none"], d = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], L = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], z = () => ["", "0", p], $ = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], k = () => [H, p];
+), Ie = () => !1, jt = (e) => yt.test(e), Tt = (e) => xt.test(e), Et = () => {
+  const e = y("colors"), t = y("spacing"), r = y("blur"), s = y("brightness"), c = y("borderColor"), a = y("borderRadius"), i = y("borderSpacing"), l = y("borderWidth"), m = y("contrast"), v = y("grayscale"), S = y("hueRotate"), A = y("invert"), q = y("gap"), f = y("gradientColorStops"), j = y("gradientColorStopPositions"), g = y("inset"), b = y("margin"), w = y("opacity"), T = y("padding"), D = y("saturate"), R = y("scale"), U = y("sepia"), Z = y("skew"), K = y("space"), ie = y("translate"), N = () => ["auto", "contain", "none"], Q = () => ["auto", "hidden", "clip", "visible", "scroll"], B = () => ["auto", p, t], h = () => [p, t], ee = () => ["", F, O], I = () => ["auto", X, p], M = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], C = () => ["solid", "dashed", "dotted", "double", "none"], d = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], L = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], E = () => ["", "0", p], z = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], k = () => [X, p];
   return {
     cacheSize: 500,
     separator: ":",
     theme: {
-      colors: [se],
-      spacing: [D, G],
-      blur: ["none", "", F, p],
+      colors: [ae],
+      spacing: [F, O],
+      blur: ["none", "", G, p],
       brightness: k(),
       borderColor: [e],
-      borderRadius: ["none", "", "full", F, p],
+      borderRadius: ["none", "", "full", G, p],
       borderSpacing: h(),
-      borderWidth: K(),
+      borderWidth: ee(),
       contrast: k(),
-      grayscale: z(),
+      grayscale: E(),
       hueRotate: k(),
-      invert: z(),
+      invert: E(),
       gap: h(),
       gradientColorStops: [e],
-      gradientColorStopPositions: [yt, G],
+      gradientColorStopPositions: [vt, O],
       inset: B(),
       margin: B(),
       opacity: k(),
       padding: h(),
       saturate: k(),
       scale: k(),
-      sepia: z(),
+      sepia: E(),
       skew: k(),
       space: h(),
       translate: h()
@@ -319,21 +319,21 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/columns
        */
       columns: [{
-        columns: [F]
+        columns: [G]
       }],
       /**
        * Break After
        * @see https://tailwindcss.com/docs/break-after
        */
       "break-after": [{
-        "break-after": $()
+        "break-after": z()
       }],
       /**
        * Break Before
        * @see https://tailwindcss.com/docs/break-before
        */
       "break-before": [{
-        "break-before": $()
+        "break-before": z()
       }],
       /**
        * Break Inside
@@ -399,21 +399,21 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/overflow
        */
       overflow: [{
-        overflow: W()
+        overflow: Q()
       }],
       /**
        * Overflow X
        * @see https://tailwindcss.com/docs/overflow
        */
       "overflow-x": [{
-        "overflow-x": W()
+        "overflow-x": Q()
       }],
       /**
        * Overflow Y
        * @see https://tailwindcss.com/docs/overflow
        */
       "overflow-y": [{
-        "overflow-y": W()
+        "overflow-y": Q()
       }],
       /**
        * Overscroll Behavior
@@ -446,63 +446,63 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       inset: [{
-        inset: [b]
+        inset: [g]
       }],
       /**
        * Right / Left
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       "inset-x": [{
-        "inset-x": [b]
+        "inset-x": [g]
       }],
       /**
        * Top / Bottom
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       "inset-y": [{
-        "inset-y": [b]
+        "inset-y": [g]
       }],
       /**
        * Start
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       start: [{
-        start: [b]
+        start: [g]
       }],
       /**
        * End
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       end: [{
-        end: [b]
+        end: [g]
       }],
       /**
        * Top
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       top: [{
-        top: [b]
+        top: [g]
       }],
       /**
        * Right
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       right: [{
-        right: [b]
+        right: [g]
       }],
       /**
        * Bottom
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       bottom: [{
-        bottom: [b]
+        bottom: [g]
       }],
       /**
        * Left
        * @see https://tailwindcss.com/docs/top-right-bottom-left
        */
       left: [{
-        left: [b]
+        left: [g]
       }],
       /**
        * Visibility
@@ -514,7 +514,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/z-index
        */
       z: [{
-        z: ["auto", ne, p]
+        z: ["auto", se, p]
       }],
       // Flexbox and Grid
       /**
@@ -550,28 +550,28 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/flex-grow
        */
       grow: [{
-        grow: z()
+        grow: E()
       }],
       /**
        * Flex Shrink
        * @see https://tailwindcss.com/docs/flex-shrink
        */
       shrink: [{
-        shrink: z()
+        shrink: E()
       }],
       /**
        * Order
        * @see https://tailwindcss.com/docs/order
        */
       order: [{
-        order: ["first", "last", "none", ne, p]
+        order: ["first", "last", "none", se, p]
       }],
       /**
        * Grid Template Columns
        * @see https://tailwindcss.com/docs/grid-template-columns
        */
       "grid-cols": [{
-        "grid-cols": [se]
+        "grid-cols": [ae]
       }],
       /**
        * Grid Column Start / End
@@ -579,7 +579,7 @@ const x = (e) => {
        */
       "col-start-end": [{
         col: ["auto", {
-          span: ["full", ne, p]
+          span: ["full", se, p]
         }, p]
       }],
       /**
@@ -587,21 +587,21 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/grid-column
        */
       "col-start": [{
-        "col-start": P()
+        "col-start": I()
       }],
       /**
        * Grid Column End
        * @see https://tailwindcss.com/docs/grid-column
        */
       "col-end": [{
-        "col-end": P()
+        "col-end": I()
       }],
       /**
        * Grid Template Rows
        * @see https://tailwindcss.com/docs/grid-template-rows
        */
       "grid-rows": [{
-        "grid-rows": [se]
+        "grid-rows": [ae]
       }],
       /**
        * Grid Row Start / End
@@ -609,7 +609,7 @@ const x = (e) => {
        */
       "row-start-end": [{
         row: ["auto", {
-          span: [ne, p]
+          span: [se, p]
         }, p]
       }],
       /**
@@ -617,14 +617,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/grid-row
        */
       "row-start": [{
-        "row-start": P()
+        "row-start": I()
       }],
       /**
        * Grid Row End
        * @see https://tailwindcss.com/docs/grid-row
        */
       "row-end": [{
-        "row-end": P()
+        "row-end": I()
       }],
       /**
        * Grid Auto Flow
@@ -800,70 +800,70 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/margin
        */
       m: [{
-        m: [f]
+        m: [b]
       }],
       /**
        * Margin X
        * @see https://tailwindcss.com/docs/margin
        */
       mx: [{
-        mx: [f]
+        mx: [b]
       }],
       /**
        * Margin Y
        * @see https://tailwindcss.com/docs/margin
        */
       my: [{
-        my: [f]
+        my: [b]
       }],
       /**
        * Margin Start
        * @see https://tailwindcss.com/docs/margin
        */
       ms: [{
-        ms: [f]
+        ms: [b]
       }],
       /**
        * Margin End
        * @see https://tailwindcss.com/docs/margin
        */
       me: [{
-        me: [f]
+        me: [b]
       }],
       /**
        * Margin Top
        * @see https://tailwindcss.com/docs/margin
        */
       mt: [{
-        mt: [f]
+        mt: [b]
       }],
       /**
        * Margin Right
        * @see https://tailwindcss.com/docs/margin
        */
       mr: [{
-        mr: [f]
+        mr: [b]
       }],
       /**
        * Margin Bottom
        * @see https://tailwindcss.com/docs/margin
        */
       mb: [{
-        mb: [f]
+        mb: [b]
       }],
       /**
        * Margin Left
        * @see https://tailwindcss.com/docs/margin
        */
       ml: [{
-        ml: [f]
+        ml: [b]
       }],
       /**
        * Space Between X
        * @see https://tailwindcss.com/docs/space
        */
       "space-x": [{
-        "space-x": [Z]
+        "space-x": [K]
       }],
       /**
        * Space Between X Reverse
@@ -875,7 +875,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/space
        */
       "space-y": [{
-        "space-y": [Z]
+        "space-y": [K]
       }],
       /**
        * Space Between Y Reverse
@@ -903,8 +903,8 @@ const x = (e) => {
        */
       "max-w": [{
         "max-w": [p, t, "none", "full", "min", "max", "fit", "prose", {
-          screen: [F]
-        }, F]
+          screen: [G]
+        }, G]
       }],
       /**
        * Height
@@ -940,7 +940,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/font-size
        */
       "font-size": [{
-        text: ["base", F, G]
+        text: ["base", G, O]
       }],
       /**
        * Font Smoothing
@@ -957,14 +957,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/font-weight
        */
       "font-weight": [{
-        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", me]
+        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", fe]
       }],
       /**
        * Font Family
        * @see https://tailwindcss.com/docs/font-family
        */
       "font-family": [{
-        font: [se]
+        font: [ae]
       }],
       /**
        * Font Variant Numeric
@@ -1008,14 +1008,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/line-clamp
        */
       "line-clamp": [{
-        "line-clamp": ["none", H, me]
+        "line-clamp": ["none", X, fe]
       }],
       /**
        * Line Height
        * @see https://tailwindcss.com/docs/line-height
        */
       leading: [{
-        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", D, p]
+        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", F, p]
       }],
       /**
        * List Style Image
@@ -1091,14 +1091,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/text-decoration-thickness
        */
       "text-decoration-thickness": [{
-        decoration: ["auto", "from-font", D, G]
+        decoration: ["auto", "from-font", F, O]
       }],
       /**
        * Text Underline Offset
        * @see https://tailwindcss.com/docs/text-underline-offset
        */
       "underline-offset": [{
-        "underline-offset": ["auto", D, p]
+        "underline-offset": ["auto", F, p]
       }],
       /**
        * Text Decoration Color
@@ -1201,7 +1201,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/background-position
        */
       "bg-position": [{
-        bg: [...M(), St]
+        bg: [...M(), Nt]
       }],
       /**
        * Background Repeat
@@ -1217,7 +1217,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/background-size
        */
       "bg-size": [{
-        bg: ["auto", "cover", "contain", wt]
+        bg: ["auto", "cover", "contain", St]
       }],
       /**
        * Background Image
@@ -1226,7 +1226,7 @@ const x = (e) => {
       "bg-image": [{
         bg: ["none", {
           "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
-        }, kt]
+        }, Ct]
       }],
       /**
        * Background Color
@@ -1240,42 +1240,42 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-from-pos": [{
-        from: [A]
+        from: [j]
       }],
       /**
        * Gradient Color Stops Via Position
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-via-pos": [{
-        via: [A]
+        via: [j]
       }],
       /**
        * Gradient Color Stops To Position
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-to-pos": [{
-        to: [A]
+        to: [j]
       }],
       /**
        * Gradient Color Stops From
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-from": [{
-        from: [g]
+        from: [f]
       }],
       /**
        * Gradient Color Stops Via
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-via": [{
-        via: [g]
+        via: [f]
       }],
       /**
        * Gradient Color Stops To
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-to": [{
-        to: [g]
+        to: [f]
       }],
       // Borders
       /**
@@ -1580,14 +1580,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/outline-offset
        */
       "outline-offset": [{
-        "outline-offset": [D, p]
+        "outline-offset": [F, p]
       }],
       /**
        * Outline Width
        * @see https://tailwindcss.com/docs/outline-width
        */
       "outline-w": [{
-        outline: [D, G]
+        outline: [F, O]
       }],
       /**
        * Outline Color
@@ -1601,7 +1601,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/ring-width
        */
       "ring-w": [{
-        ring: K()
+        ring: ee()
       }],
       /**
        * Ring Width Inset
@@ -1627,7 +1627,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/ring-offset-width
        */
       "ring-offset-w": [{
-        "ring-offset": [D, G]
+        "ring-offset": [F, O]
       }],
       /**
        * Ring Offset Color
@@ -1642,14 +1642,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/box-shadow
        */
       shadow: [{
-        shadow: ["", "inner", "none", F, Ct]
+        shadow: ["", "inner", "none", G, _t]
       }],
       /**
        * Box Shadow Color
        * @see https://tailwindcss.com/docs/box-shadow-color
        */
       "shadow-color": [{
-        shadow: [se]
+        shadow: [ae]
       }],
       /**
        * Opacity
@@ -1707,7 +1707,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/drop-shadow
        */
       "drop-shadow": [{
-        "drop-shadow": ["", "none", F, p]
+        "drop-shadow": ["", "none", G, p]
       }],
       /**
        * Grayscale
@@ -1728,21 +1728,21 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/invert
        */
       invert: [{
-        invert: [j]
+        invert: [A]
       }],
       /**
        * Saturate
        * @see https://tailwindcss.com/docs/saturate
        */
       saturate: [{
-        saturate: [O]
+        saturate: [D]
       }],
       /**
        * Sepia
        * @see https://tailwindcss.com/docs/sepia
        */
       sepia: [{
-        sepia: [Q]
+        sepia: [U]
       }],
       /**
        * Backdrop Filter
@@ -1792,7 +1792,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-invert
        */
       "backdrop-invert": [{
-        "backdrop-invert": [j]
+        "backdrop-invert": [A]
       }],
       /**
        * Backdrop Opacity
@@ -1806,14 +1806,14 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-saturate
        */
       "backdrop-saturate": [{
-        "backdrop-saturate": [O]
+        "backdrop-saturate": [D]
       }],
       /**
        * Backdrop Sepia
        * @see https://tailwindcss.com/docs/backdrop-sepia
        */
       "backdrop-sepia": [{
-        "backdrop-sepia": [Q]
+        "backdrop-sepia": [U]
       }],
       // Tables
       /**
@@ -1907,56 +1907,56 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/scale
        */
       scale: [{
-        scale: [I]
+        scale: [R]
       }],
       /**
        * Scale X
        * @see https://tailwindcss.com/docs/scale
        */
       "scale-x": [{
-        "scale-x": [I]
+        "scale-x": [R]
       }],
       /**
        * Scale Y
        * @see https://tailwindcss.com/docs/scale
        */
       "scale-y": [{
-        "scale-y": [I]
+        "scale-y": [R]
       }],
       /**
        * Rotate
        * @see https://tailwindcss.com/docs/rotate
        */
       rotate: [{
-        rotate: [ne, p]
+        rotate: [se, p]
       }],
       /**
        * Translate X
        * @see https://tailwindcss.com/docs/translate
        */
       "translate-x": [{
-        "translate-x": [oe]
+        "translate-x": [ie]
       }],
       /**
        * Translate Y
        * @see https://tailwindcss.com/docs/translate
        */
       "translate-y": [{
-        "translate-y": [oe]
+        "translate-y": [ie]
       }],
       /**
        * Skew X
        * @see https://tailwindcss.com/docs/skew
        */
       "skew-x": [{
-        "skew-x": [Y]
+        "skew-x": [Z]
       }],
       /**
        * Skew Y
        * @see https://tailwindcss.com/docs/skew
        */
       "skew-y": [{
-        "skew-y": [Y]
+        "skew-y": [Z]
       }],
       /**
        * Transform Origin
@@ -2222,7 +2222,7 @@ const x = (e) => {
        * @see https://tailwindcss.com/docs/stroke-width
        */
       "stroke-w": [{
-        stroke: [D, G, me]
+        stroke: [F, O, fe]
       }],
       /**
        * Stroke
@@ -2297,30 +2297,30 @@ const x = (e) => {
       "font-size": ["leading"]
     }
   };
-}, zt = /* @__PURE__ */ ut(Tt);
+}, zt = /* @__PURE__ */ pt(Et);
 function $t(...e) {
-  return zt(Ze(e));
+  return zt(Ke(e));
 }
-const Et = "copanel_mobile_desktop_site";
-function qt() {
+const qt = "copanel_mobile_desktop_site";
+function Mt() {
   try {
-    return localStorage.getItem(Et) === "1";
+    return localStorage.getItem(qt) === "1";
   } catch {
     return !1;
   }
 }
-function Mt(e = window.innerWidth) {
-  return qt() || e >= 1024;
+function Lt(e = window.innerWidth) {
+  return Mt() || e >= 1024;
 }
-const Lt = ze(null);
+const Pt = Ee(null);
+function Rt() {
+  return ze(Pt);
+}
 function It() {
-  return $e(Lt);
+  return Rt()?.isWindowed === !0;
 }
-function Pt() {
-  return It()?.isWindowed === !0;
-}
-function Rt({ children: e, className: t, constrained: r = !1 }) {
-  const { theme: s } = Ee(), c = Pt(), a = s === "dark", i = !c && !Mt();
+function Ft({ children: e, className: t, constrained: r = !1 }) {
+  const { theme: s } = $e(), c = It(), a = s === "dark", i = !c && !Lt();
   return /* @__PURE__ */ o(
     "div",
     {
@@ -2335,16 +2335,16 @@ function Rt({ children: e, className: t, constrained: r = !1 }) {
     }
   );
 }
-class je extends Error {
+class Ae extends Error {
   constructor(r, s, c, a) {
     super(s);
-    R(this, "code");
-    R(this, "status");
-    R(this, "details");
+    P(this, "code");
+    P(this, "status");
+    P(this, "details");
     this.code = r, this.status = c, this.details = a;
   }
 }
-async function E(e, t = {}) {
+async function $(e, t = {}) {
   const r = typeof window < "u" ? localStorage.getItem("copanel_token") : null, s = {
     "Content-Type": "application/json",
     ...t.headers || {}
@@ -2369,51 +2369,73 @@ async function E(e, t = {}) {
     return i;
   if (!a.ok) {
     const m = i && typeof i == "object" && i.error ? i.error : { code: `HTTP_${a.status}`, message: typeof i == "string" ? i : i?.detail || a.statusText };
-    throw new je(m.code || `HTTP_${a.status}`, m.message || "Request failed", a.status, m.details);
+    throw new Ae(m.code || `HTTP_${a.status}`, m.message || "Request failed", a.status, m.details);
   }
   if (i && typeof i == "object" && "status" in i) {
     if (i.status === "success")
       return i.data !== void 0 ? i.data : i;
     if (i.status === "error" && i.error)
-      throw new je(i.error.code, i.error.message, a.status, i.error.details);
+      throw new Ae(i.error.code, i.error.message, a.status, i.error.details);
   }
   return i;
 }
-function ce() {
+const Fe = "copanel-session-expired", Dt = /* @__PURE__ */ new Set([
+  "/api/auth/login",
+  "/api/panel_settings/branding/public"
+]);
+function Ot(e) {
+  try {
+    const t = typeof e == "string" ? e : e instanceof URL ? e.href : String(e.url || "");
+    return (t.startsWith("http://") || t.startsWith("https://") ? new URL(t) : new URL(t, "http://localhost")).pathname;
+  } catch {
+    return "";
+  }
+}
+function Gt(e) {
+  if (!e) return !1;
+  for (const t of Dt)
+    if (e === t || e.startsWith(`${t}/`)) return !0;
+  return !1;
+}
+function Ut() {
+  typeof window > "u" || window.dispatchEvent(new CustomEvent(Fe));
+}
+function J() {
   return typeof localStorage > "u" ? null : localStorage.getItem("copanel_token");
 }
-function Dt(e) {
+function Vt(e) {
   const t = {};
   e && new Headers(e).forEach((c, a) => {
     t[a] = c;
   });
-  const r = ce();
+  const r = J();
   return r && (t.Authorization = `Bearer ${r}`), t;
 }
-function Ot(e, t = {}) {
-  const r = Dt(t.headers);
-  return fetch(e, { ...t, headers: r });
+function Wt(e, t = {}) {
+  const r = Vt(t.headers);
+  return fetch(e, { ...t, headers: r }).then((s) => (s.status === 401 && !Gt(Ot(e)) && Ut(), s));
 }
-async function Gt() {
-  if (!ce()) return null;
+async function Qt() {
+  if (!J()) return null;
   try {
-    const e = await Ot("/api/auth/stream-ticket", { method: "POST" });
-    if (!e.ok) return null;
+    const e = await Wt("/api/auth/stream-ticket", { method: "POST" });
+    if (e.status === 401 || !e.ok) return null;
     const t = await e.json();
     return typeof t?.ticket == "string" ? t.ticket : null;
   } catch {
     return null;
   }
 }
-const Ft = "copanel-platform-sse-degraded", ae = 2e3, Qt = 6e4, Vt = 3;
-class Ut {
+const Bt = "copanel-platform-sse-degraded", oe = 2e3, Ht = 6e4, Jt = 3;
+class Xt {
   constructor() {
-    R(this, "source", null);
-    R(this, "handlers", /* @__PURE__ */ new Map());
-    R(this, "retryDelay", ae);
-    R(this, "retryTimer", null);
-    R(this, "failureCount", 0);
-    R(this, "connecting", !1);
+    P(this, "source", null);
+    P(this, "handlers", /* @__PURE__ */ new Map());
+    P(this, "retryDelay", oe);
+    P(this, "retryTimer", null);
+    P(this, "failureCount", 0);
+    P(this, "connecting", !1);
+    P(this, "authFailed", !1);
   }
   on(t, r) {
     let s = this.handlers.get(t);
@@ -2432,17 +2454,21 @@ class Ut {
     });
   }
   async buildUrl() {
-    if (!ce()) return null;
-    const t = await Gt();
+    if (!J()) return null;
+    const t = await Qt();
     return t ? `/api/platform/events?${new URLSearchParams({
       topics: "jobs,notifications",
       ticket: t
     }).toString()}` : null;
   }
   ensureConnected() {
-    this.source || this.connecting || typeof document < "u" && document.hidden || ce() && (this.connecting = !0, this.buildUrl().then((t) => {
+    this.authFailed || this.source || this.connecting || typeof document < "u" && document.hidden || J() && (this.connecting = !0, this.buildUrl().then((t) => {
       if (this.connecting = !1, !(this.source || this.handlers.size === 0)) {
         if (!t) {
+          if (!J()) {
+            this.stopForAuthFailure();
+            return;
+          }
           this.failureCount += 1, this.scheduleRetry();
           return;
         }
@@ -2454,13 +2480,13 @@ class Ut {
   }
   openSource(t) {
     try {
-      this.source = new EventSource(t, { withCredentials: !1 });
+      this.source = new EventSource(t, { withCredentials: !0 });
     } catch {
       this.scheduleRetry();
       return;
     }
     this.source.addEventListener("open", () => {
-      this.failureCount = 0, this.retryDelay = ae;
+      this.failureCount = 0, this.retryDelay = oe;
     }), this.source.addEventListener("jobs", (r) => {
       this.onStreamMessage(), this.parseAndEmit("jobs", r.data);
     }), this.source.addEventListener("notifications", (r) => {
@@ -2468,11 +2494,11 @@ class Ut {
     }), this.source.addEventListener("message", () => {
       this.onStreamMessage();
     }), this.source.onerror = () => {
-      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= Vt && window.dispatchEvent(new CustomEvent(Ft)), this.scheduleRetry();
+      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= Jt && window.dispatchEvent(new CustomEvent(Bt)), this.scheduleRetry();
     };
   }
   onStreamMessage() {
-    this.failureCount = 0, this.retryDelay = ae;
+    this.failureCount = 0, this.retryDelay = oe;
   }
   parseAndEmit(t, r) {
     try {
@@ -2484,24 +2510,34 @@ class Ut {
   scheduleRetry() {
     if (this.retryTimer || this.handlers.size === 0) return;
     const t = this.retryDelay;
-    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), Qt), this.retryTimer = setTimeout(() => {
+    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), Ht), this.retryTimer = setTimeout(() => {
       this.retryTimer = null, this.ensureConnected();
     }, t);
   }
   teardownIfIdle() {
-    this.handlers.size > 0 || (this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null), this.failureCount = 0, this.retryDelay = ae);
+    this.handlers.size > 0 || (this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null), this.failureCount = 0, this.retryDelay = oe);
+  }
+  stopForAuthFailure() {
+    this.authFailed = !0, this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null);
+  }
+  /** Close the stream and do not retry until reconnect() (called after login). */
+  stop() {
+    this.stopForAuthFailure();
   }
   /** Drop the SSE connection and open a new one if handlers exist and a token is present. */
   reconnect() {
-    this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = ae, this.handlers.size > 0 && this.ensureConnected();
+    this.authFailed = !1, this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = oe, this.handlers.size > 0 && J() && this.ensureConnected();
   }
 }
-const ve = new Ut();
-function Wt() {
-  ve.reconnect();
+const de = new Xt();
+function Yt() {
+  de.reconnect();
 }
 typeof document < "u" && document.addEventListener("visibilitychange", () => {
-  document.hidden || Wt();
+  document.hidden || Yt();
+});
+typeof window < "u" && window.addEventListener(Fe, () => {
+  de.stop();
 });
 function De(e) {
   let t = e;
@@ -2523,20 +2559,20 @@ function De(e) {
   };
 }
 const we = De({ jobs: {}, order: [], lastFetch: 0 });
-function Bt() {
+function Zt() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
-function Ae(e, t) {
+function je(e, t) {
   if (e) {
     if (typeof e == "string") return e;
     if (typeof e == "object") return e[t] || e.en || e.vi || e.default;
   }
 }
-function J(e, t, r) {
+function H(e, t, r) {
   if (!e || typeof e != "object") return;
-  const s = Ae(e[t], r);
+  const s = je(e[t], r);
   if (s) return s;
-  const c = Ae(e[`${t}_i18n`], r);
+  const c = je(e[`${t}_i18n`], r);
   if (c) return c;
   const a = e[`${t}_${r}`];
   if (typeof a == "string" && a) return a;
@@ -2546,15 +2582,15 @@ function J(e, t, r) {
   if (typeof l == "string" && l) return l;
 }
 function be(e) {
-  const t = Bt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
+  const t = Zt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
   return {
     ...e,
-    title: J(e, "title", t) || J(r, "title", t) || e?.title || "",
-    message: J(e, "message", t) || J(r, "message", t) || e?.message,
-    error: J(e, "error", t) || J(r, "error", t) || e?.error || null
+    title: H(e, "title", t) || H(r, "title", t) || e?.title || "",
+    message: H(e, "message", t) || H(r, "message", t) || e?.message,
+    error: H(e, "error", t) || H(r, "error", t) || e?.error || null
   };
 }
-function fe(e) {
+function ye(e) {
   const t = be(e);
   we.setState((r) => {
     const s = { ...r.jobs, [t.id]: { ...r.jobs[t.id], ...t } };
@@ -2562,14 +2598,14 @@ function fe(e) {
     return c.includes(t.id) || (c = [t.id, ...c].slice(0, 200)), { jobs: s, order: c };
   });
 }
-ve.on("jobs", (e) => {
+de.on("jobs", (e) => {
   if (e?.job) {
-    fe(e.job);
+    ye(e.job);
     return;
   }
   if (e?.job_id && e?.event === "update") {
     const t = we.getState().jobs[e.job_id];
-    t && fe({
+    t && ye({
       ...t,
       progress: e.progress ?? t.progress,
       message: e.message ?? t.message,
@@ -2577,9 +2613,9 @@ ve.on("jobs", (e) => {
     });
   }
 });
-const Jt = {
+const Kt = {
   async refresh(e = 50) {
-    const t = await E(`/api/platform/jobs?limit=${e}`), r = Array.isArray(t) ? t : [];
+    const t = await $(`/api/platform/jobs?limit=${e}`), r = Array.isArray(t) ? t : [];
     we.setState(() => {
       const s = {}, c = [];
       for (const a of r) {
@@ -2591,14 +2627,14 @@ const Jt = {
     });
   },
   async get(e) {
-    const t = await E(`/api/platform/jobs/${e}`), r = be(t);
-    return fe(r), r;
+    const t = await $(`/api/platform/jobs/${e}`), r = be(t);
+    return ye(r), r;
   },
   async cancel(e) {
-    return E(`/api/platform/jobs/${e}/cancel`, { method: "POST" });
+    return $(`/api/platform/jobs/${e}/cancel`, { method: "POST" });
   }
-}, xe = De({ inbox: [], unread: 0, toasts: [] }), Ht = 6e3;
-function Xt() {
+}, xe = De({ inbox: [], unread: 0, toasts: [] }), er = 6e3;
+function tr() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
 function Te(e, t) {
@@ -2608,7 +2644,7 @@ function Te(e, t) {
       return e[t] || e.en || e.vi || e.default;
   }
 }
-function le(e, t, r) {
+function ce(e, t, r) {
   if (!e || typeof e != "object") return;
   const s = Te(e[t], r);
   if (s) return s;
@@ -2621,30 +2657,30 @@ function le(e, t, r) {
   const l = e[`${t}_vi`];
   if (typeof l == "string" && l) return l;
 }
-function Yt(e) {
-  const t = Xt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, s = le(e, "title", t) || le(r, "title", t) || e?.title || "", c = le(e, "body", t) || le(r, "body", t) || e?.body || null;
+function rr(e) {
+  const t = tr(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, s = ce(e, "title", t) || ce(r, "title", t) || e?.title || "", c = ce(e, "body", t) || ce(r, "body", t) || e?.body || null;
   return {
     ...e,
     title: s,
     body: c
   };
 }
-function Zt(e) {
+function nr(e) {
   xe.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
     xe.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
-  }, Ht);
+  }, er);
 }
-ve.on("notifications", (e) => {
+de.on("notifications", (e) => {
   if (e?.event === "new" && e.notification) {
-    const t = Yt(e.notification);
-    Zt({ ...t, ephemeral: !0 }), xe.setState((r) => ({
+    const t = rr(e.notification);
+    nr({ ...t, ephemeral: !0 }), xe.setState((r) => ({
       inbox: [t, ...r.inbox].slice(0, 200),
       unread: r.unread + 1
     }));
   }
 });
-function nr() {
-  const { theme: e, language: t } = Ee(), r = e === "dark", [s, c] = _("overview"), [a, i] = _(null), [l, m] = _(null), [v, S] = _([]), [j, q] = _([]), [g, A] = _(null), [b, f] = _("/home"), [w, T] = _(!0), [O, I] = _(!0), [Q, Y] = _(100), [Z, oe] = _(!1), [N, W] = _(null), [B, h] = _(null), [K, P] = _(null), [M, C] = _(!1), d = {
+function lr() {
+  const { theme: e, language: t } = $e(), r = e === "dark", [s, c] = _("overview"), [a, i] = _(null), [l, m] = _(null), [v, S] = _([]), [A, q] = _([]), [f, j] = _(null), [g, b] = _("/home"), [w, T] = _(!0), [D, R] = _(!0), [U, Z] = _(100), [K, ie] = _(!1), [N, Q] = _(null), [B, h] = _(null), [ee, I] = _(null), [M, C] = _(!1), d = {
     en: {
       title: "ClamAV",
       desc: "Antivirus signatures, malware scans, detections, and quarantine control.",
@@ -2775,41 +2811,41 @@ function nr() {
       started: "Đã bắt đầu.",
       actionOk: "Đã thực hiện xong."
     }
-  }[t], L = `${r ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"} border rounded-xl p-5`, z = `w-full px-3 py-2 rounded-lg border text-sm ${r ? "bg-slate-800 border-slate-700 text-slate-100" : "bg-slate-50 border-slate-300"}`, $ = `block text-xs font-medium mb-1 ${r ? "text-slate-400" : "text-slate-500"}`, k = he(async () => {
-    const n = await E("/api/clamav/overview");
-    i(n), m(n.settings), !b && n.settings.default_scan_targets[0] && f(n.settings.default_scan_targets[0]);
-  }, [b]), de = he(async () => {
-    const n = await E("/api/clamav/detections");
+  }[t], L = `${r ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"} border rounded-xl p-5`, E = `w-full px-3 py-2 rounded-lg border text-sm ${r ? "bg-slate-800 border-slate-700 text-slate-100" : "bg-slate-50 border-slate-300"}`, z = `block text-xs font-medium mb-1 ${r ? "text-slate-400" : "text-slate-500"}`, k = me(async () => {
+    const n = await $("/api/clamav/overview");
+    i(n), m(n.settings), !g && n.settings.default_scan_targets[0] && b(n.settings.default_scan_targets[0]);
+  }, [g]), ue = me(async () => {
+    const n = await $("/api/clamav/detections");
     S(n.items || []), q(n.quarantine || []);
-  }, []), ee = he(async () => {
-    await Promise.all([k(), de()]);
-  }, [de, k]);
-  ie(() => {
-    ee().catch((n) => h(n.message));
-  }, [ee]), ie(() => {
-    l && (I(l.include_archives), Y(l.max_file_size_mb), !b.trim() && l.default_scan_targets[0] && f(l.default_scan_targets[0]));
-  }, [l, b]), ie(() => {
-    if (!g?.id || !g.job || !["queued", "running"].includes(g.job.status)) return;
+  }, []), te = me(async () => {
+    await Promise.all([k(), ue()]);
+  }, [ue, k]);
+  le(() => {
+    te().catch((n) => h(n.message));
+  }, [te]), le(() => {
+    l && (R(l.include_archives), Z(l.max_file_size_mb), !g.trim() && l.default_scan_targets[0] && b(l.default_scan_targets[0]));
+  }, [l, g]), le(() => {
+    if (!f?.id || !f.job || !["queued", "running"].includes(f.job.status)) return;
     const n = window.setInterval(() => {
-      E(`/api/clamav/scan/${g.id}`).then((y) => {
-        A(y), (!y.job || !["queued", "running"].includes(y.job.status)) && ee().catch(() => {
+      $(`/api/clamav/scan/${f.id}`).then((x) => {
+        j(x), (!x.job || !["queued", "running"].includes(x.job.status)) && te().catch(() => {
         });
       }).catch(() => {
       });
     }, 2e3);
     return () => window.clearInterval(n);
-  }, [g?.id, g?.job?.status, ee]), ie(() => {
+  }, [f?.id, f?.job?.status, te]), le(() => {
     if (!N?.id || !["queued", "running"].includes(N.status)) return;
     const n = window.setInterval(() => {
-      E(`/api/platform/jobs/${N.id}`).then((y) => {
-        W(y), ["queued", "running"].includes(y.status) || k().catch(() => {
+      $(`/api/platform/jobs/${N.id}`).then((x) => {
+        Q(x), ["queued", "running"].includes(x.status) || k().catch(() => {
         });
       }).catch(() => {
       });
     }, 2e3);
     return () => window.clearInterval(n);
   }, [N?.id, N?.status, k]);
-  const V = (n) => n === "active" || n === "success" || n === "completed" || n === "restored" ? "text-emerald-500" : n === "running" || n === "queued" || n === "quarantined" ? "text-blue-500" : n === "failed" || n === "deleted" || n === "quarantine_failed" || n === "restore_failed" ? "text-red-500" : n === "cancelled" ? "text-slate-500" : n === "detected" ? "text-amber-500" : r ? "text-slate-300" : "text-slate-600", U = (n) => {
+  const V = (n) => n === "active" || n === "success" || n === "completed" || n === "restored" ? "text-emerald-500" : n === "running" || n === "queued" || n === "quarantined" ? "text-blue-500" : n === "failed" || n === "deleted" || n === "quarantine_failed" || n === "restore_failed" ? "text-red-500" : n === "cancelled" ? "text-slate-500" : n === "detected" ? "text-amber-500" : r ? "text-slate-300" : "text-slate-600", W = (n) => {
     switch (n) {
       case "active":
         return d.active;
@@ -2841,44 +2877,44 @@ function nr() {
     if (l) {
       C(!0), h(null);
       try {
-        const n = await E("/api/clamav/settings", {
+        const n = await $("/api/clamav/settings", {
           method: "PUT",
           body: l
         });
-        m(n), P(d.saveOk), await k();
+        m(n), I(d.saveOk), await k();
       } catch (n) {
         h(n.message);
       } finally {
         C(!1);
       }
     }
-  }, ue = async (n) => {
+  }, pe = async (n) => {
     C(!0), h(null);
     try {
-      const y = await E("/api/clamav/scan", {
+      const x = await $("/api/clamav/scan", {
         method: "POST",
         body: {
-          path: n || b,
+          path: n || g,
           recursive: w,
-          include_archives: O,
-          max_file_size_mb: Q,
-          auto_quarantine: Z
+          include_archives: D,
+          max_file_size_mb: U,
+          auto_quarantine: K
         }
-      }), te = await E(`/api/clamav/scan/${y.scan_id}`);
-      A(te), c("scan"), P(d.started);
-    } catch (y) {
-      h(y.message);
+      }), re = await $(`/api/clamav/scan/${x.scan_id}`);
+      j(re), c("scan"), I(d.started);
+    } catch (x) {
+      h(x.message);
     } finally {
       C(!1);
     }
   }, Ge = async () => {
     C(!0), h(null);
     try {
-      const n = await E("/api/clamav/update-signatures", {
+      const n = await $("/api/clamav/update-signatures", {
         method: "POST",
         body: { force: !1 }
-      }), y = await E(`/api/platform/jobs/${n.job_id}`);
-      W(y), P(d.started);
+      }), x = await $(`/api/platform/jobs/${n.job_id}`);
+      Q(x), I(d.started);
     } catch (n) {
       h(n.message);
     } finally {
@@ -2888,34 +2924,34 @@ function nr() {
     if (n) {
       C(!0), h(null);
       try {
-        await Jt.cancel(n), P(d.cancelled);
-      } catch (y) {
-        h(y.message);
+        await Kt.cancel(n), I(d.cancelled);
+      } catch (x) {
+        h(x.message);
       } finally {
         C(!1);
       }
     }
-  }, pe = async (n, y) => {
+  }, he = async (n, x) => {
     C(!0), h(null);
     try {
-      if (await E(n, {
+      if (await $(n, {
         method: "POST",
-        body: { detection_id: y }
-      }), P(d.actionOk), await de(), await k(), g?.id) {
-        const te = await E(`/api/clamav/scan/${g.id}`);
-        A(te);
+        body: { detection_id: x }
+      }), I(d.actionOk), await ue(), await k(), f?.id) {
+        const re = await $(`/api/clamav/scan/${f.id}`);
+        j(re);
       }
-    } catch (te) {
-      h(te.message);
+    } catch (re) {
+      h(re.message);
     } finally {
       C(!1);
     }
-  }, Fe = ["overview", "scan", "detections", "quarantine", "settings"], Ne = !!(g?.job && ["queued", "running"].includes(g.job.status)), ke = !!(N && ["queued", "running"].includes(N.status)), Qe = Be(() => g?.job?.logs || [], [g?.job?.logs]);
-  return /* @__PURE__ */ o(Rt, { constrained: !0, children: /* @__PURE__ */ u("div", { className: `p-4 md:p-6 space-y-6 ${r ? "text-slate-100" : "text-slate-900"}`, children: [
+  }, Ue = ["overview", "scan", "detections", "quarantine", "settings"], Ne = !!(f?.job && ["queued", "running"].includes(f.job.status)), ke = !!(N && ["queued", "running"].includes(N.status)), Ve = He(() => f?.job?.logs || [], [f?.job?.logs]);
+  return /* @__PURE__ */ o(Ft, { constrained: !0, children: /* @__PURE__ */ u("div", { className: `p-4 md:p-6 space-y-6 ${r ? "text-slate-100" : "text-slate-900"}`, children: [
     /* @__PURE__ */ u("div", { className: "flex flex-wrap items-start justify-between gap-4", children: [
       /* @__PURE__ */ u("div", { children: [
         /* @__PURE__ */ u("h1", { className: "text-2xl font-bold flex items-center gap-2", children: [
-          /* @__PURE__ */ o(re.ShieldAlert, { className: "w-7 h-7 text-emerald-500" }),
+          /* @__PURE__ */ o(ne.ShieldAlert, { className: "w-7 h-7 text-emerald-500" }),
           d.title
         ] }),
         /* @__PURE__ */ o("p", { className: `mt-1 text-sm ${r ? "text-slate-400" : "text-slate-500"}`, children: d.desc })
@@ -2926,7 +2962,7 @@ function nr() {
           {
             type: "button",
             className: `px-3 py-2 rounded-lg border text-sm ${r ? "border-slate-700 hover:bg-slate-800" : "border-slate-300 hover:bg-slate-100"}`,
-            onClick: () => ee().catch((n) => h(n.message)),
+            onClick: () => te().catch((n) => h(n.message)),
             children: d.refresh
           }
         ),
@@ -2943,8 +2979,8 @@ function nr() {
       ] })
     ] }),
     B && /* @__PURE__ */ o("div", { className: "rounded-lg border border-red-300 bg-red-50 dark:bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300", children: B }),
-    K && /* @__PURE__ */ o("div", { className: "rounded-lg border border-emerald-300 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300", children: K }),
-    /* @__PURE__ */ o("div", { className: "flex flex-wrap gap-2", children: Fe.map((n) => /* @__PURE__ */ o(
+    ee && /* @__PURE__ */ o("div", { className: "rounded-lg border border-emerald-300 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300", children: ee }),
+    /* @__PURE__ */ o("div", { className: "flex flex-wrap gap-2", children: Ue.map((n) => /* @__PURE__ */ o(
       "button",
       {
         type: "button",
@@ -2957,10 +2993,10 @@ function nr() {
     s === "overview" && /* @__PURE__ */ u("div", { className: "space-y-4", children: [
       !a?.installed && /* @__PURE__ */ o("div", { className: "rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300", children: d.notInstalled }),
       /* @__PURE__ */ o("div", { className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4", children: [
-        { label: d.installed, value: a?.installed ? d.ready : "No", icon: re.ShieldCheck },
-        { label: d.selectedEngine, value: a?.engine?.selected || "—", icon: re.Cpu },
-        { label: d.signatures, value: a?.signatures?.version || "—", icon: re.Database },
-        { label: d.detections, value: String(a?.stats?.total_detections || 0), icon: re.Bug }
+        { label: d.installed, value: a?.installed ? d.ready : "No", icon: ne.ShieldCheck },
+        { label: d.selectedEngine, value: a?.engine?.selected || "—", icon: ne.Cpu },
+        { label: d.signatures, value: a?.signatures?.version || "—", icon: ne.Database },
+        { label: d.detections, value: String(a?.stats?.total_detections || 0), icon: ne.Bug }
       ].map((n) => /* @__PURE__ */ u("div", { className: L, children: [
         /* @__PURE__ */ u("div", { className: "flex items-center gap-2 mb-2", children: [
           /* @__PURE__ */ o(n.icon, { className: "w-4 h-4 text-blue-500" }),
@@ -2973,15 +3009,15 @@ function nr() {
           /* @__PURE__ */ o("h2", { className: "font-semibold mb-3", children: d.services }),
           /* @__PURE__ */ u("div", { className: "space-y-2 text-sm", children: [
             /* @__PURE__ */ u("p", { children: [
-              /* @__PURE__ */ o("span", { className: $, children: "clamd" }),
-              /* @__PURE__ */ o("span", { className: V(a?.services?.clamd?.status), children: U(a?.services?.clamd?.status) })
+              /* @__PURE__ */ o("span", { className: z, children: "clamd" }),
+              /* @__PURE__ */ o("span", { className: V(a?.services?.clamd?.status), children: W(a?.services?.clamd?.status) })
             ] }),
             /* @__PURE__ */ u("p", { children: [
-              /* @__PURE__ */ o("span", { className: $, children: "freshclam" }),
-              /* @__PURE__ */ o("span", { className: V(a?.services?.freshclam?.status), children: U(a?.services?.freshclam?.status) })
+              /* @__PURE__ */ o("span", { className: z, children: "freshclam" }),
+              /* @__PURE__ */ o("span", { className: V(a?.services?.freshclam?.status), children: W(a?.services?.freshclam?.status) })
             ] }),
             /* @__PURE__ */ u("p", { children: [
-              /* @__PURE__ */ o("span", { className: $, children: d.signatures }),
+              /* @__PURE__ */ o("span", { className: z, children: d.signatures }),
               /* @__PURE__ */ o("span", { children: a?.signatures?.updated_at || "—" })
             ] })
           ] })
@@ -2996,7 +3032,7 @@ function nr() {
                   /* @__PURE__ */ o("p", { className: "font-medium break-all", children: n.path }),
                   /* @__PURE__ */ o("p", { className: "text-xs text-slate-500", children: n.engine || "—" })
                 ] }),
-                /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(n.status)}`, children: U(n.status) })
+                /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(n.status)}`, children: W(n.status) })
               ] }),
               /* @__PURE__ */ u("p", { className: `mt-2 text-xs ${r ? "text-slate-400" : "text-slate-500"}`, children: [
                 d.infected,
@@ -3011,11 +3047,11 @@ function nr() {
     s === "scan" && /* @__PURE__ */ u("div", { className: "space-y-4", children: [
       /* @__PURE__ */ u("div", { className: L, children: [
         /* @__PURE__ */ u("div", { className: "flex flex-wrap gap-2 mb-4", children: [
-          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-2 rounded-lg bg-slate-700 text-white text-sm", onClick: () => ue("/home"), disabled: M, children: d.quickScanHome }),
-          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-2 rounded-lg bg-slate-700 text-white text-sm", onClick: () => ue("/var/www"), disabled: M, children: d.quickScanWeb })
+          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-2 rounded-lg bg-slate-700 text-white text-sm", onClick: () => pe("/home"), disabled: M, children: d.quickScanHome }),
+          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-2 rounded-lg bg-slate-700 text-white text-sm", onClick: () => pe("/var/www"), disabled: M, children: d.quickScanWeb })
         ] }),
-        /* @__PURE__ */ o("label", { className: $, children: d.scanPath }),
-        /* @__PURE__ */ o("input", { className: z, value: b, onChange: (n) => f(n.target.value), placeholder: "/home/site/public_html" }),
+        /* @__PURE__ */ o("label", { className: z, children: d.scanPath }),
+        /* @__PURE__ */ o("input", { className: E, value: g, onChange: (n) => b(n.target.value), placeholder: "/home/site/public_html" }),
         /* @__PURE__ */ o("p", { className: "mt-1 text-xs text-slate-500", children: d.browserHint }),
         /* @__PURE__ */ u("div", { className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-4", children: [
           /* @__PURE__ */ u("label", { className: "flex items-center gap-2 text-sm", children: [
@@ -3023,21 +3059,21 @@ function nr() {
             d.recursive
           ] }),
           /* @__PURE__ */ u("label", { className: "flex items-center gap-2 text-sm", children: [
-            /* @__PURE__ */ o("input", { type: "checkbox", checked: O, onChange: (n) => I(n.target.checked) }),
+            /* @__PURE__ */ o("input", { type: "checkbox", checked: D, onChange: (n) => R(n.target.checked) }),
             d.includeArchives
           ] }),
           /* @__PURE__ */ u("label", { className: "flex items-center gap-2 text-sm", children: [
-            /* @__PURE__ */ o("input", { type: "checkbox", checked: Z, onChange: (n) => oe(n.target.checked) }),
+            /* @__PURE__ */ o("input", { type: "checkbox", checked: K, onChange: (n) => ie(n.target.checked) }),
             d.autoQuarantine
           ] }),
           /* @__PURE__ */ u("div", { children: [
-            /* @__PURE__ */ o("label", { className: $, children: d.maxFileSize }),
-            /* @__PURE__ */ o("input", { className: z, type: "number", min: 1, max: 2048, value: Q, onChange: (n) => Y(Number(n.target.value)) })
+            /* @__PURE__ */ o("label", { className: z, children: d.maxFileSize }),
+            /* @__PURE__ */ o("input", { className: E, type: "number", min: 1, max: 2048, value: U, onChange: (n) => Z(Number(n.target.value)) })
           ] })
         ] }),
-        /* @__PURE__ */ o("button", { type: "button", className: "mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50", disabled: M || Ne || !b.trim(), onClick: () => ue(), children: d.startScan })
+        /* @__PURE__ */ o("button", { type: "button", className: "mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50", disabled: M || Ne || !g.trim(), onClick: () => pe(), children: d.startScan })
       ] }),
-      g && /* @__PURE__ */ u("div", { className: L, children: [
+      f && /* @__PURE__ */ u("div", { className: L, children: [
         /* @__PURE__ */ u("div", { className: "flex items-center justify-between gap-3 mb-3", children: [
           /* @__PURE__ */ o("h2", { className: "font-semibold", children: d.currentScan }),
           /* @__PURE__ */ u("div", { className: "flex items-center gap-2", children: [
@@ -3047,35 +3083,35 @@ function nr() {
                 type: "button",
                 className: "px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-medium disabled:opacity-50",
                 disabled: M,
-                onClick: () => Se(g.job?.id),
+                onClick: () => Se(f.job?.id),
                 children: d.stopScan
               }
             ),
-            /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(g.job?.status || g.status)}`, children: U(g.job?.status || g.status) })
+            /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(f.job?.status || f.status)}`, children: W(f.job?.status || f.status) })
           ] })
         ] }),
-        /* @__PURE__ */ o("p", { className: "text-sm break-all", children: g.path }),
+        /* @__PURE__ */ o("p", { className: "text-sm break-all", children: f.path }),
         /* @__PURE__ */ u("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 text-sm", children: [
           /* @__PURE__ */ u("div", { children: [
             d.infected,
             ": ",
-            /* @__PURE__ */ o("strong", { children: g.summary?.infected_count || 0 })
+            /* @__PURE__ */ o("strong", { children: f.summary?.infected_count || 0 })
           ] }),
           /* @__PURE__ */ u("div", { children: [
             d.scanned,
             ": ",
-            /* @__PURE__ */ o("strong", { children: g.summary?.scanned_count || 0 })
+            /* @__PURE__ */ o("strong", { children: f.summary?.scanned_count || 0 })
           ] }),
           /* @__PURE__ */ u("div", { children: [
             d.errors,
             ": ",
-            /* @__PURE__ */ o("strong", { children: g.summary?.error_count || 0 })
+            /* @__PURE__ */ o("strong", { children: f.summary?.error_count || 0 })
           ] })
         ] }),
-        /* @__PURE__ */ o("div", { className: `mt-4 h-2 w-full overflow-hidden rounded-full ${r ? "bg-slate-800" : "bg-slate-200"}`, children: /* @__PURE__ */ o("div", { className: "h-full bg-blue-600 rounded-full transition-all", style: { width: `${g.job?.progress || 0}%` } }) }),
+        /* @__PURE__ */ o("div", { className: `mt-4 h-2 w-full overflow-hidden rounded-full ${r ? "bg-slate-800" : "bg-slate-200"}`, children: /* @__PURE__ */ o("div", { className: "h-full bg-blue-600 rounded-full transition-all", style: { width: `${f.job?.progress || 0}%` } }) }),
         /* @__PURE__ */ u("div", { className: "mt-4", children: [
           /* @__PURE__ */ o("div", { className: `mb-2 text-xs font-medium uppercase ${r ? "text-slate-400" : "text-slate-500"}`, children: d.scanLogs }),
-          /* @__PURE__ */ o("pre", { className: `max-h-80 overflow-auto rounded-lg border p-3 text-[11px] whitespace-pre-wrap ${r ? "bg-slate-950 border-slate-800 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"}`, children: Qe.map((n) => n.line).join(`
+          /* @__PURE__ */ o("pre", { className: `max-h-80 overflow-auto rounded-lg border p-3 text-[11px] whitespace-pre-wrap ${r ? "bg-slate-950 border-slate-800 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"}`, children: Ve.map((n) => n.line).join(`
 `) || "—" })
         ] })
       ] }),
@@ -3094,7 +3130,7 @@ function nr() {
           )
         ] }),
         /* @__PURE__ */ u("div", { className: "flex items-center justify-between gap-3 text-sm", children: [
-          /* @__PURE__ */ o("span", { children: U(N.status) }),
+          /* @__PURE__ */ o("span", { children: W(N.status) }),
           /* @__PURE__ */ u("span", { children: [
             N.progress || 0,
             "%"
@@ -3113,14 +3149,14 @@ function nr() {
             /* @__PURE__ */ o("p", { className: `text-sm ${V(n.status)}`, children: n.signature }),
             n.action_error && /* @__PURE__ */ o("p", { className: "text-xs text-red-500 mt-1", children: n.action_error })
           ] }),
-          /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(n.status)}`, children: U(n.status) })
+          /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(n.status)}`, children: W(n.status) })
         ] }),
-        /* @__PURE__ */ o("div", { className: "mt-3 flex flex-wrap gap-2", children: n.status === "detected" && /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-1.5 rounded-lg bg-amber-600 text-white text-xs font-medium disabled:opacity-50", disabled: M, onClick: () => pe("/api/clamav/detections/quarantine", n.id), children: d.quarantineNow }) })
+        /* @__PURE__ */ o("div", { className: "mt-3 flex flex-wrap gap-2", children: n.status === "detected" && /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-1.5 rounded-lg bg-amber-600 text-white text-xs font-medium disabled:opacity-50", disabled: M, onClick: () => he("/api/clamav/detections/quarantine", n.id), children: d.quarantineNow }) })
       ] }, n.id)) })
     ] }),
     s === "quarantine" && /* @__PURE__ */ u("div", { className: L, children: [
-      j.length === 0 && /* @__PURE__ */ o("p", { className: `text-sm ${r ? "text-slate-400" : "text-slate-500"}`, children: d.emptyQuarantine }),
-      /* @__PURE__ */ o("div", { className: "space-y-3", children: j.map((n) => /* @__PURE__ */ u("div", { className: `rounded-lg border p-3 ${r ? "border-slate-800 bg-slate-950/50" : "border-slate-200 bg-slate-50"}`, children: [
+      A.length === 0 && /* @__PURE__ */ o("p", { className: `text-sm ${r ? "text-slate-400" : "text-slate-500"}`, children: d.emptyQuarantine }),
+      /* @__PURE__ */ o("div", { className: "space-y-3", children: A.map((n) => /* @__PURE__ */ u("div", { className: `rounded-lg border p-3 ${r ? "border-slate-800 bg-slate-950/50" : "border-slate-200 bg-slate-50"}`, children: [
         /* @__PURE__ */ u("div", { className: "flex flex-wrap items-start justify-between gap-3", children: [
           /* @__PURE__ */ u("div", { className: "min-w-0 flex-1", children: [
             /* @__PURE__ */ o("p", { className: "font-medium break-all", children: n.original_path || n.path }),
@@ -3128,43 +3164,43 @@ function nr() {
             /* @__PURE__ */ o("p", { className: "text-xs mt-1 text-slate-500", children: n.quarantine_path || "—" }),
             n.action_error && /* @__PURE__ */ o("p", { className: "text-xs text-red-500 mt-1", children: n.action_error })
           ] }),
-          /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(n.status)}`, children: U(n.status) })
+          /* @__PURE__ */ o("span", { className: `text-sm font-medium ${V(n.status)}`, children: W(n.status) })
         ] }),
-        /* @__PURE__ */ o("div", { className: "mt-3 flex flex-wrap gap-2", children: n.status === "quarantined" && /* @__PURE__ */ u(We, { children: [
-          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-medium disabled:opacity-50", disabled: M, onClick: () => pe("/api/clamav/quarantine/restore", n.id), children: d.restore }),
-          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-medium disabled:opacity-50", disabled: M, onClick: () => pe("/api/clamav/quarantine/delete", n.id), children: d.deleteForever })
+        /* @__PURE__ */ o("div", { className: "mt-3 flex flex-wrap gap-2", children: n.status === "quarantined" && /* @__PURE__ */ u(Be, { children: [
+          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-medium disabled:opacity-50", disabled: M, onClick: () => he("/api/clamav/quarantine/restore", n.id), children: d.restore }),
+          /* @__PURE__ */ o("button", { type: "button", className: "px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-medium disabled:opacity-50", disabled: M, onClick: () => he("/api/clamav/quarantine/delete", n.id), children: d.deleteForever })
         ] }) })
       ] }, n.id)) })
     ] }),
     s === "settings" && l && /* @__PURE__ */ o("div", { className: L, children: /* @__PURE__ */ u("div", { className: "space-y-4", children: [
       /* @__PURE__ */ u("div", { children: [
-        /* @__PURE__ */ o("label", { className: $, children: d.quarantineDir }),
-        /* @__PURE__ */ o("input", { className: z, value: l.quarantine_dir, onChange: (n) => m({ ...l, quarantine_dir: n.target.value }) })
+        /* @__PURE__ */ o("label", { className: z, children: d.quarantineDir }),
+        /* @__PURE__ */ o("input", { className: E, value: l.quarantine_dir, onChange: (n) => m({ ...l, quarantine_dir: n.target.value }) })
       ] }),
       /* @__PURE__ */ u("div", { children: [
-        /* @__PURE__ */ o("label", { className: $, children: d.defaultTargets }),
-        /* @__PURE__ */ o("textarea", { className: `${z} min-h-28`, value: l.default_scan_targets.join(`
+        /* @__PURE__ */ o("label", { className: z, children: d.defaultTargets }),
+        /* @__PURE__ */ o("textarea", { className: `${E} min-h-28`, value: l.default_scan_targets.join(`
 `), onChange: (n) => m({ ...l, default_scan_targets: n.target.value.split(`
-`).map((y) => y.trim()).filter(Boolean) }) })
+`).map((x) => x.trim()).filter(Boolean) }) })
       ] }),
       /* @__PURE__ */ u("div", { children: [
-        /* @__PURE__ */ o("label", { className: $, children: d.excludePaths }),
-        /* @__PURE__ */ o("textarea", { className: `${z} min-h-28`, value: l.exclude_paths.join(`
+        /* @__PURE__ */ o("label", { className: z, children: d.excludePaths }),
+        /* @__PURE__ */ o("textarea", { className: `${E} min-h-28`, value: l.exclude_paths.join(`
 `), onChange: (n) => m({ ...l, exclude_paths: n.target.value.split(`
-`).map((y) => y.trim()).filter(Boolean) }) })
+`).map((x) => x.trim()).filter(Boolean) }) })
       ] }),
       /* @__PURE__ */ u("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4", children: [
         /* @__PURE__ */ u("div", { children: [
-          /* @__PURE__ */ o("label", { className: $, children: d.retentionDays }),
-          /* @__PURE__ */ o("input", { className: z, type: "number", min: 1, max: 365, value: l.retention_days, onChange: (n) => m({ ...l, retention_days: Number(n.target.value) }) })
+          /* @__PURE__ */ o("label", { className: z, children: d.retentionDays }),
+          /* @__PURE__ */ o("input", { className: E, type: "number", min: 1, max: 365, value: l.retention_days, onChange: (n) => m({ ...l, retention_days: Number(n.target.value) }) })
         ] }),
         /* @__PURE__ */ u("div", { children: [
-          /* @__PURE__ */ o("label", { className: $, children: d.maxFileSize }),
-          /* @__PURE__ */ o("input", { className: z, type: "number", min: 1, max: 2048, value: l.max_file_size_mb, onChange: (n) => m({ ...l, max_file_size_mb: Number(n.target.value) }) })
+          /* @__PURE__ */ o("label", { className: z, children: d.maxFileSize }),
+          /* @__PURE__ */ o("input", { className: E, type: "number", min: 1, max: 2048, value: l.max_file_size_mb, onChange: (n) => m({ ...l, max_file_size_mb: Number(n.target.value) }) })
         ] }),
         /* @__PURE__ */ u("div", { children: [
-          /* @__PURE__ */ o("label", { className: $, children: d.preferredEngine }),
-          /* @__PURE__ */ u("select", { className: z, value: l.preferred_engine, onChange: (n) => m({ ...l, preferred_engine: n.target.value }), children: [
+          /* @__PURE__ */ o("label", { className: z, children: d.preferredEngine }),
+          /* @__PURE__ */ u("select", { className: E, value: l.preferred_engine, onChange: (n) => m({ ...l, preferred_engine: n.target.value }), children: [
             /* @__PURE__ */ o("option", { value: "auto", children: d.auto }),
             /* @__PURE__ */ o("option", { value: "clamscan", children: "clamscan" }),
             /* @__PURE__ */ o("option", { value: "clamdscan", children: "clamdscan" })
@@ -3180,5 +3216,5 @@ function nr() {
   ] }) });
 }
 export {
-  nr as default
+  lr as default
 };

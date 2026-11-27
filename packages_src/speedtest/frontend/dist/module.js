@@ -1,14 +1,14 @@
-var je = Object.defineProperty;
-var Ae = (e, t, r) => t in e ? je(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var M = (e, t, r) => Ae(e, typeof t != "symbol" ? t + "" : t, r);
+var Pe = Object.defineProperty;
+var je = (e, t, r) => t in e ? Pe(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var _ = (e, t, r) => je(e, typeof t != "symbol" ? t + "" : t, r);
 import { jsx as u, jsxs as b } from "react/jsx-runtime";
-import { createContext as we, useContext as ve, useState as U, useRef as Pe, useCallback as fe, useEffect as he, useMemo as Q } from "react";
-import { useOutletContext as Ie } from "react-router-dom";
-const Le = we(null);
-function Re() {
-  return ve(Le);
+import { createContext as we, useContext as ve, useState as B, useRef as Le, useCallback as fe, useEffect as he, useMemo as ee } from "react";
+import { useOutletContext as Re } from "react-router-dom";
+const Ie = we(null);
+function Fe() {
+  return ve(Ie);
 }
-const Ge = {
+const $e = {
   theme: localStorage.getItem("copanel_theme") || "light",
   setTheme: () => {
   },
@@ -16,8 +16,8 @@ const Ge = {
   setLanguage: () => {
   }
 };
-function ke() {
-  const e = Re(), t = Ie();
+function Se() {
+  const e = Fe(), t = Re();
   return e || (t?.theme ? {
     theme: t.theme,
     setTheme: t.setTheme ?? (() => {
@@ -25,30 +25,30 @@ function ke() {
     language: t.language ?? "en",
     setLanguage: t.setLanguage ?? (() => {
     })
-  } : Ge);
+  } : $e);
 }
-function Se(e) {
+function ke(e) {
   var t, r, o = "";
   if (typeof e == "string" || typeof e == "number") o += e;
   else if (typeof e == "object") if (Array.isArray(e)) {
     var s = e.length;
-    for (t = 0; t < s; t++) e[t] && (r = Se(e[t])) && (o && (o += " "), o += r);
+    for (t = 0; t < s; t++) e[t] && (r = ke(e[t])) && (o && (o += " "), o += r);
   } else for (r in e) e[r] && (o && (o += " "), o += r);
   return o;
 }
-function $e() {
-  for (var e, t, r = 0, o = "", s = arguments.length; r < s; r++) (e = arguments[r]) && (t = Se(e)) && (o && (o += " "), o += t);
+function Ge() {
+  for (var e, t, r = 0, o = "", s = arguments.length; r < s; r++) (e = arguments[r]) && (t = ke(e)) && (o && (o += " "), o += t);
   return o;
 }
-const se = "-", Ve = (e) => {
-  const t = Oe(e), {
+const ie = "-", Ve = (e) => {
+  const t = We(e), {
     conflictingClassGroups: r,
     conflictingClassGroupModifiers: o
   } = e;
   return {
     getClassGroupId: (i) => {
-      const a = i.split(se);
-      return a[0] === "" && a.length !== 1 && a.shift(), Ce(a, t) || Fe(i);
+      const a = i.split(ie);
+      return a[0] === "" && a.length !== 1 && a.shift(), Ce(a, t) || Oe(i);
     },
     getConflictingClassGroupIds: (i, a) => {
       const d = r[i] || [];
@@ -63,17 +63,17 @@ const se = "-", Ve = (e) => {
     return s;
   if (t.validators.length === 0)
     return;
-  const n = e.join(se);
+  const n = e.join(ie);
   return t.validators.find(({
     validator: i
   }) => i(n))?.classGroupId;
-}, ge = /^\[(.+)\]$/, Fe = (e) => {
+}, ge = /^\[(.+)\]$/, Oe = (e) => {
   if (ge.test(e)) {
     const t = ge.exec(e)[1], r = t?.substring(0, t.indexOf(":"));
     if (r)
       return "arbitrary.." + r;
   }
-}, Oe = (e) => {
+}, We = (e) => {
   const {
     theme: t,
     prefix: r
@@ -82,9 +82,9 @@ const se = "-", Ve = (e) => {
     validators: []
   };
   return He(Object.entries(e.classGroups), r).forEach(([n, i]) => {
-    re(i, o, n, t);
+    oe(i, o, n, t);
   }), o;
-}, re = (e, t, r, o) => {
+}, oe = (e, t, r, o) => {
   e.forEach((s) => {
     if (typeof s == "string") {
       const n = s === "" ? t : be(t, s);
@@ -92,8 +92,8 @@ const se = "-", Ve = (e) => {
       return;
     }
     if (typeof s == "function") {
-      if (We(s)) {
-        re(s(o), t, r, o);
+      if (Ue(s)) {
+        oe(s(o), t, r, o);
         return;
       }
       t.validators.push({
@@ -103,21 +103,21 @@ const se = "-", Ve = (e) => {
       return;
     }
     Object.entries(s).forEach(([n, i]) => {
-      re(i, be(t, n), r, o);
+      oe(i, be(t, n), r, o);
     });
   });
 }, be = (e, t) => {
   let r = e;
-  return t.split(se).forEach((o) => {
+  return t.split(ie).forEach((o) => {
     r.nextPart.has(o) || r.nextPart.set(o, {
       nextPart: /* @__PURE__ */ new Map(),
       validators: []
     }), r = r.nextPart.get(o);
   }), r;
-}, We = (e) => e.isThemeGetter, He = (e, t) => t ? e.map(([r, o]) => {
+}, Ue = (e) => e.isThemeGetter, He = (e, t) => t ? e.map(([r, o]) => {
   const s = o.map((n) => typeof n == "string" ? t + n : typeof n == "object" ? Object.fromEntries(Object.entries(n).map(([i, a]) => [t + i, a])) : n);
   return [r, s];
-}) : e, Ue = (e) => {
+}) : e, Be = (e) => {
   if (e < 1)
     return {
       get: () => {
@@ -141,7 +141,7 @@ const se = "-", Ve = (e) => {
       r.has(n) ? r.set(n, i) : s(n, i);
     }
   };
-}, Te = "!", Be = (e) => {
+}, Te = "!", De = (e) => {
   const {
     separator: t,
     experimentalParseClassName: r
@@ -162,11 +162,11 @@ const se = "-", Ve = (e) => {
       }
       w === "[" ? m++ : w === "]" && m--;
     }
-    const S = d.length === 0 ? a : a.substring(y), C = S.startsWith(Te), k = C ? S.substring(1) : S, g = v && v > y ? v - y : void 0;
+    const k = d.length === 0 ? a : a.substring(y), C = k.startsWith(Te), S = C ? k.substring(1) : k, g = v && v > y ? v - y : void 0;
     return {
       modifiers: d,
       hasImportantModifier: C,
-      baseClassName: k,
+      baseClassName: S,
       maybePostfixModifierPosition: g
     };
   };
@@ -174,7 +174,7 @@ const se = "-", Ve = (e) => {
     className: a,
     parseClassName: i
   }) : i;
-}, De = (e) => {
+}, qe = (e) => {
   if (e.length <= 1)
     return e;
   const t = [];
@@ -182,50 +182,50 @@ const se = "-", Ve = (e) => {
   return e.forEach((o) => {
     o[0] === "[" ? (t.push(...r.sort(), o), r = []) : r.push(o);
   }), t.push(...r.sort()), t;
-}, qe = (e) => ({
-  cache: Ue(e.cacheSize),
-  parseClassName: Be(e),
+}, Je = (e) => ({
+  cache: Be(e.cacheSize),
+  parseClassName: De(e),
   ...Ve(e)
-}), Je = /\s+/, Ye = (e, t) => {
+}), Xe = /\s+/, Ye = (e, t) => {
   const {
     parseClassName: r,
     getClassGroupId: o,
     getConflictingClassGroupIds: s
-  } = t, n = [], i = e.trim().split(Je);
+  } = t, n = [], i = e.trim().split(Xe);
   let a = "";
   for (let d = i.length - 1; d >= 0; d -= 1) {
     const m = i[d], {
       modifiers: y,
       hasImportantModifier: v,
-      baseClassName: S,
+      baseClassName: k,
       maybePostfixModifierPosition: C
     } = r(m);
-    let k = !!C, g = o(k ? S.substring(0, C) : S);
+    let S = !!C, g = o(S ? k.substring(0, C) : k);
     if (!g) {
-      if (!k) {
+      if (!S) {
         a = m + (a.length > 0 ? " " + a : a);
         continue;
       }
-      if (g = o(S), !g) {
+      if (g = o(k), !g) {
         a = m + (a.length > 0 ? " " + a : a);
         continue;
       }
-      k = !1;
+      S = !1;
     }
-    const p = De(y).join(":"), w = v ? p + Te : p, T = w + g;
+    const p = qe(y).join(":"), w = v ? p + Te : p, T = w + g;
     if (n.includes(T))
       continue;
     n.push(T);
-    const A = s(g, k);
-    for (let N = 0; N < A.length; ++N) {
-      const c = A[N];
+    const P = s(g, S);
+    for (let N = 0; N < P.length; ++N) {
+      const c = P[N];
       n.push(w + c);
     }
     a = m + (a.length > 0 ? " " + a : a);
   }
   return a;
 };
-function Xe() {
+function Ze() {
   let e = 0, t, r, o = "";
   for (; e < arguments.length; )
     (t = arguments[e++]) && (r = Ne(t)) && (o && (o += " "), o += r);
@@ -239,11 +239,11 @@ const Ne = (e) => {
     e[o] && (t = Ne(e[o])) && (r && (r += " "), r += t);
   return r;
 };
-function Ze(e, ...t) {
+function Ke(e, ...t) {
   let r, o, s, n = i;
   function i(d) {
     const m = t.reduce((y, v) => v(y), e());
-    return r = qe(m), o = r.cache.get, s = r.cache.set, n = a, a(d);
+    return r = Je(m), o = r.cache.get, s = r.cache.set, n = a, a(d);
   }
   function a(d) {
     const m = o(d);
@@ -253,49 +253,49 @@ function Ze(e, ...t) {
     return s(d, y), y;
   }
   return function() {
-    return n(Xe.apply(null, arguments));
+    return n(Ze.apply(null, arguments));
   };
 }
 const f = (e) => {
   const t = (r) => r[e] || [];
   return t.isThemeGetter = !0, t;
-}, Me = /^\[(?:([a-z-]+):)?(.+)\]$/i, Ke = /^\d+\/\d+$/, Qe = /* @__PURE__ */ new Set(["px", "full", "screen"]), et = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, tt = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, rt = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, ot = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, nt = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, z = (e) => L(e) || Qe.has(e) || Ke.test(e), E = (e) => R(e, "length", pt), L = (e) => !!e && !Number.isNaN(Number(e)), ee = (e) => R(e, "number", L), $ = (e) => !!e && Number.isInteger(Number(e)), st = (e) => e.endsWith("%") && L(e.slice(0, -1)), l = (e) => Me.test(e), j = (e) => et.test(e), it = /* @__PURE__ */ new Set(["length", "size", "percentage"]), at = (e) => R(e, it, _e), lt = (e) => R(e, "position", _e), ct = /* @__PURE__ */ new Set(["image", "url"]), dt = (e) => R(e, ct, ht), ut = (e) => R(e, "", ft), V = () => !0, R = (e, t, r) => {
-  const o = Me.exec(e);
+}, _e = /^\[(?:([a-z-]+):)?(.+)\]$/i, Qe = /^\d+\/\d+$/, et = /* @__PURE__ */ new Set(["px", "full", "screen"]), tt = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/, rt = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/, ot = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/, nt = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/, st = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/, M = (e) => I(e) || et.has(e) || Qe.test(e), z = (e) => F(e, "length", ft), I = (e) => !!e && !Number.isNaN(Number(e)), te = (e) => F(e, "number", I), G = (e) => !!e && Number.isInteger(Number(e)), it = (e) => e.endsWith("%") && I(e.slice(0, -1)), l = (e) => _e.test(e), A = (e) => tt.test(e), at = /* @__PURE__ */ new Set(["length", "size", "percentage"]), lt = (e) => F(e, at, Ee), ct = (e) => F(e, "position", Ee), dt = /* @__PURE__ */ new Set(["image", "url"]), ut = (e) => F(e, dt, gt), pt = (e) => F(e, "", ht), V = () => !0, F = (e, t, r) => {
+  const o = _e.exec(e);
   return o ? o[1] ? typeof t == "string" ? o[1] === t : t.has(o[1]) : r(o[2]) : !1;
-}, pt = (e) => (
+}, ft = (e) => (
   // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
   // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-  tt.test(e) && !rt.test(e)
-), _e = () => !1, ft = (e) => ot.test(e), ht = (e) => nt.test(e), gt = () => {
-  const e = f("colors"), t = f("spacing"), r = f("blur"), o = f("brightness"), s = f("borderColor"), n = f("borderRadius"), i = f("borderSpacing"), a = f("borderWidth"), d = f("contrast"), m = f("grayscale"), y = f("hueRotate"), v = f("invert"), S = f("gap"), C = f("gradientColorStops"), k = f("gradientColorStopPositions"), g = f("inset"), p = f("margin"), w = f("opacity"), T = f("padding"), A = f("saturate"), N = f("scale"), c = f("sepia"), P = f("skew"), ae = f("space"), le = f("translate"), Y = () => ["auto", "contain", "none"], X = () => ["auto", "hidden", "clip", "visible", "scroll"], Z = () => ["auto", l, t], h = () => [l, t], ce = () => ["", z, E], W = () => ["auto", L, l], de = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], H = () => ["solid", "dashed", "dotted", "double", "none"], ue = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], K = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], G = () => ["", "0", l], pe = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], _ = () => [L, l];
+  rt.test(e) && !ot.test(e)
+), Ee = () => !1, ht = (e) => nt.test(e), gt = (e) => st.test(e), bt = () => {
+  const e = f("colors"), t = f("spacing"), r = f("blur"), o = f("brightness"), s = f("borderColor"), n = f("borderRadius"), i = f("borderSpacing"), a = f("borderWidth"), d = f("contrast"), m = f("grayscale"), y = f("hueRotate"), v = f("invert"), k = f("gap"), C = f("gradientColorStops"), S = f("gradientColorStopPositions"), g = f("inset"), p = f("margin"), w = f("opacity"), T = f("padding"), P = f("saturate"), N = f("scale"), c = f("sepia"), j = f("skew"), ae = f("space"), le = f("translate"), Y = () => ["auto", "contain", "none"], Z = () => ["auto", "hidden", "clip", "visible", "scroll"], K = () => ["auto", l, t], h = () => [l, t], ce = () => ["", M, z], U = () => ["auto", I, l], de = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], H = () => ["solid", "dashed", "dotted", "double", "none"], ue = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], Q = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], $ = () => ["", "0", l], pe = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], E = () => [I, l];
   return {
     cacheSize: 500,
     separator: ":",
     theme: {
       colors: [V],
-      spacing: [z, E],
-      blur: ["none", "", j, l],
-      brightness: _(),
+      spacing: [M, z],
+      blur: ["none", "", A, l],
+      brightness: E(),
       borderColor: [e],
-      borderRadius: ["none", "", "full", j, l],
+      borderRadius: ["none", "", "full", A, l],
       borderSpacing: h(),
       borderWidth: ce(),
-      contrast: _(),
-      grayscale: G(),
-      hueRotate: _(),
-      invert: G(),
+      contrast: E(),
+      grayscale: $(),
+      hueRotate: E(),
+      invert: $(),
       gap: h(),
       gradientColorStops: [e],
-      gradientColorStopPositions: [st, E],
-      inset: Z(),
-      margin: Z(),
-      opacity: _(),
+      gradientColorStopPositions: [it, z],
+      inset: K(),
+      margin: K(),
+      opacity: E(),
       padding: h(),
-      saturate: _(),
-      scale: _(),
-      sepia: G(),
-      skew: _(),
+      saturate: E(),
+      scale: E(),
+      sepia: $(),
+      skew: E(),
       space: h(),
       translate: h()
     },
@@ -318,7 +318,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/columns
        */
       columns: [{
-        columns: [j]
+        columns: [A]
       }],
       /**
        * Break After
@@ -398,21 +398,21 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/overflow
        */
       overflow: [{
-        overflow: X()
+        overflow: Z()
       }],
       /**
        * Overflow X
        * @see https://tailwindcss.com/docs/overflow
        */
       "overflow-x": [{
-        "overflow-x": X()
+        "overflow-x": Z()
       }],
       /**
        * Overflow Y
        * @see https://tailwindcss.com/docs/overflow
        */
       "overflow-y": [{
-        "overflow-y": X()
+        "overflow-y": Z()
       }],
       /**
        * Overscroll Behavior
@@ -513,7 +513,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/z-index
        */
       z: [{
-        z: ["auto", $, l]
+        z: ["auto", G, l]
       }],
       // Flexbox and Grid
       /**
@@ -521,7 +521,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/flex-basis
        */
       basis: [{
-        basis: Z()
+        basis: K()
       }],
       /**
        * Flex Direction
@@ -549,21 +549,21 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/flex-grow
        */
       grow: [{
-        grow: G()
+        grow: $()
       }],
       /**
        * Flex Shrink
        * @see https://tailwindcss.com/docs/flex-shrink
        */
       shrink: [{
-        shrink: G()
+        shrink: $()
       }],
       /**
        * Order
        * @see https://tailwindcss.com/docs/order
        */
       order: [{
-        order: ["first", "last", "none", $, l]
+        order: ["first", "last", "none", G, l]
       }],
       /**
        * Grid Template Columns
@@ -578,7 +578,7 @@ const f = (e) => {
        */
       "col-start-end": [{
         col: ["auto", {
-          span: ["full", $, l]
+          span: ["full", G, l]
         }, l]
       }],
       /**
@@ -586,14 +586,14 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/grid-column
        */
       "col-start": [{
-        "col-start": W()
+        "col-start": U()
       }],
       /**
        * Grid Column End
        * @see https://tailwindcss.com/docs/grid-column
        */
       "col-end": [{
-        "col-end": W()
+        "col-end": U()
       }],
       /**
        * Grid Template Rows
@@ -608,7 +608,7 @@ const f = (e) => {
        */
       "row-start-end": [{
         row: ["auto", {
-          span: [$, l]
+          span: [G, l]
         }, l]
       }],
       /**
@@ -616,14 +616,14 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/grid-row
        */
       "row-start": [{
-        "row-start": W()
+        "row-start": U()
       }],
       /**
        * Grid Row End
        * @see https://tailwindcss.com/docs/grid-row
        */
       "row-end": [{
-        "row-end": W()
+        "row-end": U()
       }],
       /**
        * Grid Auto Flow
@@ -651,28 +651,28 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/gap
        */
       gap: [{
-        gap: [S]
+        gap: [k]
       }],
       /**
        * Gap X
        * @see https://tailwindcss.com/docs/gap
        */
       "gap-x": [{
-        "gap-x": [S]
+        "gap-x": [k]
       }],
       /**
        * Gap Y
        * @see https://tailwindcss.com/docs/gap
        */
       "gap-y": [{
-        "gap-y": [S]
+        "gap-y": [k]
       }],
       /**
        * Justify Content
        * @see https://tailwindcss.com/docs/justify-content
        */
       "justify-content": [{
-        justify: ["normal", ...K()]
+        justify: ["normal", ...Q()]
       }],
       /**
        * Justify Items
@@ -693,7 +693,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/align-content
        */
       "align-content": [{
-        content: ["normal", ...K(), "baseline"]
+        content: ["normal", ...Q(), "baseline"]
       }],
       /**
        * Align Items
@@ -714,7 +714,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/place-content
        */
       "place-content": [{
-        "place-content": [...K(), "baseline"]
+        "place-content": [...Q(), "baseline"]
       }],
       /**
        * Place Items
@@ -902,8 +902,8 @@ const f = (e) => {
        */
       "max-w": [{
         "max-w": [l, t, "none", "full", "min", "max", "fit", "prose", {
-          screen: [j]
-        }, j]
+          screen: [A]
+        }, A]
       }],
       /**
        * Height
@@ -939,7 +939,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/font-size
        */
       "font-size": [{
-        text: ["base", j, E]
+        text: ["base", A, z]
       }],
       /**
        * Font Smoothing
@@ -956,7 +956,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/font-weight
        */
       "font-weight": [{
-        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", ee]
+        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", te]
       }],
       /**
        * Font Family
@@ -1007,14 +1007,14 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/line-clamp
        */
       "line-clamp": [{
-        "line-clamp": ["none", L, ee]
+        "line-clamp": ["none", I, te]
       }],
       /**
        * Line Height
        * @see https://tailwindcss.com/docs/line-height
        */
       leading: [{
-        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", z, l]
+        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", M, l]
       }],
       /**
        * List Style Image
@@ -1090,14 +1090,14 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/text-decoration-thickness
        */
       "text-decoration-thickness": [{
-        decoration: ["auto", "from-font", z, E]
+        decoration: ["auto", "from-font", M, z]
       }],
       /**
        * Text Underline Offset
        * @see https://tailwindcss.com/docs/text-underline-offset
        */
       "underline-offset": [{
-        "underline-offset": ["auto", z, l]
+        "underline-offset": ["auto", M, l]
       }],
       /**
        * Text Decoration Color
@@ -1200,7 +1200,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/background-position
        */
       "bg-position": [{
-        bg: [...de(), lt]
+        bg: [...de(), ct]
       }],
       /**
        * Background Repeat
@@ -1216,7 +1216,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/background-size
        */
       "bg-size": [{
-        bg: ["auto", "cover", "contain", at]
+        bg: ["auto", "cover", "contain", lt]
       }],
       /**
        * Background Image
@@ -1225,7 +1225,7 @@ const f = (e) => {
       "bg-image": [{
         bg: ["none", {
           "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
-        }, dt]
+        }, ut]
       }],
       /**
        * Background Color
@@ -1239,21 +1239,21 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-from-pos": [{
-        from: [k]
+        from: [S]
       }],
       /**
        * Gradient Color Stops Via Position
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-via-pos": [{
-        via: [k]
+        via: [S]
       }],
       /**
        * Gradient Color Stops To Position
        * @see https://tailwindcss.com/docs/gradient-color-stops
        */
       "gradient-to-pos": [{
-        to: [k]
+        to: [S]
       }],
       /**
        * Gradient Color Stops From
@@ -1579,14 +1579,14 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/outline-offset
        */
       "outline-offset": [{
-        "outline-offset": [z, l]
+        "outline-offset": [M, l]
       }],
       /**
        * Outline Width
        * @see https://tailwindcss.com/docs/outline-width
        */
       "outline-w": [{
-        outline: [z, E]
+        outline: [M, z]
       }],
       /**
        * Outline Color
@@ -1626,7 +1626,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/ring-offset-width
        */
       "ring-offset-w": [{
-        "ring-offset": [z, E]
+        "ring-offset": [M, z]
       }],
       /**
        * Ring Offset Color
@@ -1641,7 +1641,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/box-shadow
        */
       shadow: [{
-        shadow: ["", "inner", "none", j, ut]
+        shadow: ["", "inner", "none", A, pt]
       }],
       /**
        * Box Shadow Color
@@ -1706,7 +1706,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/drop-shadow
        */
       "drop-shadow": [{
-        "drop-shadow": ["", "none", j, l]
+        "drop-shadow": ["", "none", A, l]
       }],
       /**
        * Grayscale
@@ -1734,7 +1734,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/saturate
        */
       saturate: [{
-        saturate: [A]
+        saturate: [P]
       }],
       /**
        * Sepia
@@ -1805,7 +1805,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/backdrop-saturate
        */
       "backdrop-saturate": [{
-        "backdrop-saturate": [A]
+        "backdrop-saturate": [P]
       }],
       /**
        * Backdrop Sepia
@@ -1870,7 +1870,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/transition-duration
        */
       duration: [{
-        duration: _()
+        duration: E()
       }],
       /**
        * Transition Timing Function
@@ -1884,7 +1884,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/transition-delay
        */
       delay: [{
-        delay: _()
+        delay: E()
       }],
       /**
        * Animation
@@ -1927,7 +1927,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/rotate
        */
       rotate: [{
-        rotate: [$, l]
+        rotate: [G, l]
       }],
       /**
        * Translate X
@@ -1948,14 +1948,14 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/skew
        */
       "skew-x": [{
-        "skew-x": [P]
+        "skew-x": [j]
       }],
       /**
        * Skew Y
        * @see https://tailwindcss.com/docs/skew
        */
       "skew-y": [{
-        "skew-y": [P]
+        "skew-y": [j]
       }],
       /**
        * Transform Origin
@@ -2221,7 +2221,7 @@ const f = (e) => {
        * @see https://tailwindcss.com/docs/stroke-width
        */
       "stroke-w": [{
-        stroke: [z, E, ee]
+        stroke: [M, z, te]
       }],
       /**
        * Stroke
@@ -2296,30 +2296,30 @@ const f = (e) => {
       "font-size": ["leading"]
     }
   };
-}, bt = /* @__PURE__ */ Ze(gt);
+}, mt = /* @__PURE__ */ Ke(bt);
 function x(...e) {
-  return bt($e(e));
+  return mt(Ge(e));
 }
-const mt = "copanel_mobile_desktop_site";
-function yt() {
+const yt = "copanel_mobile_desktop_site";
+function xt() {
   try {
-    return localStorage.getItem(mt) === "1";
+    return localStorage.getItem(yt) === "1";
   } catch {
     return !1;
   }
 }
-function xt(e = window.innerWidth) {
-  return yt() || e >= 1024;
+function wt(e = window.innerWidth) {
+  return xt() || e >= 1024;
 }
-const wt = we(null);
-function vt() {
-  return ve(wt);
+const vt = we(null);
+function St() {
+  return ve(vt);
 }
 function kt() {
-  return vt()?.isWindowed === !0;
+  return St()?.isWindowed === !0;
 }
-function St({ children: e, className: t, constrained: r = !1 }) {
-  const { theme: o } = ke(), s = kt(), n = o === "dark", i = !s && !xt();
+function Ct({ children: e, className: t, constrained: r = !1 }) {
+  const { theme: o } = Se(), s = kt(), n = o === "dark", i = !s && !wt();
   return /* @__PURE__ */ u(
     "div",
     {
@@ -2334,16 +2334,16 @@ function St({ children: e, className: t, constrained: r = !1 }) {
     }
   );
 }
-class oe extends Error {
+class ne extends Error {
   constructor(r, o, s, n) {
     super(o);
-    M(this, "code");
-    M(this, "status");
-    M(this, "details");
+    _(this, "code");
+    _(this, "status");
+    _(this, "details");
     this.code = r, this.status = s, this.details = n;
   }
 }
-async function B(e, t = {}) {
+async function D(e, t = {}) {
   const r = typeof window < "u" ? localStorage.getItem("copanel_token") : null, o = {
     "Content-Type": "application/json",
     ...t.headers || {}
@@ -2368,51 +2368,73 @@ async function B(e, t = {}) {
     return i;
   if (!n.ok) {
     const d = i && typeof i == "object" && i.error ? i.error : { code: `HTTP_${n.status}`, message: typeof i == "string" ? i : i?.detail || n.statusText };
-    throw new oe(d.code || `HTTP_${n.status}`, d.message || "Request failed", n.status, d.details);
+    throw new ne(d.code || `HTTP_${n.status}`, d.message || "Request failed", n.status, d.details);
   }
   if (i && typeof i == "object" && "status" in i) {
     if (i.status === "success")
       return i.data !== void 0 ? i.data : i;
     if (i.status === "error" && i.error)
-      throw new oe(i.error.code, i.error.message, n.status, i.error.details);
+      throw new ne(i.error.code, i.error.message, n.status, i.error.details);
   }
   return i;
 }
-function J() {
+const Me = "copanel-session-expired", Tt = /* @__PURE__ */ new Set([
+  "/api/auth/login",
+  "/api/panel_settings/branding/public"
+]);
+function Nt(e) {
+  try {
+    const t = typeof e == "string" ? e : e instanceof URL ? e.href : String(e.url || "");
+    return (t.startsWith("http://") || t.startsWith("https://") ? new URL(t) : new URL(t, "http://localhost")).pathname;
+  } catch {
+    return "";
+  }
+}
+function _t(e) {
+  if (!e) return !1;
+  for (const t of Tt)
+    if (e === t || e.startsWith(`${t}/`)) return !0;
+  return !1;
+}
+function Et() {
+  typeof window > "u" || window.dispatchEvent(new CustomEvent(Me));
+}
+function R() {
   return typeof localStorage > "u" ? null : localStorage.getItem("copanel_token");
 }
-function Ct(e) {
+function Mt(e) {
   const t = {};
   e && new Headers(e).forEach((s, n) => {
     t[n] = s;
   });
-  const r = J();
+  const r = R();
   return r && (t.Authorization = `Bearer ${r}`), t;
 }
-function Tt(e, t = {}) {
-  const r = Ct(t.headers);
-  return fetch(e, { ...t, headers: r });
+function zt(e, t = {}) {
+  const r = Mt(t.headers);
+  return fetch(e, { ...t, headers: r }).then((o) => (o.status === 401 && !_t(Nt(e)) && Et(), o));
 }
-async function Nt() {
-  if (!J()) return null;
+async function At() {
+  if (!R()) return null;
   try {
-    const e = await Tt("/api/auth/stream-ticket", { method: "POST" });
-    if (!e.ok) return null;
+    const e = await zt("/api/auth/stream-ticket", { method: "POST" });
+    if (e.status === 401 || !e.ok) return null;
     const t = await e.json();
     return typeof t?.ticket == "string" ? t.ticket : null;
   } catch {
     return null;
   }
 }
-const Mt = "copanel-platform-sse-degraded", F = 2e3, _t = 6e4, zt = 3;
-class Et {
+const Pt = "copanel-platform-sse-degraded", O = 2e3, jt = 6e4, Lt = 3;
+class Rt {
   constructor() {
-    M(this, "source", null);
-    M(this, "handlers", /* @__PURE__ */ new Map());
-    M(this, "retryDelay", F);
-    M(this, "retryTimer", null);
-    M(this, "failureCount", 0);
-    M(this, "connecting", !1);
+    _(this, "source", null);
+    _(this, "handlers", /* @__PURE__ */ new Map());
+    _(this, "retryDelay", O);
+    _(this, "retryTimer", null);
+    _(this, "failureCount", 0);
+    _(this, "connecting", !1);
+    _(this, "authFailed", !1);
   }
   on(t, r) {
     let o = this.handlers.get(t);
@@ -2431,17 +2453,21 @@ class Et {
     });
   }
   async buildUrl() {
-    if (!J()) return null;
-    const t = await Nt();
+    if (!R()) return null;
+    const t = await At();
     return t ? `/api/platform/events?${new URLSearchParams({
       topics: "jobs,notifications",
       ticket: t
     }).toString()}` : null;
   }
   ensureConnected() {
-    this.source || this.connecting || typeof document < "u" && document.hidden || J() && (this.connecting = !0, this.buildUrl().then((t) => {
+    this.authFailed || this.source || this.connecting || typeof document < "u" && document.hidden || R() && (this.connecting = !0, this.buildUrl().then((t) => {
       if (this.connecting = !1, !(this.source || this.handlers.size === 0)) {
         if (!t) {
+          if (!R()) {
+            this.stopForAuthFailure();
+            return;
+          }
           this.failureCount += 1, this.scheduleRetry();
           return;
         }
@@ -2453,13 +2479,13 @@ class Et {
   }
   openSource(t) {
     try {
-      this.source = new EventSource(t, { withCredentials: !1 });
+      this.source = new EventSource(t, { withCredentials: !0 });
     } catch {
       this.scheduleRetry();
       return;
     }
     this.source.addEventListener("open", () => {
-      this.failureCount = 0, this.retryDelay = F;
+      this.failureCount = 0, this.retryDelay = O;
     }), this.source.addEventListener("jobs", (r) => {
       this.onStreamMessage(), this.parseAndEmit("jobs", r.data);
     }), this.source.addEventListener("notifications", (r) => {
@@ -2467,11 +2493,11 @@ class Et {
     }), this.source.addEventListener("message", () => {
       this.onStreamMessage();
     }), this.source.onerror = () => {
-      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= zt && window.dispatchEvent(new CustomEvent(Mt)), this.scheduleRetry();
+      this.failureCount += 1, this.source?.close(), this.source = null, this.failureCount >= Lt && window.dispatchEvent(new CustomEvent(Pt)), this.scheduleRetry();
     };
   }
   onStreamMessage() {
-    this.failureCount = 0, this.retryDelay = F;
+    this.failureCount = 0, this.retryDelay = O;
   }
   parseAndEmit(t, r) {
     try {
@@ -2483,24 +2509,34 @@ class Et {
   scheduleRetry() {
     if (this.retryTimer || this.handlers.size === 0) return;
     const t = this.retryDelay;
-    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), _t), this.retryTimer = setTimeout(() => {
+    this.retryDelay = Math.min(Math.round(this.retryDelay * 1.8), jt), this.retryTimer = setTimeout(() => {
       this.retryTimer = null, this.ensureConnected();
     }, t);
   }
   teardownIfIdle() {
-    this.handlers.size > 0 || (this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null), this.failureCount = 0, this.retryDelay = F);
+    this.handlers.size > 0 || (this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null), this.failureCount = 0, this.retryDelay = O);
+  }
+  stopForAuthFailure() {
+    this.authFailed = !0, this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.source && (this.source.close(), this.source = null);
+  }
+  /** Close the stream and do not retry until reconnect() (called after login). */
+  stop() {
+    this.stopForAuthFailure();
   }
   /** Drop the SSE connection and open a new one if handlers exist and a token is present. */
   reconnect() {
-    this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = F, this.handlers.size > 0 && this.ensureConnected();
+    this.authFailed = !1, this.source && (this.source.close(), this.source = null), this.retryTimer && (clearTimeout(this.retryTimer), this.retryTimer = null), this.failureCount = 0, this.retryDelay = O, this.handlers.size > 0 && R() && this.ensureConnected();
   }
 }
-const ie = new Et();
-function jt() {
-  ie.reconnect();
+const X = new Rt();
+function It() {
+  X.reconnect();
 }
 typeof document < "u" && document.addEventListener("visibilitychange", () => {
-  document.hidden || jt();
+  document.hidden || It();
+});
+typeof window < "u" && window.addEventListener(Me, () => {
+  X.stop();
 });
 function ze(e) {
   let t = e;
@@ -2521,8 +2557,8 @@ function ze(e) {
     subscribe: (o) => (r.add(o), () => r.delete(o))
   };
 }
-const Ee = ze({ jobs: {}, order: [], lastFetch: 0 });
-function At() {
+const Ae = ze({ jobs: {}, order: [], lastFetch: 0 });
+function Ft() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
 function me(e, t) {
@@ -2531,7 +2567,7 @@ function me(e, t) {
     if (typeof e == "object") return e[t] || e.en || e.vi || e.default;
   }
 }
-function I(e, t, r) {
+function L(e, t, r) {
   if (!e || typeof e != "object") return;
   const o = me(e[t], r);
   if (o) return o;
@@ -2544,30 +2580,30 @@ function I(e, t, r) {
   const a = e[`${t}_vi`];
   if (typeof a == "string" && a) return a;
 }
-function Pt(e) {
-  const t = At(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
+function $t(e) {
+  const t = Ft(), r = e?.payload && typeof e.payload == "object" ? e.payload : {};
   return {
     ...e,
-    title: I(e, "title", t) || I(r, "title", t) || e?.title || "",
-    message: I(e, "message", t) || I(r, "message", t) || e?.message,
-    error: I(e, "error", t) || I(r, "error", t) || e?.error || null
+    title: L(e, "title", t) || L(r, "title", t) || e?.title || "",
+    message: L(e, "message", t) || L(r, "message", t) || e?.message,
+    error: L(e, "error", t) || L(r, "error", t) || e?.error || null
   };
 }
 function ye(e) {
-  const t = Pt(e);
-  Ee.setState((r) => {
+  const t = $t(e);
+  Ae.setState((r) => {
     const o = { ...r.jobs, [t.id]: { ...r.jobs[t.id], ...t } };
     let s = r.order;
     return s.includes(t.id) || (s = [t.id, ...s].slice(0, 200)), { jobs: o, order: s };
   });
 }
-ie.on("jobs", (e) => {
+X.on("jobs", (e) => {
   if (e?.job) {
     ye(e.job);
     return;
   }
   if (e?.job_id && e?.event === "update") {
-    const t = Ee.getState().jobs[e.job_id];
+    const t = Ae.getState().jobs[e.job_id];
     t && ye({
       ...t,
       progress: e.progress ?? t.progress,
@@ -2576,8 +2612,8 @@ ie.on("jobs", (e) => {
     });
   }
 });
-const ne = ze({ inbox: [], unread: 0, toasts: [] }), It = 6e3;
-function Lt() {
+const se = ze({ inbox: [], unread: 0, toasts: [] }), Gt = 6e3;
+function Vt() {
   return localStorage.getItem("copanel_lang") === "vi" ? "vi" : "en";
 }
 function xe(e, t) {
@@ -2587,7 +2623,7 @@ function xe(e, t) {
       return e[t] || e.en || e.vi || e.default;
   }
 }
-function D(e, t, r) {
+function q(e, t, r) {
   if (!e || typeof e != "object") return;
   const o = xe(e[t], r);
   if (o) return o;
@@ -2600,29 +2636,29 @@ function D(e, t, r) {
   const a = e[`${t}_vi`];
   if (typeof a == "string" && a) return a;
 }
-function Rt(e) {
-  const t = Lt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, o = D(e, "title", t) || D(r, "title", t) || e?.title || "", s = D(e, "body", t) || D(r, "body", t) || e?.body || null;
+function Ot(e) {
+  const t = Vt(), r = e?.payload && typeof e.payload == "object" ? e.payload : {}, o = q(e, "title", t) || q(r, "title", t) || e?.title || "", s = q(e, "body", t) || q(r, "body", t) || e?.body || null;
   return {
     ...e,
     title: o,
     body: s
   };
 }
-function Gt(e) {
-  ne.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
-    ne.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
-  }, It);
+function Wt(e) {
+  se.setState((t) => ({ toasts: [e, ...t.toasts].slice(0, 6) })), e.ephemeral !== !1 && setTimeout(() => {
+    se.setState((t) => ({ toasts: t.toasts.filter((r) => r.id !== e.id) }));
+  }, Gt);
 }
-ie.on("notifications", (e) => {
+X.on("notifications", (e) => {
   if (e?.event === "new" && e.notification) {
-    const t = Rt(e.notification);
-    Gt({ ...t, ephemeral: !0 }), ne.setState((r) => ({
+    const t = Ot(e.notification);
+    Wt({ ...t, ephemeral: !0 }), se.setState((r) => ({
       inbox: [t, ...r.inbox].slice(0, 200),
       unread: r.unread + 1
     }));
   }
 });
-const $t = {
+const Ut = {
   en: {
     title: "Speedtest",
     subtitle: "Measure this VPS uplink — download, upload, and latency.",
@@ -2676,7 +2712,7 @@ const $t = {
     clearHint: "Kết quả chỉ lưu trên VPS này."
   }
 };
-function Vt(e, t) {
+function Ht(e, t) {
   switch (e) {
     case "ping":
       return t.phasePing;
@@ -2690,13 +2726,13 @@ function Vt(e, t) {
       return t.phaseIdle;
   }
 }
-function O(e) {
+function W(e) {
   return e == null || !Number.isFinite(e) ? "—" : e >= 100 ? e.toFixed(0) : e >= 10 ? e.toFixed(1) : e.toFixed(2);
 }
-function te(e) {
+function re(e) {
   return e == null || !Number.isFinite(e) ? "—" : e < 10 ? e.toFixed(1) : e.toFixed(0);
 }
-function Ft(e) {
+function Bt(e) {
   if (!e) return "—";
   try {
     return new Date(e * 1e3).toLocaleString();
@@ -2704,19 +2740,19 @@ function Ft(e) {
     return "—";
   }
 }
-function Ot(e) {
+function Dt(e) {
   if (e == null || e <= 0) return 0;
   const t = Math.min(1e3, e);
   return Math.min(100, Math.log10(t + 1) / Math.log10(1001) * 100);
 }
-function Wt({
+function qt({
   value: e,
   label: t,
   unit: r,
   isDark: o,
   active: s
 }) {
-  const n = Ot(e), i = 88, a = 2 * Math.PI * i, d = a * 0.75, m = d - n / 100 * d, y = o ? "#1e293b" : "#e2e8f0", v = s ? "#0ea5e9" : o ? "#38bdf8" : "#0284c7";
+  const n = Dt(e), i = 88, a = 2 * Math.PI * i, d = a * 0.75, m = d - n / 100 * d, y = o ? "#1e293b" : "#e2e8f0", v = s ? "#0ea5e9" : o ? "#38bdf8" : "#0284c7";
   return /* @__PURE__ */ b("div", { className: "relative mx-auto h-56 w-56 sm:h-64 sm:w-64", children: [
     /* @__PURE__ */ b("svg", { viewBox: "0 0 220 220", className: "h-full w-full -rotate-[135deg]", children: [
       /* @__PURE__ */ u(
@@ -2756,7 +2792,7 @@ function Wt({
             "text-4xl font-bold tabular-nums tracking-tight sm:text-5xl",
             o ? "text-slate-50" : "text-slate-900"
           ),
-          children: O(e)
+          children: W(e)
         }
       ),
       /* @__PURE__ */ u("span", { className: x("mt-1 text-xs font-semibold uppercase tracking-[0.2em]", o ? "text-slate-400" : "text-slate-500"), children: r }),
@@ -2764,7 +2800,7 @@ function Wt({
     ] })
   ] });
 }
-function q({
+function J({
   label: e,
   value: t,
   unit: r,
@@ -2788,20 +2824,20 @@ function q({
     }
   );
 }
-function qt() {
-  const { theme: e, language: t } = ke(), r = e === "dark", s = $t[t === "vi" ? "vi" : "en"], [n, i] = U(null), [a, d] = U([]), [m, y] = U(null), [v, S] = U(!1), C = Pe(null), k = fe(async () => {
+function Kt() {
+  const { theme: e, language: t } = Se(), r = e === "dark", s = Ut[t === "vi" ? "vi" : "en"], [n, i] = B(null), [a, d] = B([]), [m, y] = B(null), [v, k] = B(!1), C = Le(null), S = fe(async () => {
     try {
-      const c = await B("/api/speedtest/history?limit=8");
+      const c = await D("/api/speedtest/history?limit=8");
       d(Array.isArray(c) ? c : []);
     } catch {
     }
   }, []);
   he(() => {
-    k(), B("/api/speedtest/status").then((c) => {
+    S(), D("/api/speedtest/status").then((c) => {
       c && (c.status === "running" || c.status === "queued") && i(c);
     }).catch(() => {
     });
-  }, [k]);
+  }, [S]);
   const g = fe(() => {
     C.current != null && (window.clearInterval(C.current), C.current = null);
   }, []);
@@ -2811,32 +2847,32 @@ function qt() {
       return;
     }
     return g(), C.current = window.setInterval(() => {
-      B(`/api/speedtest/status?job_id=${encodeURIComponent(n.id)}`).then((c) => {
-        i(c), (c.status === "done" || c.status === "error") && (g(), k(), c.status === "error" && y(c.error || s.error));
+      D(`/api/speedtest/status?job_id=${encodeURIComponent(n.id)}`).then((c) => {
+        i(c), (c.status === "done" || c.status === "error") && (g(), S(), c.status === "error" && y(c.error || s.error));
       }).catch(() => {
       });
     }, 400), g;
-  }, [n?.id, n?.status, k, g, s.error]);
-  const p = n?.status === "running" || n?.status === "queued" || v, w = Q(() => n ? n.phase === "download" ? n.live_mbps ?? n.download_mbps : n.phase === "upload" ? n.live_mbps ?? n.upload_mbps : n.phase === "done" ? n.download_mbps : null : null, [n]), T = Q(() => n ? Vt(n.phase, s) : s.phaseIdle, [n, s]), A = async () => {
+  }, [n?.id, n?.status, S, g, s.error]);
+  const p = n?.status === "running" || n?.status === "queued" || v, w = ee(() => n ? n.phase === "download" ? n.live_mbps ?? n.download_mbps : n.phase === "upload" ? n.live_mbps ?? n.upload_mbps : n.phase === "done" ? n.download_mbps : null : null, [n]), T = ee(() => n ? Ht(n.phase, s) : s.phaseIdle, [n, s]), P = async () => {
     if (!p) {
-      y(null), S(!0);
+      y(null), k(!0);
       try {
-        const c = await B("/api/speedtest/run", { method: "POST", body: {} });
+        const c = await D("/api/speedtest/run", { method: "POST", body: {} });
         i(c);
       } catch (c) {
-        const P = c instanceof oe ? c.code === "SPEEDTEST_BUSY" ? s.busy : c.message : s.error;
-        y(P);
+        const j = c instanceof ne ? c.code === "SPEEDTEST_BUSY" ? s.busy : c.message : s.error;
+        y(j);
       } finally {
-        S(!1);
+        k(!1);
       }
     }
-  }, N = Q(() => {
+  }, N = ee(() => {
     const c = n?.meta;
     if (!c) return null;
-    const P = [c.client_ip, c.colo, c.city, c.country].filter(Boolean);
-    return P.length ? P.join(" · ") : null;
+    const j = [c.client_ip, c.colo, c.city, c.country].filter(Boolean);
+    return j.length ? j.join(" · ") : null;
   }, [n?.meta]);
-  return /* @__PURE__ */ u(St, { constrained: !0, className: "overflow-hidden", children: /* @__PURE__ */ b("div", { className: x("flex h-full min-h-0 flex-col", r ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-900"), children: [
+  return /* @__PURE__ */ u(Ct, { constrained: !0, className: "overflow-hidden", children: /* @__PURE__ */ b("div", { className: x("flex h-full min-h-0 flex-col", r ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-900"), children: [
     /* @__PURE__ */ b(
       "header",
       {
@@ -2852,7 +2888,7 @@ function qt() {
     ),
     /* @__PURE__ */ u("main", { className: "min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6", children: /* @__PURE__ */ b("div", { className: "mx-auto flex w-full max-w-xl flex-col items-center gap-6", children: [
       /* @__PURE__ */ u(
-        Wt,
+        qt,
         {
           value: w,
           label: T,
@@ -2865,7 +2901,7 @@ function qt() {
         "button",
         {
           type: "button",
-          onClick: A,
+          onClick: P,
           disabled: p,
           className: x(
             "relative flex h-20 w-20 items-center justify-center rounded-full text-sm font-bold tracking-wide transition",
@@ -2888,39 +2924,39 @@ function qt() {
       ),
       /* @__PURE__ */ b("div", { className: "grid w-full grid-cols-2 gap-3 sm:grid-cols-4", children: [
         /* @__PURE__ */ u(
-          q,
+          J,
           {
             label: s.ping,
-            value: te(n?.ping_ms),
+            value: re(n?.ping_ms),
             unit: s.ms,
             isDark: r,
             accent: r ? "text-emerald-400" : "text-emerald-600"
           }
         ),
         /* @__PURE__ */ u(
-          q,
+          J,
           {
             label: s.jitter,
-            value: te(n?.jitter_ms),
+            value: re(n?.jitter_ms),
             unit: s.ms,
             isDark: r
           }
         ),
         /* @__PURE__ */ u(
-          q,
+          J,
           {
             label: s.download,
-            value: O(n?.download_mbps),
+            value: W(n?.download_mbps),
             unit: s.mbps,
             isDark: r,
             accent: r ? "text-sky-400" : "text-sky-600"
           }
         ),
         /* @__PURE__ */ u(
-          q,
+          J,
           {
             label: s.upload,
-            value: O(n?.upload_mbps),
+            value: W(n?.upload_mbps),
             unit: s.mbps,
             isDark: r,
             accent: r ? "text-violet-400" : "text-violet-600"
@@ -2967,20 +3003,20 @@ function qt() {
             children: [
               /* @__PURE__ */ b("div", { className: "min-w-0", children: [
                 /* @__PURE__ */ u("p", { className: "truncate font-medium", children: c.server_name || "Cloudflare" }),
-                /* @__PURE__ */ u("p", { className: x("text-[11px]", r ? "text-slate-500" : "text-slate-400"), children: Ft(c.finished_at) })
+                /* @__PURE__ */ u("p", { className: x("text-[11px]", r ? "text-slate-500" : "text-slate-400"), children: Bt(c.finished_at) })
               ] }),
               /* @__PURE__ */ b("div", { className: "flex gap-3 tabular-nums", children: [
                 /* @__PURE__ */ b("span", { title: s.ping, children: [
                   /* @__PURE__ */ u("span", { className: r ? "text-slate-500" : "text-slate-400", children: "P " }),
-                  te(c.ping_ms)
+                  re(c.ping_ms)
                 ] }),
                 /* @__PURE__ */ b("span", { title: s.download, className: r ? "text-sky-400" : "text-sky-600", children: [
                   "↓ ",
-                  O(c.download_mbps)
+                  W(c.download_mbps)
                 ] }),
                 /* @__PURE__ */ b("span", { title: s.upload, className: r ? "text-violet-400" : "text-violet-600", children: [
                   "↑ ",
-                  O(c.upload_mbps)
+                  W(c.upload_mbps)
                 ] })
               ] })
             ]
@@ -2992,5 +3028,5 @@ function qt() {
   ] }) });
 }
 export {
-  qt as default
+  Kt as default
 };
